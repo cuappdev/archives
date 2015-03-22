@@ -1,0 +1,29 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id             :integer          not null, primary key
+#  name           :string
+#  hipster_score  :integer
+#  caption        :string
+#  follower_count :integer
+#  location_id    :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  hipster_score: 1
+  caption: MyString
+  follower_count: 1
+  location_id: 1
+
+two:
+  name: MyString
+  hipster_score: 1
+  caption: MyString
+  follower_count: 1
+  location_id: 1
