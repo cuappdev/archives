@@ -1,22 +1,20 @@
-# == Schema Information
-#
-# Table name: posts
-#
-#  id         :integer          not null, primary key
-#  username   :string
-#  song_id    :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  like_count :integer          default(0)
-#  user_id    :integer
-#
+# # == Schema Information
+# #
+# # Table name: posts
+# #
+# #  id         :integer          not null, primary key
+# #  username   :string
+# #  created_at :datetime         not null
+# #  updated_at :datetime         not null
+# #  like_count :integer          default(0)
+# #  user_id    :integer
+# #
 
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  username: MyString
-  song_id: 1
+# one:
+#   username: MyString
 
-two:
-  username: MyString
-  song_id: 1
+# two:
+#   username: MyString
+

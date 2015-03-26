@@ -31,10 +31,18 @@ class UserTest < ActiveSupport::TestCase
   test "should be able to like" do
     ilan = User.create(username: 'Tennismaster982', fname: 'Ilan', lname: 'Filonenko', hipster_score: 1)
     assert ilan.like_count==0
-    post = Post.create(user_id: 1, song_id:1)
+    post = Post.create(user_id: 1)
     assert post.like_count==0
     ilan.like(post)
     assert post.like_count==1
     assert ilan.like_count==1
+  end
+  test "should songs be connected to posts" do
+    song = Song.create(spotify_url: "facebook.com", artist: "Red Hot Chilli Peppers", track: "Cant Stop")
+    post = Post.create(user_id: 1)
+    songpost = SongPost.create(post_id: post.id, song_id: song.id)
+    assert song.posts.count()==1
+    assert post.songs.count()==1
+
   end
 end

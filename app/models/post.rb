@@ -4,7 +4,6 @@
 #
 #  id         :integer          not null, primary key
 #  username   :string
-#  song_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  like_count :integer          default(0)
@@ -14,6 +13,16 @@
 class Post < ActiveRecord::Base
   belongs_to :user
   has_many :likes
+
+  has_many :song_posts, class_name: 'SongPost'
+  # has_many :songs, through: :song_posts
   validates :user_id, presence: true
-  validates :song_id, presence: true
+
+  def songs
+    Song.where(id: SongPost.where(post_id: self.id).pluck(:song_id))
+  end
+
+  def as_json(options = {})
+    super(options).merge(song: self.songs.first, user: self.user)
+  end
 end

@@ -1,18 +1,17 @@
 # == Schema Information
 #
-# Table name: posts
+# Table name: song_posts
 #
 #  id         :integer          not null, primary key
-#  username   :string
+#  post_id    :integer
+#  song_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  like_count :integer          default(0)
-#  user_id    :integer
 #
 
 require 'test_helper'
 
-class PostTest < ActiveSupport::TestCase
+class SongPostTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

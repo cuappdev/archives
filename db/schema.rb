@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326025442) do
+ActiveRecord::Schema.define(version: 20150326035946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20150326025442) do
 
   create_table "posts", force: :cascade do |t|
     t.string   "username"
-    t.integer  "song_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "like_count", default: 0
@@ -40,6 +39,21 @@ ActiveRecord::Schema.define(version: 20150326025442) do
   end
 
   add_index "posts", ["like_count"], name: "index_posts_on_like_count", using: :btree
+
+  create_table "song_posts", force: :cascade do |t|
+    t.integer  "post_id"
+    t.integer  "song_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.string   "spotify_url"
+    t.string   "artist"
+    t.string   "track"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "username"
