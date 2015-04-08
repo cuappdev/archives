@@ -3,14 +3,16 @@
 # Table name: users
 #
 #  id              :integer          not null, primary key
-#  username        :string
-#  fname           :string
-#  lname           :string
+#  name            :string
 #  hipster_score   :integer
+#  caption         :string
+#  follower_count  :integer
+#  location_id     :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  followers_count :integer          default(0)
 #  like_count      :integer          default(0)
+#  fbid            :string
 #
 
 require 'test_helper'

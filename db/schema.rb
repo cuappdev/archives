@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326035946) do
+ActiveRecord::Schema.define(version: 20150408235103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,13 @@ ActiveRecord::Schema.define(version: 20150326035946) do
 
   add_index "posts", ["like_count"], name: "index_posts_on_like_count", using: :btree
 
+  create_table "sessions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "song_posts", force: :cascade do |t|
     t.integer  "post_id"
     t.integer  "song_id"
@@ -56,17 +63,21 @@ ActiveRecord::Schema.define(version: 20150326035946) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "username"
-    t.string   "fname"
-    t.string   "lname"
+    t.string   "name"
     t.integer  "hipster_score"
+    t.string   "caption"
+    t.integer  "follower_count"
+    t.integer  "location_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "followers_count", default: 0
     t.integer  "like_count",      default: 0
+    t.string   "fbid"
   end
 
   add_index "users", ["followers_count"], name: "index_users_on_followers_count", using: :btree
   add_index "users", ["like_count"], name: "index_users_on_like_count", using: :btree
+  add_index "users", ["location_id"], name: "index_users_on_location_id", using: :btree
+  add_index "users", ["name"], name: "index_users_on_name", using: :btree
 
 end

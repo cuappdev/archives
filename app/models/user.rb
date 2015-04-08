@@ -3,14 +3,16 @@
 # Table name: users
 #
 #  id              :integer          not null, primary key
-#  username        :string
-#  fname           :string
-#  lname           :string
+#  name            :string
 #  hipster_score   :integer
+#  caption         :string
+#  follower_count  :integer
+#  location_id     :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  followers_count :integer          default(0)
 #  like_count      :integer          default(0)
+#  fbid            :string
 #
 
 class User < ActiveRecord::Base
@@ -23,8 +25,9 @@ class User < ActiveRecord::Base
   validates :fname, presence: true, length: { maximum: 50 }
   validates :lname, length: {maximum: 50}
 
+  has_one :session
 
-    # Follows a user.
+  # Follows a user.
   def follow(other_user)
     relationships.create(followed_id: other_user.id)
     other_user.increment!(:followers_count)
