@@ -60,27 +60,4 @@ class User < ActiveRecord::Base
   def liked?(post)
     Like.where(post_id: post.id, user_id: self.id).exists?
   end
-
-  # validate :should_not_have_profanities
-
-  # BAD_WORDS = %w(cunt shit pussy faggot fuck fuq hoes hoez jizz nigger nigga motherfucker motherfucka mfucka fucka fucker fuckity fck)
-  
-  # def is_profane_name?(name)
-  #   if name.blank?
-  #     return false
-  #   else
-  #     n = name.downcase
-  #   end
-  #   BAD_WORDS.each do |t|
-  #     if n.include? t
-  #       return true
-  #     end
-  #   end
-  #   return false
-  # end
-  # def should_not_have_profanities
-  #   if is_profane_name? fname or is_profane_name? lname
-  #     errors.add(:name, "shouldn't contain profanities")
-  #   end
-  # end
 end
