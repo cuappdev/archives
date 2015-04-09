@@ -6,7 +6,6 @@
 #  name            :string
 #  hipster_score   :integer
 #  caption         :string
-#  follower_count  :integer
 #  location_id     :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
