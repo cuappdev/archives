@@ -13,6 +13,7 @@
 #  followers_count :integer          default(0)
 #  like_count      :integer          default(0)
 #  fbid            :string
+#  username        :string
 #
 
 require 'test_helper'

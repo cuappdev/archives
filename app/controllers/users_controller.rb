@@ -26,6 +26,10 @@ class UsersController < ApplicationController
     render json: @posts
   end
 
+  def valid_username
+    render json: { is_valid: !User.exists?(username: params[:username]) }
+  end
+
   private
   def user_params
     params.require(:user).permit(:name, :caption)
