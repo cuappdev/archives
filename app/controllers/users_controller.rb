@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :get_user, only: [:show]
+  before_action :authorize
   
   def index
     respond_to do |format|
@@ -18,6 +18,11 @@ class UsersController < ApplicationController
     render json: { success: !@user.blank? }
   end
 
+  def update
+    @user = User.update_attributes(user_params)
+    render json: { user: @user }
+  end
+
   def feed
     followers_ids = Following.where(follower_id: params[:id]).pluck(:followed_id)
     @posts = Post
@@ -32,7 +37,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name, :caption)
+    params.require(:user).permit(:name, :username)
   end
   
   def get_user
