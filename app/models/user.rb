@@ -22,8 +22,7 @@ class User < ActiveRecord::Base
                                 dependent:   :destroy
   has_many :likes
   has_many :following, through: :relationships, source: :followed
-  validates :fname, presence: true, length: { maximum: 50 }
-  validates :lname, length: {maximum: 50}
+  validates :name, presence: true, length: { maximum: 50 }
 
   has_one :session
 
@@ -43,6 +42,10 @@ class User < ActiveRecord::Base
   def following?(other_user)
     following.include?(other_user)
   end
+  # Returns list of followers
+  def followers
+    User.where('id in ?', Following.where(followed_id: self.id).pluck(:follower_id))
+  end
   # Likes a post
   def like(post)
     Like.create(post_id: post.id, user_id: self.id)
@@ -60,4 +63,16 @@ class User < ActiveRecord::Base
   def liked?(post)
     Like.where(post_id: post.id, user_id: self.id).exists?
   end
+
+  def as_json(options = {})
+      more_hash = {
+        followers: self.followers,
+        name: self.name,
+        username: self.username,
+        fbid: self.fbid,
+        hipster_score: self.hipster_score
+      }
+      more_hash[:following] = self.following.map { |user| user.as_json(include_followers: false) } if options[:include_followers]
+      super().merge(more_hash)
+    end
 end
