@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authorize, except: :valid_username
+  before_action :authorize, only: [:show, :create, :update, :feed]
   
   def index
     respond_to do |format|

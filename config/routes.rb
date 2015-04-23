@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   resources :friends
+  get 'users/valid_username' => 'users#valid_username'
   resources :users
   resources :posts
   resources :likes
@@ -8,7 +9,6 @@ Rails.application.routes.draw do
   resources :sessions
 
   get 'users/:id/feed' => 'users#feed'
-  get 'users/valid_username' => 'users#valid_username'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
