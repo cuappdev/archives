@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authorize
+  before_action :authorize, except: :valid_username
   
   def index
     respond_to do |format|
