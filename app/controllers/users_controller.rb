@@ -31,6 +31,13 @@ class UsersController < ApplicationController
     render json: @posts
   end
 
+  def posts
+    @posts = Post
+      .where('created_at >= ?', Time.now.midnight)
+      .where(user_id: @user.id).includes(:user)
+    render json: @posts
+  end
+
   def valid_username
     render json: { is_valid: !User.exists?(username: params[:username]) }
   end
