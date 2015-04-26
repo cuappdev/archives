@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150409001542) do
+ActiveRecord::Schema.define(version: 20150426154717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,8 +73,10 @@ ActiveRecord::Schema.define(version: 20150409001542) do
     t.integer  "like_count",      default: 0
     t.string   "fbid"
     t.string   "username"
+    t.string   "email"
   end
 
+  add_index "users", ["email"], name: "index_users_on_email", using: :btree
   add_index "users", ["followers_count"], name: "index_users_on_followers_count", using: :btree
   add_index "users", ["like_count"], name: "index_users_on_like_count", using: :btree
   add_index "users", ["location_id"], name: "index_users_on_location_id", using: :btree

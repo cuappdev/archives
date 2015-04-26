@@ -13,6 +13,7 @@
 #  like_count      :integer          default(0)
 #  fbid            :string
 #  username        :string
+#  email           :string
 #
 
 require 'test_helper'
