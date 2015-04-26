@@ -5,7 +5,7 @@ class LikesController < ApplicationController
     @like = Like.find_by(post_id: params[:like][:post_id])
     @dislike = params[:like][:dislike]
     if @like && @dislike
-      @user.dislike(Post.find_by(id: params[:like][:post_id]))
+      @user.unlike(Post.find_by(id: params[:like][:post_id]))
       @message = true
     elsif @like && !@dislike
       @message = false
