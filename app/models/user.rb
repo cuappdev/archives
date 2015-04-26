@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
                                 dependent:   :destroy
   has_many :likes
   has_many :following, through: :relationships, source: :followed
-  validates :name, presence: true, length: { maximum: 50 }
+  # validates :name, presence: true, length: { maximum: 50 }
 
   has_one :session
 
