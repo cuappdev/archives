@@ -30,13 +30,13 @@ class User < ActiveRecord::Base
   # Follows a user.
   def follow(other_user)
     other_id = other_user.is_a?(User) ? other_user.id : other_user
-    relationships.create(followed_id: other_id)
+    relationships.create(follower_id: self.id, followed_id: other_id)
     User.increment_counter(:followers_count, other_id)
   end
   # Unfollows a user.
   def unfollow(other_user)
     other_id = other_user.is_a?(User) ? other_user.id : other_user
-    relationships.desroy(followed_id: other_id)
+    relationships.desroy(follower_id: self.id, followed_id: other_id)
     User.decrement_counter(:followers_count, other_id)
   end
 
@@ -51,16 +51,18 @@ class User < ActiveRecord::Base
   end
   # Likes a post
   def like(post)
-    Like.create(post_id: post.id, user_id: self.id)
+    post_id = post.is_a?(User) ? post.id : post
+    Like.create(post_id: post_id, user_id: self.id)
     self.increment!(:like_count)
-    post.increment!(:like_count)
-  end
+    Post.increment_counter(:like_count, post_id)
+  end 
 
   #unlike post
   def unlike(post)
-    Like.find_by(post_id: post.id, user_id: self.id).destroy
+    post_id = post.is_a?(User) ? post.id : post
+    Like.destroy(post_id: post_id, user_id: self.id)
     self.decrement!(:like_count)
-    post.decrement!(:like_count)
+    Post.decrement_counter(:like_count, post_id)
   end
   # Returns true if the 
   def liked?(post)
