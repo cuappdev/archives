@@ -26,7 +26,6 @@ class UsersController < ApplicationController
   def feed
     followers_ids = Following.where(follower_id: params[:id]).pluck(:followed_id)
     @posts = Post
-      .where('created_at >= ?', Time.now.midnight)
       .where(user_id: followers_ids).includes(:user)
     render json: @posts
   end
