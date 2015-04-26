@@ -2,22 +2,19 @@ class LikesController < ApplicationController
   before_action :authorize, only: [:create]
 
   def create
-    @like = Like.find_by(post_id: params[:like][:post_id])
-    @dislike = params[:like][:dislike]
-    if @like && @dislike
-      @user.unlike(Post.find(params[:like][:post_id]))
-      @message = true
-    elsif @like && !@dislike
-      @message = false
+    @dislike = params[:dislike]
+    if @dislike
+      @user.unlike(Post.find(params[:post_id]))
+      @success = true
     else
-      @user.like(Post.find(params[:like][:post_id]))
-      @message = true
+      @user.like(Post.find(params[:post_id]))
+      @success = true
     end
-    render json: { message: @message, like: @like }
+    render json: { success: @success, liked: !@dislike }
   end
 
   private
   def like_params
-    params.require(:like).permit(:post_id, :dislike)
+    params.require(:post_id, :dislike)
   end
 end
