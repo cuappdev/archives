@@ -28,15 +28,16 @@ class User < ActiveRecord::Base
   has_one :session
 
   # Follows a user.
-  def follow(other_user_id)
-    relationships.find_by(followed_id: other_user_id).destroy
-    User.find_by(id: other_user_id).increment!(:followers_count)
+  def follow(other_user)
+    other_id = other_user.is_a?(User) ? other_user.id : other_user
+    relationships.create(followed_id: other_id)
+    User.increment_counter(:followers_count, other_id)
   end
-
   # Unfollows a user.
-  def unfollow(other_user_id)
-    relationships.find_by(followed_id: other_user_id).destroy
-    User.find_by(id: other_user_id).decrement!(:followers_count)
+  def unfollow(other_user)
+    other_id = other_user.is_a?(User) ? other_user.id : other_user
+    relationships.desroy(followed_id: other_id)
+    User.decrement_counter(:followers_count, other_id)
   end
 
   # Returns true if the current user is following the other user.
