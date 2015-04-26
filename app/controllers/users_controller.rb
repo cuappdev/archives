@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authorize, only: [:show, :create, :update, :feed]
+  before_action :authorize, only: [:show, :create, :update, :feed, :posts]
   
   def index
     respond_to do |format|
@@ -26,8 +26,14 @@ class UsersController < ApplicationController
   def feed
     followers_ids = Following.where(follower_id: params[:id]).pluck(:followed_id)
     @posts = Post
-      .where('created_at >= ?', Time.now.midnight)
       .where(user_id: followers_ids).includes(:user)
+    render json: { posts: @posts }
+  end
+
+  def posts
+    @posts = Post
+      .where('created_at >= ?', Time.now.midnight)
+      .where(user_id: @user.id).includes(:user)
     render json: @posts
   end
 
