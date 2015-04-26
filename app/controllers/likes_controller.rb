@@ -2,11 +2,11 @@ class LikesController < ApplicationController
   def create
     @like = Like.find_by(post_id: params[:like][:post_id])
     if @like
-      # FIXME: Don't need to create a new session every time, update existing if possible
-      @message = 'Already liked'
+      @message = false
     else
       @like = Like.create(like_params)
-      @message = 'Liked'
+      User.find_by(id: params[:like][:user_id]).like(Post.find_by(id: params[:like][:post_id]))
+      @message = true
     end
     render json: { message: @message, like: @like }
   end
