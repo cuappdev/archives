@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     followers_ids = Following.where(follower_id: params[:id]).pluck(:followed_id)
     @posts = Post
       .where(user_id: followers_ids).includes(:user)
-    render json: @posts
+    render json: { posts: @posts }
   end
 
   def posts
