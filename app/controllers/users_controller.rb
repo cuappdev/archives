@@ -27,28 +27,17 @@ class UsersController < ApplicationController
     followers_ids = Following.where(follower_id: params[:id]).pluck(:followed_id)
     @posts = Post
       .where(user_id: followers_ids).includes(:user)
+      .where('created_at >= ?', Time.now.midnight)
     render json: { posts: @posts }
   end
 
   def posts
     @posts = Post
-      .where('created_at >= ?', Time.now.midnight)
       .where(user_id: @user.id).includes(:user)
+      .where('created_at >= ?', Time.now.midnight)
     render json: @posts
   end
 
-  def followers
-    followers_ids = Following.where(follower_id: params[:id]).pluck(:followed_id)
-    @users = User.where(id: followers_ids)
-    render json: { followers: @users}
-  end
-
-  def following
-    following_ids = Following.where(follower_id: params[:id]).pluck(:follower_id)
-    @users = User.where(id: following_ids)
-    render json: { followers: @users}    
-  end
-  
   def valid_username
     render json: { is_valid: !User.exists?(username: params[:username]) }
   end
