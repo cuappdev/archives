@@ -3,8 +3,8 @@ class FollowingsController < ApplicationController
 
   def create
     unfollow = params[:unfollow]
-    follower_id = params[:follower_id]
-    unfollow ? @user.unfollow(follower_id) : @user.follow(follower_id)
+    followed_id = params[:followed_id]
+    unfollow ? @user.unfollow(followed_id) : @user.follow(followed_id)
     render json: { success: true, follow: !unfollow }
   end
 
