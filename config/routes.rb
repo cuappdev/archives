@@ -10,7 +10,8 @@ Rails.application.routes.draw do
 
   get 'users/:id/feed' => 'users#feed'
   get 'users/:id/posts' => 'users#posts'
-  
+  get 'users/:id/followers' => 'users#followers'
+   get 'users/:id/following' => 'users#following' 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

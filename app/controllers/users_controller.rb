@@ -37,6 +37,18 @@ class UsersController < ApplicationController
     render json: @posts
   end
 
+  def followers
+    followers_ids = Following.where(follower_id: params[:id]).pluck(:followed_id)
+    @users = User.where(id: followers_ids)
+    render json: { followers: @users}
+  end
+
+  def following
+    following_ids = Following.where(follower_id: params[:id]).pluck(:follower_id)
+    @users = User.where(id: following_ids)
+    render json: { followers: @users}    
+  end
+  
   def valid_username
     render json: { is_valid: !User.exists?(username: params[:username]) }
   end
