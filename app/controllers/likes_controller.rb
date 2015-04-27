@@ -5,6 +5,6 @@ class LikesController < ApplicationController
     unlike = params[:unlike]
     post_id = params[:post_id]
     unlike ? @user.unlike(post_id) : @user.like(post_id)
-    render json: { success: true, liked: !@dislike }
+    render json: { success: true, liked: !@unlike }
   end
 end
