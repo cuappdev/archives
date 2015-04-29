@@ -10,5 +10,6 @@ class ApplicationController < ActionController::Base
       render json: { success: false, error: 'Unauthorized' }, status: :unauthorized
       return false
     end
+    @user = @session.user
   end
 end
