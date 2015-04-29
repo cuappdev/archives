@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :feed
   resources :sessions
 
-  get 'users/id' => 'user#get_user'
+  get 'users/:id' => 'user#get_user'
   get 'users/:id/feed' => 'users#feed'
   get 'users/:id/posts' => 'users#posts'
   # The priority is based upon order of creation: first created -> highest priority.
