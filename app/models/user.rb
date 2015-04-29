@@ -79,5 +79,5 @@ class User < ActiveRecord::Base
       }
       more_hash[:following] = self.following.map { |user| user.as_json(include_followers: false) } if options[:include_followers]
       super().merge(more_hash)
-    end
+  end
 end
