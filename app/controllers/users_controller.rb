@@ -39,6 +39,13 @@ class UsersController < ApplicationController
     render json: @posts
   end
 
+  def likes
+    @user = User.find(params[:id])
+    @likes = @user.likes.includes(:post)
+    @songs = @likes.map{ |like| like.post.songs.first }.uniq
+    render json: { songs: @songs }
+  end
+
   def valid_username
     render json: { is_valid: !User.exists?(username: params[:username]) }
   end
