@@ -3,9 +3,10 @@ class UsersController < ApplicationController
   before_action :authorize, only: [:show, :create, :update, :feed, :posts]
   
   def index
+    @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
     respond_to do |format|
       format.html { render text: 'This is HTML' }
-      format.json { render json: 'This is JSON' }
+      format.json { render json: { users: @users } }
     end
   end
 
