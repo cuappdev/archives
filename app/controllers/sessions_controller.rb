@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
       @session = Session.create(user_id: @user.id)
     else
       @user = User.create(user_params)
-      @session = Session.find_by(user_id: @user.id)
+      @session = Session.create(user_id: @user.id)
     end
     render json: { success: !@session.blank?, user: @user, session: @session }
   end
