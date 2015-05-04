@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   #unlike post
   def unlike(post)
     post_id = post.is_a?(User) ? post.id : post
-    Like.destroy(post_id: post_id, user_id: self.id)
+    Like.where(post_id: post_id, user_id: self.id).destroy
     self.decrement!(:like_count)
     Post.decrement_counter(:like_count, post_id)
   end
