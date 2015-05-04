@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authorize, only: [:show, :create, :update, :feed, :posts]
+  before_action :authorize, only: [:show, :create, :update, :feed, :posts, :likes]
   
   def index
     @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.update_attributes(user_params)
+    @user = @user.update_attributes(user_params)
     render json: { user: @user }
   end
 
@@ -37,6 +37,13 @@ class UsersController < ApplicationController
       .where(user_id: @user.id).includes(:user)
       .where('created_at >= ?', Time.now.midnight)
     render json: @posts
+  end
+
+  def likes
+    @user = User.find(params[:id])
+    @likes = @user.likes.includes(:post)
+    @songs = @likes.map{ |like| like.post.songs.first }.uniq
+    render json: { songs: @songs }
   end
 
   def valid_username
