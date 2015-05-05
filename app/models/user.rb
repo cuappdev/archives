@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   end
   # Returns list of followers
   def followers
-    follower_ids = Following.where(followed_id: self.id).pluck(:follower_id)
+    follower_ids = Following.where(follower_id: self.id).pluck(:followed_id)
     follower_ids.count < 1 ? [] : User.where('id in ?', follower_ids)
   end
   # Likes a post
