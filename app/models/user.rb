@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   def unfollow(other_user)
     other_id = other_user.is_a?(User) ? other_user.id : other_user
     relationships.desroy(follower_id: self.id, followed_id: other_id)
-    User.decrement_counter(:followers_count, other_id)
+    User.decrement_counter(:followers_count, other_id) unless User.followers_count == 0
   end
 
   # Returns true if the current user is following the other user.
@@ -62,8 +62,8 @@ class User < ActiveRecord::Base
     post_id = post.is_a?(User) ? post.id : post
     like = Like.find_by(post_id: post_id, user_id: self.id)
     like.destroy unless like.blank?
-    self.decrement!(:like_count)
-    Post.find(post_id).decrement!(:like_count)
+    self.decrement!(:like_count) unless self.like_count == 0
+    Post.find(post_id).decrement!(:like_count) unless Post.find(post_id).like_count == 0
   end
   # Returns true if the 
   def liked?(post)
