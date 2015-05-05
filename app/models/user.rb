@@ -63,7 +63,8 @@ class User < ActiveRecord::Base
     like = Like.find_by(post_id: post_id, user_id: self.id)
     like.destroy unless like.blank?
     self.decrement!(:like_count) unless self.like_count == 0
-    Post.find(post_id).decrement!(:like_count) unless Post.find(post_id).like_count == 0
+    found_post = Post.find(post_id)
+    found_post.decrement!(:like_count) unless found_post.like_count == 0
   end
   # Returns true if the 
   def liked?(post)
