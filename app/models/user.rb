@@ -53,8 +53,8 @@ class User < ActiveRecord::Base
   def like(post)
     post_id = post.is_a?(User) ? post.id : post
     Like.create(post_id: post_id, user_id: self.id)
-    self.increment!(:like_count)
-    Post.increment_counter(:like_count, post_id)
+    self.increment!(:like_count)  
+    Post.find(post_id).increment!(:like_count)
   end 
 
   #unlike post
@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
     like = Like.find_by(post_id: post_id, user_id: self.id)
     like.destroy unless like.blank?
     self.decrement!(:like_count)
-    Post.decrement_counter(:like_count, post_id)
+    Post.find(post_id).decrement!(:like_count)
   end
   # Returns true if the 
   def liked?(post)

@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    render json: @user
+    render json: @user.as_json(include_followers: true)
   end
 
   def create
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
   def update
     @user = @user.update_attributes(user_params)
-    render json: { user: @user }
+    render json: { user: @user.as_json(include_followers: true) }
   end
 
   def feed
