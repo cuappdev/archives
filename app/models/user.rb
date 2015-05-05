@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   def unlike(post)
     post_id = post.is_a?(User) ? post.id : post
     like = Like.find_by(post_id: post_id, user_id: self.id)
-    like.blank? ? return : like.destroy
+    like.destroy unless like.blank?
     self.decrement!(:like_count)
     Post.find(post_id).decrement!(:like_count)
   end
