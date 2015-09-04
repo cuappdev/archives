@@ -3,7 +3,7 @@ class LikesController < ApplicationController
   def create
     unlike = params[:unlike]
     post_id = params[:post_id]
-    unlike || unlike == 1 ? @user.unlike(post_id) : @user.like(post_id)
+    unlike == "1" ? @user.unlike(post_id) : @user.like(post_id)
     render json: { success: true, liked: !@unlike }
   end
 end
