@@ -10,10 +10,34 @@ import UIKit
 
 //let kTextFieldEdgeInset: CGFloat = 20
 
+protocol TextSearchDelegate {
+    func startFieldSearch()
+    func endFieldSearch()
+}
+
 class MapTextField: UIView {
     
     @IBOutlet weak var startTextField: UITextField!
-    
     @IBOutlet weak var endTextField: UITextField!
+    
+    @IBOutlet weak var startUnderlineView: UIView!
+    @IBOutlet weak var endUnderlineView: UIView!
+    
+    var delegate: TextSearchDelegate?
+    
+    override func awakeFromNib() {
+        startUnderline = startUnderlineView
+        endUnderline = endUnderlineView
+    }
 
+    @IBAction func startSearchButtonPressed(sender: UIButton) {
+        if let d = delegate {
+            d.startFieldSearch()
+        }
+    }
+    @IBAction func endSearchButtonPressed(sender: UIButton) {
+        if let d = delegate {
+            d.endFieldSearch()
+        }
+    }
 }

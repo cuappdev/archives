@@ -14,55 +14,56 @@ extension MainViewController: UIGestureRecognizerDelegate {
         return true
     }
     
-    @available(iOS 9.0, *)
     func didPanMap(sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case .Changed:
+        updateMapFocus()
+
+//        switch sender.state {
+//        case .Changed:
+//            updateMapFocus()
+//        default:
+//            print("default")
+//        }
+    }
+    
+    func updateMapFocus() {
+        func checkAnnotationsEqual(a: MKAnnotation?, b: MKAnnotation) -> Bool {
+            guard a != nil else { return false }
             
-            if let prevFocused = focusedAnnotation {
-                focusedAnnotation = findClosestAnnotation()
-                guard !focusedAnnotation!.isEqual(prevFocused) else { return }
-                
-                if let prevFocusedAnnotationView = mapView.viewForAnnotation(prevFocused) {
-                    prevFocusedAnnotationView.transform = CGAffineTransformIdentity
-                    if let v = prevFocusedAnnotationView as? MKPinAnnotationView {
-                        v.pinTintColor = MKPinAnnotationView.redPinColor()
-                    }
-                }
-                
-                if let focusedAnnotationView = mapView.viewForAnnotation(focusedAnnotation!) {
-                    UIView.animateWithDuration(0.1, animations: { () -> Void in
-                        focusedAnnotationView.transform = CGAffineTransformMakeScale(1, 1.5)
-                        if let v = focusedAnnotationView as? MKPinAnnotationView {
-                            v.pinTintColor = MKPinAnnotationView.greenPinColor()
-                        }
-                        }, completion: { (finished) -> Void in
-                            UIView.animateWithDuration(0.15, animations: { () -> Void in
-                                focusedAnnotationView.transform = CGAffineTransformMakeScale(1, 1.25)
-                            })
-                    })
+            return a!.title! == b.title!
+        }
+        
+        func resetAnnotationToIdentity(annotation: MKAnnotation?) {
+            if let a = annotation {
+                if let prevView = mapView.viewForAnnotation(a) {
+                    prevView.transform = CGAffineTransformIdentity
+                    prevView.image = UIImage(named: "redPin")
                 }
             }
-            
-            focusedAnnotation = findClosestAnnotation()
-            let focusedAnnotationView = mapView.viewForAnnotation(focusedAnnotation!)!
-            
-            UIView.animateWithDuration(0.1, animations: { () -> Void in
-                focusedAnnotationView.transform = CGAffineTransformMakeScale(1, 1.5)
-                if let v = focusedAnnotationView as? MKPinAnnotationView {
-                    v.pinTintColor = MKPinAnnotationView.greenPinColor()
-                }
-                }, completion: { (finished) -> Void in
-                    UIView.animateWithDuration(0.15, animations: { () -> Void in
-                        focusedAnnotationView.transform = CGAffineTransformMakeScale(1, 1.25)
-                    })
-            })
-            
-//            focusedAnnotation!.
-            
-        default:
-            print("default")
         }
+        
+        let prevFocusedAnnotation = focusedAnnotation
+        let newFocusedAnnotation = findClosestAnnotation()
+        
+        let annotationsEqual = checkAnnotationsEqual(prevFocusedAnnotation, b: newFocusedAnnotation)
+        if !annotationsEqual {
+            resetAnnotationToIdentity(prevFocusedAnnotation)
+            
+            if let newFocusView = mapView.viewForAnnotation(newFocusedAnnotation) {
+                focusedAnnotation = newFocusedAnnotation // do this in completion block?
+                UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+                    newFocusView.transform = CGAffineTransformMakeScale(1.5, 1.5)
+                    newFocusView.image = UIImage(named: "bluePin")
+                    }, completion: nil)
+            }
+        }
+        
+        if activeSearchField == .Start {
+            mapTextView.startTextField.text = focusedAnnotation!.title!!
+        } else {
+            mapTextView.endTextField.text = focusedAnnotation!.title!!
+        }
+        
+        showBussesView()
     }
     
     private func findClosestAnnotation() -> MKAnnotation {

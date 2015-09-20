@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreLocation
 
 class SearchViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
@@ -20,17 +20,19 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.delegate = self
+                
+        let statusBarView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 20))
+        statusBarView.backgroundColor = UIColor.whiteColor()
+        view.addSubview(statusBarView)
         
 //        view.backgroundColor = UIColor.redColor()
         
-        let kHeaderHeight: CGFloat = 150
-        tableView = UITableView(frame: CGRect(x: 0, y: kHeaderHeight, width: view.frame.width, height: view.frame.height - kHeaderHeight))
+        tableView = UITableView(frame: CGRectZero)
         tableView.dataSource = self
         tableView.delegate = self
 
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.registerNib(UINib(nibName: "StopTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
+        tableView.rowHeight = 54
         
         view.addSubview(tableView)
         
@@ -46,11 +48,17 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! StopTableViewCell
         
         let stop = filteredStops[indexPath.row]
+        var distance = ""
+        if let userLocation = locationManager.location {
+            var miles = CLLocation(latitude: stop.coordinate.latitude, longitude: stop.coordinate.longitude).distanceFromLocation(userLocation) / 1609.34
+            miles = round(10.0 * miles) / 10
+            distance = "\(miles) mi"
+        }
         
-        cell.textLabel?.text = stop.name
+        cell.setStop(stop, distanceString: "\(distance)")
         
         return cell
     }
@@ -62,6 +70,8 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         let stop = filteredStops[indexPath.row]
+        
+        
         
         if activeSearchField == .Start {
             searchTextView.startTextField.text = stop.name
@@ -107,6 +117,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             activeSearchField = .End
         }
+        updateSearchResultsForTextField(textField)
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

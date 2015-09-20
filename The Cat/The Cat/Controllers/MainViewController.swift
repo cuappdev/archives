@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MainViewController: UIViewController, UITextFieldDelegate {
+class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDelegate {
 
     var mapTextView: MapTextField!
 //    let endTextField = UITextField()
@@ -64,6 +64,7 @@ class MainViewController: UIViewController, UITextFieldDelegate {
             stops = stopsArray
             for stop in stopsArray {
                 mapView.addAnnotation(stop)
+                stopsDict[stop.name] = stop
             }
         } catch {
             print("Error parsing stops-locations json file")
@@ -88,8 +89,13 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         mapTextView = NSBundle.mainBundle().loadNibNamed("MapTextField", owner: self, options: nil).first as! MapTextField
         setUpTextView()
         mapTextView.frame = textViewFrame
-        mapTextView.startTextField.text = "Baker Flagpole"
-        mapTextView.endTextField.text = "East Hill Plaza"
+//        mapTextView.startTextField.text = "Baker Flagpole"
+//        mapTextView.endTextField.text = "East Hill Plaza"
+        
+        mapTextView.layer.shadowColor = UIColor.blackColor().CGColor
+        mapTextView.layer.shadowOffset = CGSizeZero
+        mapTextView.layer.shadowOpacity = 0.5
+        mapTextView.layer.shadowRadius = 1
         
         // Find busses
         let kFindBussesHeight: CGFloat = 75
@@ -99,22 +105,22 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         findBussesView.actionButton.addTarget(self, action: "findBussesPressed", forControlEvents: .TouchUpInside)
         view.addSubview(findBussesView)
         
-        showBussesView()
     }
     
     func setUpTextView() {
         mapTextView.startTextField.delegate = self
         mapTextView.endTextField.delegate = self
+        mapTextView.delegate = self
         view.addSubview(mapTextView)
     }
     
-    func getThreeOptions(start: Stop?, end: Stop?, routeDict: [Int:Route]) -> [routeOption] {
-        let start = "Baker Flagpole"
-        let end = "Hasbrouck Apts." //"East Hill Plaza"
+    func getThreeOptions(start: String, end: String, routeDict: [Int:Route]) -> [routeOption] {
+//        let start = "Airport"
+//        let end = "East Hill Plaza" //"East Hill Plaza"
         var options: [routeOption] = []
         var now = NSDate()
-//        let nowString = dateToTime(now)
-        let nowString = "12:35PM"
+        let nowString = dateToTime(now)
+//        let nowString = "12:35PM"
         now = timeToDate(nowString)!
         
         func findDestination(instance: [RouteStop]) -> [RouteStop]? {
@@ -265,13 +271,17 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         mapView.setRegion(coordinateRegion, animated: true)
     }
 
-    let locationManager = CLLocationManager()
     private func checkLocationAuthorizationStatus() {
         if CLLocationManager.authorizationStatus() != .AuthorizedWhenInUse {
             locationManager.requestWhenInUseAuthorization()
         }
+        locationManager.distanceFilter = kCLDistanceFilterNone // whenever we move
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest 
+        locationManager.startUpdatingLocation()
     }
     
+    // MARK: -
+    // MARK: Text Field Stuff
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         if textField == mapTextView.startTextField {
             activeSearchField = .Start
@@ -279,13 +289,26 @@ class MainViewController: UIViewController, UITextFieldDelegate {
             activeSearchField = .End
         }
         
-        let searchVC = SearchViewController()
-        navigationController?.pushViewController(searchVC, animated: true)
         return false
     }
     
+    func startFieldSearch() {
+        activeSearchField = .Start
+
+        let searchVC = SearchViewController()
+        searchVC.searchTextView = mapTextView
+        navigationController?.pushViewController(searchVC, animated: true)
+    }
+    
+    func endFieldSearch() {
+        activeSearchField = .End
+        
+        let searchVC = SearchViewController()
+        searchVC.searchTextView = mapTextView
+        navigationController?.pushViewController(searchVC, animated: true)
+    }
+    
     override func viewDidAppear(animated: Bool) {
-        print("vda")
         guard !mapTextView.startTextField.text!.isEmpty else { return }
         guard !mapTextView.endTextField.text!.isEmpty else { return }
         
@@ -293,16 +316,24 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     }
     
     func showBussesView() {
-        UIView.animateWithDuration(0.2) { () -> Void in
-            self.findBussesView.frame.origin = CGPoint(x: 0, y: self.view.frame.height - self.findBussesView.frame.height)
+        guard !mapTextView.startTextField.text!.isEmpty else { return }
+        guard !mapTextView.endTextField.text!.isEmpty else { return }
+        if findBussesView.frame.origin.y >= view.frame.height {
+            UIView.animateWithDuration(0.2) { () -> Void in
+                self.findBussesView.frame.origin = CGPoint(x: 0, y: self.view.frame.height - self.findBussesView.frame.height)
+            }
         }
     }
     
     func findBussesPressed() {
-        print("find route for \(mapTextView.startTextField.text!) -> \(mapTextView.endTextField.text!)")
+        let start = mapTextView.startTextField.text!
+        let end = mapTextView.endTextField.text!
+        print("find route for \(start) -> \(end)")
         // Start loading indicator
         let routeOptionsVC = RouteOptionsViewController()
-        routeOptionsVC.routeOptions = getThreeOptions(nil, end: nil, routeDict: routeDict)
+        routeOptionsVC.routeOptions = getThreeOptions(mapTextView.startTextField.text!, end: mapTextView.endTextField.text!, routeDict: routeDict)
+        routeOptionsVC.start = stopsDict[start]
+        routeOptionsVC.end = stopsDict[end]
         navigationController?.pushViewController(routeOptionsVC, animated: true)
     }
 }

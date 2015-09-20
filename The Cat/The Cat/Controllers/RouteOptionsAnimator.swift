@@ -34,7 +34,7 @@ class RouteOptionsAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             toViewController.view.frame.origin = CGPointZero
             }) { (_) -> Void in
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-                toViewController.navigationController?.delegate = nil
+                toViewController.navigationController?.delegate = toViewController
                 toViewController.calculateRoute()
         }
     }

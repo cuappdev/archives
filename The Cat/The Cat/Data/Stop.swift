@@ -9,13 +9,24 @@
 import UIKit
 import MapKit
 
+enum AnnotationViewType: String {
+    case Pin = "pin"
+    case Selected = "selected"
+    case Start = "start"
+    case End = "end"
+    case Intermediate = "intermediate"
+}
+
 class Stop: NSObject, MKAnnotation {
     let name: String
     let coordinate: CLLocationCoordinate2D
     
+    var viewType: AnnotationViewType?
+    
     init(name: String, latitude: Double, longitude: Double) {
         self.name = name
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+
     }
     
     convenience init?(json: JSON) {

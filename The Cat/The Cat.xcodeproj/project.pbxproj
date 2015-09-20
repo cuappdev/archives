@@ -36,6 +36,11 @@
 		E935290E1BAD134D0081DE8E /* stop-schedules.json in Resources */ = {isa = PBXBuildFile; fileRef = E935290C1BAD134D0081DE8E /* stop-schedules.json */; settings = {ASSET_TAGS = (); }; };
 		E93529101BAD14160081DE8E /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E935290F1BAD14160081DE8E /* Route.swift */; settings = {ASSET_TAGS = (); }; };
 		E93529121BAD16540081DE8E /* RouteStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529111BAD16540081DE8E /* RouteStop.swift */; settings = {ASSET_TAGS = (); }; };
+		E9D4851F1BAE8A0F008F8E1A /* StopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D4851D1BAE8A0F008F8E1A /* StopTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		E9D485201BAE8A0F008F8E1A /* StopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9D4851E1BAE8A0F008F8E1A /* StopTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		E9D485231BAEB6A5008F8E1A /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D485211BAEB6A5008F8E1A /* RouteTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		E9D485241BAEB6A5008F8E1A /* RouteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9D485221BAEB6A5008F8E1A /* RouteTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		E9D485261BAEDF2D008F8E1A /* RouteOptionsToMapAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D485251BAEDF2D008F8E1A /* RouteOptionsToMapAnimator.swift */; settings = {ASSET_TAGS = (); }; };
 		E9FCD2F81BADDD7000AC5704 /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD2F71BADDD7000AC5704 /* Macros.swift */; settings = {ASSET_TAGS = (); }; };
 		E9FCD2FA1BADE7E100AC5704 /* MainViewController-UIGestureRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD2F91BADE7E100AC5704 /* MainViewController-UIGestureRecognizerDelegate.swift */; settings = {ASSET_TAGS = (); }; };
 		E9FCD2FD1BAE270500AC5704 /* MapTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD2FC1BAE270500AC5704 /* MapTextField.swift */; settings = {ASSET_TAGS = (); }; };
@@ -81,6 +86,11 @@
 		E935290C1BAD134D0081DE8E /* stop-schedules.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "stop-schedules.json"; sourceTree = "<group>"; };
 		E935290F1BAD14160081DE8E /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		E93529111BAD16540081DE8E /* RouteStop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteStop.swift; sourceTree = "<group>"; };
+		E9D4851D1BAE8A0F008F8E1A /* StopTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopTableViewCell.swift; sourceTree = "<group>"; };
+		E9D4851E1BAE8A0F008F8E1A /* StopTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StopTableViewCell.xib; sourceTree = "<group>"; };
+		E9D485211BAEB6A5008F8E1A /* RouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTableViewCell.swift; sourceTree = "<group>"; };
+		E9D485221BAEB6A5008F8E1A /* RouteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RouteTableViewCell.xib; sourceTree = "<group>"; };
+		E9D485251BAEDF2D008F8E1A /* RouteOptionsToMapAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteOptionsToMapAnimator.swift; sourceTree = "<group>"; };
 		E9FCD2F71BADDD7000AC5704 /* Macros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		E9FCD2F91BADE7E100AC5704 /* MainViewController-UIGestureRecognizerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController-UIGestureRecognizerDelegate.swift"; sourceTree = "<group>"; };
 		E9FCD2FC1BAE270500AC5704 /* MapTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTextField.swift; sourceTree = "<group>"; };
@@ -246,6 +256,7 @@
 				E93529041BAD0BB60081DE8E /* SearchAnimator.swift */,
 				E9FCD3021BAE548D00AC5704 /* SearchToMapAnimator.swift */,
 				E9FCD30D1BAE64B900AC5704 /* RouteOptionsAnimator.swift */,
+				E9D485251BAEDF2D008F8E1A /* RouteOptionsToMapAnimator.swift */,
 			);
 			name = "Transition Animators";
 			sourceTree = "<group>";
@@ -270,9 +281,21 @@
 			name = SearchViewController;
 			sourceTree = "<group>";
 		};
+		E9D4851C1BAE89F6008F8E1A /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				E9D4851D1BAE8A0F008F8E1A /* StopTableViewCell.swift */,
+				E9D4851E1BAE8A0F008F8E1A /* StopTableViewCell.xib */,
+				E9D485211BAEB6A5008F8E1A /* RouteTableViewCell.swift */,
+				E9D485221BAEB6A5008F8E1A /* RouteTableViewCell.xib */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
 		E9FCD2FB1BAE26E200AC5704 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9D4851C1BAE89F6008F8E1A /* TableViewCells */,
 				E9FCD2FC1BAE270500AC5704 /* MapTextField.swift */,
 				E9FCD2FE1BAE275200AC5704 /* MapTextField.xib */,
 				E9FCD3061BAE5DA000AC5704 /* FindBussesView.swift */,
@@ -348,11 +371,13 @@
 			files = (
 				E935290D1BAD134D0081DE8E /* route-schedules.json in Resources */,
 				E935290E1BAD134D0081DE8E /* stop-schedules.json in Resources */,
+				E9D485241BAEB6A5008F8E1A /* RouteTableViewCell.xib in Resources */,
 				E9FCD3091BAE5DAE00AC5704 /* FindBussesView.xib in Resources */,
 				E9FCD2FF1BAE275200AC5704 /* MapTextField.xib in Resources */,
 				E93528C81BACF39F0081DE8E /* LaunchScreen.storyboard in Resources */,
 				E93528F61BACF94C0081DE8E /* stop-locations.json in Resources */,
 				E93528C51BACF39F0081DE8E /* Assets.xcassets in Resources */,
+				E9D485201BAE8A0F008F8E1A /* StopTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,10 +413,13 @@
 				E93529121BAD16540081DE8E /* RouteStop.swift in Sources */,
 				E93528FC1BACFF240081DE8E /* MainViewController-MKMapViewDelegate.swift in Sources */,
 				E9FCD3011BAE539300AC5704 /* SearchViewController-UINavigationControllerDelegate.swift in Sources */,
+				E9D485231BAEB6A5008F8E1A /* RouteTableViewCell.swift in Sources */,
 				E93528F01BACF5150081DE8E /* SwiftyJSON.swift in Sources */,
 				E93528E91BACF5150081DE8E /* Request.swift in Sources */,
 				E93529051BAD0BB60081DE8E /* SearchAnimator.swift in Sources */,
+				E9D485261BAEDF2D008F8E1A /* RouteOptionsToMapAnimator.swift in Sources */,
 				E93528BE1BACF39F0081DE8E /* AppDelegate.swift in Sources */,
+				E9D4851F1BAE8A0F008F8E1A /* StopTableViewCell.swift in Sources */,
 				E93529011BAD082D0081DE8E /* UIView-Layout.swift in Sources */,
 				E93528EF1BACF5150081DE8E /* Validation.swift in Sources */,
 				E93528EB1BACF5150081DE8E /* Result.swift in Sources */,
