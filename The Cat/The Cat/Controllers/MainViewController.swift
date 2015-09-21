@@ -332,9 +332,14 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         // Start loading indicator
         let routeOptionsVC = RouteOptionsViewController()
         routeOptionsVC.routeOptions = getThreeOptions(mapTextView.startTextField.text!, end: mapTextView.endTextField.text!, routeDict: routeDict)
-        routeOptionsVC.start = stopsDict[start]
-        routeOptionsVC.end = stopsDict[end]
-        navigationController?.pushViewController(routeOptionsVC, animated: true)
+        if routeOptionsVC.routeOptions.count == 0 {
+            let alert = UIAlertView(title: "No route found", message: "There are no direct routes from \(start) tp \(end)", delegate: nil, cancelButtonTitle: "OK")
+            alert.show()
+        } else {
+            routeOptionsVC.start = stopsDict[start]
+            routeOptionsVC.end = stopsDict[end]
+            navigationController?.pushViewController(routeOptionsVC, animated: true)
+        }
     }
 }
 
