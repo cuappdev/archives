@@ -17,13 +17,17 @@ class Post < ActiveRecord::Base
   has_many :song_posts, class_name: 'SongPost'
   # has_many :songs, through: :song_posts
   validates :user_id, presence: true
+  before_create :default_values
   validates :like_count, numericality: { greater_than_or_equal_to: 0 }
-
   def songs
     Song.where(id: SongPost.where(post_id: self.id).pluck(:song_id))
   end
 
   def as_json(options = {})
     super(options).merge(song: self.songs.first, user: self.user)
+  end
+  private
+  def default_values
+    self.like_count = 0
   end
 end

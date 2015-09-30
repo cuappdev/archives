@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   has_many :likes
   has_many :following, through: :relationships, source: :followed
   # validates :name, presence: true, length: { maximum: 50 }
-
+  before_create :default_values
   has_one :session
 
   # Follows a user.
@@ -44,31 +44,46 @@ class User < ActiveRecord::Base
   def following?(other_user)
     following.include?(other_user)
   end
+  # Returns list of followers ids
+  def followers_id
+    Following.where(follower_id: self.id).pluck(:followed_id)
+  end
   # Returns list of followers
   def followers
-    follower_ids = Following.where(follower_id: self.id).pluck(:followed_id)
     follower_ids.count < 1 ? [] : User.where('id in ?', follower_ids)
   end
   # Likes a post
-  def like(post)
-    post_id = post.is_a?(User) ? post.id : post
-    Like.create(post_id: post_id, user_id: self.id)
-    self.increment!(:like_count)  
-    Post.find(post_id).increment!(:like_count)
+  def like(post_id)
+    post = Post.find(post_id)
+    like = Like.create(post_id: post_id, user_id: self.id) 
+    if like.valid? || post.blank?
+      User.increment_counter(:like_count,self)
+      Post.increment_counter(:like_count,post)
+    end
+    like.valid? || post.blank? ? true : false
   end 
 
   #unlike post
-  def unlike(post)
-    post_id = post.is_a?(User) ? post.id : post
-    like = Like.find_by(post_id: post_id, user_id: self.id)
-    like.destroy unless like.blank?
-    self.decrement!(:like_count) unless self.like_count == 0
-    found_post = Post.find(post_id)
-    found_post.decrement!(:like_count) unless found_post.like_count == 0
+  def unlike(post_id)
+    post = Post.find(post_id)
+    unlike = Like.destroy_all(user_id: self.id, post_id: post_id)
+    if !unlike.blank? || post.blank?
+      User.decrement_counter(:like_count, self) unless self.like_count == 0
+      Post.decrement_counter(:like_count, post) unless post.like_count == 0
+    end
+    unlike.blank? || post.blank? ? false : true
   end
-  # Returns true if the 
-  def liked?(post)
-    Like.where(post_id: post.id, user_id: self.id).exists?
+  # Returns true if the post was liked by the user
+  def liked?(post_id)
+    Like.where(post_id: post_id, user_id: self.id).exists?
+  end
+  # Returns a list of ids of liked posts
+  def liked_posts_ids
+    post_ids = Like.where(user_id: self.id).pluck(:post_id)
+  end
+  # Returns a list of liked posts
+  def liked_posts
+    liked_posts_ids.count < 1 ? [] : Post.where('id IN (?)', liked_posts_ids)
   end
 
   def as_json(options = {})
@@ -81,5 +96,10 @@ class User < ActiveRecord::Base
       }
       more_hash[:following] = self.following.map { |user| user.as_json(include_followers: false) } if options[:include_followers]
       super().merge(more_hash)
+  end
+  def default_values
+    self.like_count = 0
+    self.followers_count = 0
+    self.hipster_score = 0
   end
 end
