@@ -25,10 +25,8 @@ class UsersController < ApplicationController
   end
 
   def feed
-    followings_ids = User.find(params[:id]).followings_ids
     @posts = Post
-      .where('user_id IN (?)', followings_ids)
-      .where('created_at >= ?', Time.now.midnight)
+      .where('user_id = ?', params[:id])
       .order('created_at DESC')
     render json: { posts: @posts }
   end
