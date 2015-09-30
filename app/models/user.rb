@@ -18,39 +18,43 @@
 
 class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
-  has_many :relationships, class_name:  "Following",
-                                foreign_key: "follower_id",
-                                dependent:   :destroy
   has_many :likes
-  has_many :following, through: :relationships, source: :followed
+  has_many :followings
   # validates :name, presence: true, length: { maximum: 50 }
   before_create :default_values
   has_one :session
 
-  # Follows a user.
-  def follow(other_user)
-    other_id = other_user.is_a?(User) ? other_user.id : other_user
-    relationships.create(follower_id: self.id, followed_id: other_id)
-    User.increment_counter(:followers_count, other_id)
+  # Follows a user
+  def follow(followed_id)
+    followed = User.find(followed_id)
+    following = Following.create(follower_id: self.id, followed_id: followed_id) 
+    if following.valid? || followed.blank?
+      User.increment_counter(:followers_count,followed)
+    end
+    following.valid? || followed.blank? ? true : false
   end
+
   # Unfollows a user.
-  def unfollow(other_user)
-    other_id = other_user.is_a?(User) ? other_user.id : other_user
-    relationships.desroy(follower_id: self.id, followed_id: other_id)
-    User.decrement_counter(:followers_count, other_id) unless User.followers_count == 0
+  def unfollow(followed_id)
+    followed = User.find(followed_id)
+    unfollowing = Following.destroy_all(follower_id: self.id, followed_id: followed_id)
+    if !unfollowing.blank? || followed.blank?
+      User.decrement_counter(:followers_count, followed) unless followed.followers_count == 0
+    end
+    unfollowing.blank? || followed.blank? ? false : true
   end
 
   # Returns true if the current user is following the other user.
-  def following?(other_user)
-    following.include?(other_user)
+  def following?(followed_id)
+    Following.where(follower_id: self.id, followed_id: followed_id).exists?
   end
   # Returns list of followers ids
-  def followers_id
-    Following.where(follower_id: self.id).pluck(:followed_id)
+  def followers_ids 
+    Following.where(followed_id: self.id).pluck(:follower_id)
   end
   # Returns list of followers
   def followers
-    follower_ids.count < 1 ? [] : User.where('id in ?', follower_ids)
+    followers_ids.count < 1 ? [] : User.where('id IN (?)', followers_ids)
   end
   # Likes a post
   def like(post_id)

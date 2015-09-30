@@ -4,7 +4,6 @@ class LikesController < ApplicationController
     unlike = params[:unlike]
     post_id = params[:post_id]
     post = Post.find(post_id) unless post_id.blank?
-    # You can't like your own post
     if post.blank?
       render json: {success: false, liked: !@unlike}
     end
