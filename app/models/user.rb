@@ -2,18 +2,19 @@
 #
 # Table name: users
 #
-#  id              :integer          not null, primary key
-#  name            :string
-#  hipster_score   :integer
-#  caption         :string
-#  location_id     :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  followers_count :integer          default(0)
-#  like_count      :integer          default(0)
-#  fbid            :string
-#  username        :string
-#  email           :string
+#  id               :integer          not null, primary key
+#  name             :string
+#  hipster_score    :integer
+#  caption          :string
+#  location_id      :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  followers_count  :integer          default(0)
+#  like_count       :integer          default(0)
+#  fbid             :string
+#  username         :string
+#  email            :string
+#  followings_count :integer
 #
 
 class User < ActiveRecord::Base
@@ -30,6 +31,7 @@ class User < ActiveRecord::Base
     following = Following.create(follower_id: self.id, followed_id: followed_id) 
     if following.valid? || followed.blank?
       User.increment_counter(:followers_count,followed)
+      User.increment_counter(:followings_count,self)
     end
     following.valid? || followed.blank? ? true : false
   end
@@ -40,6 +42,7 @@ class User < ActiveRecord::Base
     unfollowing = Following.destroy_all(follower_id: self.id, followed_id: followed_id)
     if !unfollowing.blank? || followed.blank?
       User.decrement_counter(:followers_count, followed) unless followed.followers_count == 0
+      User.decrement_counter(:followings_count, self) unless self.followings_count == 0
     end
     unfollowing.blank? || followed.blank? ? false : true
   end
@@ -56,6 +59,15 @@ class User < ActiveRecord::Base
   def followers
     followers_ids.count < 1 ? [] : User.where('id IN (?)', followers_ids)
   end
+  # Returns list of following ids
+  def followings_ids
+    Following.where(follower_id: self.id).pluck(:followed_id)
+  end
+  # Returns a list of following
+  def following_list
+    followings_ids.count < 1 ? [] : User.where('id IN (?)', followings_ids)
+  end
+  
   # Likes a post
   def like(post_id)
     post = Post.find(post_id)
@@ -96,7 +108,9 @@ class User < ActiveRecord::Base
         name: self.name,
         username: self.username,
         fbid: self.fbid,
-        hipster_score: self.hipster_score
+        hipster_score: self.hipster_score,
+        followers_count: self.followers_count,
+        followings_count: self.followings_count,
       }
       more_hash[:following] = self.following.map { |user| user.as_json(include_followers: false) } if options[:include_followers]
       super().merge(more_hash)
@@ -104,6 +118,7 @@ class User < ActiveRecord::Base
   def default_values
     self.like_count = 0
     self.followers_count = 0
+    self.followings_count = 0
     self.hipster_score = 0
   end
 end
