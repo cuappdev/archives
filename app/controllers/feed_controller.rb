@@ -1,8 +1,13 @@
 class FeedController < ApplicationController
-  before_action :authorize
+  before_action :authorize, only: [:index]
   def index
-    following_ids = @user.followings_ids
+    followings_ids = @user.followings_ids
+    posts = Post
+      .where('created_at >= ?', Time.now.midnight)
+      .where('user_id IN (?)', followings_ids)
+      .order('created_at DESC')
+      .map { |post| post.as_json(id: @user.id)  }
     # render json: { posts: Post.where('created_at >= ?', Time.now.midnight).where('user_id in ?', following_ids).order('created_at DESC') }
-    render json: { posts: Post.where('created_at >= ?', Time.now.midnight).where('user_id IN (?)', followings_ids).order('created_at DESC') }
+    render json: { posts: posts }
   end
 end

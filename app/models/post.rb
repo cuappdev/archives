@@ -24,7 +24,11 @@ class Post < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(options).merge(song: self.songs.first, user: self.user)
+      more_hash = {
+        like_count: self.like_count,
+        is_liked: User.find(options[:id]).liked?(self.id)
+      }
+    super(options).merge(post: more_hash, song: self.songs.first, user: self.user.as_json(limited: true))
   end
   private
   def default_values

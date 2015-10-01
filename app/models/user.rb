@@ -103,17 +103,22 @@ class User < ActiveRecord::Base
   end
 
   def as_json(options = {})
-      more_hash = {
-        followers: self.followers,
-        name: self.name,
-        username: self.username,
-        fbid: self.fbid,
-        hipster_score: self.hipster_score,
-        followers_count: self.followers_count,
-        followings_count: self.followings_count,
-      }
-      more_hash[:following] = self.following.map { |user| user.as_json(include_followers: false) } if options[:include_followers]
-      super().merge(more_hash)
+      if options[:limited] 
+        exclude = [:followers_count, :followers, :followings_count, :following]
+        more_hash = {}
+      else
+        more_hash = {
+          followers: self.followers,
+          name: self.name,
+          username: self.username,
+          fbid: self.fbid,
+          hipster_score: self.hipster_score,
+          followers_count: self.followers_count,
+          followings_count: self.followings_count,
+        }
+        more_hash[:following] = self.following.map { |user| user.as_json(include_followers: false) } if options[:include_followers]
+      end
+      super(except: exclude).merge(more_hash)
   end
   def default_values
     self.like_count = 0
