@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :likes
   resources :feed
   resources :sessions
+  resources :followings
 
   get 'users/:id/feed' => 'users#feed'
   get 'users/:id/posts' => 'users#posts'
