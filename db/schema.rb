@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20150930184635) do
     t.string   "fbid"
     t.string   "username"
     t.string   "email"
-    t.integer  "followings_count"
+    t.integer  "followings_count", default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

@@ -6,7 +6,7 @@ class PostsController < ApplicationController
     @song = Song.create(song_params)
     SongPost.create(post_id: @post.id, song_id: @song.id)
     @success = (!@song.id.blank? and !@post.id.blank? and @post.songs.count==1)
-    render json: { success: !@song.blank?, post: @post }
+    render json: { success: !@song.blank?, post: @post.as_json(id: user_id) }
   end
 
   private 

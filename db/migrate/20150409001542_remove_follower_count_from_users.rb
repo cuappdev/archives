@@ -4,6 +4,6 @@ class RemoveFollowerCountFromUsers < ActiveRecord::Migration
   end
 
   def down
-    add_column :users, :follower_count, :integer
+    add_column :users, :follower_count, :integer, default: 0
   end
 end
