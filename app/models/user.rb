@@ -24,7 +24,8 @@ class User < ActiveRecord::Base
   # validates :name, presence: true, length: { maximum: 50 }
   before_create :default_values
   has_one :session
-
+  validates_uniqueness_of :fbid
+  validates_uniqueness_of :username
   # Follows a user
   def follow(followed_id)
     followed = User.find(followed_id)
@@ -57,7 +58,9 @@ class User < ActiveRecord::Base
   end
   # Returns list of followers
   def followers
-    followers_ids.count < 1 ? [] : User.where('id IN (?)', followers_ids)
+    fids = followers_ids
+    fids.count < 1 ? [] : User.where('id IN (?)', fids)
+    # fids.count < 1 ? [] : User.where('id IN (?)', fids)
   end
   # Returns list of following ids
   def followings_ids
@@ -65,7 +68,8 @@ class User < ActiveRecord::Base
   end
   # Returns a list of following
   def following_list
-    followings_ids.count < 1 ? [] : User.where('id IN (?)', followings_ids)
+    fids = followings_ids
+    fids.count < 1 ? [] : User.where('id IN (?)', fids)
   end
   
   # Likes a post
@@ -108,15 +112,16 @@ class User < ActiveRecord::Base
         more_hash = {}
       else
         more_hash = {
-          followers: self.followers,
           name: self.name,
           username: self.username,
           fbid: self.fbid,
           hipster_score: self.hipster_score,
           followers_count: self.followers_count,
-          followings_count: self.followings_count,
+          followings_count: self.followings_count
         }
-        more_hash[:following] = self.following.map { |user| user.as_json(include_followers: false) } if options[:include_followers]
+        more_hash[:followers] = followers.map { |user| user.as_json(include_following: false, include_followers: false) } if options[:include_followers]
+        more_hash[:following] = self.following_list.map { |user| user.as_json(include_following: false, include_followers: false) } if options[:include_following]
+        # more_hash[:following] = []
       end
       super(except: exclude).merge(more_hash)
   end

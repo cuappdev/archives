@@ -7,7 +7,6 @@ class FeedController < ApplicationController
       .where('user_id IN (?)', followings_ids)
       .order('created_at DESC')
       .map { |post| post.as_json(id: @user.id)  }
-    # render json: { posts: Post.where('created_at >= ?', Time.now.midnight).where('user_id in ?', following_ids).order('created_at DESC') }
     render json: { posts: posts }
   end
 end
