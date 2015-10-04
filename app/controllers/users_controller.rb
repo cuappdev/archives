@@ -22,6 +22,16 @@ class UsersController < ApplicationController
     render json: { user: @user.as_json(include_followers: true) }
   end
 
+  def following
+    @user = User.find(params[:id]) unless params[:id].blank?
+    render json: {success: !@user.blank?, following: @user.following_list}
+  end
+
+  def followers
+    @user = User.find(params[:id]) unless params[:id].blank?
+    render json: {success: !@user.blank?, followers: @user.followers}
+  end
+
   def feed
     @posts = Post
       .where('user_id = ?', params[:id])
