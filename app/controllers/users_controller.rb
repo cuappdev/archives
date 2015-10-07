@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   
   def index
     @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
-    render json: { users: @users.map { |user| user.as_json(include_following: true) } } 
+    render json: { users: @users.map { |user| user.as_json(include_following: true, include_followers: true) } } 
   end
 
   def show
