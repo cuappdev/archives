@@ -17,29 +17,56 @@
 #  followings_count :integer
 #
 
-require 'test_helper'
+require_relative '../test_helper'
 
 class UserTest < ActiveSupport::TestCase
   test "should follow and unfollow a user" do
-    ilan = User.create(username: 'tennismaster982', name: 'Ilan Filonenko', hipster_score: 1, fbid: '4')
-    feifan = User.create(username: 'feifanzhou', name: 'Feifan Zhuo', hipster_score: 4, fbid: '5')
-    assert_not ilan.following?(feifan)
-    assert feifan.followers_count==0
-    ilan.follow(feifan)
-    assert feifan.followers_count==1
-    assert ilan.following?(feifan)
-    ilan.unfollow(feifan)
-    assert feifan.followers_count==0
-    assert_not ilan.following?(feifan)
+    ilan = User.create(username: 'tennismaster982', name: 'Ilan Filonenko', fbid: '4')
+    feifan = User.create(username: 'feifanzhou', name: 'Feifan Zhuo', fbid: '5')
+    assert ilan.valid?
+    assert feifan.valid?
+    assert_not ilan.following?(feifan.id)
+    assert ilan.followings_count == 0
+    ilan.follow(feifan.id)
+    ilan.reload
+    feifan.reload
+    assert ilan.following?(feifan.id)
+    assert ilan.followings_count == 1
+    assert feifan.followers_count == 1
+    assert_not feifan.following?(ilan.id)
+    feifan.follow(ilan.id)
+    feifan.reload
+    ilan.reload
+    assert feifan.following?(ilan.id)
+    feifan.followings_count == 1
+    ilan.unfollow(feifan.id)
+    ilan.reload
+    feifan.reload
+    assert_not ilan.following?(feifan.id)
+    assert feifan.followers_count == 0
+    assert ilan.followings_count == 0
   end
   test "should be able to like" do
-    ilan = User.create(username: 'tennismaster', name: 'Ilan Filonenko', fbid: '4', hipster_score: 3)
+    ilan = User.create(username: 'tennismaster', name: 'Ilan Filonenko', fbid: '4')
     assert ilan.like_count==0
     post = Post.create(user_id: ilan.id, username: ilan.username)
-    assert post.like_count==0
-    ilan.like(post)
-    assert post.like_count==1
-    assert ilan.like_count==1
+    assert ilan.valid?
+    assert post.valid?
+    assert post.like_count == 0
+    assert ilan.like_count == 0
+    ilan.like(post.id)
+    ilan.reload
+    post.reload
+    assert ilan.liked?(post.id)
+    assert ilan.like_count == 1
+    assert post.like_count == 1
+    ilan.unliked(post.id)
+    ilan.reload
+    post.reload
+    assert ilan.like_count == 0
+    assert post.like_count == 0
+    assert_not ilan.liked?(post.id)
+
   end
   test "should songs be connected to posts" do
     ilan = User.create(username: 'tennismaster', name: 'Ilan Filonenko', fbid: '4', hipster_score: 3)
@@ -48,6 +75,5 @@ class UserTest < ActiveSupport::TestCase
     songpost = SongPost.create(post_id: post.id, song_id: song.id)
     assert song.posts.count()==1
     assert post.songs.count()==1
-
   end
 end

@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20150930184635) do
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
-    t.integer  "hipster_score"
+    t.integer  "hipster_score",    default: 0
     t.string   "caption"
     t.integer  "location_id"
     t.datetime "created_at",                   null: false
