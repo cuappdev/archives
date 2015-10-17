@@ -18,7 +18,6 @@ class Post < ActiveRecord::Base
   # has_many :songs, through: :song_posts
   validates :user_id, presence: true
   before_create :default_values
-  validates :like_count, numericality: { greater_than_or_equal_to: 0 }
   def songs
     Song.where(id: SongPost.where(post_id: self.id).pluck(:song_id))
   end
