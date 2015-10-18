@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :sessions
   resources :followings
 
-  get 'users/:id/feed' => 'users#feed'
   get 'users/:id/posts' => 'users#posts'
   get 'users/:id/likes' => 'users#likes'
   get 'users/:id/following' => 'users#following'
