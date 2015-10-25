@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   resources :friends
   get 'users/valid_username' => 'users#valid_username'
+  get 'users/valid_fbid' => 'users#valid_fbid'
   resources :users
   resources :posts
   resources :likes

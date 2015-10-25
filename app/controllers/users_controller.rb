@@ -49,6 +49,9 @@ class UsersController < ApplicationController
   def valid_username
     render json: { is_valid: !User.exists?(username: params[:username]) }
   end
+  def valid_fbid
+    render json: { is_valid: !User.exists?(fbid: params[:fbid]) }
+  end
 
   private
   def user_params
