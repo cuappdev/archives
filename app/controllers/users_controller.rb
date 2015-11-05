@@ -47,12 +47,15 @@ class UsersController < ApplicationController
   end
 
   def valid_username
-    render json: { is_valid: !User.exists?(username: params[:username]) }
+    render json: { is_valid: !User.exists?('username ILIKE ?', params[:username]) }
   end
   def valid_fbid
     render json: { is_valid: !User.exists?(fbid: params[:fbid]) }
   end
 
+  def delete_user
+    
+  end
   private
   def user_params
     params.require(:user).permit(:name, :username)
