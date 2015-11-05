@@ -18,8 +18,10 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = @user.update_attributes(user_params)
-    render json: { user: @user.as_json(include_followers: true) }
+    @user = @user.update_attributes(user_params) # update_attributes returns result of #save
+    success = @user # #save is truthy if the model is valid and gets committed, falsey otherwise
+    status = success ? :ok : :bad_request
+    render json: { success: success, user: @user.as_json(include_followers: true) }, status: status
   end
 
   def following
@@ -47,7 +49,7 @@ class UsersController < ApplicationController
   end
 
   def valid_username
-    render json: { is_valid: !User.exists?('username ILIKE ?', params[:username]) }
+    render json: { is_valid: !User.exists?('username ILIKE (?)', params[:username]) }
   end
   def valid_fbid
     render json: { is_valid: !User.exists?(fbid: params[:fbid]) }
