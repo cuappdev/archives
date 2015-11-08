@@ -8,8 +8,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    p "======= User: #{@user.id}"
-    render json: @user.as_json(include_followers: true, include_following: true)
+    render json: User.find(params[:id]).as_json(include_followers: true, include_following: true)
   end
 
   def create
