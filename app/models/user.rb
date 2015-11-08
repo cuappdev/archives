@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
 
   def as_json(options = {})
       if options[:limited] 
-        exclude = [:followers_count, :followers, :followings_count, :following]
+        exclude = [:followers_count, :followers, :followings_count, :following, :is_following]
         more_hash = {}
       else
         more_hash = {
@@ -117,7 +117,8 @@ class User < ActiveRecord::Base
           fbid: self.fbid,
           hipster_score: self.hipster_score,
           followers_count: self.followers_count,
-          followings_count: self.followings_count
+          followings_count: self.followings_count,
+          is_following: User.exists?(options[:user_id]) ? User.find(options[:user_id]).following?(self.id) : false
         }
         more_hash[:followers] = followers.map { |user| user.as_json(include_following: false, include_followers: false) } if options[:include_followers]
         more_hash[:following] = self.following_list.map { |user| user.as_json(include_following: false, include_followers: false) } if options[:include_following]
