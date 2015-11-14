@@ -83,6 +83,16 @@ class User < ActiveRecord::Base
     like.valid? || post.blank? ? true : false
   end 
 
+  # Returns list of song ids
+  def my_songs
+    SongPost.where('post_id in (?)', (Post.where('user_id = (?)', self.id).pluck(:id))).pluck(:song_id)
+  end
+
+  # Returns number of mutual songs with another user
+  def mutual_songs (user_id)
+    User.exists?(user_id) ? (self.my_songs & User.find(user_id).my_songs).size : 0
+  end
+
   #unlike post
   def unlike(post_id)
     post = Post.find(post_id)
