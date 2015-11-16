@@ -56,7 +56,15 @@ class UsersController < ApplicationController
   def valid_fbid
     render json: { is_valid: !User.exists?(fbid: params[:fbid]) }
   end
-
+  # User suggestions
+  def user_suggestions
+    @user_id = params[:id]
+    @user = User.find(@user_id)
+    @all_user_ids = (User.all.pluck(:id)-@user.followings_ids)
+    @data = User.where('id in (?)', @all_user_ids).sort_by {|x| [@user.mutual_songs(x.id),@user.mutual_friends(x.id)] }
+    render json: { users: @data }
+  end
+  # Need to do
   def delete_user
     
   end

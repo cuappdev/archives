@@ -14,7 +14,7 @@
 #  fbid             :string
 #  username         :string
 #  email            :string
-#  followings_count :integer
+#  followings_count :integer          default(0)
 #
 
 class User < ActiveRecord::Base
@@ -88,6 +88,11 @@ class User < ActiveRecord::Base
     SongPost.where('post_id in (?)', (Post.where('user_id = (?)', self.id).pluck(:id))).pluck(:song_id)
   end
 
+  # Returns number of mutual friends with another user
+  def mutual_friends (user_id)
+    User.exists?(user_id) ? (self.followings_ids & User.find(user_id).followings_ids).size : 0
+  end
+  
   # Returns number of mutual songs with another user
   def mutual_songs (user_id)
     User.exists?(user_id) ? (self.my_songs & User.find(user_id).my_songs).size : 0

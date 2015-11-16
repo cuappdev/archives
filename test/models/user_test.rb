@@ -14,7 +14,7 @@
 #  fbid             :string
 #  username         :string
 #  email            :string
-#  followings_count :integer
+#  followings_count :integer          default(0)
 #
 
 require_relative '../test_helper'

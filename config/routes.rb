@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'users/:id/following' => 'users#following'
   get 'users/:id/followers' => 'users#followers'
   post 'likes/is_liked' => 'likes#is_liked'
+  get 'users/:id/suggestions' => 'users#user_suggestions'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
