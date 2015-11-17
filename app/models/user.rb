@@ -90,7 +90,9 @@ class User < ActiveRecord::Base
 
   # Returns number of mutual friends with another user
   def mutual_friends (user_id)
-    User.exists?(user_id) ? (self.followings_ids & User.find(user_id).followings_ids).size : 0
+    order = [self.id,user_id].sort! {|x,y| x <=> y}
+    relation = Mutualfriend.find_by(user1_id: order.first, user2_id: order.second)
+    relation.blank? ? 0 : relation.mutual_friends_count
   end
   
   # Returns number of mutual songs with another user

@@ -14,7 +14,7 @@ class FollowingsController < ApplicationController
     success_val = (follow_bool ? @user.follow(followed_id) : @user.unfollow(followed_id))
     # if successful update the mutual friends by passing in whether it was follow, 
     # the user who followed, and the follower
-    update_mutual_friends(follow_bool, @user, followed_id) if success_val
+    update_mutual_friends(follow_bool, @user.id, followed_id) if success_val
     render json: { success: success_val, follow: follow_bool }
   end
 end

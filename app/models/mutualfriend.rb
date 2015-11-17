@@ -16,7 +16,6 @@ class Mutualfriend < ActiveRecord::Base
   belongs_to :user2, class_name: "User"
   validates :user1_id, presence: true
   validates :user2_id, presence: true
-  validates_uniqueness_of :user1_id, scope: :user1_id
   validates_numericality_of :user2_id, :greater_than => :user1_id
   def default_values
     self.mutual_friends_count = 0
