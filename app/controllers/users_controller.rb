@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authorize, only: [:show, :create, :update, :likes, :posts]
+  before_action :authorize, only: [:show, :create, :update, :likes, :posts, :user_suggestions]
   
   def index
     @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
@@ -58,9 +58,7 @@ class UsersController < ApplicationController
   end
   # User suggestions
   def user_suggestions
-    user_id = params[:id]
-    user = User.find(user_id)
-    all_user_ids = (User.all.pluck(:id)-user.followings_ids)
+    all_user_ids = (User.all.pluck(:id)-@user.followings_ids)-(@user.id)
     page = params[:p].blank? ? 0 : params[:p]
     data = User.where('id in (?)', all_user_ids).order(like_count: :desc).limit(5).offset((page.to_i)*5)
                # .sort_by {|x| [user.mutual_songs(x.id),user.mutual_friends(x.id)] }
