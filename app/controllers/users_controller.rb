@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
 
   before_action :authorize, only: [:show, :create, :update, :likes, :posts, :user_suggestions]
-  
   def index
     @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
     render json: { users: @users.map { |user| user.as_json(include_following: true, include_followers: true) } } 
@@ -60,8 +59,11 @@ class UsersController < ApplicationController
   def user_suggestions
     all_user_ids = (User.all.pluck(:id)-@user.followings_ids)-[(@user.id)]
     page = params[:p].blank? ? 0 : params[:p]
-    data = User.where('id in (?)', all_user_ids).order(like_count: :desc).limit(5).offset((page.to_i)*5).as_json(limited: true)
-               # .sort_by {|x| [user.mutual_songs(x.id),user.mutual_friends(x.id)] }
+    sorted_data = User.where('id in (?)', all_user_ids).sort do |a,b|
+      comp = -@user.mutual_friends(a.id) <=> -@user.mutual_friends(b.id)
+      comp.zero? ? (-@user.mutual_songs(a.id) <=> -@user.mutual_songs(b.id)) : comp
+    end
+    data = sorted_data.slice(page.to_i * 5, 5).as_json(limited: true)
     render json: { users: data}
   end
   # Need to do
