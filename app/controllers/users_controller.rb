@@ -58,12 +58,13 @@ class UsersController < ApplicationController
   # User suggestions
   def user_suggestions
     all_user_ids = (User.all.pluck(:id)-@user.followings_ids)-[(@user.id)]
-    page = params[:p].blank? ? 0 : params[:p]
+    page_length = params[:l].blank? ? 5 : (params[:l]).to_i
+    page = params[:p].blank? ? 0 : (params[:p]).to_i
     sorted_data = User.where('id in (?)', all_user_ids).sort do |a,b|
       comp = -@user.mutual_friends(a.id) <=> -@user.mutual_friends(b.id)
       comp.zero? ? (-@user.mutual_songs(a.id) <=> -@user.mutual_songs(b.id)) : comp
     end
-    data = sorted_data.slice(page.to_i * 5, 5).as_json(limited: true)
+    data = sorted_data.slice(page * page_length, page_length).as_json(limited: true)
     render json: { users: data}
   end
   # Need to do
