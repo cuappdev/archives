@@ -1,9 +1,6 @@
 module FollowingsHelper
   def update_mutual_friends(follow_bool, user_id, followed_id)
     mutual_followers = Following.where('followed_id = (?)',followed_id).pluck(:follower_id) - [user_id]
-    p '------------'
-    p mutual_followers
-    p '------------'
     return if mutual_followers.empty?
     if follow_bool
       mutual_followers.each do |idx| 
