@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   get 'users/:id/followers' => 'users#followers'
   post 'likes/is_liked' => 'likes#is_liked'
   post 'users/suggestions' => 'users#user_suggestions'
+  get 'spotify/get_url' => 'spotify#get_url'
+  get 'spotify/get_hash' => 'spotify#get_hash'
+  get 'spotify/get_access_token' => 'spotify#get_access_token'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

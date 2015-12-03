@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   # validates :name, presence: true, length: { maximum: 50 }
   before_create :default_values
   has_one :session
+  has_one :spotify_cred
   validates :fbid, presence: true, uniqueness: {case_sensitive: false}
   validates :username, presence: true, uniqueness: {case_sensitive: false}
   # Follows a user
