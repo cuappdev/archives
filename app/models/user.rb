@@ -136,7 +136,8 @@ class User < ActiveRecord::Base
           hipster_score: self.hipster_score,
           followers_count: self.followers_count,
           followings_count: self.followings_count,
-          is_following: User.exists?(options[:user_id]) ? User.find(options[:user_id]).following?(self.id) : false
+          is_following: User.exists?(options[:user_id]) ? User.find(options[:user_id]).following?(self.id) : false,
+          mutual_friends: User.exists?(options[:user_id]) ? User.find(options[:user_id]).mutual_friends(self.id) : 0
         }
         more_hash[:followers] = followers.map { |user| user.as_json(include_following: false, include_followers: false) } if options[:include_followers]
         more_hash[:following] = self.following_list.map { |user| user.as_json(include_following: false, include_followers: false) } if options[:include_following]
