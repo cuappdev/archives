@@ -31,9 +31,4 @@ class SpotifyController < ApplicationController
   def redirect_uri
     @redirect_uri ||= "#{ENV["backend_url"]}/spotify/get_hash"
   end
-  # => "https://example.org/oauth/authorization?response_type=code&client_id=client_id&redirect_uri=http://localhost:8080/oauth2/callback"
-
-  # response = token.get('/api/resource', :params => { 'query_foo' => 'bar' })
-  # response.class.name
-  # => OAuth2::Response
 end
