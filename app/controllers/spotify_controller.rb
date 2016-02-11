@@ -5,7 +5,7 @@ class SpotifyController < ApplicationController
     session_code = params[:state]
     token = client.auth_code.get_token(params[:code], redirect_uri: redirect_uri).to_hash
     @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,access_token: token[:access_token], refresh_token: token[:refresh_token], expires_at: token[:expires_at])
-    return @spotify_cred
+    render json: { success: true, spotify_cred: @spotify_cred }
   end
   def get_access_token
     if @user.spotify_cred.blank?
