@@ -20,7 +20,7 @@ class SpotifyController < ApplicationController
     }
     access_token = OAuth2::AccessToken.from_hash(client, token_hash)
     access_token.refresh! if access_token.expired?
-    render json: { success: true, access_token: access_token.token }
+    render json: { success: true, access_token: access_token.token, all_info: access_token }
   end
 
   private
