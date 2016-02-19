@@ -19,8 +19,11 @@ class SpotifyController < ApplicationController
       expires_at: creds.expires_at.to_i
     }
     access_token = OAuth2::AccessToken.from_hash(client, token_hash)
-    access_token.refresh! if access_token.expired?
-    render json: { success: true, access_token: access_token.token, all_info: access_token }
+    if access_token.expired?
+      access_token.refresh! 
+      creds.update_attributes(access_token: access_token.token, refresh_token: access_token.refresh_token, expires_at: access_token.expires_at )
+    end
+    render json: { success: true, access_token: access_token.token, expires_at: access_token.expires_at }
   end
 
   private
