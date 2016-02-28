@@ -22,7 +22,6 @@ class RouteStop: NSObject {
         return "\(route) [\(time)] - \(stopName)"
     }
     
-    
     init(stopName: String, time: NSDate, day: String, route: Int, instance: Int) {
         self.stopName = stopName
         self.date = time
@@ -41,8 +40,6 @@ class RouteStop: NSObject {
 
         self.init(stopName: name, time: date, day: day, route: route, instance: instance)
     }
-    
-    
 }
 
 func timeToDate(time: String) -> NSDate? {

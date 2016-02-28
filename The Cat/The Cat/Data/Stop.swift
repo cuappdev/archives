@@ -42,7 +42,6 @@ class Stop: NSObject, MKAnnotation {
     var title: String? {
         return name
     }
-    
 }
 
 func stopsEquiv(a: String, b: String) -> Bool {

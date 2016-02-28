@@ -222,7 +222,6 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         } catch {
             throw NSError(domain: "tcat", code: 400, userInfo: nil)
         }
-
     }
     
     private func initializeRoutes() throws -> [Int:Route] {
@@ -262,7 +261,6 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         } catch {
             throw NSError(domain: "tcat", code: 400, userInfo: nil)
         }
-
     }
     
     private func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance) {
@@ -280,8 +278,7 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         locationManager.startUpdatingLocation()
     }
     
-    // MARK: -
-    // MARK: Text Field Stuff
+    // MARK: - Text Field Stuff
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         if textField == mapTextView.startTextField {
             activeSearchField = .Start

@@ -63,8 +63,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     
-    // MARK: -
-    // MARK: TableView delegate
+    // MARK: - TableView delegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -83,8 +82,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    // MARK: -
-    // MARK: UISearchResultsUpdating
+    // MARK: - UISearchResultsUpdating
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         if searchText == "" {
@@ -108,8 +106,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         filterContentForSearchText(sender.text ?? "")
     }
     
-    // MARK: -
-    // MARK: Text Field Delegate
+    // MARK: - Text Field Delegate
     
     func textFieldDidBeginEditing(textField: UITextField) {
         if textField == searchTextView.startTextField {
@@ -124,8 +121,7 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         view.endEditing(true)
     }
     
-//    // MARK: -
-//    // MARK: UISearchControllerDelegate
+//    // MARK: - UISearchControllerDelegate
 //    
 //    /// Search content will scroll behind status bar so add a cover-up view to mask it
 //    private let statusBarView: UIView = {
@@ -147,6 +143,4 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
 //    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 //        searchController.searchBar.endEditing(true)
 //    }
-
-
 }

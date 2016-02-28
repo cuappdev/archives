@@ -32,7 +32,6 @@ extension MainViewController: MKMapViewDelegate {
             return view
         }
         
-        
 //        var view: MKPinAnnotationView
 //        if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView {
 //            dequeuedView.annotation = annotation

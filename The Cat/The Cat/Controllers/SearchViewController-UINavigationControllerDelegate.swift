@@ -16,9 +16,9 @@ extension SearchViewController: UINavigationControllerDelegate {
         fromViewController
         fromVC: UIViewController,
         toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-            if operation == .Pop {
-                return SearchToMapAnimator.sharedAnimator
-            }
-            return nil
+        if operation == .Pop {
+            return SearchToMapAnimator.sharedAnimator
+        }
+        return nil
     }
 }

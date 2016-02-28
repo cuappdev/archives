@@ -16,19 +16,19 @@ enum ActiveSearchField {
 
 var _activeSearchField: ActiveSearchField = .Start
 var activeSearchField: ActiveSearchField {
-get {
-    return _activeSearchField
-}
-set(newValue) {
-    _activeSearchField = newValue
-    if newValue == .Start {
-        startUnderline.hidden = false
-        endUnderline.hidden = true
-    } else {
-        startUnderline.hidden = true
-        endUnderline.hidden = false
+    get {
+        return _activeSearchField
     }
-}
+    set(newValue) {
+        _activeSearchField = newValue
+        if newValue == .Start {
+            startUnderline.hidden = false
+            endUnderline.hidden = true
+        } else {
+            startUnderline.hidden = true
+            endUnderline.hidden = false
+        }
+    }
 }
 
 var startUnderline: UIView!

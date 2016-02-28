@@ -80,8 +80,7 @@ class RouteOptionsViewController: UIViewController, UITableViewDataSource, UITab
         return cell
     }
 
-    // MARK: -
-    // MARK: MapKitDelegate
+    // MARK: - MapKitDelegate
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         guard let annotation = annotation as? Stop else { return nil }
         

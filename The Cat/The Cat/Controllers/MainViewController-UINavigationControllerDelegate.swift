@@ -16,12 +16,11 @@ extension MainViewController: UINavigationControllerDelegate {
         fromViewController
         fromVC: UIViewController,
         toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-            if toVC.isKindOfClass(SearchViewController.self) {
-                return SearchAnimator.sharedAnimator
-            } else if toVC.isKindOfClass(RouteOptionsViewController.self) {
-             return RouteOptionsAnimator.sharedAnimator
-            }
-            
-            return nil
+        if toVC.isKindOfClass(SearchViewController.self) {
+            return SearchAnimator.sharedAnimator
+        } else if toVC.isKindOfClass(RouteOptionsViewController.self) {
+            return RouteOptionsAnimator.sharedAnimator
+        }
+        return nil
     }
 }
