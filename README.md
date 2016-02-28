@@ -1,3 +1,3 @@
 # tcat
 
-## Test owndership transfer
+## Test ownership transfer.
