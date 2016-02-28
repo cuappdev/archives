@@ -10,48 +10,48 @@
 		E93528BE1BACF39F0081DE8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528BD1BACF39F0081DE8E /* AppDelegate.swift */; };
 		E93528C51BACF39F0081DE8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E93528C41BACF39F0081DE8E /* Assets.xcassets */; };
 		E93528C81BACF39F0081DE8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E93528C61BACF39F0081DE8E /* LaunchScreen.storyboard */; };
-		E93528E31BACF5150081DE8E /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D41BACF5150081DE8E /* Alamofire.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528E41BACF5150081DE8E /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D51BACF5150081DE8E /* Download.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528E51BACF5150081DE8E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D61BACF5150081DE8E /* Error.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528E61BACF5150081DE8E /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D71BACF5150081DE8E /* Manager.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528E71BACF5150081DE8E /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D81BACF5150081DE8E /* MultipartFormData.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528E81BACF5150081DE8E /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D91BACF5150081DE8E /* ParameterEncoding.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528E91BACF5150081DE8E /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DA1BACF5150081DE8E /* Request.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528EA1BACF5150081DE8E /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DB1BACF5150081DE8E /* ResponseSerialization.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528EB1BACF5150081DE8E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DC1BACF5150081DE8E /* Result.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528EC1BACF5150081DE8E /* ServerTrustPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DD1BACF5150081DE8E /* ServerTrustPolicy.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528ED1BACF5150081DE8E /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DE1BACF5150081DE8E /* Stream.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528EE1BACF5150081DE8E /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DF1BACF5150081DE8E /* Upload.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528EF1BACF5150081DE8E /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528E01BACF5150081DE8E /* Validation.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528F01BACF5150081DE8E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528E21BACF5150081DE8E /* SwiftyJSON.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528F31BACF5490081DE8E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528F21BACF5490081DE8E /* MainViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528F61BACF94C0081DE8E /* stop-locations.json in Resources */ = {isa = PBXBuildFile; fileRef = E93528F51BACF94C0081DE8E /* stop-locations.json */; settings = {ASSET_TAGS = (); }; };
-		E93528FA1BACFB7C0081DE8E /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528F91BACFB7C0081DE8E /* Stop.swift */; settings = {ASSET_TAGS = (); }; };
-		E93528FC1BACFF240081DE8E /* MainViewController-MKMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528FB1BACFF240081DE8E /* MainViewController-MKMapViewDelegate.swift */; settings = {ASSET_TAGS = (); }; };
-		E93529011BAD082D0081DE8E /* UIView-Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529001BAD082D0081DE8E /* UIView-Layout.swift */; settings = {ASSET_TAGS = (); }; };
-		E93529031BAD0AF20081DE8E /* MainViewController-UINavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529021BAD0AF20081DE8E /* MainViewController-UINavigationControllerDelegate.swift */; settings = {ASSET_TAGS = (); }; };
-		E93529051BAD0BB60081DE8E /* SearchAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529041BAD0BB60081DE8E /* SearchAnimator.swift */; settings = {ASSET_TAGS = (); }; };
-		E93529091BAD0C1C0081DE8E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529081BAD0C1C0081DE8E /* SearchViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		E935290D1BAD134D0081DE8E /* route-schedules.json in Resources */ = {isa = PBXBuildFile; fileRef = E935290B1BAD134D0081DE8E /* route-schedules.json */; settings = {ASSET_TAGS = (); }; };
-		E935290E1BAD134D0081DE8E /* stop-schedules.json in Resources */ = {isa = PBXBuildFile; fileRef = E935290C1BAD134D0081DE8E /* stop-schedules.json */; settings = {ASSET_TAGS = (); }; };
-		E93529101BAD14160081DE8E /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E935290F1BAD14160081DE8E /* Route.swift */; settings = {ASSET_TAGS = (); }; };
-		E93529121BAD16540081DE8E /* RouteStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529111BAD16540081DE8E /* RouteStop.swift */; settings = {ASSET_TAGS = (); }; };
-		E9D4851F1BAE8A0F008F8E1A /* StopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D4851D1BAE8A0F008F8E1A /* StopTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		E9D485201BAE8A0F008F8E1A /* StopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9D4851E1BAE8A0F008F8E1A /* StopTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
-		E9D485231BAEB6A5008F8E1A /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D485211BAEB6A5008F8E1A /* RouteTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		E9D485241BAEB6A5008F8E1A /* RouteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9D485221BAEB6A5008F8E1A /* RouteTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
-		E9D485261BAEDF2D008F8E1A /* RouteOptionsToMapAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D485251BAEDF2D008F8E1A /* RouteOptionsToMapAnimator.swift */; settings = {ASSET_TAGS = (); }; };
-		E9FCD2F81BADDD7000AC5704 /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD2F71BADDD7000AC5704 /* Macros.swift */; settings = {ASSET_TAGS = (); }; };
-		E9FCD2FA1BADE7E100AC5704 /* MainViewController-UIGestureRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD2F91BADE7E100AC5704 /* MainViewController-UIGestureRecognizerDelegate.swift */; settings = {ASSET_TAGS = (); }; };
-		E9FCD2FD1BAE270500AC5704 /* MapTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD2FC1BAE270500AC5704 /* MapTextField.swift */; settings = {ASSET_TAGS = (); }; };
-		E9FCD2FF1BAE275200AC5704 /* MapTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FCD2FE1BAE275200AC5704 /* MapTextField.xib */; settings = {ASSET_TAGS = (); }; };
-		E9FCD3011BAE539300AC5704 /* SearchViewController-UINavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD3001BAE539300AC5704 /* SearchViewController-UINavigationControllerDelegate.swift */; settings = {ASSET_TAGS = (); }; };
-		E9FCD3031BAE548D00AC5704 /* SearchToMapAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD3021BAE548D00AC5704 /* SearchToMapAnimator.swift */; settings = {ASSET_TAGS = (); }; };
-		E9FCD3051BAE54F400AC5704 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD3041BAE54F400AC5704 /* Globals.swift */; settings = {ASSET_TAGS = (); }; };
-		E9FCD3071BAE5DA000AC5704 /* FindBussesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD3061BAE5DA000AC5704 /* FindBussesView.swift */; settings = {ASSET_TAGS = (); }; };
-		E9FCD3091BAE5DAE00AC5704 /* FindBussesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FCD3081BAE5DAE00AC5704 /* FindBussesView.xib */; settings = {ASSET_TAGS = (); }; };
-		E9FCD30C1BAE641400AC5704 /* RouteOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD30B1BAE641400AC5704 /* RouteOptionsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		E9FCD30E1BAE64B900AC5704 /* RouteOptionsAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD30D1BAE64B900AC5704 /* RouteOptionsAnimator.swift */; settings = {ASSET_TAGS = (); }; };
+		E93528E31BACF5150081DE8E /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D41BACF5150081DE8E /* Alamofire.swift */; };
+		E93528E41BACF5150081DE8E /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D51BACF5150081DE8E /* Download.swift */; };
+		E93528E51BACF5150081DE8E /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D61BACF5150081DE8E /* Error.swift */; };
+		E93528E61BACF5150081DE8E /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D71BACF5150081DE8E /* Manager.swift */; };
+		E93528E71BACF5150081DE8E /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D81BACF5150081DE8E /* MultipartFormData.swift */; };
+		E93528E81BACF5150081DE8E /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528D91BACF5150081DE8E /* ParameterEncoding.swift */; };
+		E93528E91BACF5150081DE8E /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DA1BACF5150081DE8E /* Request.swift */; };
+		E93528EA1BACF5150081DE8E /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DB1BACF5150081DE8E /* ResponseSerialization.swift */; };
+		E93528EB1BACF5150081DE8E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DC1BACF5150081DE8E /* Result.swift */; };
+		E93528EC1BACF5150081DE8E /* ServerTrustPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DD1BACF5150081DE8E /* ServerTrustPolicy.swift */; };
+		E93528ED1BACF5150081DE8E /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DE1BACF5150081DE8E /* Stream.swift */; };
+		E93528EE1BACF5150081DE8E /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528DF1BACF5150081DE8E /* Upload.swift */; };
+		E93528EF1BACF5150081DE8E /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528E01BACF5150081DE8E /* Validation.swift */; };
+		E93528F01BACF5150081DE8E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528E21BACF5150081DE8E /* SwiftyJSON.swift */; };
+		E93528F31BACF5490081DE8E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528F21BACF5490081DE8E /* MainViewController.swift */; };
+		E93528F61BACF94C0081DE8E /* stop-locations.json in Resources */ = {isa = PBXBuildFile; fileRef = E93528F51BACF94C0081DE8E /* stop-locations.json */; };
+		E93528FA1BACFB7C0081DE8E /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528F91BACFB7C0081DE8E /* Stop.swift */; };
+		E93528FC1BACFF240081DE8E /* MainViewController-MKMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93528FB1BACFF240081DE8E /* MainViewController-MKMapViewDelegate.swift */; };
+		E93529011BAD082D0081DE8E /* UIView-Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529001BAD082D0081DE8E /* UIView-Layout.swift */; };
+		E93529031BAD0AF20081DE8E /* MainViewController-UINavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529021BAD0AF20081DE8E /* MainViewController-UINavigationControllerDelegate.swift */; };
+		E93529051BAD0BB60081DE8E /* SearchAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529041BAD0BB60081DE8E /* SearchAnimator.swift */; };
+		E93529091BAD0C1C0081DE8E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529081BAD0C1C0081DE8E /* SearchViewController.swift */; };
+		E935290D1BAD134D0081DE8E /* route-schedules.json in Resources */ = {isa = PBXBuildFile; fileRef = E935290B1BAD134D0081DE8E /* route-schedules.json */; };
+		E935290E1BAD134D0081DE8E /* stop-schedules.json in Resources */ = {isa = PBXBuildFile; fileRef = E935290C1BAD134D0081DE8E /* stop-schedules.json */; };
+		E93529101BAD14160081DE8E /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = E935290F1BAD14160081DE8E /* Route.swift */; };
+		E93529121BAD16540081DE8E /* RouteStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93529111BAD16540081DE8E /* RouteStop.swift */; };
+		E9D4851F1BAE8A0F008F8E1A /* StopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D4851D1BAE8A0F008F8E1A /* StopTableViewCell.swift */; };
+		E9D485201BAE8A0F008F8E1A /* StopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9D4851E1BAE8A0F008F8E1A /* StopTableViewCell.xib */; };
+		E9D485231BAEB6A5008F8E1A /* RouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D485211BAEB6A5008F8E1A /* RouteTableViewCell.swift */; };
+		E9D485241BAEB6A5008F8E1A /* RouteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9D485221BAEB6A5008F8E1A /* RouteTableViewCell.xib */; };
+		E9D485261BAEDF2D008F8E1A /* RouteOptionsToMapAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D485251BAEDF2D008F8E1A /* RouteOptionsToMapAnimator.swift */; };
+		E9FCD2F81BADDD7000AC5704 /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD2F71BADDD7000AC5704 /* Macros.swift */; };
+		E9FCD2FA1BADE7E100AC5704 /* MainViewController-UIGestureRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD2F91BADE7E100AC5704 /* MainViewController-UIGestureRecognizerDelegate.swift */; };
+		E9FCD2FD1BAE270500AC5704 /* MapTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD2FC1BAE270500AC5704 /* MapTextField.swift */; };
+		E9FCD2FF1BAE275200AC5704 /* MapTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FCD2FE1BAE275200AC5704 /* MapTextField.xib */; };
+		E9FCD3011BAE539300AC5704 /* SearchViewController-UINavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD3001BAE539300AC5704 /* SearchViewController-UINavigationControllerDelegate.swift */; };
+		E9FCD3031BAE548D00AC5704 /* SearchToMapAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD3021BAE548D00AC5704 /* SearchToMapAnimator.swift */; };
+		E9FCD3051BAE54F400AC5704 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD3041BAE54F400AC5704 /* Globals.swift */; };
+		E9FCD3071BAE5DA000AC5704 /* FindBussesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD3061BAE5DA000AC5704 /* FindBussesView.swift */; };
+		E9FCD3091BAE5DAE00AC5704 /* FindBussesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9FCD3081BAE5DAE00AC5704 /* FindBussesView.xib */; };
+		E9FCD30C1BAE641400AC5704 /* RouteOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD30B1BAE641400AC5704 /* RouteOptionsViewController.swift */; };
+		E9FCD30E1BAE64B900AC5704 /* RouteOptionsAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FCD30D1BAE64B900AC5704 /* RouteOptionsAnimator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -338,11 +338,13 @@
 		E93528B21BACF39F0081DE8E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Eric Appel";
 				TargetAttributes = {
 					E93528B91BACF39F0081DE8E = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = 4M3BV3H234;
 					};
 				};
 			};
@@ -526,11 +528,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "The Cat/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ricopel.The-Cat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -538,11 +543,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "The Cat/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ricopel.The-Cat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
