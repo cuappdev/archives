@@ -26,7 +26,6 @@ class Stop: NSObject, MKAnnotation {
     init(name: String, latitude: Double, longitude: Double) {
         self.name = name
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-
     }
     
     convenience init?(json: JSON) {
