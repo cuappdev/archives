@@ -105,7 +105,6 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         findBussesView.frame = findBussesFrame
         findBussesView.actionButton.addTarget(self, action: "findBussesPressed", forControlEvents: .TouchUpInside)
         view.addSubview(findBussesView)
-        
     }
     
     func setUpTextView() {
@@ -121,7 +120,6 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         centerLocationButton = UIButton()
         centerLocationButton.frame = CGRectMake(UIScreen.mainScreen().bounds.width - CGFloat(xOffset), UIScreen.mainScreen().bounds.height - CGFloat(yOffset), 50, 50)
         centerLocationButton.setImage(UIImage(named: "locationicon"), forState: .Normal)
-//        centerLocationButton.setTitle("Test Button", forState: UIControlState.Normal)
         centerLocationButton.addTarget(self, action: "centerLocationButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         view.addSubview(centerLocationButton)
     }

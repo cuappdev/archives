@@ -45,6 +45,5 @@ class MapTextField: UIView {
         let temp = endTextField.text
         endTextField.text = startTextField.text
         startTextField.text = temp
-        //TODO: center the map on the swapped start
     }
 }
