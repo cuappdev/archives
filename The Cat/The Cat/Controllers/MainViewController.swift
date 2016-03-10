@@ -117,7 +117,7 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
     func setUpLocationButton() {
         let xOffset = 80
         let yOffset = 80
-        centerLocationButton = UIButton()
+        centerLocationButton = UIButton(type: .Custom)
         centerLocationButton.frame = CGRectMake(UIScreen.mainScreen().bounds.width - CGFloat(xOffset), UIScreen.mainScreen().bounds.height - CGFloat(yOffset), 50, 50)
         centerLocationButton.setImage(UIImage(named: "locationicon"), forState: .Normal)
         centerLocationButton.addTarget(self, action: "centerLocationButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)

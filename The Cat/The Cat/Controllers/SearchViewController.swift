@@ -115,6 +115,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         updateSearchResultsForTextField(textField)
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        return true
+    }
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         view.endEditing(true)
     }
