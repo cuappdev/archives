@@ -17,16 +17,16 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
     var filteredStops: [Stop] = []
     
     var tableView: UITableView!
+    var delegate: TextSearchDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
         let statusBarView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 20))
         statusBarView.backgroundColor = UIColor.whiteColor()
         view.addSubview(statusBarView)
         
 //        view.backgroundColor = UIColor.redColor()
-        
+
         tableView = UITableView(frame: CGRectZero)
         tableView.dataSource = self
         tableView.delegate = self
@@ -69,8 +69,6 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         let stop = filteredStops[indexPath.row]
-        
-        
         
         if activeSearchField == .Start {
             searchTextView.startTextField.text = stop.name
@@ -115,6 +113,11 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
             activeSearchField = .End
         }
         updateSearchResultsForTextField(textField)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        return true
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {

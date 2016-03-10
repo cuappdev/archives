@@ -23,6 +23,9 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
     
     var stops: [Stop] = []
     
+    var centerLocationButton: UIButton!
+    var centerLocationButtonOffset = false
+    
     var textViewFrame: CGRect {
         let kTextFieldHeight: CGFloat = 115
         let kTextFieldEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
@@ -54,10 +57,7 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         
         checkLocationAuthorizationStatus()
         
-        let initialLocation = mapView.userLocation.location ?? CLLocation(latitude: 42.4433, longitude: -76.5000)
-        let regionRadius: CLLocationDistance = 750
-        
-        centerMapOnLocation(initialLocation, regionRadius: regionRadius)
+        centerOnCurrentLocation()
         
         do {
             let stopsArray = try initializeStops()
@@ -88,6 +88,7 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         // Text Fields
         mapTextView = NSBundle.mainBundle().loadNibNamed("MapTextField", owner: self, options: nil).first as! MapTextField
         setUpTextView()
+        setUpLocationButton()
         mapTextView.frame = textViewFrame
 //        mapTextView.startTextField.text = "Baker Flagpole"
 //        mapTextView.endTextField.text = "East Hill Plaza"
@@ -104,7 +105,6 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         findBussesView.frame = findBussesFrame
         findBussesView.actionButton.addTarget(self, action: "findBussesPressed", forControlEvents: .TouchUpInside)
         view.addSubview(findBussesView)
-        
     }
     
     func setUpTextView() {
@@ -112,6 +112,26 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
         mapTextView.endTextField.delegate = self
         mapTextView.delegate = self
         view.addSubview(mapTextView)
+    }
+    
+    func setUpLocationButton() {
+        let xOffset = 80
+        let yOffset = 80
+        centerLocationButton = UIButton(type: .Custom)
+        centerLocationButton.frame = CGRectMake(UIScreen.mainScreen().bounds.width - CGFloat(xOffset), UIScreen.mainScreen().bounds.height - CGFloat(yOffset), 50, 50)
+        centerLocationButton.setImage(UIImage(named: "locationicon"), forState: .Normal)
+        centerLocationButton.addTarget(self, action: "centerLocationButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        view.addSubview(centerLocationButton)
+    }
+    
+    func centerLocationButtonPressed(sender: UIButton) {
+        centerOnCurrentLocation()
+    }
+    
+    func centerOnCurrentLocation() {
+        let initialLocation = mapView.userLocation.location ?? CLLocation(latitude: 42.4433, longitude: -76.5000)
+        let regionRadius: CLLocationDistance = 750
+        centerMapOnLocation(initialLocation, regionRadius: regionRadius)
     }
     
     func getThreeOptions(start: String, end: String, routeDict: [Int:Route]) -> [routeOption] {
@@ -319,6 +339,10 @@ class MainViewController: UIViewController, UITextFieldDelegate, TextSearchDeleg
             UIView.animateWithDuration(0.2) { () -> Void in
                 self.findBussesView.frame.origin = CGPoint(x: 0, y: self.view.frame.height - self.findBussesView.frame.height)
             }
+        }
+        if (!centerLocationButtonOffset) {
+            centerLocationButton!.center.y -= findBussesView.frame.height
+            centerLocationButtonOffset = true
         }
     }
     
