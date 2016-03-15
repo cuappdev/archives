@@ -52,9 +52,17 @@ class UsersController < ApplicationController
   def valid_username
     render json: { is_valid: !User.where('username ILIKE (?)', params[:username]).exists? }
   end
+  
   def valid_fbid
     render json: { is_valid: !User.exists?(fbid: params[:fbid]) }
   end
+
+  def authorize_user
+    user_token = params[:usertoken]
+    p ENV["FBAPPID"]
+    p ENV["FBAPPSECRET"]
+  end
+
   # User suggestions
   def user_suggestions
     all_user_ids = (User.all.pluck(:id)-@user.followings_ids)-[(@user.id)]
@@ -79,4 +87,5 @@ class UsersController < ApplicationController
   def get_user
     @user = User.find(params[:id])
   end
+
 end
