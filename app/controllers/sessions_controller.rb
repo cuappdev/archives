@@ -1,7 +1,6 @@
 class SessionsController < ApplicationController
   def create
     #####ADD facebook logic here#######
-    p "GOT TO THE FUNCTION WOT WOOT"
     params.require(:usertoken)
     user_token = params[:usertoken]
     p user_token
@@ -19,28 +18,13 @@ class SessionsController < ApplicationController
     p res;
     p res["id"]
     fbid = res["id"]
-    check for an existing user with this fbid
+    #check for an existing user with this fbid
     @user = User.find_by(fbid: fbid)
     if @user
       @session = Session.find_by(user_id:@user.id)
     else
-      p params 
-      @user = User.create
-
-
-
-
-
-    ###query fbid and get user info from facebook
-    ##query username--if there is one, return the existing session
-    ##isnot, create a new session and give it to them 
-
-    @user = User.find_by(email: params[:user][:email])
-    if @user
-      # FIXME: Don't need to create a new session every time, update existing if possible--column isActive
-      @session = Session.create(user_id: @user.id)
-    else
-      @user = User.create(user_params)
+      #@user = User.create(email: params[:user][:email], fbid: fbid)
+      @user = User.create(user_params, fbid)
       @session = Session.create(user_id: @user.id)
     end
     render json: { success: !@session.blank?, user: @user, session: @session }
