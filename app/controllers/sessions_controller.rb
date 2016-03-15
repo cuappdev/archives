@@ -19,16 +19,16 @@ class SessionsController < ApplicationController
     p res;
     p res["id"]
     fbid = res["id"]
+    check for an existing user with this fbid
+    @user = User.find_by(fbid: fbid)
+    if @user
+      @session = Session.find_by(user_id:@user.id)
+    else
+      p params 
+      @user = User.create
 
-    uri = URI.parse('https://graph.facebook.com/'+ fbid)
-    p uri
-    http2 = Net::HTTP.new(uri.host, uri.port)
 
-    request2 = Net::HTTP::Get.new('https://graph.facebook.com/'+ fbid)
 
-    response2 = http.request(request2)
-
-    p response2.body
 
 
     ###query fbid and get user info from facebook
@@ -48,6 +48,6 @@ class SessionsController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:fbid, :email, :name, :username)
+    params.require(:user, :fbid).permit(:email, :name, :username)
   end
 end

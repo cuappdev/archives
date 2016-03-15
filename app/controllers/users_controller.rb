@@ -57,12 +57,6 @@ class UsersController < ApplicationController
     render json: { is_valid: !User.exists?(fbid: params[:fbid]) }
   end
 
-  def authorize_user
-    user_token = params[:usertoken]
-    p ENV["FBAPPID"]
-    p ENV["FBAPPSECRET"]
-  end
-
   # User suggestions
   def user_suggestions
     all_user_ids = (User.all.pluck(:id)-@user.followings_ids)-[(@user.id)]
