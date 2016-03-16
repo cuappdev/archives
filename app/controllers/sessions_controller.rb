@@ -1,8 +1,7 @@
 class SessionsController < ApplicationController
   def create
     #####ADD facebook logic here#######
-    params.require(:usertoken)
-    user_token = params[:usertoken]
+    user_token = params[:user][:usertoken]
     p user_token
     p "**************************"
     uri = URI.parse('https://graph.facebook.com/me?fields=id&access_token='+ user_token)
@@ -18,13 +17,13 @@ class SessionsController < ApplicationController
     p res;
     p res["id"]
     fbid = res["id"]
+    params[:user][:fbid] = fbid
     #check for an existing user with this fbid
     @user = User.find_by(fbid: fbid)
     if @user
       @session = Session.find_by(user_id:@user.id)
     else
-      #@user = User.create(email: params[:user][:email], fbid: fbid)
-      @user = User.create(user_params, fbid)
+      @user = User.create(user_params)
       @session = Session.create(user_id: @user.id)
     end
     render json: { success: !@session.blank?, user: @user, session: @session }
@@ -32,6 +31,6 @@ class SessionsController < ApplicationController
 
   private
   def user_params
-    params.require(:user, :fbid).permit(:email, :name, :username)
+    params.require(:user).permit(:email, :name, :username, :fbid)
   end
 end
