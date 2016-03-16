@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
     #check for an existing user with this fbid
     @user = User.find_or_create_by(user_params)
     @session = Session.find_or_create_by(user_id: @user.id)
+    @session.activate
     render json: { success: !@session.blank?, user: @user, session: @session }
   end
 
