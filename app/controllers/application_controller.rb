@@ -4,8 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   def authorize
-    p ENV["FBAPPID"]
-    p ENV["FBAPPSECRET"]
     head(401) and return false if params[:session_code].blank?
     @session = Session.find_by_code(params[:session_code])
     if @session.blank?
