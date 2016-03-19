@@ -7,6 +7,12 @@ class SessionsController < ApplicationController
     render json: { success: !@session.blank?, user: @user, session: @session }
   end
 
+  def logout
+    @session = Session.find(code:params[:sessioncode])
+    if @session
+      @session.disable
+    render json: { success: !@session.blank?, session: @session}
+
   private
   def user_params
     user_token = params[:user][:usertoken]

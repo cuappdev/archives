@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'users/valid_username' => 'users#valid_username'
   get 'users/valid_fbid' => 'users#valid_fbid'
   post 'users/authenticate' => 'sessions#create'
+  post 'users/logout' => 'sessions#logout'
 
   
   
