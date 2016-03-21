@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   post 'users/authenticate' => 'sessions#create'
   post 'users/logout' => 'sessions#logout'
 
-  
-  
+
+
   resources :users
   resources :posts
   resources :likes

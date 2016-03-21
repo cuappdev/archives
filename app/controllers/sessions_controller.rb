@@ -10,7 +10,8 @@ class SessionsController < ApplicationController
     response = http.request(request)
     res = JSON.parse(response.body)
     fbid = res["id"]
-    if !fbid.nil?
+    #check for invalid user token
+    if fbid.nil?
         render json: {success: false, status: 401, error: "invalid or expired user token"}
         return
     end
@@ -19,13 +20,13 @@ class SessionsController < ApplicationController
     if !(@user)
         @user = User.create!(user_params(fbid))
     end
-    @session = Session.find_or_create_by(user_id: @user.id)
+    @session = Session.find_or_create_by!(user_id: @user.id)
     @session.activate
     render json: { success: !@session.blank?, user: @user, session: @session }
   end
 
   def logout
-    @session = Session.find(code:params[:session_code])
+    @session = Session.find_by(code:params[:session_code])
     if @session
       @session.disable
     end
