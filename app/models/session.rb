@@ -14,6 +14,17 @@ class Session < ActiveRecord::Base
 
   before_save :set_code
 
+
+  def disable
+      self.is_active = false
+      self.save
+  end
+
+  def activate
+      self.is_active = true
+      self.save
+  end
+
   private
   def set_code
     self.code = SecureRandom.urlsafe_base64 if self.code.blank?
