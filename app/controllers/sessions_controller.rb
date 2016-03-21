@@ -1,20 +1,6 @@
 class SessionsController < ApplicationController
   def create
     #check for an existing user with this fbid
-    @user = User.find_or_create_by(user_params)
-    @session = Session.find_or_create_by(user_id: @user.id)
-    @session.activate
-    render json: { success: !@session.blank?, user: @user, session: @session }
-  end
-
-  def logout
-    @session = Session.find(code:params[:sessioncode])
-    if @session
-      @session.disable
-    render json: { success: !@session.blank?, session: @session}
-
-  private
-  def user_params
     user_token = params[:user][:usertoken]
     uri = URI.parse('https://graph.facebook.com/me?fields=id&access_token='+ user_token)
     http = Net::HTTP.new(uri.host, uri.port)
@@ -24,6 +10,30 @@ class SessionsController < ApplicationController
     response = http.request(request)
     res = JSON.parse(response.body)
     fbid = res["id"]
-    params.require(:user).permit(:email, :name, :username).merge(fbid: fbid)
+    if !fbid.nil?
+        render json: {success: false, status: 401, error: "invalid or expired user token"}
+        return
+    end
+
+    @user = User.find_by(fbid: fbid)
+    if !(@user)
+        @user = User.create!(user_params(fbid))
+    end
+    @session = Session.find_or_create_by(user_id: @user.id)
+    @session.activate
+    render json: { success: !@session.blank?, user: @user, session: @session }
+  end
+
+  def logout
+    @session = Session.find(code:params[:session_code])
+    if @session
+      @session.disable
+    end
+    render json: { success: !@session.blank?, session: @session}
+  end
+
+  private
+  def user_params(fbid)
+    params.require(:user).permit(:email, :name, :username).merge(fbid:fbid)
   end
 end
