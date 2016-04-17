@@ -139,7 +139,7 @@ class User < ActiveRecord::Base
           is_following: User.exists?(options[:user_id]) ? User.find(options[:user_id]).following?(self.id) : false,
           mutual_friends: User.exists?(options[:user_id]) ? User.find(options[:user_id]).mutual_friends(self.id) : 0
         }
-        more_hash[:followers] = followers.map { |user| user.as_json(include_following: false, include_followers: false) } if options[:include_followers]
+        more_hash[:followers] = followers.map { |user| user.as_json(user_id: self.id, include_following: false, include_followers: false) } if options[:include_followers]
         more_hash[:following] = self.following_list.map { |user| user.as_json(include_following: false, include_followers: false) } if options[:include_following]
         # more_hash[:following] = []
       end
