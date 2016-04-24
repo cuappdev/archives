@@ -1,15 +1,31 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id               :integer          not null, primary key
+#  name             :string
+#  hipster_score    :integer          default(0)
+#  caption          :string
+#  location_id      :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  followers_count  :integer          default(0)
+#  like_count       :integer          default(0)
+#  fbid             :string
+#  username         :string
+#  email            :string
+#  followings_count :integer          default(0)
+#
+
 class UsersController < ApplicationController
 
   before_action :authorize, only: [:show, :create, :update, :likes, :posts, :user_suggestions]
   def index
     @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
-    render json: { users: @users.map { |user| user.as_json(include_following: true, include_followers: true) } } 
+    render json: { users: @users.map { |user| user.as_json(include_following: true, include_followers: true) } }
   end
 
   def show
-    p '====='
-    p @user.id
-    p '====='
     render json: User.find(params[:id]).as_json(user_id: @user.id, include_followers: true, include_following: true)
   end
 
@@ -52,7 +68,7 @@ class UsersController < ApplicationController
   def valid_username
     render json: { is_valid: !User.where('username ILIKE (?)', params[:username]).exists? }
   end
-  
+
   def valid_fbid
     render json: { is_valid: !User.exists?(fbid: params[:fbid]) }
   end
@@ -71,13 +87,13 @@ class UsersController < ApplicationController
   end
   # Need to do
   def delete_user
-    
+
   end
   private
   def user_params
     params.require(:user).permit(:name, :username)
   end
-  
+
   def get_user
     @user = User.find(params[:id])
   end

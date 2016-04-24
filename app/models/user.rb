@@ -4,7 +4,7 @@
 #
 #  id               :integer          not null, primary key
 #  name             :string
-#  hipster_score    :integer
+#  hipster_score    :integer          default(0)
 #  caption          :string
 #  location_id      :integer
 #  created_at       :datetime         not null

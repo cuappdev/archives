@@ -4,7 +4,21 @@ class SpotifyController < ApplicationController
     code = params[:code]
     session_code = params[:state]
     token = client.auth_code.get_token(params[:code], redirect_uri: redirect_uri).to_hash
-    @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,access_token: token[:access_token], refresh_token: token[:refresh_token], expires_at: token[:expires_at])
+    spotify_username = params[:username]
+    @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,
+                                        access_token: token[:access_token],
+                                        refresh_token: token[:refresh_token],
+                                        expires_at: token[:expires_at],
+                                        spotify_id: username)
+    data = {:name => Icefishing Playlist}
+    access_token = @spotify_cred.access_token
+    uri = URI.parse('https://api.spotify.com/v1/users/'+ username + '/playlists')
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    request = Net::HTTP::POST.new(uri.request_uri, {'Content-Type' =>'application/json', Authorization => access_token})
+    request.body = data.to_json
+    response = http.request(request)
     redirect_to "#{ENV["icefishing-app-redirect"]}callback?access_token=#{token[:access_token]}&session_code=#{session_code}&expires_at=#{token[:expires_at]}"
   end
   def get_access_token
@@ -20,7 +34,7 @@ class SpotifyController < ApplicationController
     }
     access_token = OAuth2::AccessToken.from_hash(client, token_hash)
     if access_token.expired?
-      access_token.refresh! 
+      access_token.refresh!
       creds.update_attributes(access_token: access_token.token, refresh_token: access_token.refresh_token, expires_at: access_token.expires_at )
     end
     render json: { success: true, access_token: access_token.token, expires_at: access_token.expires_at }

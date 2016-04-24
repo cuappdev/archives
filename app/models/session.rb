@@ -7,11 +7,11 @@
 #  code       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  is_active  :boolean
 #
 
 class Session < ActiveRecord::Base
   belongs_to :user
-
   before_save :set_code
 
 
