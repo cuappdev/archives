@@ -20,7 +20,7 @@ class SpotifyController < ApplicationController
     response = http.request(request)
     res = JSON.parse(response.body)
     userId = res["id"]
-    @spotify_cred.update_username(userId)
+    # @spotify_cred.update_username(userId)
     p "GETTING RESPONSE"
     p userId
     @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,
