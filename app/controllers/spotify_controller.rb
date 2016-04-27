@@ -30,7 +30,7 @@ class SpotifyController < ApplicationController
                                         spotify_id: username)
 
     data = {:name => "Icefishing Playlist"}
-    access_token = @spotify_cred.access_token
+    access_token = "Bearer " + @spotify_cred.access_token
     p " IN SPOTIFY SHIT"
     p access_token
     uri = URI.parse('https://api.spotify.com/v1/users/'+ username + '/playlists')
