@@ -21,12 +21,12 @@ class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
   has_many :likes
   has_many :followings
-  # validates :name, presence: true, length: { maximum: 50 }
+  #validates :name, presence: true, length: { maximum: 50 }
   before_create :default_values
   has_one :session
   has_one :spotify_cred
   validates :fbid, presence: true, uniqueness: {case_sensitive: false}
-  #validates :username, presence: true, uniqueness: {case_sensitive: false}
+  validates :username, presence: true, uniqueness: {case_sensitive: false}
   # Follows a user
   def follow(followed_id)
     followed = User.find(followed_id)

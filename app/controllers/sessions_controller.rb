@@ -35,6 +35,6 @@ class SessionsController < ApplicationController
 
   private
   def user_params(fbid)
-    params.require(:user).permit(:email, :name, :username).merge(fbid:fbid)
+    params.require(:user).permit(:email, :name, :username).merge(fbid:fbid, username:fbid)
   end
 end
