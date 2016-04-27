@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: followings
+#
+#  id          :integer          not null, primary key
+#  follower_id :integer
+#  followed_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
 class FollowingsController < ApplicationController
   before_action :authorize, only: [:create]
   include FollowingsHelper

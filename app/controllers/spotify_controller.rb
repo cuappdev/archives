@@ -4,16 +4,11 @@ class SpotifyController < ApplicationController
     code = params[:code]
     session_code = params[:state]
     token = client.auth_code.get_token(params[:code], redirect_uri: redirect_uri).to_hash
-<<<<<<< Updated upstream
-    @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,access_token: token[:access_token], refresh_token: token[:refresh_token], expires_at: token[:expires_at])
-=======
-    spotify_username = params[:username]
-
+    p token[:access_token]
     @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,
                                         access_token: token[:access_token],
                                         refresh_token: token[:refresh_token],
-                                        expires_at: token[:expires_at],
-                                        spotify_id: username)
+                                        expires_at: token[:expires_at])
 
     access_token = "Bearer " + token[:access_token]
     uri = URI.parse('https://api.spotify.com/v1/me')
@@ -27,6 +22,8 @@ class SpotifyController < ApplicationController
     @spotify_cred.update_username(userId)
     p "GETTING RESPONSE"
     p userId
+
+
     #data = {:name => "Icefishing Playlist"}
     #access_token = @spotify_cred.access_token
     #p " IN SPOTIFY SHIT"
@@ -42,25 +39,32 @@ class SpotifyController < ApplicationController
     #playlistId = res["id"]
 
     #@spotify_cred.update_playlist(playlistId)
->>>>>>> Stashed changes
     redirect_to "#{ENV["icefishing-app-redirect"]}callback?access_token=#{token[:access_token]}&session_code=#{session_code}&expires_at=#{token[:expires_at]}"
   end
   def get_access_token
+      p "in access token function"
     if @user.spotify_cred.blank?
+        p "in access token function1"
       auth_url = client.auth_code.authorize_url(redirect_uri: redirect_uri, response_type: 'code', client_id: ENV["spotify_client_id"], state: params[:session_code])
+      #auth_url="www.facebook.com"
+      p auth_url
       render json: { success: false, url: auth_url} and return
     end
+    p "in access token function2"
     creds = @user.spotify_cred
     token_hash = {
       access_token: creds.access_token,
       refresh_token: creds.refresh_token,
       expires_at: creds.expires_at.to_i
     }
+    p "in access token function3"
     access_token = OAuth2::AccessToken.from_hash(client, token_hash)
     if access_token.expired?
-      access_token.refresh! 
+        p "in access token function4"
+      access_token.refresh!
       creds.update_attributes(access_token: access_token.token, refresh_token: access_token.refresh_token, expires_at: access_token.expires_at )
     end
+    p "in access token function5"
     render json: { success: true, access_token: access_token.token, expires_at: access_token.expires_at }
   end
 
