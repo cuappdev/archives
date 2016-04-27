@@ -4,6 +4,7 @@ class SpotifyController < ApplicationController
     code = params[:code]
     session_code = params[:state]
     token = client.auth_code.get_token(params[:code], redirect_uri: redirect_uri).to_hash
+    p token[:access_token]
     spotify_username = params[:username]
     @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,
                                         access_token: token[:access_token],
