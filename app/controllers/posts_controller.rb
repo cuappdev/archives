@@ -32,25 +32,24 @@ class PostsController < ApplicationController
 
   def add_to_followers_playlist(user_id, song_url)
     url = "spotify:track:" + song_url
-    data = {uris: url}
     @user = User.find(user_id)
-    p data
     if (!@user.followers_ids.blank?)
       @user.followers.each do |follower|
         @spotify_cred = SpotifyCred.find_by_user_id(follower)
         if (@spotify_cred)
           access_token = "Bearer #{@spotify_cred.access_token}"
+          p access_token
           playlist = @spotify_cred.playlist_id
-          user = @spotify_cred.spotify_id
-          uri = URI.parse("https://api.spotify.com/v1/users/#{user}/playlists/#{playlist}/tracks")
+          p playlist
+          username = @spotify_cred.spotify_id
+          uri = URI.parse("https://api.spotify.com/v1/users/#{username}/playlists/#{playlist}/tracks?uris=#{url}")
           p "IN FUNCTION"
           p uri
           http = Net::HTTP.new(uri.host, uri.port)
           p http
           http.use_ssl = true
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-          request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', "Authorization" => access_token})
-          request.body = data.to_json
+          request = Net::HTTP::Post.new(uri.request_uri, {'Accept' =>'application/json', "Authorization" => access_token})
           p request
           response = http.request(request)
           p response
