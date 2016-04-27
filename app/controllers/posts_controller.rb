@@ -43,7 +43,7 @@ class PostsController < ApplicationController
           playlist = @spotify_cred.playlist_id
           user = @spotify_cred.spotify_id
           uri = URI.parse("https://api.spotify.com/v1/users/#{user}/playlists/#{playlist}/tracks")
-          p "IN FUNCTION AHHOIOIJOIJOIJOIJOIJ"
+          p "IN FUNCTION"
           p uri
           http = Net::HTTP.new(uri.host, uri.port)
           p http
@@ -55,7 +55,6 @@ class PostsController < ApplicationController
           response = http.request(request)
           p response
         end
->>>>>>> c32628e51d06baf5aa43b6291e43c48d86f8ead5
       end
     end
     true
