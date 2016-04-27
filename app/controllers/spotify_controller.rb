@@ -4,6 +4,9 @@ class SpotifyController < ApplicationController
   def get_hash
     code = params[:code]
     session_code = params[:state]
+    p "WOOOOOOOOOOO"
+    p params
+    p code
     token = client.auth_code.get_token(params[:code], redirect_uri: redirect_uri).to_hash
     p token[:access_token]
     @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,
@@ -11,12 +14,13 @@ class SpotifyController < ApplicationController
                                         refresh_token: token[:refresh_token],
                                         expires_at: token[:expires_at])
 
-    access_token = "Bearer " + token[:access_token]
+    #access_token = "Bearer " + token[:access_token]
+    access_token = token[:access_token]
     uri = URI.parse('https://api.spotify.com/v1/me')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    request = Net::HTTP::Get.new(uri.request_uri, {'Content-Type' =>'application/json', Authorization => access_token})
+    request = Net::HTTP::Get.new(uri.request_uri, {'Content-Type' =>'application/json', 'Authorization' => access_token})
     response = http.request(request)
     res = JSON.parse(response.body)
     userId = res["id"]
