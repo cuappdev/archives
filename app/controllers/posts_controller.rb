@@ -20,9 +20,9 @@ class PostsController < ApplicationController
     SongPost.create(post_id: @post.id, song_id: @song.id)
     @success = (!@song.id.blank? and !@post.id.blank? and @post.songs.count==1)
     User.increment_counter(:hipster_score,@user) if @success
-    #if (@success)
-    #    add_to_followers_playlist(user_id, params[:song][:spotify_url])
-    #end
+    if (@success)
+       add_to_followers_playlist(user_id, params[:song][:spotify_url])
+    end
     render json: { success: !@song.blank?, post: @post.as_json(id: user_id) }
   end
   private
