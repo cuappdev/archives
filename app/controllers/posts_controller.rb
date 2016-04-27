@@ -20,9 +20,9 @@ class PostsController < ApplicationController
     SongPost.create(post_id: @post.id, song_id: @song.id)
     @success = (!@song.id.blank? and !@post.id.blank? and @post.songs.count==1)
     User.increment_counter(:hipster_score,@user) if @success
-    #if (@success)
-    #    add_to_followers_playlist(user_id, params[:song][:spotify_url])
-    #end
+    if (@success)
+       add_to_followers_playlist(user_id, params[:song][:spotify_url])
+    end
     render json: { success: !@song.blank?, post: @post.as_json(id: user_id) }
   end
   private
@@ -31,29 +31,33 @@ class PostsController < ApplicationController
   end
 
   def add_to_followers_playlist(user_id, song_url)
-      data = {:uris => song_url}
-      @user = User.find_by(:id, user_id)
-      followers = @user.followers
-      p "IN FUNCTION WOOT WOOT"
-      p followers
-      if (followers)
-         followers.each do |follower|
-            @spotify_cred = SpotifyCred.find_by(:user_id, follower)
-            if (@spotify_cred)
-                url = "spotify:track:" + song_url
-                data = {:uris => url}
-                access_token = "Bearer " + @spotify_cred.access_token
-                playlist = @spotify_cred.playlist_id
-                user = @spotify_cred.spotify_id
-                uri = URI.parse('https://api.spotify.com/v1/users/'+ user + '/playlists/' + playlist + "/tracks")
-                http = Net::HTTP.new(uri.host, uri.port)
-                http.use_ssl = true
-                http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-                request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', "Authorization" => access_token})
-                request.body = data.to_json
-                response = http.request(request)
-            end
-         end
+    url = "spotify:track:" + song_url
+    data = {uris: url}
+    @user = User.find(user_id)
+    p data
+    if (!@user.followers_ids.blank?)
+      @user.followers.each do |follower|
+        @spotify_cred = SpotifyCred.find_by_user_id(follower)
+        if (@spotify_cred)
+          access_token = "Bearer #{@spotify_cred.access_token}"
+          playlist = @spotify_cred.playlist_id
+          user = @spotify_cred.spotify_id
+          uri = URI.parse("https://api.spotify.com/v1/users/#{user}/playlists/#{playlist}/tracks")
+          p "IN FUNCTION AHHOIOIJOIJOIJOIJOIJ"
+          p uri
+          http = Net::HTTP.new(uri.host, uri.port)
+          p http
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', "Authorization" => access_token})
+          request.body = data.to_json
+          p request
+          response = http.request(request)
+          p response
+        end
+>>>>>>> c32628e51d06baf5aa43b6291e43c48d86f8ead5
       end
+    end
+    true
   end
 end
