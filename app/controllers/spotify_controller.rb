@@ -14,8 +14,8 @@ class SpotifyController < ApplicationController
                                         refresh_token: token[:refresh_token],
                                         expires_at: token[:expires_at])
 
-    #access_token = "Bearer " + token[:access_token]
-    access_token = token[:access_token]
+    access_token = "Bearer " + token[:access_token]
+    #access_token = token[:access_token]
     uri = URI.parse('https://api.spotify.com/v1/me')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
