@@ -43,13 +43,14 @@ class PostsController < ApplicationController
           user = @spotify_cred.spotify_id
           uri = URI.parse("https://api.spotify.com/v1/users/#{user}/playlists/#{playlist}/tracks")
           p "IN FUNCTION AHHOIOIJOIJOIJOIJOIJ"
-          p URI.parse
+          p uri
           http = Net::HTTP.new(uri.host, uri.port)
           p http
           http.use_ssl = true
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
           request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', "Authorization" => access_token})
           request.body = data.to_json
+          p request
           response = http.request(request)
           p response
         end
