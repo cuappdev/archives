@@ -41,7 +41,7 @@ class PostsController < ApplicationController
             @spotify_cred = SpotifyCred.find_by(:user_id, follower)
             if (@spotify_cred)
                 data = {:uris => song_url}
-                access_token = @spotify_cred.access_token
+                access_token = "Bearer " + @spotify_cred.access_token
                 playlist = @spotify_cred.playlist_id
                 user = @spotify_cred.spotify_id
                 uri = URI.parse('https://api.spotify.com/v1/users/'+ user + '/playlists/' + playlist + "/tracks")
