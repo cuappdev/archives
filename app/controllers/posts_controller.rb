@@ -31,28 +31,27 @@ class PostsController < ApplicationController
   end
 
   def add_to_followers_playlist(user_id, song_url)
-      data = {:uris => song_url}
-      @user = User.find_by(:id, user_id)
-      followers = @user.followers
-      p "IN FUNCTION WOOT WOOT"
-      p followers
-      if (followers)
-         followers.each do |follower|
-            @spotify_cred = SpotifyCred.find_by(:user_id, follower)
-            if (@spotify_cred)
-                data = {:uris => song_url}
-                access_token = "Bearer " + @spotify_cred.access_token
-                playlist = @spotify_cred.playlist_id
-                user = @spotify_cred.spotify_id
-                uri = URI.parse('https://api.spotify.com/v1/users/'+ user + '/playlists/' + playlist + "/tracks")
-                http = Net::HTTP.new(uri.host, uri.port)
-                http.use_ssl = true
-                http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-                request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', "Authorization" => access_token})
-                request.body = data.to_json
-                response = http.request(request)
-            end
-         end
+    data = {uris: song_url}
+    @user = User.find(user_id)
+    p data
+    if (!followers_ids.blank?)
+      @user.followers.each do |follower|
+        @spotify_cred = SpotifyCred.find_by_user_id(follower)
+        if (@spotify_cred)
+          access_token = "Bearer #{@spotify_cred.access_token}"
+          playlist = @spotify_cred.playlist_id
+          user = @spotify_cred.spotify_id
+          uri = URI.parse('https://api.spotify.com/v1/users/#{user}/playlists/#{playlist}/tracks')
+          http = Net::HTTP.new(uri.host, uri.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', "Authorization" => access_token})
+          request.body = data.to_json
+          response = http.request(request)
+          p response
+        end
       end
+    end
+    true
   end
 end
