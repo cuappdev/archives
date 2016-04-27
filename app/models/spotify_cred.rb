@@ -16,4 +16,21 @@ class SpotifyCred < ActiveRecord::Base
   validates :access_token, presence: true
   validates :refresh_token, presence: true
   validates :expires_at, presence: true
+<<<<<<< Updated upstream
+=======
+  validates :spotify_id, presence: true
+
+  def update_playlist(playlist_id)
+      self.playlist_id = playlist_id
+      self.save
+  end
+
+  def update_username(username)
+      if (username)
+          self.spotify_id = username
+          return true
+      end
+      return false
+  end
+>>>>>>> Stashed changes
 end
