@@ -1,4 +1,5 @@
 require 'net/https'
+require 'rspotify'
 class SpotifyController < ApplicationController
   before_action :authorize, only: [:get_access_token]
   def get_hash
