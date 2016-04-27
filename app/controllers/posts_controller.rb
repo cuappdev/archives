@@ -34,7 +34,7 @@ class PostsController < ApplicationController
     data = {uris: song_url}
     @user = User.find(user_id)
     p data
-    if (!followers_ids.blank?)
+    if (!@user.followers_ids.blank?)
       @user.followers.each do |follower|
         @spotify_cred = SpotifyCred.find_by_user_id(follower)
         if (@spotify_cred)
