@@ -37,7 +37,7 @@ class SpotifyController < ApplicationController
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    request = Net::HTTP::POST.new(uri.request_uri, {'Content-Type' =>'application/json', Authorization => access_token})
+    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', Authorization => access_token})
     request.body = data.to_json
     response = http.request(request)
     res = JSON.parse(response.body)
