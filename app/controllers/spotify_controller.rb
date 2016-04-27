@@ -41,6 +41,7 @@ class SpotifyController < ApplicationController
     request.body = data.to_json
     response = http.request(request)
     res = JSON.parse(response.body)
+    p res
     playlistId = res["id"]
 
     @spotify_cred.update_playlist(playlistId)
