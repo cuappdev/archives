@@ -9,10 +9,6 @@ class SpotifyController < ApplicationController
     p code
     token = client.auth_code.get_token(params[:code], redirect_uri: redirect_uri).to_hash
     p token[:access_token]
-    @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,
-                                        access_token: token[:access_token],
-                                        refresh_token: token[:refresh_token],
-                                        expires_at: token[:expires_at])
 
     access_token = "Bearer " + token[:access_token]
     #access_token = token[:access_token]
@@ -27,23 +23,27 @@ class SpotifyController < ApplicationController
     @spotify_cred.update_username(userId)
     p "GETTING RESPONSE"
     p userId
+    @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,
+                                        access_token: token[:access_token],
+                                        refresh_token: token[:refresh_token],
+                                        expires_at: token[:expires_at],
+                                        spotify_id: userId)
 
+    data = {:name => "Icefishing Playlist"}
+    access_token = @spotify_cred.access_token
+    p " IN SPOTIFY SHIT"
+    p access_token
+    uri = URI.parse('https://api.spotify.com/v1/users/'+ username + '/playlists')
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    request = Net::HTTP::POST.new(uri.request_uri, {'Content-Type' =>'application/json', Authorization => access_token})
+    request.body = data.to_json
+    response = http.request(request)
+    res = JSON.parse(response.body)
+    playlistId = res["id"]
 
-    #data = {:name => "Icefishing Playlist"}
-    #access_token = @spotify_cred.access_token
-    #p " IN SPOTIFY SHIT"
-    #p access_token
-    #uri = URI.parse('https://api.spotify.com/v1/users/'+ username + '/playlists')
-    #http = Net::HTTP.new(uri.host, uri.port)
-    #http.use_ssl = true
-    #http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    #request = Net::HTTP::POST.new(uri.request_uri, {'Content-Type' =>'application/json', Authorization => access_token})
-    #request.body = data.to_json
-    #response = http.request(request)
-    #res = JSON.parse(response.body)
-    #playlistId = res["id"]
-
-    #@spotify_cred.update_playlist(playlistId)
+    @spotify_cred.update_playlist(playlistId)
     redirect_to "#{ENV["icefishing-app-redirect"]}callback?access_token=#{token[:access_token]}&session_code=#{session_code}&expires_at=#{token[:expires_at]}"
   end
   def get_access_token

@@ -18,7 +18,7 @@ class SpotifyCred < ActiveRecord::Base
   validates :access_token, presence: true
   validates :refresh_token, presence: true
   validates :expires_at, presence: true
-  #validates :spotify_id, presence: true
+  validates :spotify_id, presence: true
 
   def update_playlist(playlist_id)
       self.playlist_id = playlist_id
