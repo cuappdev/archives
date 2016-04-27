@@ -26,11 +26,11 @@ class User < ActiveRecord::Base
   has_one :session
   has_one :spotify_cred
   validates :fbid, presence: true, uniqueness: {case_sensitive: false}
-  validates :username, presence: true, uniqueness: {case_sensitive: false}
+  #validates :username, presence: true, uniqueness: {case_sensitive: false}
   # Follows a user
   def follow(followed_id)
     followed = User.find(followed_id)
-    following = Following.create(follower_id: self.id, followed_id: followed_id) 
+    following = Following.create(follower_id: self.id, followed_id: followed_id)
     if following.valid? || followed.blank?
       User.increment_counter(:followers_count,followed)
       User.increment_counter(:followings_count,self)
@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
     Following.where(follower_id: self.id, followed_id: followed_id).exists?
   end
   # Returns list of followers ids
-  def followers_ids 
+  def followers_ids
     Following.where(followed_id: self.id).pluck(:follower_id)
   end
   # Returns list of followers
@@ -72,17 +72,17 @@ class User < ActiveRecord::Base
     fids = followings_ids
     fids.count < 1 ? [] : User.where('id IN (?)', fids)
   end
-  
+
   # Likes a post
   def like(post_id)
     post = Post.find(post_id)
-    like = Like.create(post_id: post_id, user_id: self.id) 
+    like = Like.create(post_id: post_id, user_id: self.id)
     if like.valid? || post.blank?
       User.increment_counter(:like_count,self)
       Post.increment_counter(:like_count,post)
     end
     like.valid? || post.blank? ? true : false
-  end 
+  end
 
   # Returns list of song ids
   def my_songs
@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
     relation = Mutualfriend.find_by(user1_id: order.first, user2_id: order.second)
     relation.blank? ? 0 : relation.mutual_friends_count
   end
-  
+
   # Returns number of mutual songs with another user
   def mutual_songs (user_id)
     User.exists?(user_id) ? (self.my_songs & User.find(user_id).my_songs).size : 0
@@ -125,7 +125,7 @@ class User < ActiveRecord::Base
   end
 
   def as_json(options = {})
-      if options[:limited] 
+      if options[:limited]
         exclude = [:followers_count, :followers, :followings_count, :following, :is_following]
         more_hash = {}
       else
@@ -144,6 +144,14 @@ class User < ActiveRecord::Base
         # more_hash[:following] = []
       end
       super(except: exclude).merge(more_hash)
+  end
+  def update_username(username)
+      if (username)
+          self.username = username
+          self.save
+          return true
+      end
+      return false
   end
   def default_values
     self.like_count = 0

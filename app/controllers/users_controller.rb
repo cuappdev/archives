@@ -66,7 +66,32 @@ class UsersController < ApplicationController
   end
 
   def valid_username
-    render json: { is_valid: !User.where('username ILIKE (?)', params[:username]).exists? }
+    session_code  = params[:session_code]
+    username = params[:username]
+    @user = User.find_by(username: username)
+    p "IN REQUEST"
+    p @user
+    if (@user)
+        render json: {is_valid: false}
+        return
+    else
+        @session = Session.find_by(code: session_code)
+        p "session"
+        p @session
+        if (@session)
+            @user = User.find_by(id: @session.user_id)
+            if (!@user)
+                render json: {status:401, message: "Invalid session code"}
+                return
+            end
+            @user.update_username(username)
+            @session.activate
+            render json: {is_valid: true}
+            return
+        end
+        render json: {is_valid: false}
+    end
+    #render json: { is_valid: !User.where('username ILIKE (?)', params[:username]).exists? }
   end
 
   def valid_fbid

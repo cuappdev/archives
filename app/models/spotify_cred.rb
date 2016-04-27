@@ -10,6 +10,7 @@
 #  updated_at    :datetime         not null
 #  user_id       :integer
 #  spotify_id    :string
+#  playlist_id   :string
 #
 
 class SpotifyCred < ActiveRecord::Base
@@ -18,4 +19,9 @@ class SpotifyCred < ActiveRecord::Base
   validates :refresh_token, presence: true
   validates :expires_at, presence: true
   validates :spotify_id, presence: true
+
+  def update_playlist(playlist_id)
+      self.playlist_id = playlist_id
+      self.save
+  end
 end

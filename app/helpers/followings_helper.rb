@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: followings
+#
+#  id          :integer          not null, primary key
+#  follower_id :integer
+#  followed_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
 module FollowingsHelper
   def update_mutual_friends(follow_bool, user_id, followed_id)
     mutual_followers = Following.where('followed_id = (?)',followed_id).pluck(:follower_id) - [user_id]

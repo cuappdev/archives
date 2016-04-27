@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20160424185843) do
     t.datetime "updated_at",    null: false
     t.integer  "user_id"
     t.string   "spotify_id"
+    t.string   "playlist_id"
   end
 
   create_table "users", force: :cascade do |t|
