@@ -70,6 +70,7 @@ class UsersController < ApplicationController
     username = params[:username]
     @user = User.find_by(username: username)
     p "IN REQUEST"
+    p params
     p @user
     if (@user)
         render json: {is_valid: false}
