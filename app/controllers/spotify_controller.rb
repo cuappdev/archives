@@ -51,6 +51,7 @@ class SpotifyController < ApplicationController
     p access_token.expired?
     if access_token.expired?
       p access_token.token
+      p "================="
       access_token.refresh!
       p access_token.token 
       creds.update_attributes(access_token: access_token.token, refresh_token: access_token.refresh_token, expires_at: access_token.expires_at )
