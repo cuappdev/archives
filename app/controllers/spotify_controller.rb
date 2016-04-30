@@ -60,9 +60,12 @@ class SpotifyController < ApplicationController
                   :refresh_token => "#{access_token.refresh_token}"},
         :headers => {"Authorization" => "Basic #{b}"}
       )
-      p response.access_token
-      p response.expires_at
-      p new_expires_at = (DateTime.now.to_time + response.expires_at).to_datetime
+      json_reponse = JSON.parse(response.body)
+      p json_reponse
+      p json_response["access_token"]
+      p json_response["expires_at"]
+      new_expires_at = (DateTime.now.to_time + json_response["expires_at"]).to_datetime
+      p new_expires_at
       p "============="
       # access_token.refresh!
       p access_token.token 
