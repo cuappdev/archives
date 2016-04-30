@@ -1,4 +1,5 @@
 require 'net/https'
+require base64
 class SpotifyController < ApplicationController
   before_action :authorize, only: [:get_access_token]
   def get_hash
@@ -52,7 +53,16 @@ class SpotifyController < ApplicationController
     if access_token.expired?
       p access_token.token
       p "================="
-      access_token.refresh!
+      b = Base64.strict_encode64("#{ENV["spotify_client_id"]}:#{ENV["spotify_client_secret"]}")
+      response = HTTParty.post(
+        "https://accounts.spotify.com/api/token",
+        :body => {:grant_type => "refresh_token",
+                  :refresh_token => "#{access_token.refresh_token}"},
+        :headers => {"Authorization" => "Basic #{b}"}
+      )
+      p response
+      p "============="
+      # access_token.refresh!
       p access_token.token 
       creds.update_attributes(access_token: access_token.token, refresh_token: access_token.refresh_token, expires_at: access_token.expires_at )
     end
