@@ -1,5 +1,5 @@
 require 'net/https'
-require base64
+require 'base64'
 class SpotifyController < ApplicationController
   before_action :authorize, only: [:get_access_token]
   def get_hash
