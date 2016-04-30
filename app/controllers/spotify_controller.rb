@@ -63,8 +63,9 @@ class SpotifyController < ApplicationController
       json_response = JSON.parse(response.body)
       p json_response
       p json_response["access_token"]
-      p json_response["expires_at"]
-      new_expires_at = (DateTime.now.to_time + json_response["expires_at"]).to_datetime
+      new_access_token = json_response["access_token"]
+      p json_response["expires_in"]
+      new_expires_at = (DateTime.now.to_time + json_response["expires_in"]).to_datetime
       p new_expires_at
       p "============="
       # access_token.refresh!
