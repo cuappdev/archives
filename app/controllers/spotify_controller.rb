@@ -65,7 +65,7 @@ class SpotifyController < ApplicationController
       json_response = JSON.parse(response.body)
       final_token = json_response["access_token"]
       final_expires_at = (DateTime.now.to_time + json_response["expires_in"]).to_datetime
-      p final_token 
+      p final_token
       creds.update_attributes(access_token:  final_token, expires_at: final_expires_at )
     end
     render json: { success: true, access_token: final_token, expires_at: final_expires_at.to_time.to_i }
