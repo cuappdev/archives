@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   has_one :spotify_cred
   validates :fbid, presence: true, uniqueness: {case_sensitive: false}
   validates :username, presence: true, uniqueness: {case_sensitive: false}
+  validate :username_letter, :on => :create
   # Follows a user
   def follow(followed_id)
     followed = User.find(followed_id)
@@ -153,6 +154,12 @@ class User < ActiveRecord::Base
       end
       return false
   end
+  # VALIDATION METHODS
+  # Checks username is valid
+  def username_letter
+      errors[:base] << "The first character of a username must be a letter." unless self.username =~ /^[[:alpha]].*/
+  end
+
   def default_values
     self.like_count = 0
     self.followers_count = 0

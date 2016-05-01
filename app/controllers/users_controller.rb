@@ -20,6 +20,7 @@
 class UsersController < ApplicationController
 
   before_action :authorize, only: [:show, :create, :update, :likes, :posts, :user_suggestions]
+
   def index
     @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
     render json: { users: @users.map { |user| user.as_json(include_following: true, include_followers: true) } }
@@ -115,6 +116,7 @@ class UsersController < ApplicationController
   def delete_user
 
   end
+
   private
   def user_params
     params.require(:user).permit(:name, :username)
