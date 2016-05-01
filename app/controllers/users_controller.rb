@@ -109,7 +109,7 @@ class UsersController < ApplicationController
       comp.zero? ? (-(a.like_count) <=> -(b.like_count)) : comp
     end
     data = sorted_data.slice(page * page_length, page_length).as_json
-    render json: { users: data}
+    render json: { users: data.map { |user| user.as_json(id: self.id) }}
   end
   # Need to do
   def delete_user

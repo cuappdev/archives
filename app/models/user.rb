@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   # Returns list of followers
   def followers
     fids = followers_ids
-    fids.count < 1 ? [] : User.where('id IN (?)', fids)
+    fids.count < 1 ? [] : User.where('id IN (?)', fids).map { |user| user.as_json(id: self.id) }
     # fids.count < 1 ? [] : User.where('id IN (?)', fids)
   end
   # Returns list of following ids
@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
   # Returns a list of following
   def following_list
     fids = followings_ids
-    fids.count < 1 ? [] : User.where('id IN (?)', fids)
+    fids.count < 1 ? [] : User.where('id IN (?)', fids).map { |user| user.as_json(id: self.id) }
   end
 
   # Likes a post
@@ -154,6 +154,7 @@ class User < ActiveRecord::Base
       return false
   end
   def default_values
+    self.username = "temp_username_#{}"
     self.like_count = 0
     self.followers_count = 0
     self.followings_count = 0
