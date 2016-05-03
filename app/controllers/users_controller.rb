@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   before_action :authorize, only: [:index, :show, :create, :update, :likes, :posts, :user_suggestions]
 
   def index
-    if params[:q]="" or params[:q].blank?
+    if ((params[:q]=="") || (params[:q].blank))?
       render json: {users: []} and return
     end
     @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
