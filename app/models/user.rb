@@ -22,12 +22,11 @@ class User < ActiveRecord::Base
   has_many :likes
   has_many :followings
   #validates :name, presence: true, length: { maximum: 50 }
+  validate :username_letter
   before_create :default_values
   has_one :session
   has_one :spotify_cred
   validates :fbid, presence: true, uniqueness: {case_sensitive: false}
-  validates :username, presence: true, uniqueness: {case_sensitive: false}
-  validate :username_letter, :on => :create
   # Follows a user
   def follow(followed_id)
     followed = User.find(followed_id)
@@ -61,7 +60,7 @@ class User < ActiveRecord::Base
   # Returns list of followers
   def followers
     fids = followers_ids
-    fids.count < 1 ? [] : User.where('id IN (?)', fids).map { |user| user.as_json(id: self.id) }
+    fids.count < 1 ? [] : User.where('id IN (?)', fids).map { |u| u.as_json(user_id: self.id) }
     # fids.count < 1 ? [] : User.where('id IN (?)', fids)
   end
   # Returns list of following ids
@@ -71,7 +70,7 @@ class User < ActiveRecord::Base
   # Returns a list of following
   def following_list
     fids = followings_ids
-    fids.count < 1 ? [] : User.where('id IN (?)', fids).map { |user| user.as_json(id: self.id) }
+    fids.count < 1 ? [] : User.where('id IN (?)', fids)
   end
 
   # Likes a post
@@ -130,6 +129,7 @@ class User < ActiveRecord::Base
         exclude = [:followers_count, :followers, :followings_count, :following, :is_following]
         more_hash = {}
       else
+        print(options)
         more_hash = {
           name: self.name,
           username: self.username,
@@ -137,7 +137,7 @@ class User < ActiveRecord::Base
           hipster_score: self.hipster_score,
           followers_count: self.followers_count,
           followings_count: self.followings_count,
-          is_following: User.exists?(options[:user_id]) ? User.find(options[:user_id]).following?(self.id) : false,
+          is_following: User.exists?(options[:user_id]) ? User.find(options[:user_id]).following?(self.id) : "Didn't pass in user_id",
           mutual_friends: User.exists?(options[:user_id]) ? User.find(options[:user_id]).mutual_friends(self.id) : 0
         }
         more_hash[:followers] = followers.map { |user| user.as_json(user_id: self.id, include_following: false, include_followers: false) } if options[:include_followers]
@@ -146,22 +146,21 @@ class User < ActiveRecord::Base
       end
       super(except: exclude).merge(more_hash)
   end
-  def update_username(username)
-      if (username)
-          self.username = username
-          self.save
-          return true
-      end
-      return false
-  end
-  # VALIDATION METHODS
-  # Checks username is valid
-  def username_letter
-      errors[:base] << "The first character of a username must be a letter." unless self.username =~ /^[[:alpha]].*/
+
+  def username_letter 
+    errors[:base] << "The first character of a username must be a letter." unless ((self.username[0,1] =~ /[A-Za-z]/)==0)
   end
 
+  def update_username(u)
+    self.username = u
+    is_true = valid? 
+    self.save 
+    return is_true  
+  end 
+
   def default_values
-    self.username = "temp_username_#{}"
+    last_id = User.last == nil ? 1 : (User.last.id) + 1
+    self.username = "temp_username_#{last_id}"
     self.like_count = 0
     self.followers_count = 0
     self.followings_count = 0

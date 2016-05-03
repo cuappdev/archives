@@ -19,11 +19,11 @@
 
 class UsersController < ApplicationController
 
-  before_action :authorize, only: [:show, :create, :update, :likes, :posts, :user_suggestions]
+  before_action :authorize, only: [:index, :show, :create, :update, :likes, :posts, :user_suggestions]
 
   def index
     @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
-    render json: { users: @users.map { |user| user.as_json(include_following: true, include_followers: true) } }
+    render json: { users: @users.map { |user| user.as_json(include_following: true, include_followers: true, user_id: @user.id) } }
   end
 
   def show
@@ -70,30 +70,21 @@ class UsersController < ApplicationController
     session_code  = params[:session_code]
     username = params[:username]
     @user = User.find_by(username: username)
-    p "IN REQUEST"
-    p params
-    p @user
     if (@user)
-        render json: {is_valid: false}
-        return
+        render json: {is_valid: false} and return
     else
         @session = Session.find_by(code: session_code)
-        p "session"
-        p @session
         if (@session)
             @user = User.find_by(id: @session.user_id)
             if (!@user)
-                render json: {status:401, message: "Invalid session code"}
-                return
+              render json: {status:401, message: "Invalid session code"} and return
             end
-            @user.update_username(username)
+            bool_value = @user.update_username(username)
             @session.activate
-            render json: {is_valid: true}
-            return
+            render json: {is_valid: bool_value} and return 
         end
         render json: {is_valid: false}
     end
-    #render json: { is_valid: !User.where('username ILIKE (?)', params[:username]).exists? }
   end
 
   def valid_fbid
@@ -110,7 +101,7 @@ class UsersController < ApplicationController
       comp.zero? ? (-(a.like_count) <=> -(b.like_count)) : comp
     end
     data = sorted_data.slice(page * page_length, page_length).as_json
-    render json: { users: data.map { |user| user.as_json(id: self.id) }}
+    render json: { users: data.map { |user| user.as_json(user_id: @user.id) }}
   end
   # Need to do
   def delete_user
