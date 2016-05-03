@@ -100,8 +100,8 @@ class UsersController < ApplicationController
       comp = (-@user.mutual_friends(a.id) <=> -@user.mutual_friends(b.id))
       comp.zero? ? (-(a.like_count) <=> -(b.like_count)) : comp
     end
-    data = sorted_data.slice(page * page_length, page_length).as_json
-    render json: { users: data.map { |user| user.as_json(user_id: @user.id) }}
+    data = sorted_data.slice(page * page_length, page_length).as_json(user_id: @user.id)
+    render json: { users: data}
   end
   # Need to do
   def delete_user
