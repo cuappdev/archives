@@ -15,14 +15,18 @@ class SessionsController < ApplicationController
         render json: {success: false, status: 401, error: "invalid or expired user token"}
         return
     end
-
     @user = User.find_by(fbid: fbid)
+    new_user = false
     if !(@user)
-        @user = User.create!(user_params(fbid))
+        @user = User.new(user_params(fbid: fbid))
+        @user.default_values
+        @user.save!
+        p @user
+        new_user = true
     end
     @session = Session.find_or_create_by!(user_id: @user.id)
     @session.activate
-    render json: { success: !@session.blank?, user: @user, session: @session }
+    render json: { success: !@session.blank?, user: @user, session: @session, new_user: new_user}
   end
 
   def logout
@@ -34,7 +38,7 @@ class SessionsController < ApplicationController
   end
 
   private
-  def user_params(fbid)
-    params.require(:user).permit(:email, :name, :username).merge(fbid:fbid, username:fbid)
+  def user_params(extra={})
+    params.require(:user).permit(:email, :name).merge(extra)
   end
 end

@@ -147,18 +147,22 @@ class User < ActiveRecord::Base
       super(except: exclude).merge(more_hash)
   end
 
-  def username_letter 
-    errors[:base] << "The first character of a username must be a letter." unless ((self.username[0,1] =~ /[A-Za-z]/)==0)
+  # VALIDATION METHODS
+  # Checks username is valid
+  def username_letter
+      first_letter = self.username[0,1]
+      errors[:base] << "The first character of a username must be a letter." unless ((first_letter =~ /[A-Za-z]/) == 0)
   end
 
   def update_username(u)
     self.username = u
-    is_true = valid? 
-    self.save 
-    return is_true  
-  end 
+    is_true = valid?
+    self.save
+    return is_true
+  end
 
   def default_values
+    p "in here"
     last_id = User.last == nil ? 1 : (User.last.id) + 1
     self.username = "temp_username_#{last_id}"
     self.like_count = 0

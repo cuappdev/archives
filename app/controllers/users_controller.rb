@@ -84,7 +84,7 @@ class UsersController < ApplicationController
             end
             bool_value = @user.update_username(username)
             @session.activate
-            render json: {is_valid: bool_value} and return 
+            render json: {is_valid: bool_value} and return
         end
         render json: {is_valid: false}
     end
@@ -114,6 +114,7 @@ class UsersController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:name, :username)
+    #params.require(:user).permit(:name)
   end
 
   def get_user
