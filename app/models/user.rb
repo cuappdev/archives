@@ -171,17 +171,11 @@ class User < ActiveRecord::Base
       super(except: exclude).merge(more_hash)
   end
 
-<<<<<<< HEAD
+
   # VALIDATION METHODS
   # Checks username is valid
   def username_letter
-      first_letter = self.username[0,1]
-      errors[:base] << "The first character of a username must be a letter." unless ((first_letter =~ /[A-Za-z]/) == 0)
-=======
-
-  def username_letter 
     errors[:base] << "The first character of a username must be a letter." unless ((self.username[0,1] =~ /[A-Za-z]/)==0)
->>>>>>> 5d05a9bee41e2f7739159037d6bbdce2dae24f30
   end
 
 
@@ -204,5 +198,5 @@ class User < ActiveRecord::Base
   end
 
 
-  
+
 end
