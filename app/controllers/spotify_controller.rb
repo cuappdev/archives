@@ -51,7 +51,7 @@ class SpotifyController < ApplicationController
     p "IN SPOTIFY PRINTING WOOOOOOOOOOOOOOOOOOOOOOOO"
     p access_token.expired?
     final_token = access_token.token
-    final_expires_at = access_token.expires_at
+    final_expires_at = access_token.expires_at.to_datetime
     if access_token.expired?
       p final_token
       p "================="
