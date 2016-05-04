@@ -21,6 +21,7 @@ class UsersController < ApplicationController
 
   before_action :authorize, only: [:index, :show, :create, :update, :likes, :posts, :user_suggestions, :followers, :following]
 
+
   def index
     if (params[:q].blank?)
       render json: { users: [] } and return
@@ -29,14 +30,17 @@ class UsersController < ApplicationController
     render json: { users: @users.map { |user| user.as_json(include_following: true, include_followers: true, user_id: @user.id) } }
   end
 
+
   def show
     render json: User.find(params[:id]).as_json(user_id: @user.id, include_followers: true, include_following: true)
   end
+
 
   def create
     @user = User.create(user_params)
     render json: { success: !@user.blank? }
   end
+
 
   def update
     @user = @user.update_attributes(user_params) # update_attributes returns result of #save
@@ -45,15 +49,18 @@ class UsersController < ApplicationController
     render json: { success: success, user: @user.as_json(include_followers: true) }, status: status
   end
 
+
   def following
     @param_user = User.find(params[:id]) unless params[:id].blank?
     render json: {success: !@param_user.blank?, following: @param_user.following_list.map { |u| u.as_json(user_id: @user.id) }}
   end
 
+
   def followers
     @param_user = User.find(params[:id]) unless params[:id].blank?
     render json: {success: !@param_user.blank?, followers: @param_user.followers.map { |u| u.as_json(user_id: @user.id) }}
   end
+
 
   def posts
     @posts = Post
@@ -62,12 +69,14 @@ class UsersController < ApplicationController
     render json: { posts: @posts.map { |post| post.as_json(id: @user.id) } }
   end
 
+
   def likes
     @user = User.find(params[:id])
     @likes = @user.likes.includes(:post)
     @songs = @likes.map{ |like| like.post.songs.first }.uniq
     render json: { songs: @songs }
   end
+
 
   def valid_username
     session_code  = params[:session_code]
@@ -84,15 +93,17 @@ class UsersController < ApplicationController
             end
             bool_value = @user.update_username(username)
             @session.activate
-            render json: {is_valid: bool_value} and return 
+            render json: {is_valid: bool_value} and return
         end
         render json: {is_valid: false}
     end
   end
 
+
   def valid_fbid
     render json: { is_valid: !User.exists?(fbid: params[:fbid]) }
   end
+
 
   # User suggestions
   def user_suggestions
@@ -106,6 +117,8 @@ class UsersController < ApplicationController
     data = sorted_data.slice(page * page_length, page_length).as_json(user_id: @user.id)
     render json: { users: data}
   end
+
+
   # Need to do
   def delete_user
 
@@ -114,6 +127,7 @@ class UsersController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:name, :username)
+    #params.require(:user).permit(:name)
   end
 
   def get_user
