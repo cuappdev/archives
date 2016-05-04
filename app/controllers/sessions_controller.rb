@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+
+
   def create
     #check for an existing user with this fbid
     user_token = params[:user][:usertoken]
@@ -28,6 +30,8 @@ class SessionsController < ApplicationController
     @session.activate
     render json: { success: !@session.blank?, user: @user, session: @session, new_user: new_user}
   end
+
+
 
   def logout
     @session = Session.find_by(code:params[:session_code])
