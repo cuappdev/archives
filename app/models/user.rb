@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   # Returns list of followers
   def followers
     fids = followers_ids
-    fids.count < 1 ? [] : User.where('id IN (?)', fids).map { |u| u.as_json(user_id: self.id) }
+    fids.count < 1 ? [] : User.where('id IN (?)', fids)
     # fids.count < 1 ? [] : User.where('id IN (?)', fids)
   end
   # Returns list of following ids

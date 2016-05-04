@@ -19,7 +19,7 @@
 
 class UsersController < ApplicationController
 
-  before_action :authorize, only: [:index, :show, :create, :update, :likes, :posts, :user_suggestions]
+  before_action :authorize, only: [:index, :show, :create, :update, :likes, :posts, :user_suggestions, :followers, :following]
 
   def index
     if (params[:q].blank?)
@@ -46,13 +46,13 @@ class UsersController < ApplicationController
   end
 
   def following
-    @user = User.find(params[:id]) unless params[:id].blank?
-    render json: {success: !@user.blank?, following: @user.following_list}
+    @param_user = User.find(params[:id]) unless params[:id].blank?
+    render json: {success: !@param_user.blank?, following: @param_user.following_list.map { |u| u.as_json(user_id: @user.id) }}
   end
 
   def followers
-    @user = User.find(params[:id]) unless params[:id].blank?
-    render json: {success: !@user.blank?, followers: @user.followers}
+    @param_user = User.find(params[:id]) unless params[:id].blank?
+    render json: {success: !@param_user.blank?, followers: @param_user.followers.map { |u| u.as_json(user_id: @user.id) }}
   end
 
   def posts
