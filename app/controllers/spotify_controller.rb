@@ -48,10 +48,9 @@ class SpotifyController < ApplicationController
       expires_at: creds.expires_at.to_i
     }
     access_token = OAuth2::AccessToken.from_hash(client, token_hash)
-    p "IN SPOTIFY PRINTING WOOOOOOOOOOOOOOOOOOOOOOOO"
     p access_token.expired?
     final_token = access_token.token
-    final_expires_at = access_token.expires_at.to_datetime
+    final_expires_at = access_token.expires_at
     if access_token.expired?
       p final_token
       p "================="
@@ -64,11 +63,11 @@ class SpotifyController < ApplicationController
       )
       json_response = JSON.parse(response.body)
       final_token = json_response["access_token"]
-      final_expires_at = (DateTime.now.to_time + json_response["expires_in"]).to_datetime
+      final_expires_at = (DateTime.now.to_time + json_response["expires_in"]).to_datetime.to_time.to_i
       p final_token
       creds.update_attributes(access_token:  final_token, expires_at: final_expires_at )
     end
-    render json: { success: true, access_token: final_token, expires_at: final_expires_at.to_time.to_i }
+    render json: { success: true, access_token: final_token, expires_at: final_expires_at}
   end
 
   private
