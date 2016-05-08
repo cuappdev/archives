@@ -11,6 +11,9 @@ class SessionsController < ApplicationController
     request = Net::HTTP::Get.new(uri.request_uri)
     response = http.request(request)
     res = JSON.parse(response.body)
+    p "=========================="
+    p res
+    p "=========================="
     fbid = res["id"]
     #check for invalid user token
     if fbid.nil?
