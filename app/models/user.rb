@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   has_one :session
   has_one :spotify_cred
   validates :fbid, presence: true, uniqueness: {case_sensitive: false}
-
+  validates :username, uniqueness: {case_sensitive: false}
 
   # Follows a user
   def follow(followed_id)
