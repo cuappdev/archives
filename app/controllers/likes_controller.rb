@@ -18,6 +18,8 @@ class LikesController < ApplicationController
     if post.blank?
       render json: {success: false, liked: !@unlike}
     end
+    p 'didnt fail...'
+    p post_id
     success_val = (@unlike == "1" ? @user.unlike(post_id) : @user.like(post_id))
     if success_val
       if (@unlike == "1")
