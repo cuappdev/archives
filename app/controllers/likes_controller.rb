@@ -20,7 +20,7 @@ class LikesController < ApplicationController
     end
     success_val = (unlike == "1" ? @user.unlike(post_id) : @user.like(post_id))
     if success_val
-      if unlike
+      if @unlike
         User.find(post.user_id).increment(:hipster_score, -1).save
       else
         User.find(post.user_id).increment(:hipster_score, 1).save
