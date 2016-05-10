@@ -16,10 +16,16 @@ class PostsController < ApplicationController
   def create
     user_id = @session.user_id
     @post = Post.create(user_id: user_id)
-    @song = Song.exists?(spotify_url: params[:song][:spotify_url]) ? Song.find_by(spotify_url: params[:song][:spotify_url]) : Song.create(song_params)
+    if (Song.exists?(spotify_url: params[:song][:spotify_url]))
+      @song = Song.find_by(spotify_url: params[:song][:spotify_url])
+      hipster_user = User.find(@song.posts.sort_by { |hsh| hsh[:created_at] }[0].user_id)
+    else
+      @song = Song.create(song_params)
+    end
     SongPost.create(post_id: @post.id, song_id: @song.id)
     @success = (!@song.id.blank? and !@post.id.blank? and @post.songs.count==1)
-    User.increment_counter(:hipster_score,@user) if @success
+    @user.increment(:hipster_score, 3).save if @success
+    hipster_user.increment(:hipster_score, 10).save if (!hipster_user.blank? and @success)
     if (@success)
        add_to_followers_playlist(user_id, params[:song][:spotify_url])
     end
