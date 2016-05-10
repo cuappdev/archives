@@ -22,9 +22,13 @@ class PostsController < ApplicationController
     else
       @song = Song.create(song_params)
     end
-    SongPost.create(post_id: @post.id, song_id: @song.id)
+    @song_post = SongPost.create(post_id: @post.id, song_id: @song.id)
     @success = (!@song.id.blank? and !@post.id.blank? and @post.songs.count==1)
-    @user.increment(:hipster_score, 3).save if @success
+    if @success
+      time_from = @song_post.created_at
+      hipster_count = 4 - (Post.where(user_id: user_id, created_at: (time_from - 24.hours)..time_from).count)
+      @user.increment(:hipster_score, hipster_count).save 
+    end
     hipster_user.increment(:hipster_score, 10).save if (!hipster_user.blank? and @success)
     if (@success)
        add_to_followers_playlist(user_id, params[:song][:spotify_url])
