@@ -55,7 +55,9 @@ class PostsController < ApplicationController
           access_token = OAuth2::AccessToken.from_hash(client, token_hash)
           final_token = access_token.token
           final_expires_at = access_token.expires_at
+          p follower
           if access_token.expired?
+            p 'updating'
             b = Base64.strict_encode64("#{ENV["spotify_client_id"]}:#{ENV["spotify_client_secret"]}")
             response = HTTParty.post(
               "https://accounts.spotify.com/api/token",
