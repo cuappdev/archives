@@ -47,7 +47,29 @@ class PostsController < ApplicationController
       @user.followers.each do |follower|
         @spotify_cred = SpotifyCred.find_by_user_id(follower)
         if (@spotify_cred)
-          access_token = "Bearer #{@spotify_cred.access_token}"
+          token_hash = {
+            access_token: @spotify_cred.access_token,
+            refresh_token: @spotify_cred.refresh_token,
+            expires_at: @spotify_cred.expires_at.to_i
+          }
+          access_token = OAuth2::AccessToken.from_hash(client, token_hash)
+          final_token = access_token.token
+          final_expires_at = access_token.expires_at
+          if access_token.expired?
+            b = Base64.strict_encode64("#{ENV["spotify_client_id"]}:#{ENV["spotify_client_secret"]}")
+            response = HTTParty.post(
+              "https://accounts.spotify.com/api/token",
+              :body => {:grant_type => "refresh_token",
+                        :refresh_token => "#{access_token.refresh_token}"},
+              :headers => {"Authorization" => "Basic #{b}"}
+            )
+            json_response = JSON.parse(response.body)
+            final_token = json_response["access_token"]
+            final_expires_at = (DateTime.now.to_time + json_response["expires_in"]).to_datetime.to_time.to_i
+            p final_token
+            spotify_cred.update_attributes(access_token:  final_token, expires_at: final_expires_at )
+          end
+          access_token = "Bearer #{final_token}"
           playlist = @spotify_cred.playlist_id
           username = @spotify_cred.spotify_id
           uri = URI.parse("https://api.spotify.com/v1/users/#{username}/playlists/#{playlist}/tracks?uris=#{url}")
@@ -60,5 +82,8 @@ class PostsController < ApplicationController
       end
     end
     true
+  end
+  def client
+    @client ||= OAuth2::Client.new(ENV["spotify_client_id"], ENV["spotify_client_secret"], site: 'https://accounts.spotify.com', token_url: '/api/token')
   end
 end
