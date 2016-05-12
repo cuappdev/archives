@@ -67,7 +67,7 @@ class PostsController < ApplicationController
             final_token = json_response["access_token"]
             final_expires_at = (DateTime.now.to_time + json_response["expires_in"]).to_datetime.to_time.to_i
             p final_token
-            spotify_cred.update_attributes(access_token:  final_token, expires_at: final_expires_at )
+            @spotify_cred.update_attributes(access_token: final_token, expires_at: final_expires_at )
           end
           access_token = "Bearer #{final_token}"
           playlist = @spotify_cred.playlist_id
