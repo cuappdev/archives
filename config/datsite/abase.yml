@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: cuappdev_site_v3
+
+test:
+  <<: *default
+  database: cuappdev_site_v3_test
+
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
+  database: cuappdev_site_v3
+  username: cuapp_dev
+  password: <%= ENV["CUAPPDEV_SITE_PASS"] %>

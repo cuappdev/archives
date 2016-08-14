@@ -1,0 +1,22 @@
+# Be sure to restart your server when you modify this file.
+
+# Your secret key is used for verifying the integrity of signed cookies.
+# If you change this key, all old signed cookies will become invalid!
+
+# Make sure the secret is at least 30 characters and all random,
+# no regular words or you'll be exposed to dictionary attacks.
+# You can use `rails secret` to generate a secure secret key.
+
+# Make sure the secrets in this file are kept private
+# if you're sharing your code publicly.
+
+development:
+  secret_key_base: 88d216f08c6c40300dc03014d8a5a51bccdfa931fae5aa65ae8f015dcdd693cd5da07a1172d404a555e7a4621bca31f3a91888a3d968cca3a1d2c66fa8a157d6
+
+test:
+  secret_key_base: 00aab411c6549656d1b0466c7f15e2eb6fa7eb5c485927f751f07f83ba40f9494511960b91d50f28f9b3d6f6ae34f60d5b6cd83b93dd53f0a8c7de11bcafab79
+
+# Do not keep production secrets in the repository,
+# instead read values from the environment.
+production:
+  secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
