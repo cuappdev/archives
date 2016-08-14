@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+	// Conditionally add a bolding to links of page we're currently on 
+	var pageURL = window.location.href; 
+	$('a').each(function () { if (this.href == pageURL) { $(this).addClass('bold'); }	}); 
+
 
 	// To animate in appropriate parts of the page 
 	$(function() {
@@ -22,14 +26,12 @@ $(document).ready(function () {
 	    }
 	  });
 
-		// Scrollex for beta signup  
-	  $(".beta-section").scrollex({ top: '-10%', bottom: '-10%',
-	  	enter: function () {
-	  		$(this).animate({ "opacity" : 1 }, 1000); 
-	  	}
-		}); 
+
 
 	});
+
+
+	
 
 
 
