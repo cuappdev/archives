@@ -34,8 +34,8 @@ gem 'json'
 gem 'puma'
 # For modular serialization of models 
 gem 'active_model_serializers'
-# Font awesome 
-gem "font-awesome-rails"
+# Mailchimp 
+gem 'mailchimp-api'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

@@ -1,0 +1,70 @@
+.projects-top {
+	background: image-url('work.jpg') no-repeat center center;
+	-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-weight: bold; 
+}
+
+// Used to style black paragraph text on various pages 
+.project-desc  {
+	color: black;
+}
+
+
+// Media query for huge screen 
+@media screen and (min-width: 1601px) {
+	
+	.projects-top .slogan {
+		padding-top: 150px; 
+		padding-bottom: 150px; 
+	}
+
+	.project-desc {
+		font-size: 24px;
+	}
+
+}
+
+// Media query for big screen 
+@media screen and (max-width: 1600px) {
+
+	.projects-top .slogan {
+		padding-top: 125px; 
+		padding-bottom: 125px; 
+	}
+
+	.project-desc  {
+		font-size: 21px;
+	}
+
+}
+
+// Media query for medium screen 
+@media screen and (max-width: 1000px) {
+
+	.projects-top .slogan {
+		padding-top: 100px; 
+		padding-bottom: 100px; 
+	}
+
+	.project-desc  {
+		font-size: 18px;
+	}
+
+}
+
+// Media query for smaller screen 
+@media screen and (max-width: 768px) {
+
+	.projects-top .slogan {
+		padding-top: 75px; 
+		padding-bottom: 75px; 
+	}
+
+	.project-desc  {
+		font-size: 16px;
+	}
+
+} 

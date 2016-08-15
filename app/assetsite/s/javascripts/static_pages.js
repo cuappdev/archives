@@ -7,28 +7,37 @@ $(document).ready(function () {
 
 	// To animate in appropriate parts of the page 
 	$(function() {
-
 		// Scrollex for all "fadein" divs 
 	  $(".fadein").scrollex({ top: '-10%', bottom: '-10%',
 	  	enter: function () {
 	  		$(this).removeClass("fadein", 1000, "easeInOutQuad"); 
 	  	}
 		}); 
-
-		// Scrollex for advertised features 
-	  $('.features').scrollex({ top: '-20%', bottom: '-20%',
-	    enter: function() {
-    		$("li.one").animate({ "opacity" : 1 }, function () {
-    			$("li.two").animate({ "opacity" : 1 }, function () {
-    				$("li.three").animate({ "opacity" : 1 });
-    			}); 
-    		});  
-	    }
-	  });
-
-
-
 	});
+
+	$('.mailing-form').submit(false);
+
+	// AJAX request for adding email 
+	$(".submit-email").on("click", function () {
+		var data = { "email" : $(".email-field").val().trim() } 
+		$.ajax({
+			type: "POST", 
+			url: "/home",
+			data: data, 
+			dataType: "JSON",
+		}).success(function (json) {
+			// If error 
+			if (!json.success) {
+				$(".email-result").html(json.data.error); 
+			} else {
+				$(".email-field").val(''); 
+				$(".email-result").html("Thanks for signing up for our mailing list!  We'll keep you in the loop.");
+			}
+			
+		}); 
+		return false; 
+
+	}); 
 
 
 	
