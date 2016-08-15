@@ -1,12 +1,28 @@
+require 'mailchimp'
 class StaticPagesController < ApplicationController
+
+	
 
 	def home 
 		email = params[:email]
 		@user = User.create({ email: email })
-		data = @user.valid? ? @user : { error: @user.errors.full_messages }
+		result = @user.valid?
+		data = result ? @user : { error: @user.errors.full_messages }
+
+		mailchimp = Mailchimp::API.new(ENV["MAILCHIMP_API_KEY"])
+		# Conditionally add to general mailing list 
+		if result 
+			begin  
+				mailchimp.lists.subscribe(ENV["MAILCHIMP_LIST"], { "email" => @user.email }) 
+			rescue Mailchimp::ListAlreadySubscribedError
+				data = { error: "You're already subscribed to our mailing list" }
+				result = false 
+			end 
+		end 
+
 		respond_to do |f|
 			f.html 
-			f.json { render json: { success: @user.valid?, data: data }}
+			f.json { render json: { success: result, data: data }}
 		end 
 
 	end 
@@ -27,6 +43,9 @@ class StaticPagesController < ApplicationController
 	end 
 
 	def legal
+	end 
+
+	def idea
 	end 
 
 	def contact 
