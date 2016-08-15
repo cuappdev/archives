@@ -13,7 +13,7 @@ class StaticPagesController < ApplicationController
 		# Conditionally add to general mailing list 
 		if result 
 			begin  
-				mailchimp.lists.subscribe(ENV["MAILCHIMP_LIST"], { "email" => @user.email }) 
+				mailchimp.lists.subscribe(ENV["CUAPPDEV_INFO_LIST_ID"], { "email" => @user.email }) 
 			rescue Mailchimp::ListAlreadySubscribedError
 				data = { error: "You're already subscribed to our mailing list" }
 				result = false 

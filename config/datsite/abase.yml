@@ -14,6 +14,6 @@ test:
 production:
   <<: *default
   url: <%= ENV["DATABASE_URL"] %>
-  database: cuappdev_site_v3
-  username: cuapp_dev
+  database: cuappdev_site
+  username: cuappdev
   password: <%= ENV["CUAPPDEV_SITE_PASS"] %>
