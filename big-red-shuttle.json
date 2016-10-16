@@ -1,0 +1,63 @@
+{
+  
+  "stops": [{
+    
+    "Jessup & Program House Drive": {
+      "lat": "42.457013",
+      "long": "-76.475038",
+      "days": ["Friday","Saturday"],
+      "times": ["12:00 AM", "12:20 AM", "12:40 AM", "1:00 AM", "1:20 AM", "1:40 AM", "2:00 AM", "2:20 AM", "2:40 AM"
+        ]
+    },
+    "Jessup & Kelvin": {
+      "lat": "42.456009",
+      "long": "-76.482925",
+      "days": ["Friday","Saturday"],
+      "times": ["12:02 AM", "12:22 AM", "12:42 AM", "1:02 AM", "1:22 AM", "1:42 AM", "2:02 AM", "2:22 AM", "2:42 AM"
+        ]
+    },
+    "Ridgewood & Thurston": {
+      "lat": "42.454216",
+      "long": "-76.488828",
+      "days": ["Friday","Saturday"],
+      "times": ["12:04 AM", "12:24 AM", "12:44 AM", "1:04 AM", "1:24 AM", "1:44 AM", "2:04 AM", "2:24 AM", "2:44 AM"
+        ]
+    },
+    "Stewart & University": {
+      "lat": "42.449282",
+      "long": "-76.490339",
+      "days": ["Friday","Saturday"],
+      "times": ["12:06 AM", "12:26 AM", "12:46 AM", "1:06 AM", "1:26 AM", "1:46 AM", "2:06 AM", "2:26 AM", "2:46 AM"
+        ]
+    },
+    "University & McGraw": {
+      "lat": "42.449602",
+      "long": "-76.487770",
+      "days": ["Friday","Saturday"],
+      "times": ["12:07 AM", "12:27 AM", "12:47 AM", "1:07 AM", "1:27 AM", "1:47 AM", "2:07 AM", "2:27 AM", "2:47 AM"
+        ]
+    },
+    "Stewart & Campus": {
+      "lat": "42.445029",
+      "long": "-76.489459",
+      "days": ["Friday","Saturday"],
+      "times": ["12:08 AM", "12:28 AM", "12:48 AM", "1:08 AM", "1:28 AM", "1:48 AM", "2:08 AM", "2:28 AM", "2:48 AM"
+        ]
+    },
+    "Catherine & Eddy": {
+      "lat": "42.440251",
+      "long": "-76.487408",
+      "days": ["Friday","Saturday"],
+      "times": ["12:10 AM", "12:30 AM", "12:50 AM", "1:10 AM", "1:30 AM", "1:50 AM", "2:10 AM", "2:30 AM", "2:50 AM"
+        ]
+    },
+    "Schwartz Center": {
+      "lat": "42.442590",
+      "long": "-76.485345",
+      "days": ["Friday","Saturday"],
+      "times": ["12:12 AM", "12:32 AM", "12:52 AM", "1:12 AM", "1:32 AM", "1:52 AM", "2:12 AM", "2:32 AM", "2:52 AM"
+        ]
+    }
+      }]
+    
+}
