@@ -1,9 +1,9 @@
 package me.archdev.restapi.utils
 
 import java.util.Properties
-
 import org.flywaydb.core.Flyway
 
+/* This trait allows */
 trait Migration extends Config {
 
   private val flyway = new Flyway()

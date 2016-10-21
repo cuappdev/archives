@@ -7,6 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ Directive0, Route }
 import com.typesafe.config.ConfigFactory
 
+/* HTTP req-resp life-cycle configs */
 trait CorsSupport {
   lazy val allowedOriginHeader = {
     val config = ConfigFactory.load()

@@ -10,6 +10,7 @@ import me.archdev.restapi.utils.{ Migration, Config }
 
 import scala.concurrent.ExecutionContext
 
+/* Main entrypoint of the app  */
 object Main extends App with Config with HttpService with Migration {
   private implicit val system = ActorSystem()
 

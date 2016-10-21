@@ -1,6 +1,6 @@
 # Podcast App Web Client 
 
-[Cornell App Development](www.cuappdev.org) Podcast HTTP client.  
+[Cornell App Development](http://www.cuappdev.org) Podcast HTTP client.  
 
 ## PostgreSQL Database Setup 
 
