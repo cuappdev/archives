@@ -18,18 +18,24 @@ class LikesController < ApplicationController
     if (post.blank? or post_id.blank?)
       render json: {success: false, liked: !@unlike}
     end
-    success_val = (@unlike == "1" ? @user.unlike(post_id) : @user.like(post_id))
+    success_val = @user.like(post_id))
     if success_val
-      if (@unlike == "1")
-        User.find(post.user_id).increment(:hipster_score, -1).save
-      else
         User.find(post.user_id).increment(:hipster_score, 1).save
-      end
     end
-    render json: { success: success_val, liked: !@unlike }
+    render json: { success: success_val, liked: true }
   end
-  def is_liked
+
+  def destroy
     post_id = params[:post_id]
+    success_val = @user.unlike(post_id)
+    if success_val
+      User.find(post.user_id).increment(:hipster_score, -1).save
+    end
+    render json: { success: success_val, liked: false }
+  end
+
+  def is_liked
+    post_id = params[:params]
     post = Post.find(post_id) unless post_id.blank?
     if post.blank?
       render json: {success: false}
