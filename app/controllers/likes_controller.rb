@@ -12,17 +12,23 @@
 class LikesController < ApplicationController
   before_action :authorize, only: [:create, :is_liked]
   def create
-    unlike = params[:unlike]
     post_id = params[:post_id]
     post = Post.find(post_id) unless post_id.blank?
     if post.blank?
-      render json: {success: false, liked: !@unlike}
+      render json: {success: false, liked: true}
     end
-    success_val = (unlike == "1" ? @user.unlike(post_id) : @user.like(post_id))
-    render json: { success: success_val, liked: !@unlike }
+    success_val = @user.like(post_id)
+    render json: { success: success_val, liked: true }
   end
-  def is_liked
+
+  def destroy
     post_id = params[:post_id]
+    success_val = @user.unlike(post_id)
+    render json: { success: success_val, liked: false }
+  end
+
+  def is_liked
+    post_id = params[:params]
     post = Post.find(post_id) unless post_id.blank?
     if post.blank?
       render json: {success: false}
