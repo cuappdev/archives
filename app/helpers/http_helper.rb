@@ -9,7 +9,7 @@ module HttpHelper
     response = http.request(request)
     return JSON.parse(response.body)
   end
-  
+
   def get(headers, body, url)
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)

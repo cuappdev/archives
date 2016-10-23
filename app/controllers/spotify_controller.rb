@@ -1,4 +1,5 @@
 require 'net/https'
+include 'http_helper'
 class SpotifyController < ApplicationController
   before_action :authorize, only: [:get_access_token]
   def get_hash
@@ -6,30 +7,21 @@ class SpotifyController < ApplicationController
     session_code = params[:state]
     token = client.auth_code.get_token(params[:code], redirect_uri: redirect_uri).to_hash
     access_token = "Bearer " + token[:access_token]
-    uri = URI.parse('https://api.spotify.com/v1/me')
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    request = Net::HTTP::Get.new(uri.request_uri, {'Content-Type' =>'application/json', 'Authorization' => access_token})
-    response = http.request(request)
-    res = JSON.parse(response.body)
-    username = res["id"]
+    url = SPOTIFY_AUTH_URL
+    headers = {'Content-Type' =>'application/json', 'Authorization' => access_token}
+    res = post(headers, {}, url)
+
     @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,
                                         access_token: token[:access_token],
                                         refresh_token: token[:refresh_token],
                                         expires_at: token[:expires_at],
                                         spotify_id: username)
 
-    data = {:name => "Icefishing Playlist"}
+    body = {:name => "Icefishing Playlist"}
     access_token = "Bearer " + @spotify_cred.access_token
-    uri = URI.parse('https://api.spotify.com/v1/users/'+ username + '/playlists')
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', "Authorization" => access_token})
-    request.body = data.to_json
-    response = http.request(request)
-    res = JSON.parse(response.body)
+    header = {'Content-Type' =>'application/json', "Authorization" => access_token}
+    url = '#{SPOTIFY_URL}users/#{username}/playlists'
+    res = post(header, body, url)
     playlistId = res["id"]
 
     @spotify_cred.update_playlist(playlistId)

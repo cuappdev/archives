@@ -1,15 +1,13 @@
 class SessionsController < ApplicationController
+  require 'http_helper'
   def create
+    
     #check for an existing user with this fbid
     user_token = params[:user][:usertoken]
-    uri = URI.parse('https://graph.facebook.com/me?fields=id&access_token='+ user_token)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    request = Net::HTTP::Get.new(uri.request_uri)
-    response = http.request(request)
-    res = JSON.parse(response.body)
+    url = FACEBOOK_USER_URL + user_token
+    res = get({}, {}, url)
     fbid = res["id"]
+
     #check for invalid user token
     if fbid.nil?
         render json: {success: false, status: 401, error: "invalid or expired user token"}
