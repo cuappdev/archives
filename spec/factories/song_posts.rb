@@ -10,8 +10,8 @@
 #
 
 FactoryGirl.define do
-  factory :songpost do
-    song
-    post
+  factory :song_post do
+    song_id 1
+    post_id 1
   end
 end

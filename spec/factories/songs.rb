@@ -17,6 +17,5 @@ FactoryGirl.define do
     artist "fake"
     track "phony"
     hipster_score 9001
-    username "valid"
   end
 end

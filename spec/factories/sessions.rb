@@ -12,7 +12,7 @@
 
 FactoryGirl.define do
   factory :session do
-    user
+    user_id 1
     code "test_session_code"
   end
 end
