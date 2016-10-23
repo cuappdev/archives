@@ -23,12 +23,17 @@ ActiveRecord::Schema.define(version: 20151119011430) do
     t.datetime "updated_at",  null: false
   end
 
+  add_index "followings", ["followed_id"], name: "index_followings_on_followed_id", using: :btree
+  add_index "followings", ["follower_id"], name: "index_followings_on_follower_id", using: :btree
+
   create_table "likes", force: :cascade do |t|
     t.integer  "post_id"
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "likes", ["post_id"], name: "index_likes_on_post_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "username"
@@ -39,6 +44,7 @@ ActiveRecord::Schema.define(version: 20151119011430) do
   end
 
   add_index "posts", ["like_count"], name: "index_posts_on_like_count", using: :btree
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "sessions", force: :cascade do |t|
     t.integer  "user_id"
@@ -48,12 +54,17 @@ ActiveRecord::Schema.define(version: 20151119011430) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "sessions", ["user_id"], name: "index_sessions_on_user_id", using: :btree
+
   create_table "song_posts", force: :cascade do |t|
     t.integer  "post_id"
     t.integer  "song_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "song_posts", ["post_id"], name: "index_song_posts_on_post_id", using: :btree
+  add_index "song_posts", ["song_id"], name: "index_song_posts_on_song_id", using: :btree
 
   create_table "songs", force: :cascade do |t|
     t.string   "spotify_url"
