@@ -1,5 +1,6 @@
 require 'net/https'
-include 'http_helper'
+require 'http_helper'
+require 'base64'
 class SpotifyController < ApplicationController
   before_action :authorize, only: [:get_access_token]
   def get_hash
@@ -39,11 +40,26 @@ class SpotifyController < ApplicationController
       expires_at: creds.expires_at.to_i
     }
     access_token = OAuth2::AccessToken.from_hash(client, token_hash)
+    p access_token.expired?
+    final_token = access_token.token
+    final_expires_at = access_token.expires_at
     if access_token.expired?
-      access_token.refresh!
-      creds.update_attributes(access_token: access_token.token, refresh_token: access_token.refresh_token, expires_at: access_token.expires_at )
+      p final_token
+      p "================="
+      b = Base64.strict_encode64("#{ENV["spotify_client_id"]}:#{ENV["spotify_client_secret"]}")
+      response = HTTParty.post(
+        "https://accounts.spotify.com/api/token",
+        :body => {:grant_type => "refresh_token",
+                  :refresh_token => "#{access_token.refresh_token}"},
+        :headers => {"Authorization" => "Basic #{b}"}
+      )
+      json_response = JSON.parse(response.body)
+      final_token = json_response["access_token"]
+      final_expires_at = (DateTime.now.to_time + json_response["expires_in"]).to_datetime.to_time.to_i
+      p final_token
+      creds.update_attributes(access_token:  final_token, expires_at: final_expires_at )
     end
-    render json: { success: true, access_token: access_token.token, expires_at: access_token.expires_at }
+    render json: { success: true, access_token: final_token, expires_at: final_expires_at}
   end
 
   private

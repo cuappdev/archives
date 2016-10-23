@@ -6,9 +6,9 @@
 #  spotify_url   :string
 #  artist        :string
 #  track         :string
+#  hipster_score :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  hipster_score :integer
 #
 
 require 'test_helper'
