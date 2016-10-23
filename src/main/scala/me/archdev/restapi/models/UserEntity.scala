@@ -1,16 +1,19 @@
 package me.archdev.restapi.models
 
-import org.mindrot.jbcrypt.BCrypt
+// Java representation of the timestamp
+import java.sql.Timestamp
 
-case class UserEntity(id: Option[Long] = None, username: String, password: String) {
-  require(!username.isEmpty, "username.empty")
-  require(!password.isEmpty, "password.empty")
+import org.joda.time.DateTime
 
-  def withHashedPassword(): UserEntity = this.copy(password = BCrypt.hashpw(password, BCrypt.gensalt()))
+case class UserEntity(fb_id: String,
+                      id: Option[Long] = None,
+                      created_at: Option[Timestamp] = Some(new Timestamp(DateTime.now.getMillis)),
+                      updated_at: Option[Timestamp] = Some(new Timestamp(DateTime.now.getMillis))) {
+
+  // Perform validations in here
+
 }
 
-case class UserEntityUpdate(username: Option[String] = None, password: Option[String] = None) {
-  def merge(user: UserEntity): UserEntity = {
-    UserEntity(user.id, username.getOrElse(user.username), password.map(ps => BCrypt.hashpw(ps, BCrypt.gensalt())).getOrElse(user.password))
-  }
-}
+// case class UserEntityUpdate ... TODO
+
+

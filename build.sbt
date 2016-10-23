@@ -18,6 +18,7 @@ libraryDependencies ++= {
     // Function Relational Model (FRM)
     "com.typesafe.slick" %% "slick" % slickVersion,
     "org.slf4j" % "slf4j-nop" % "1.6.4",
+    "joda-time" % "joda-time" % "2.7",
     // Postgres driver
     "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
     // Bcrypt
@@ -27,7 +28,9 @@ libraryDependencies ++= {
     // All testing
     "org.scalatest" %% "scalatest" % scalaTestV % "it,test",
     "org.scalamock" %% "scalamock-scalatest-support" % scalaMockV % "it,test",
-    "com.typesafe.akka" %% "akka-http-testkit-experimental" % akkaStreamV % "it,test"
+    "com.typesafe.akka" %% "akka-http-testkit-experimental" % akkaStreamV % "it,test",
+    // FB Graph API Integration
+    "com.restfb" % "restfb" % "1.32.0"
   )
 }
 
@@ -36,6 +39,7 @@ libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-reflect" % "2.11.7",
   "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.4"
 )
+
 
 lazy val root = project.in(file(".")).configs(IntegrationTest)
   .enablePlugins(JavaAppPackaging, DockerPlugin)
@@ -49,6 +53,8 @@ Revolver.settings
 // Docker configs
 dockerExposedPorts := Seq(9000)
 dockerEntrypoint := Seq("bin/%s" format executableScriptName.value, "-Dconfig.resource=docker.conf")
+
+
 
 
 parallelExecution in Test := false

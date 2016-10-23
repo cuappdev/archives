@@ -12,3 +12,4 @@ CREATE TABLE "series" (
 CREATE TRIGGER series_updated_at
 BEFORE UPDATE ON series
 FOR EACH ROW EXECUTE PROCEDURE refresh_updated_at_column();
+

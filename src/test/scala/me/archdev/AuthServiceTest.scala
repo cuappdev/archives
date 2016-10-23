@@ -1,7 +1,6 @@
 package me.archdev
 
 import akka.http.scaladsl.model.{ StatusCodes, MediaTypes, HttpEntity }
-import me.archdev.restapi.http.routes.AuthServiceRoute
 import me.archdev.restapi.models.{ TokenEntity, UserEntity }
 import spray.json._
 

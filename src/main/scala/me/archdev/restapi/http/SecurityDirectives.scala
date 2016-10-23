@@ -3,7 +3,7 @@ package me.archdev.restapi.http
 import akka.http.scaladsl.server.directives.{ RouteDirectives, BasicDirectives, HeaderDirectives, FutureDirectives }
 import akka.http.scaladsl.server.Directive1
 import me.archdev.restapi.models.UserEntity
-import me.archdev.restapi.services.AuthService
+// import me.archdev.restapi.services.AuthService
 
 trait SecurityDirectives {
 
@@ -12,6 +12,7 @@ trait SecurityDirectives {
   import RouteDirectives._
   import FutureDirectives._
 
+  /*
   def authenticate: Directive1[UserEntity] = {
     headerValueByName("Token").flatMap { token =>
       onSuccess(AuthService.authenticate(token)).flatMap {
@@ -20,5 +21,6 @@ trait SecurityDirectives {
       }
     }
   }
+  */
 
 }

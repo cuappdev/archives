@@ -10,3 +10,4 @@ CREATE TABLE "subscriptions" (
 CREATE TRIGGER subscriptions_updated_at
 BEFORE UPDATE ON subscriptions
 FOR EACH ROW EXECUTE PROCEDURE refresh_updated_at_column();
+

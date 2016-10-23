@@ -10,3 +10,4 @@ CREATE TABLE "likes" (
 CREATE TRIGGER likes_updated_at
 BEFORE UPDATE ON likes
 FOR EACH ROW EXECUTE PROCEDURE refresh_updated_at_column();
+
