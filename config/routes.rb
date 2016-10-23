@@ -8,15 +8,19 @@ Rails.application.routes.draw do
   post 'users/authenticate' => 'sessions#create'
   post 'users/logout' => 'sessions#logout'
 
-  resources :users
-  resources :posts
-  resources :likes
-  resources :feed
-  resources :sessions
-  resources :followings
+  get 'users' => 'users#index'
+  get 'users' => 'users#show'
+  post 'users' => 'users#create'
+  put 'users' => 'users#update'
+
+  post 'posts' => 'posts#create'
 
   post 'likes' => 'likes#create'
   delete 'likes' => 'likes#destroy'
+
+  get 'feed' => 'feed#index'
+
+  post 'sessions' => 'sessions#create'
 
   post 'followings' => 'followings#create'
   delete 'followings' => 'followings#destroy'
@@ -29,9 +33,5 @@ Rails.application.routes.draw do
   post 'users/suggestions' => 'users#user_suggestions'
   get 'spotify/get_hash' => 'spotify#get_hash'
   get 'spotify/get_access_token' => 'spotify#get_access_token'
-
-
-
-
 
 end
