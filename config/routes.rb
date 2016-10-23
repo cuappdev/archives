@@ -6,18 +6,18 @@ Rails.application.routes.draw do
   post 'users/authenticate' => 'sessions#create'
   post 'users/logout' => 'sessions#logout'
 
-  post 'likes' => 'likes#create'
-  delete 'likes' => 'likes#destroy'
-
-  post 'followings' => 'followings#create'
-  delete 'followings' => 'followings#destroy'
-
   resources :users
   resources :posts
   resources :likes
   resources :feed
   resources :sessions
   resources :followings
+
+  post 'likes' => 'likes#create'
+  delete 'likes' => 'likes#destroy'
+
+  post 'followings' => 'followings#create'
+  delete 'followings' => 'followings#destroy'
 
   get 'users/:id/posts' => 'users#posts'
   get 'users/:id/likes' => 'users#likes'
