@@ -104,14 +104,6 @@ class User < ActiveRecord::Base
   end
 
 
-  # Returns number of mutual friends with another user
-  def mutual_friends (user_id)
-    order = [self.id,user_id].sort! {|x,y| x <=> y}
-    relation = Mutualfriend.find_by(user1_id: order.first, user2_id: order.second)
-    relation.blank? ? 0 : relation.mutual_friends_count
-  end
-
-
   # Returns number of mutual songs with another user
   def mutual_songs (user_id)
     User.exists?(user_id) ? (self.my_songs & User.find(user_id).my_songs).size : 0
@@ -147,6 +139,15 @@ class User < ActiveRecord::Base
     liked_posts_ids.count < 1 ? [] : Post.where('id IN (?)', liked_posts_ids)
   end
 
+  def mutual_following_count(fid)
+    mutual_following(fid).length
+  end
+
+  # grab mutual_followers
+  def mutual_following(fid)
+    mutual_following = Following.where('follower_id = (?)',fid).pluck(:followed_id) - [self.id]
+    followings_ids & mutual_following
+  end
 
   def as_json(options = {})
       if options[:limited]
@@ -162,7 +163,7 @@ class User < ActiveRecord::Base
           followers_count: self.followers_count,
           followings_count: self.followings_count,
           is_following: User.exists?(options[:user_id]) ? User.find(options[:user_id]).following?(self.id) : "Didn't pass in user_id",
-          mutual_friends: User.exists?(options[:user_id]) ? User.find(options[:user_id]).mutual_friends(self.id) : 0
+          mutual_friends: User.exists?(options[:user_id]) ? User.find(options[:user_id]).mutual_following_count(self.id) : 0
         }
         more_hash[:followers] = followers.map { |user| user.as_json(user_id: self.id, include_following: false, include_followers: false) } if options[:include_followers]
         more_hash[:following] = self.following_list.map { |user| user.as_json(include_following: false, include_followers: false) } if options[:include_following]

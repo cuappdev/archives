@@ -18,7 +18,7 @@ class LikesController < ApplicationController
     if (post.blank? or post_id.blank?)
       render json: {success: false, liked: !@unlike}
     end
-    success_val = @user.like(post_id))
+    success_val = @user.like(post_id)
     if success_val
         User.find(post.user_id).increment(:hipster_score, 1).save
     end
