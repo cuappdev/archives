@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 20151119011430) do
   add_index "likes", ["post_id"], name: "index_likes_on_post_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.string   "username"
     t.integer  "like_count", default: 0
     t.integer  "user_id"
     t.datetime "created_at",             null: false
@@ -85,6 +84,8 @@ ActiveRecord::Schema.define(version: 20151119011430) do
     t.string   "spotify_id"
     t.string   "playlist_id"
   end
+
+  add_index "spotify_creds", ["user_id"], name: "index_spotify_creds_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
