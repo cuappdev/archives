@@ -189,7 +189,6 @@ class User < ActiveRecord::Base
 
 
   def default_values
-    p "in here"
     last_id = User.last == nil ? 1 : (User.last.id) + 1
     self.username = "temp_username_#{last_id}"
     self.like_count = 0

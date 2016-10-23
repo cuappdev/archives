@@ -1,13 +1,17 @@
 # == Schema Information
 #
-# Table name: posts
+# Table name: song_posts
 #
 #  id         :integer          not null, primary key
-#  like_count :integer          default(0)
-#  user_id    :integer
+#  post_id    :integer
+#  song_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-module PostsHelper
+FactoryGirl.define do
+  factory :song_post do
+    song_id 1
+    post_id 1
+  end
 end
