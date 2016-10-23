@@ -3,6 +3,7 @@ class CreateSessions < ActiveRecord::Migration
     create_table :sessions do |t|
       t.integer :user_id
       t.string :code
+      t.boolean :is_active
 
       t.timestamps null: false
     end
