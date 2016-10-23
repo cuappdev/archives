@@ -9,5 +9,9 @@
 #  updated_at :datetime         not null
 #
 
-module PostsHelper
+FactoryGirl.define do
+  factory :post do
+    like_count 0
+    user_id 1
+  end
 end

@@ -1,13 +1,18 @@
 # == Schema Information
 #
-# Table name: posts
+# Table name: sessions
 #
 #  id         :integer          not null, primary key
-#  like_count :integer          default(0)
 #  user_id    :integer
+#  code       :string
+#  is_active  :boolean
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-module PostsHelper
+FactoryGirl.define do
+  factory :session do
+    user_id 1
+    code "test_session_code"
+  end
 end
