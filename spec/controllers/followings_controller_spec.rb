@@ -15,20 +15,21 @@ RSpec.describe FollowingsController, type: :controller do
     expect(response_json["follow"]).to eq(true)
   end
 
-  it "unfollows already followed user" do
+  it "unfollows previously followed user" do
     @f = FactoryGirl.create(:following, follower_id: @user1.id, followed_id: @user2.id)
     post :followings, unfollow: "1", followed_id: @user2.id
     response_json = extract_response(response)
     expect(response_json["success"]).to eq(true)
+    expect(response_json["follow"]).to eq(false)
   end
 
-  it "doesn't unfollow already unfollowed user" do
+  it "doesn't unfollow previously unfollowed user" do
     post :followings, unfollow: "1", followed_id: @user2.id
     response_json = extract_response(response)
     expect(response_json["success"]).to eq(false)
   end
 
-  it "doesn't follow already followed user" do
+  it "doesn't follow previously followed user" do
     @f = FactoryGirl.create(:following, follower_id: @user1.id, followed_id: @user2.id)
     post :followings, unfollow: "0", followed_id: @user2.id
     response_json = extract_response(response)
