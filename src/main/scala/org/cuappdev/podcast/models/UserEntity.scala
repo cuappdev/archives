@@ -2,8 +2,8 @@ package org.cuappdev.podcast.models
 
 case class UserFields (fb_id: String) extends Fields
 
-case class UserEntity (override val dBInfo: DBInfo,
-                       override val fields: UserFields) extends Entity (dBInfo, fields)
+case class UserEntity (dBInfo: DBInfo,
+                       fields: UserFields) extends Entity (dBInfo, fields)
 
 object UserFactory extends EntityFactory[UserEntity, UserFields] {
 

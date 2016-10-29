@@ -2,8 +2,8 @@ package org.cuappdev.podcast.http.routes
 
 import com.restfb.DefaultFacebookClient
 import com.restfb.FacebookClient.AccessToken
-import me.archdev.restapi.models.UserEntity
-import me.archdev.restapi.services.UsersService
+import org.cuappdev.podcast.models.UserEntity
+import org.cuappdev.podcast.services.UsersService
 import org.cuappdev.podcast.models.SecurityDirectives
 import org.cuappdev.podcast.models.routes.BaseServiceRoute
 
@@ -26,8 +26,7 @@ trait UsersServiceRoute extends UsersService with BaseServiceRoute with Security
           post {
             // Grab the header + respond
             headerValueByName("FB_TOKEN") { fb_token =>
-              println(fb_token)
-              complete(getOrCreateUser(fb_token))
+              complete(getOrCreateUser(fb_token).map { u => u.toJson })
             }
           }
         }

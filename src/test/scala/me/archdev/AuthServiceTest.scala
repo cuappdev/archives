@@ -1,7 +1,7 @@
 package me.archdev
 
 import akka.http.scaladsl.model.{ StatusCodes, MediaTypes, HttpEntity }
-import me.archdev.restapi.models.{ TokenEntity, UserEntity }
+import org.cuappdev.podcast.models.{ UserEntity }
 import spray.json._
 
 class AuthServiceTest extends BaseServiceTest {

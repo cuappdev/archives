@@ -1,7 +1,12 @@
 package org.cuappdev.podcast.models.routes
 
-import me.archdev.restapi.utils.Config
+import org.cuappdev.podcast.utils.Config
 import org.cuappdev.podcast.utils.Protocol
+import akka.actor.ActorSystem
+import akka.event.{Logging, LoggingAdapter}
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+import akka.stream.ActorMaterializer
 
 import scala.concurrent.ExecutionContext
 

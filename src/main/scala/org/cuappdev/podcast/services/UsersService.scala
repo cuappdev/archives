@@ -4,10 +4,12 @@ package org.cuappdev.podcast.services
 import com.restfb.DefaultFacebookClient
 import com.restfb.FacebookClient
 import com.restfb.Version
+import org.cuappdev.podcast.models.{UserFactory, UserFields}
 
 // User entity + db stuff
-import me.archdev.restapi.models.db.UserEntityTable
-import me.archdev.restapi.models.UserEntity
+import org.cuappdev.podcast.models.db.UserEntityTable
+import org.cuappdev.podcast.models.UserEntity
+import org.cuappdev.podcast.utils.Config
 
 // To deal with futures
 import scala.util.{Success, Failure}
@@ -45,7 +47,7 @@ trait UsersService extends UserEntityTable with Config {
       case Some(user) => Future.successful(Some(user))
       // If we don't have this user already
       case None => {
-        val newUser = UserEntity(fb_user.getId)
+        val newUser = UserFactory.create(UserFields(fb_user.getId))
         db.run(users returning users += newUser)
         Future.successful(Some(newUser))
       }
