@@ -1,10 +1,11 @@
-package org.cuappdev.http.routes
+package org.cuappdev.podcast.http.routes
 
 import com.restfb.DefaultFacebookClient
 import com.restfb.FacebookClient.AccessToken
 import me.archdev.restapi.models.UserEntity
 import me.archdev.restapi.services.UsersService
 import org.cuappdev.podcast.models.SecurityDirectives
+import org.cuappdev.podcast.models.routes.BaseServiceRoute
 
 trait UsersServiceRoute extends UsersService with BaseServiceRoute with SecurityDirectives {
 

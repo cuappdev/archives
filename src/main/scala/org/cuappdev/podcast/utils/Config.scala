@@ -1,4 +1,4 @@
-package org.cuappdev.utils
+package org.cuappdev.podcast.utils
 
 import com.typesafe.config.ConfigFactory
 
