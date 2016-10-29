@@ -20,10 +20,13 @@ trait SeriesEntityTable extends DatabaseConfig {
     def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
     def created_at = column[Timestamp]("created_at")
     def updated_at = column[Timestamp]("updated_at")
-    // Insert other fields here...
+    def audiosearch_id = column[Long]("audiosearch_id")
+    def title = column[String]("title")
+    def description = column[String]("description")
+    def imageUrl = column[String]("imageUrl")
 
     // Required conversions for reading / writing to / from the DB
-    def * = ((id, created_at, updated_at), (/* fields here */)).shaped <>
+    def * = ((id, created_at, updated_at), (audiosearch_id, title, description, imageUrl).shaped <>
       ( { case (dbInfo, seriesFields) => SeriesEntity(DBInfo.tupled.apply(dbInfo), SeriesFields.apply(seriesFields)) },
         { s: SeriesEntity =>
           def f1(p: DBInfo) = DBInfo.unapply(p).get

@@ -9,6 +9,7 @@ import org.cuappdev.podcast.models.DBInfo
 import org.cuappdev.podcast.models.SubscriptionFields
 import org.cuappdev.podcast.utils.DatabaseConfig
 
+
 // Table Entity
 trait SubscriptionEntityTable extends DatabaseConfig {
 
@@ -18,12 +19,12 @@ trait SubscriptionEntityTable extends DatabaseConfig {
 
     // Fields of the SQL table
     def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
-
     def created_at = column[Timestamp]("created_at")
-
     def updated_at = column[Timestamp]("updated_at")
-
-    // Insert other fields here...
+    def user_id = column[Long]("user_id")
+    def user_foreign_key = foreignKey("user_foreign_key", user_id, UserEntityTable.user)(_.id)
+    def series_id = column[Long]("series_id")
+    def series_foreign_key = foreignKey("series_foreign_key", series_id, SeriesEntityTable.series)(_.id)
 
     // Required conversions for reading / writing to / from the DB
     def * = ((id, created_at, updated_at), (/* fields here */)).shaped <>

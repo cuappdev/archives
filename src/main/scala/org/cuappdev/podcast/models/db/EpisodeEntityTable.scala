@@ -29,7 +29,7 @@ trait EpisodeEntityTable extends DatabaseConfig {
     def description = column[String]("description")
     def audio_url = column[String]("audio_url")
     def image_url = column[String]("image_url")
-    def series_id = column[Int]("series_id")
+    def series_id = column[Long]("series_id")
     def series_foreign_key = foreignKey("series_foreign_key", series_id, SeriesEntityTable.series)(_.id)
 
     // Required conversions for reading / writing to / from the DB

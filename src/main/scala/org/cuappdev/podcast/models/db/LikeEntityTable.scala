@@ -20,7 +20,10 @@ trait LikeEntityTable extends DatabaseConfig {
     def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
     def created_at = column[Timestamp]("created_at")
     def updated_at = column[Timestamp]("updated_at")
-    // Insert other fields here...
+    def user_id = column[Long]("user_id")
+    def user_foreign_key = foreignKey("user_foreign_key", user_id, UserEntityTable.user)(_.id)
+    def episode_id = column[Long]("episode_id")
+    def episode_foreign_key = foreignKey("episode_foreign_key", episode_id, EpisodeEntityTable.episode)(_.id)
 
     // Required conversions for reading / writing to / from the DB
     def * = ((id, created_at, updated_at), (/* fields here */)).shaped <>
