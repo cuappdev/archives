@@ -1,19 +1,19 @@
 package me.archdev.restapi.models
 
-// Java representation of the timestamp
-import java.sql.Timestamp
+case class UserFields (fb_id: String) extends Fields
 
-import org.joda.time.DateTime
+case class UserEntity (override val dBInfo: DBInfo,
+                       override val fields: UserFields) extends Entity (dBInfo, fields)
 
-case class UserEntity(fb_id: String,
-                      id: Option[Long] = None,
-                      created_at: Option[Timestamp] = Some(new Timestamp(DateTime.now.getMillis)),
-                      updated_at: Option[Timestamp] = Some(new Timestamp(DateTime.now.getMillis))) {
+object UserFactory extends EntityFactory[UserEntity, UserFields] {
 
-  // Perform validations in here
+  def create (f: UserFields) : UserEntity = {
+    new UserEntity(DBInfoFactory.create(), f)
+  }
+
+  def update (e: UserEntity, newFields: UserFields) : UserEntity = {
+    new UserEntity(DBInfoFactory.update(e.dBInfo), newFields)
+  }
 
 }
-
-// case class UserEntityUpdate ... TODO
-
 
