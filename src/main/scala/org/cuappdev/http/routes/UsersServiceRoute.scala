@@ -1,14 +1,10 @@
-package me.archdev.restapi.http.routes
+package org.cuappdev.http.routes
 
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.PathMatchers.IntNumber
 import com.restfb.DefaultFacebookClient
 import com.restfb.FacebookClient.AccessToken
-import me.archdev.restapi.http.SecurityDirectives
 import me.archdev.restapi.models.UserEntity
 import me.archdev.restapi.services.UsersService
-import spray.json._
+import org.cuappdev.podcast.models.SecurityDirectives
 
 trait UsersServiceRoute extends UsersService with BaseServiceRoute with SecurityDirectives {
 

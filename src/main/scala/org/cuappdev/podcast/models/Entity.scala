@@ -1,4 +1,4 @@
-package me.archdev.restapi.models
+package org.cuappdev.podcast.models
 
 import java.sql.Timestamp
 import org.joda.time.DateTime

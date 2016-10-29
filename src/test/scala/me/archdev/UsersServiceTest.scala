@@ -1,7 +1,6 @@
 package me.archdev
 
 import akka.http.scaladsl.model.{ HttpEntity, MediaTypes }
-import me.archdev.restapi.http.routes.UsersServiceRoute
 import me.archdev.restapi.models.UserEntity
 import org.scalatest.concurrent.ScalaFutures
 

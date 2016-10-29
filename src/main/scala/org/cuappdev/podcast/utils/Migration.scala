@@ -1,4 +1,4 @@
-package me.archdev.restapi.utils
+package org.cuappdev.podcast.utils
 
 import java.util.Properties
 import org.flywaydb.core.Flyway

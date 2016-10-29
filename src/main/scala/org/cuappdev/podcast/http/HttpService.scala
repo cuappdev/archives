@@ -1,8 +1,6 @@
-package me.archdev.restapi.http
+package org.cuappdev.podcast.http
 
-import akka.http.scaladsl.server.Directives._
-import me.archdev.restapi.http.routes._
-import me.archdev.restapi.utils.CorsSupport
+import org.cuappdev.podcast.utils.CorsSupport
 
 trait HttpService extends UsersServiceRoute with CorsSupport {
 

@@ -1,4 +1,4 @@
-package me.archdev.restapi.utils
+package org.cuappdev.utils
 
 import com.typesafe.config.ConfigFactory
 

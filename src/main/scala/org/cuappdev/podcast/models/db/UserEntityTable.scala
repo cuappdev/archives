@@ -1,4 +1,4 @@
-package me.archdev.restapi.models.db
+package org.cuappdev.podcast.models.db
 
 // Dependencies
 import java.sql.Timestamp
@@ -7,7 +7,6 @@ import org.joda.time.DateTime
 
 // Internal utilities
 import me.archdev.restapi.models.UserEntity
-import me.archdev.restapi.utils.DatabaseConfig
 
 // Table Entity
 trait UserEntityTable extends DatabaseConfig {

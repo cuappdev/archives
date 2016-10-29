@@ -1,4 +1,4 @@
-package me.archdev.restapi.utils
+package org.cuappdev.podcast.utils
 
 trait DatabaseConfig {
   val driver = slick.driver.PostgresDriver

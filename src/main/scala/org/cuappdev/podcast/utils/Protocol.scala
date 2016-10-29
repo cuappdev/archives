@@ -1,4 +1,4 @@
-package me.archdev.restapi.utils
+package org.cuappdev.podcast.utils
 
 import me.archdev.restapi.models._
 import spray.json.{DeserializationException, JsNull, JsNumber, JsValue, JsonFormat}

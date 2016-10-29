@@ -1,4 +1,4 @@
-package me.archdev.restapi.http
+package org.cuappdev.podcast.models
 
 import akka.http.scaladsl.server.directives.{ RouteDirectives, BasicDirectives, HeaderDirectives, FutureDirectives }
 import akka.http.scaladsl.server.Directive1

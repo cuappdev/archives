@@ -1,4 +1,4 @@
-package me.archdev.restapi.models
+package org.cuappdev.podcast.models
 
 case class UserFields (fb_id: String) extends Fields
 
@@ -16,4 +16,3 @@ object UserFactory extends EntityFactory[UserEntity, UserFields] {
   }
 
 }
-

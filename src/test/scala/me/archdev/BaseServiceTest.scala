@@ -1,8 +1,6 @@
 package me.archdev
 
-import me.archdev.restapi.http.HttpService
 import me.archdev.restapi.models.{ TokenEntity, UserEntity }
-import me.archdev.restapi.utils.Migration
 import org.scalatest._
 
 import akka.event.{ NoLogging, LoggingAdapter }

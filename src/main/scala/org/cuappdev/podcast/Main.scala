@@ -1,12 +1,7 @@
-package me.archdev.restapi
+package org.cuappdev.podcast
 
-import akka.actor.ActorSystem
-import akka.event.{ Logging, LoggingAdapter }
-import akka.http.scaladsl.Http
-import akka.stream.ActorMaterializer
-
-import me.archdev.restapi.http.HttpService
-import me.archdev.restapi.utils.{ Migration, Config }
+import me.archdev.restapi.utils.Config
+import org.cuappdev.podcast.utils.Migration
 
 import scala.concurrent.ExecutionContext
 

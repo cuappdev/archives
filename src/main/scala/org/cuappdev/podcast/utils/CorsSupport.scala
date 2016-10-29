@@ -1,4 +1,4 @@
-package me.archdev.restapi.utils
+package org.cuappdev.podcast.utils
 
 import akka.http.scaladsl.model.HttpMethods._
 import akka.http.scaladsl.model.HttpResponse

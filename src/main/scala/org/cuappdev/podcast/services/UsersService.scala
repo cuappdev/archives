@@ -1,4 +1,4 @@
-package me.archdev.restapi.services
+package org.cuappdev.podcast.services
 
 // Facebook
 import com.restfb.DefaultFacebookClient
@@ -8,7 +8,6 @@ import com.restfb.Version
 // User entity + db stuff
 import me.archdev.restapi.models.db.UserEntityTable
 import me.archdev.restapi.models.UserEntity
-import me.archdev.restapi.utils.Config
 
 // To deal with futures
 import scala.util.{Success, Failure}
