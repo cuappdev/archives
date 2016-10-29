@@ -2,9 +2,10 @@ package org.cuappdev.podcast.models
 
 /* Factory and entity for Series. */
 
-case class SeriesFields (
-                          /* define fields here */
-                        ) extends Fields
+case class SeriesFields (audiosearch_id: Long,
+                        title: String,
+                        description: String,
+                        imageUrl: String) extends Fields
 
 case class SeriesEntity (dBInfo: DBInfo,
                          fields: SeriesFields) extends Entity (dBInfo, fields)

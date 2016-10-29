@@ -2,9 +2,8 @@ package org.cuappdev.podcast.models
 
 /* Factory and entity for Like. */
 
-case class LikeFields (
-                        /* define fields here */
-                      ) extends Fields
+case class LikeFields (user_id: Long,
+                       episode_id: Long) extends Fields
 
 case class LikeEntity (dBInfo: DBInfo,
                        fields: LikeFields) extends Entity (dBInfo, fields)

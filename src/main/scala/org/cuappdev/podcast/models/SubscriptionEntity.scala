@@ -2,9 +2,8 @@ package org.cuappdev.podcast.models
 
 /* Factory and entity for Subscription. */
 
-case class SubscriptionFields (
-                                /* define fields here */
-                              ) extends Fields
+case class SubscriptionFields (user_id: Long,
+                              series_id: Long) extends Fields
 
 case class SubscriptionEntity (dBInfo: DBInfo,
                                fields: SubscriptionFields) extends Entity (dBInfo, fields)

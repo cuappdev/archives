@@ -1,4 +1,4 @@
-package org.cuappdev.podcast.models.routes
+package org.cuappdev.podcast.http.routes
 
 import org.cuappdev.podcast.utils.Config
 import org.cuappdev.podcast.utils.Protocol
