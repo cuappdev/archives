@@ -6,8 +6,8 @@ case class LikeFields (
                         /* define fields here */
                       ) extends Fields
 
-case class LikeEntity (override val dBInfo: DBInfo,
-                       override val fields: LikeFields) extends Entity (dBInfo, fields)
+case class LikeEntity (dBInfo: DBInfo,
+                       fields: LikeFields) extends Entity (dBInfo, fields)
 
 object LikeFactory extends EntityFactory[LikeEntity, LikeFields] {
 

@@ -1,6 +1,6 @@
 package org.cuappdev.podcast.utils
 
-import me.archdev.restapi.models._
+import org.cuappdev.podcast.models._
 import java.sql.Timestamp
 
 // Incredibly useful JSON implementation in Scala

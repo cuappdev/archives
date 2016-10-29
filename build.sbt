@@ -1,5 +1,5 @@
 name          := """podcast-web"""
-organization  := "me.archdev"
+organization  := "org.cuappdev"
 version       := "1.0.0"
 scalaVersion  := "2.11.7"
 scalacOptions := Seq("-unchecked", "-feature", "-deprecation", "-encoding", "utf8")

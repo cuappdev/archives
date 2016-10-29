@@ -8,8 +8,8 @@ def generate_factory_code(obj_name):
     /* define fields here */
   ) extends Fields
 
-  case class {}Entity (override val dBInfo: DBInfo,
-                       override val fields: {}Fields) extends Entity (dBInfo, fields)
+  case class {}Entity (dBInfo: DBInfo,
+                      fields: {}Fields) extends Entity (dBInfo, fields)
 
   object {}Factory extends EntityFactory[{}Entity, {}Fields] {
 

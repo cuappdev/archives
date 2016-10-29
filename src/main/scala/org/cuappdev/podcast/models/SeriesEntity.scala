@@ -6,8 +6,8 @@ case class SeriesFields (
                           /* define fields here */
                         ) extends Fields
 
-case class SeriesEntity (override val dBInfo: DBInfo,
-                         override val fields: SeriesFields) extends Entity (dBInfo, fields)
+case class SeriesEntity (dBInfo: DBInfo,
+                         fields: SeriesFields) extends Entity (dBInfo, fields)
 
 object SeriesFactory extends EntityFactory[SeriesEntity, SeriesFields] {
 
