@@ -6,8 +6,3 @@ CREATE TABLE "likes" (
   "updated_at" TIMESTAMP DEFAULT NOW()
 );
 
-/* Trigger to ensure update_at is refreshed on updating tuple */
-CREATE TRIGGER likes_updated_at
-BEFORE UPDATE ON likes
-FOR EACH ROW EXECUTE PROCEDURE refresh_updated_at_column();
-

@@ -6,8 +6,3 @@ CREATE TABLE "subscriptions" (
   "updated_at" TIMESTAMP DEFAULT NOW()
 );
 
-/* Trigger to ensure update_at is refreshed on updating tuple */
-CREATE TRIGGER subscriptions_updated_at
-BEFORE UPDATE ON subscriptions
-FOR EACH ROW EXECUTE PROCEDURE refresh_updated_at_column();
-
