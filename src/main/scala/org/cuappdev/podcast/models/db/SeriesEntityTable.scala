@@ -26,7 +26,7 @@ trait SeriesEntityTable extends DatabaseConfig {
     def imageUrl = column[String]("imageUrl")
 
     // Required conversions for reading / writing to / from the DB
-    def * = ((id, created_at, updated_at), (audiosearch_id, title, description, imageUrl).shaped <>
+    def * = ((id, created_at, updated_at), (audiosearch_id, title, description, imageUrl)).shaped <>
       ( { case (dbInfo, seriesFields) => SeriesEntity(DBInfo.tupled.apply(dbInfo), SeriesFields.apply(seriesFields)) },
         { s: SeriesEntity =>
           def f1(p: DBInfo) = DBInfo.unapply(p).get

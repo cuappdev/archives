@@ -27,7 +27,7 @@ trait SubscriptionEntityTable extends DatabaseConfig {
     def series_foreign_key = foreignKey("series_foreign_key", series_id, SeriesEntityTable.series)(_.id)
 
     // Required conversions for reading / writing to / from the DB
-    def * = ((id, created_at, updated_at), (/* fields here */)).shaped <>
+    def * = ((id, created_at, updated_at), (user_id, series_id)).shaped <>
       ( {
         case (dbInfo, subscriptionFields) => SubscriptionEntity(DBInfo.tupled.apply(dbInfo), SubscriptionFields.apply(subscriptionFields))
       }, { s: SubscriptionEntity =>

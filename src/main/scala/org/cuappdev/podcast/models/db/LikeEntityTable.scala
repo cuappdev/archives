@@ -26,7 +26,7 @@ trait LikeEntityTable extends DatabaseConfig {
     def episode_foreign_key = foreignKey("episode_foreign_key", episode_id, EpisodeEntityTable.episode)(_.id)
 
     // Required conversions for reading / writing to / from the DB
-    def * = ((id, created_at, updated_at), (/* fields here */)).shaped <>
+    def * = ((id, created_at, updated_at), (user_id, episode_id)).shaped <>
       ( { case (dbInfo, likeFields) => LikeEntity(DBInfo.tupled.apply(dbInfo), LikeFields.apply(likeFields)) },
         { l: LikeEntity =>
           def f1(p: DBInfo) = DBInfo.unapply(p).get
