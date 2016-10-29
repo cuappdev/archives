@@ -23,8 +23,8 @@ trait UserEntityTable extends DatabaseConfig {
     def updated_at = column[Option[Timestamp]]("updated_at", O.Default(Some(new Timestamp(DateTime.now.getMillis))))
 
     // Required conversions for reading / writing to / from the DB
-    def * = (fb_id, id, created_at, updated_at) <> ((UserEntity.apply _).tupled, UserEntity.unapply)
-
+    def * = ((id, created_at, updated_at), (fb_id)) <> ((UserEntity.apply _).tupled, UserEntity.unapply)
+    
   }
 
   // Gets users from the DB

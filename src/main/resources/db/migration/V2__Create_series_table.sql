@@ -7,9 +7,3 @@ CREATE TABLE "series" (
   "created_at" TIMESTAMP DEFAULT NOW(),
   "updated_at" TIMESTAMP DEFAULT NOW()
 );
-
-/* Trigger to ensure update_at is refreshed on updating tuple */
-CREATE TRIGGER series_updated_at
-BEFORE UPDATE ON series
-FOR EACH ROW EXECUTE PROCEDURE refresh_updated_at_column();
-

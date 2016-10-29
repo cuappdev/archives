@@ -11,8 +11,3 @@ CREATE TABLE "episodes" (
 );
 
 
-/* Trigger to ensure update_at is refreshed on updating tuple */
-CREATE TRIGGER episodes_updated_at
-BEFORE UPDATE ON episodes
-FOR EACH ROW EXECUTE PROCEDURE refresh_updated_at_column();
-
