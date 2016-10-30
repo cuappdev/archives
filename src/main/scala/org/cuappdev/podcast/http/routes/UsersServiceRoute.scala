@@ -12,10 +12,6 @@ import akka.http.scaladsl.server.Directives._
 
 trait UsersServiceRoute extends UsersService with BaseServiceRoute with SecurityDirectives {
 
-  import StatusCodes._
-
-  // implicit val usersUpdateFormat = jsonFormat2(UserEntityUpdate)
-
   // Very basic route
   val usersRoute = pathPrefix("users") {
 
