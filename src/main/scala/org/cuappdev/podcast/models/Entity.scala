@@ -5,7 +5,10 @@ import org.joda.time.DateTime
 
 abstract class Fields
 
-abstract class Entity (dBInfo: DBInfo, fields: Fields)
+class Entity (dBInfo: DBInfo, fields: Fields) {
+  def getDBInfo : DBInfo = dBInfo
+  def getFields : Fields = fields
+}
 
 abstract class EntityFactory [E <: Entity, F <: Fields] {
   def create (f: F): E

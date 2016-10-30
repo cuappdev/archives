@@ -8,13 +8,14 @@ import org.cuappdev.podcast.models.SeriesEntity
 import org.cuappdev.podcast.models.DBInfo
 import org.cuappdev.podcast.models.SeriesFields
 import org.cuappdev.podcast.utils.DatabaseConfig
+import org.cuappdev.podcast.models.
 
 // Table Entity
 trait SeriesEntityTable extends DatabaseConfig {
 
   import driver.api._
 
-  class Seriess(tag: Tag) extends Table[SeriesEntity](tag, "seriess") {
+  class Series(tag: Tag) extends Table[SeriesEntity](tag, "seriess") {
 
     // Fields of the SQL table
     def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
@@ -27,7 +28,7 @@ trait SeriesEntityTable extends DatabaseConfig {
 
     // Required conversions for reading / writing to / from the DB
     def * = ((id, created_at, updated_at), (audiosearch_id, title, description, imageUrl)).shaped <>
-      ( { case (dbInfo, seriesFields) => SeriesEntity(DBInfo.tupled.apply(dbInfo), SeriesFields.apply(seriesFields)) },
+      ( { case (dbInfo, seriesFields) => SeriesEntity(DBInfo.tupled.apply(dbInfo), SeriesFields.tupled.apply(seriesFields)) },
         { s: SeriesEntity =>
           def f1(p: DBInfo) = DBInfo.unapply(p).get
           def f2(p: SeriesFields) = SeriesFields.unapply(p).get

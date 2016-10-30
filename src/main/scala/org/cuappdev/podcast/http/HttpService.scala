@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Directives._
 trait HttpService extends UsersServiceRoute with CorsSupport {
 
   val routes =
-    pathPrefix("/api/v1") {
+    pathPrefix("v1") {
       corsHandler {
         usersRoute // ~ otherRoute ~ otherRoute
       }

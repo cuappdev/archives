@@ -8,6 +8,8 @@ import org.cuappdev.podcast.models.LikeEntity
 import org.cuappdev.podcast.models.DBInfo
 import org.cuappdev.podcast.models.LikeFields
 import org.cuappdev.podcast.utils.DatabaseConfig
+import org.cuappdev.podcast.models.db.UserEntityTable
+import org.cuappdev.podcast.models.db.EpisodeEntityTable
 
 // Table Entity
 trait LikeEntityTable extends DatabaseConfig {
@@ -27,7 +29,7 @@ trait LikeEntityTable extends DatabaseConfig {
 
     // Required conversions for reading / writing to / from the DB
     def * = ((id, created_at, updated_at), (user_id, episode_id)).shaped <>
-      ( { case (dbInfo, likeFields) => LikeEntity(DBInfo.tupled.apply(dbInfo), LikeFields.apply(likeFields)) },
+      ( { case (dbInfo, likeFields) => LikeEntity(DBInfo.tupled.apply(dbInfo), LikeFields.tupled.apply(likeFields)) },
         { l: LikeEntity =>
           def f1(p: DBInfo) = DBInfo.unapply(p).get
           def f2(p: LikeFields) = LikeFields.unapply(p).get
@@ -36,6 +38,6 @@ trait LikeEntityTable extends DatabaseConfig {
   }
 
   // Gets likes from the DB
-  protected val like = TableQuery[Like]
+  protected val like = TableQuery[Likes]
 
 }

@@ -3,7 +3,6 @@ package org.cuappdev.podcast.models.db
 // Dependencies
 import java.sql.Timestamp
 
-import com.restfb.types.Conversation.Tag
 import slick.model.Table
 
 // Internal utilities
@@ -11,6 +10,7 @@ import org.cuappdev.podcast.models.EpisodeEntity
 import org.cuappdev.podcast.models.DBInfo
 import org.cuappdev.podcast.models.EpisodeFields
 import org.cuappdev.podcast.utils.DatabaseConfig
+import org.cuappdev.podcast.models.db.SeriesEntityTable
 
 
 // Table Entity
@@ -35,7 +35,7 @@ trait EpisodeEntityTable extends DatabaseConfig {
     // Required conversions for reading / writing to / from the DB
     def * = ((id, created_at, updated_at),
       (audiosearch_id, title, description, audio_url, image_url, series_id, series_foreign_key)).shaped <>
-      ( { case (dbInfo, episodeFields) => EpisodeEntity(DBInfo.tupled.apply(dbInfo), EpisodeFields.apply(episodeFields)) },
+      ( { case (dbInfo, episodeFields) => EpisodeEntity(DBInfo.tupled.apply(dbInfo), EpisodeFields.tupled.apply(episodeFields)) },
         { e: EpisodeEntity =>
           def f1(p: DBInfo) = DBInfo.unapply(p).get
           def f2(p: EpisodeFields) = EpisodeFields.unapply(p).get
@@ -44,6 +44,6 @@ trait EpisodeEntityTable extends DatabaseConfig {
   }
 
   // Gets episodes from the DB
-  protected val episode = TableQuery[Episode]
+  protected val episode = TableQuery[Episodes]
 
 }

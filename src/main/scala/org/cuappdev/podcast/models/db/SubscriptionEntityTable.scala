@@ -29,7 +29,7 @@ trait SubscriptionEntityTable extends DatabaseConfig {
     // Required conversions for reading / writing to / from the DB
     def * = ((id, created_at, updated_at), (user_id, series_id)).shaped <>
       ( {
-        case (dbInfo, subscriptionFields) => SubscriptionEntity(DBInfo.tupled.apply(dbInfo), SubscriptionFields.apply(subscriptionFields))
+        case (dbInfo, subscriptionFields) => SubscriptionEntity(DBInfo.tupled.apply(dbInfo), SubscriptionFields.tupled.apply(subscriptionFields))
       }, { s: SubscriptionEntity =>
         def f1(p: DBInfo) = DBInfo.unapply(p).get
         def f2(p: SubscriptionFields) = SubscriptionFields.unapply(p).get
@@ -38,6 +38,6 @@ trait SubscriptionEntityTable extends DatabaseConfig {
   }
 
   // Gets subscriptions from the DB
-  protected val subscription = TableQuery[Subscription]
+  protected val subscription = TableQuery[Subscriptions]
 
 }
