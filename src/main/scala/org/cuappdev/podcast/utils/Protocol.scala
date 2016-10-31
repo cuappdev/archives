@@ -9,46 +9,8 @@ import com.sun.xml.internal.ws.encoding.soap.SerializationException
 // https://github.com/spray/spray-json
 import spray.json._
 
-
-/**
-  *
-  * @tparam F
-  * @tparam E
-  */
-class EntityProtocol[F <: Fields, E <: Entity] extends JsonFormat[E] with DefaultJsonProtocol {
-
-  // DB info format
-  implicit val dbInfoFormat = jsonFormat3(DBInfo)
-
-  // Grab the field format of whatever fields we're serializing
-  implicit val fieldFormat = jsonFormat1(Class[F])
-
-  // What WOULD be the formatter for an entity
-  implicit val entityFormat = jsonFormat2(Class[E])
-
-  // Write entities
-  def write (e : E) {
-    (e.getDBInfo.toJson, e.getFields.toJson) match {
-      case (JsObject(dbInfo), JsObject(fields)) => dbInfo ++ fields
-      case _ => throw new SerializationException("This is entity is malformatted")
-    }
-  }
-
-  // Reading entities
-  def read (value: JsValue) {
-    val entityFields = value.asJsObject.fields
-    
-
-  }
-
-}
-
-
-/*
-* Formatting for each of the resources available .. as well as some
-* implicit specifications and such
-*/
-trait Protocol extends DefaultJsonProtocol {
+class EntityProtocol[F <: Fields, E <: Entity] (f: JsObject => F)
+          extends JsonFormat[E] with DefaultJsonProtocol {
 
   // Amazing thread about this here: https://goo.gl/y79ggA
   implicit object TimestampFormat extends JsonFormat[Timestamp] {
@@ -64,13 +26,51 @@ trait Protocol extends DefaultJsonProtocol {
 
   }
 
+  // DBInfo + Field subclass formatting
+  implicit val dbInfoFormat = jsonFormat3(DBInfo)
+  implicit val fieldFormat = jsonFormat1(Class[F])
+
+  // What WOULD be the formatter for an entity
+  implicit val entityFormat = jsonFormat2(Class[E])
+
+  // Write entities
+  def write (e : E) {
+    (e.getDBInfo.toJson, e.getFields.toJson) match {
+      case (JsObject(dbInfo), JsObject(fields)) => dbInfo ++ fields
+      case _ => throw new SerializationException("This is entity is malformatted")
+    }
+  }
+
+  // Reading entities
+  def read (value: JsValue) {
+    value.asJsObject.getFields("id", "created_at", "updated_at") match {
+      case Seq(JsNumber(id), JsNumber(created_at), JsNumber(updated_at)) =>
+        // DB info, de-serialized
+        val dDbInfo = DBInfo(Some(id.toLong),
+          new Timestamp(created_at.toLong),
+          new Timestamp(updated_at.toLong))
+        // Fields, de-serialized
+        val dFields = f(value.asJsObject)
+        new E(dDbInfo, dFields)
+      case _ => throw new DeserializationException("Failed to read appropriate values")
+    }
+  }
+}
+
+trait Protocol extends DefaultJsonProtocol {
+
   // Stock json info
   implicit val dbInfoFormat = jsonFormat3(DBInfo)
 
-  // JSON formatting for each type of entity
-  implicit val usersFieldsFormat = jsonFormat1(UserFields)
-  implicit val usersFormat = jsonFormat2(UserEntity)
-  // TODO: Write a function that generically handles generating a format for entities like 'users'
+  // User formatting
+  implicit val userFormat = new EntityProtocol[UserFields, UserEntity]((obj: JsObject) => {
+    obj.getFields("fb_id") match {
+      case Seq(JsString(fb_id)) => UserFields(fb_id)
+      case _ => throw new DeserializationException("Failed to deserialize user")
+    }
+  })
+
+  // Other model formatting
 
 
 }
