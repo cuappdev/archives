@@ -1,8 +1,24 @@
 package org.cuappdev.podcast.services
 
-/**
-  * Created by amitm on 10/30/16.
-  */
-object SeriesService {
+import org.cuappdev.podcast.models.db.SeriesEntityTable
+import org.cuappdev.podcast.models.SeriesEntity
+import org.cuappdev.podcast.utils.Config
 
-}
+import scala.concurrent.Future
+
+object SeriesService extends SeriesService
+
+trait SeriesService extends SeriesEntityTable with Config {
+
+  import driver.api._
+
+  // Get all the episodes
+  def getSeries(): Future[Seq[SeriesEntity]] = db.run(series.result)
+
+
+  // Get an episode by ID
+  def getByID(id: Long): Future[Option[SeriesEntity]] = {
+    db.run(Series.filter(_.id == id).result.headOption)
+  }
+
+

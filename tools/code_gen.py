@@ -1,4 +1,4 @@
-# Usage: python code_gen.py >> file.scala
+# Usage: python tools/code_gen.py >> file.scala
 
 # Models
 
@@ -72,7 +72,33 @@ def generate_db_table_code(obj_name):
 # Controllers
 
 def generate_service_code(obj_name):
-    pass
+    return """
+    package org.cuappdev.podcast.services
+
+    import org.cuappdev.podcast.models.db.{1}EntityTable
+    import org.cuappdev.podcast.models.{1}Entity
+    import org.cuappdev.podcast.utils.Config
+
+    import scala.concurrent.Future
+
+    object {1}sService extends {1}sService
+
+    trait {1}sService extends {1}EntityTable with Config {
+
+      import driver.api._
+
+      // Get all the episodes
+      def get{1}s(): Future[Seq[{1}Entity]] = db.run({2}.result)
+
+
+      // Get an episode by ID
+      def getByID(id: Long): Future[Option[{1}Entity]] = {
+        db.run({2}s.filter(_.id == id).result.headOption)
+      }
+
+
+    }
+    """.replace("{1}", obj_name).replace("{2}", obj_name.lower())
 
 def generate_service_route_code(obj_name):
     return """
@@ -89,7 +115,7 @@ def generate_service_route_code(obj_name):
 
         pathEndOrSingleSlash {                                // /{2}s
           get {
-            complete(get{1}().map { {3} => {3}.toJson })
+            complete(get{1}s().map { {3} => {3}.toJson })
           }
         }
 
@@ -99,7 +125,7 @@ def generate_service_route_code(obj_name):
 
 
 if __name__ == "__main__":
-    for obj_name in ["Series", "Episode", "Like", "Subscription", "Series"]:
+    for obj_name in ["Series", "Episode", "Like", "Subscription"]:
         # print generate_factory_code(obj_name)
         # print generate_db_table_code(obj_name)
         print generate_service_code(obj_name)
