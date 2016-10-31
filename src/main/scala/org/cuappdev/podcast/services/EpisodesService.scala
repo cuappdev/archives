@@ -17,13 +17,15 @@ object EpisodesService extends EpisodesService
 
 trait EpisodesService extends EpisodeEntityTable with Config {
 
+  import driver.api._
+
   // Gets all the episodes
   def getEpisodes(): Future[Seq[EpisodeEntity]] = db.run(episodes.result)
 
 
   // Get a user by fb_id
   def getByID(id: Long): Future[Option[EpisodeEntity]] = {
-    db.run(episodes.filter(_.id === id).result.headOption)
+    db.run(episodes.filter(_.id == id).result.headOption)
   }
 
 

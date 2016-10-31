@@ -74,13 +74,33 @@ def generate_db_table_code(obj_name):
 def generate_service_code(obj_name):
     pass
 
+def generate_service_route_code(obj_name):
+    return """
+    package org.cuappdev.podcast.http.routes
+
+    import org.cuappdev.podcast.services.{1}sService
+    import org.cuappdev.podcast.models.SecurityDirectives
+    import spray.json._
+    import akka.http.scaladsl.server.Directives._
+
+    trait {1}sServiceRoute extends {1}sService with BaseServiceRoute with SecurityDirectives  {
+
+      val {2}sRoute = pathPrefix("{2}s") {
+
+        pathEndOrSingleSlash {                                // /{2}s
+          get {
+            complete(get{1}().map { {3} => {3}.toJson })
+          }
+        }
+
+      }
+    }""".replace("{1}", obj_name).replace("{2}", obj_name.lower()).replace("{3}", obj_name.lower()[0])
+
+
 
 if __name__ == "__main__":
-	# print generate_factory_code("Series")
-	# print generate_factory_code("Episode")
-	# print generate_factory_code("Like")
-	# print generate_factory_code("Subscription")
-    print generate_db_table_code("Series")
-    print generate_db_table_code("Episode")
-    print generate_db_table_code("Like")
-    print generate_db_table_code("Subscription")
+    for obj_name in ["Series", "Episode", "Like", "Subscription", "Series"]:
+        # print generate_factory_code(obj_name)
+        # print generate_db_table_code(obj_name)
+        print generate_service_code(obj_name)
+        print generate_service_route_code(obj_name)
