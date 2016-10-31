@@ -8,7 +8,6 @@ import org.cuappdev.podcast.models.SeriesEntity
 import org.cuappdev.podcast.models.DBInfo
 import org.cuappdev.podcast.models.SeriesFields
 import org.cuappdev.podcast.utils.DatabaseConfig
-import org.cuappdev.podcast.models.
 
 // Table Entity
 trait SeriesEntityTable extends DatabaseConfig {

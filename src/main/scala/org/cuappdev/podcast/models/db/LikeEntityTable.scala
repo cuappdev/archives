@@ -8,11 +8,9 @@ import org.cuappdev.podcast.models.LikeEntity
 import org.cuappdev.podcast.models.DBInfo
 import org.cuappdev.podcast.models.LikeFields
 import org.cuappdev.podcast.utils.DatabaseConfig
-import org.cuappdev.podcast.models.db.UserEntityTable
-import org.cuappdev.podcast.models.db.EpisodeEntityTable
 
 // Table Entity
-trait LikeEntityTable extends DatabaseConfig {
+trait LikeEntityTable extends DatabaseConfig with UserEntityTable with EpisodeEntityTable {
 
   import driver.api._
 
@@ -22,10 +20,10 @@ trait LikeEntityTable extends DatabaseConfig {
     def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
     def created_at = column[Timestamp]("created_at")
     def updated_at = column[Timestamp]("updated_at")
-    def user_id = column[Long]("user_id")
-    def user_foreign_key = foreignKey("user_foreign_key", user_id, UserEntityTable.user)(_.id)
-    def episode_id = column[Long]("episode_id")
-    def episode_foreign_key = foreignKey("episode_foreign_key", episode_id, EpisodeEntityTable.episode)(_.id)
+    def user_id = column[Option[Long]]("user_id")
+    def user_foreign_key = foreignKey("user_foreign_key", user_id, users)(_.id)
+    def episode_id = column[Option[Long]]("episode_id")
+    def episode_foreign_key = foreignKey("episode_foreign_key", episode_id, episodes)(_.id)
 
     // Required conversions for reading / writing to / from the DB
     def * = ((id, created_at, updated_at), (user_id, episode_id)).shaped <>

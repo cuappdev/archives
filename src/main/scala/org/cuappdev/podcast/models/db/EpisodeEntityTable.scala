@@ -10,11 +10,9 @@ import org.cuappdev.podcast.models.EpisodeEntity
 import org.cuappdev.podcast.models.DBInfo
 import org.cuappdev.podcast.models.EpisodeFields
 import org.cuappdev.podcast.utils.DatabaseConfig
-import org.cuappdev.podcast.models.db.SeriesEntityTable
-
 
 // Table Entity
-trait EpisodeEntityTable extends DatabaseConfig {
+trait EpisodeEntityTable extends DatabaseConfig with SeriesEntityTable {
 
   import driver.api._
 
@@ -29,12 +27,12 @@ trait EpisodeEntityTable extends DatabaseConfig {
     def description = column[String]("description")
     def audio_url = column[String]("audio_url")
     def image_url = column[String]("image_url")
-    def series_id = column[Long]("series_id")
-    def series_foreign_key = foreignKey("series_foreign_key", series_id, SeriesEntityTable.series)(_.id)
+    def series_id = column[Option[Long]]("series_id")
+    def series_foreign_key = foreignKey("series_foreign_key", series_id, series)(_.id)
 
     // Required conversions for reading / writing to / from the DB
     def * = ((id, created_at, updated_at),
-      (audiosearch_id, title, description, audio_url, image_url, series_id, series_foreign_key)).shaped <>
+      (audiosearch_id, title, description, audio_url, image_url, series_id)).shaped <>
       ( { case (dbInfo, episodeFields) => EpisodeEntity(DBInfo.tupled.apply(dbInfo), EpisodeFields.tupled.apply(episodeFields)) },
         { e: EpisodeEntity =>
           def f1(p: DBInfo) = DBInfo.unapply(p).get
@@ -44,6 +42,6 @@ trait EpisodeEntityTable extends DatabaseConfig {
   }
 
   // Gets episodes from the DB
-  protected val episode = TableQuery[Episodes]
+  protected val episodes = TableQuery[Episodes]
 
 }

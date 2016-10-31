@@ -1,8 +1,18 @@
 package org.cuappdev.podcast.http.routes
 
-/**
-  * Created by amitm on 10/30/16.
-  */
-trait EpisodesServiceRoute {
+import org.cuappdev.podcast.services.EpisodesService
+import org.cuappdev.podcast.models.SecurityDirectives
+import akka.http.scaladsl.server.Directives._
 
+trait EpisodesServiceRoute extends EpisodesService with BaseServiceRoute with SecurityDirectives  {
+  val episodesRoute = pathPrefix("episodes") {
+
+    pathEndOrSingleSlash {                                // /users
+      get {
+        complete(getEpisodes().map { e => e.toJson })
+      }
+    }
+
+
+  }
 }

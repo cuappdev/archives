@@ -1,5 +1,7 @@
 # Usage: python code_gen.py >> file.scala
 
+# Models
+
 def generate_factory_code(obj_name):
   return """
   package org.cuappdev.podcast.models
@@ -62,10 +64,15 @@ def generate_db_table_code(obj_name):
       }
 
       // Gets {2}s from the DB
-      protected val {2} = TableQuery[{1}]
+      protected val {2}s = TableQuery[{1}]
 
     }
   """.replace("{1}", obj_name).replace("{2}", obj_name.lower()).replace("{3}", obj_name.lower()[0])
+
+# Controllers
+
+def generate_service_code(obj_name):
+    pass
 
 
 if __name__ == "__main__":

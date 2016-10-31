@@ -11,7 +11,7 @@ import org.cuappdev.podcast.utils.DatabaseConfig
 
 
 // Table Entity
-trait SubscriptionEntityTable extends DatabaseConfig {
+trait SubscriptionEntityTable extends DatabaseConfig with UserEntityTable with SeriesEntityTable {
 
   import driver.api._
 
@@ -21,10 +21,10 @@ trait SubscriptionEntityTable extends DatabaseConfig {
     def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
     def created_at = column[Timestamp]("created_at")
     def updated_at = column[Timestamp]("updated_at")
-    def user_id = column[Long]("user_id")
-    def user_foreign_key = foreignKey("user_foreign_key", user_id, UserEntityTable.user)(_.id)
-    def series_id = column[Long]("series_id")
-    def series_foreign_key = foreignKey("series_foreign_key", series_id, SeriesEntityTable.series)(_.id)
+    def user_id = column[Option[Long]]("user_id")
+    def user_foreign_key = foreignKey("user_foreign_key", user_id, users)(_.id)
+    def series_id = column[Option[Long]]("series_id")
+    def series_foreign_key = foreignKey("series_foreign_key", series_id, series)(_.id)
 
     // Required conversions for reading / writing to / from the DB
     def * = ((id, created_at, updated_at), (user_id, series_id)).shaped <>
@@ -38,6 +38,6 @@ trait SubscriptionEntityTable extends DatabaseConfig {
   }
 
   // Gets subscriptions from the DB
-  protected val subscription = TableQuery[Subscriptions]
+  protected val subscriptions = TableQuery[Subscriptions]
 
 }

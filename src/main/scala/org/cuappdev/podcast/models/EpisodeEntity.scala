@@ -7,7 +7,7 @@ case class EpisodeFields (audiosearch_id: Long,
                           description: String,
                           audio_url: String,
                           image_url: String,
-                          series_id: Long) extends Fields
+                          series_id: Option[Long]) extends Fields
 
 case class EpisodeEntity (dBInfo: DBInfo,
                           fields: EpisodeFields) extends Entity (dBInfo, fields)

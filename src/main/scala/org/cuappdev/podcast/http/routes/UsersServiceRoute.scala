@@ -1,13 +1,8 @@
 package org.cuappdev.podcast.http.routes
 
-import com.restfb.DefaultFacebookClient
-import com.restfb.FacebookClient.AccessToken
-import org.cuappdev.podcast.models.UserEntity
 import org.cuappdev.podcast.services.UsersService
 import org.cuappdev.podcast.models.SecurityDirectives
-import org.cuappdev.podcast.http.routes.BaseServiceRoute
 import spray.json._
-import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 
 trait UsersServiceRoute extends UsersService with BaseServiceRoute with SecurityDirectives {
