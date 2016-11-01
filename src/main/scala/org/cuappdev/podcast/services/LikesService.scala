@@ -18,7 +18,7 @@ trait LikesService extends LikeEntityTable with Config {
 
   // Get an episode by ID
   def getByID(id: Long): Future[Option[LikeEntity]] = {
-    db.run(likes.filter(_.id == id).result.headOption)
+    db.run(like.filter(_.id == id).result.headOption)
   }
 
 

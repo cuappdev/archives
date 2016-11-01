@@ -18,7 +18,7 @@ trait SeriesService extends SeriesEntityTable with Config {
 
   // Get an episode by ID
   def getByID(id: Long): Future[Option[SeriesEntity]] = {
-    db.run(Series.filter(_.id == id).result.headOption)
+    db.run(series.filter(_.id == id).result.headOption)
   }
 
 
