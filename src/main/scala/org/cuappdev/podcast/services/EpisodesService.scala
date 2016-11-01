@@ -27,15 +27,13 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     Future.successful(Some(newEpisode))
   }
 
-  // Read
-
-  /**
+  /** Gets all the episodes.
     * @return all of the episodes
     */
   def getEpisodes(): Future[Seq[EpisodeEntity]] = db.run(episodes.result)
 
   /**
-    *
+    * Gets an episode with a specific ID.
     * @param id the ID of the episode
     * @return the episode entity
     */
@@ -43,10 +41,8 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     db.run(episodes.filter(_.id == id).result.headOption)
   }
 
-  // Update
-
   /**
-    *
+    * Updates an episode.
     * @param id the ID of the episode
     * @param fields the EpisodeFields containing new values
     * @return an EpisodeEntity updated with the new fields
@@ -59,10 +55,8 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     }
   }
 
-  // Delete
-
   /**
-    *
+    * Deletes an episode.
     * @param id the ID of the episode to delete
     * @return the ID of the deleted episode
     */
