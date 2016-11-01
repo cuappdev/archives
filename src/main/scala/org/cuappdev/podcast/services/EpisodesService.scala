@@ -14,8 +14,6 @@ trait EpisodesService extends EpisodeEntityTable with Config {
 
   import driver.api._
 
-  // Create
-
   /**
     * Creates a new episode given some fields.
     * @param fields the EpisodeFields needed to create the EpisodeEntity
