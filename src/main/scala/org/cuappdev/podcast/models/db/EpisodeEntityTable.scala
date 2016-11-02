@@ -3,8 +3,6 @@ package org.cuappdev.podcast.models.db
 // Dependencies
 import java.sql.Timestamp
 
-import slick.model.Table
-
 // Internal utilities
 import org.cuappdev.podcast.models.EpisodeEntity
 import org.cuappdev.podcast.models.DBInfo

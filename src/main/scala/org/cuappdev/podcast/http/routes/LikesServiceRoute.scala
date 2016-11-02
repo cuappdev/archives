@@ -6,7 +6,7 @@ import spray.json._
 import akka.http.scaladsl.server.Directives._
 
 trait LikesServiceRoute extends LikesService with BaseServiceRoute with SecurityDirectives  {
-
+  /*
   val likesRoute = pathPrefix("likes") {
 
     pathEndOrSingleSlash {                                // /likes
@@ -16,4 +16,5 @@ trait LikesServiceRoute extends LikesService with BaseServiceRoute with Security
     }
 
   }
+  */
 }

@@ -4,6 +4,8 @@ import org.cuappdev.podcast.models.db.EpisodeEntityTable
 import org.cuappdev.podcast.models.{EpisodeEntity, EpisodeFactory, EpisodeFields}
 import org.cuappdev.podcast.utils.Config
 
+// Execution requirements
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object EpisodesService extends EpisodesService
@@ -36,7 +38,7 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     * @return the episode entity
     */
   def getByID(id: Long): Future[Option[EpisodeEntity]] = {
-    db.run(episodes.filter(_.id == id).result.headOption)
+    db.run(episodes.filter(_.id === id).result.headOption)
   }
 
   /**

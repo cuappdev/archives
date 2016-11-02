@@ -12,6 +12,10 @@ case class SeriesEntity (dBInfo: DBInfo,
 
 object SeriesFactory extends EntityFactory[SeriesEntity, SeriesFields] {
 
+  def instantiate(dbInfo: DBInfo, newFields: SeriesFields) = {
+    new SeriesEntity(dbInfo, newFields)
+  }
+
   def create (f: SeriesFields) : SeriesEntity = {
     new SeriesEntity(DBInfoFactory.create(), f)
   }

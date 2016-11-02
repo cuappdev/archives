@@ -1,9 +1,6 @@
 package org.cuappdev.podcast.models
 
 import akka.http.scaladsl.server.directives.{ RouteDirectives, BasicDirectives, HeaderDirectives, FutureDirectives }
-import akka.http.scaladsl.server.Directive1
-import org.cuappdev.podcast.models.UserEntity
-// import me.archdev.restapi.services.AuthService
 
 trait SecurityDirectives {
 

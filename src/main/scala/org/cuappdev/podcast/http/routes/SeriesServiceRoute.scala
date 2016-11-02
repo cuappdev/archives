@@ -6,7 +6,7 @@ import spray.json._
 import akka.http.scaladsl.server.Directives._
 
 trait SeriesServiceRoute extends SeriesService with BaseServiceRoute with SecurityDirectives  {
-
+  /*
   val SeriesRoute = pathPrefix("Series") {
 
     pathEndOrSingleSlash {                                // /Series
@@ -16,4 +16,5 @@ trait SeriesServiceRoute extends SeriesService with BaseServiceRoute with Securi
     }
 
   }
+  */
 }

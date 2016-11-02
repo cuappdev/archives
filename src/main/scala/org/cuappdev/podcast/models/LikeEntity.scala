@@ -10,6 +10,10 @@ case class LikeEntity (dBInfo: DBInfo,
 
 object LikeFactory extends EntityFactory[LikeEntity, LikeFields] {
 
+  def instantiate(dbInfo: DBInfo, newFields: LikeFields) = {
+    new LikeEntity(dbInfo, newFields)
+  }
+
   def create (f: LikeFields) : LikeEntity = {
     new LikeEntity(DBInfoFactory.create(), f)
   }

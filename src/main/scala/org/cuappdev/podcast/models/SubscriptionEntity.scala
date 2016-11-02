@@ -10,6 +10,10 @@ case class SubscriptionEntity (dBInfo: DBInfo,
 
 object SubscriptionFactory extends EntityFactory[SubscriptionEntity, SubscriptionFields] {
 
+  def instantiate(dbInfo: DBInfo, newFields: SubscriptionFields) = {
+    new SubscriptionEntity(dbInfo, newFields)
+  }
+
   def create (f: SubscriptionFields) : SubscriptionEntity = {
     new SubscriptionEntity(DBInfoFactory.create(), f)
   }

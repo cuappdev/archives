@@ -4,7 +4,10 @@ import org.cuappdev.podcast.models.db.LikeEntityTable
 import org.cuappdev.podcast.models.LikeEntity
 import org.cuappdev.podcast.utils.Config
 
+// Execution requirements
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+
 
 object LikesService extends LikesService
 
@@ -18,7 +21,7 @@ trait LikesService extends LikeEntityTable with Config {
 
   // Get an episode by ID
   def getByID(id: Long): Future[Option[LikeEntity]] = {
-    db.run(like.filter(_.id == id).result.headOption)
+    db.run(like.filter(_.id === id).result.headOption)
   }
 
 

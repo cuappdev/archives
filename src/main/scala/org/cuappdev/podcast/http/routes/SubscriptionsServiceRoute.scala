@@ -6,7 +6,7 @@ import spray.json._
 import akka.http.scaladsl.server.Directives._
 
 trait SubscriptionsServiceRoute extends SubscriptionsService with BaseServiceRoute with SecurityDirectives  {
-
+  /*
   val subscriptionsRoute = pathPrefix("subscriptions") {
 
     pathEndOrSingleSlash {                                // /subscriptions
@@ -16,4 +16,5 @@ trait SubscriptionsServiceRoute extends SubscriptionsService with BaseServiceRou
     }
 
   }
+  */
 }

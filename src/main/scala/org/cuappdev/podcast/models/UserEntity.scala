@@ -7,6 +7,10 @@ case class UserEntity (dBInfo: DBInfo,
 
 object UserFactory extends EntityFactory[UserEntity, UserFields] {
 
+  def instantiate(dbInfo: DBInfo, fields: UserFields) = {
+    new UserEntity(dbInfo, fields)
+  }
+
   def create (f: UserFields) : UserEntity = {
     new UserEntity(DBInfoFactory.create(), f)
   }

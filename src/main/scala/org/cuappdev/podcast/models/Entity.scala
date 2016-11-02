@@ -11,6 +11,7 @@ class Entity (dBInfo: DBInfo, fields: Fields) {
 }
 
 abstract class EntityFactory [E <: Entity, F <: Fields] {
+  def instantiate (dbInfo: DBInfo, newFields: F): E
   def create (f: F): E
   def update (e: E, newFields: F): E
 }
