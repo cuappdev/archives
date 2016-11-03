@@ -28,6 +28,7 @@ object DBInfoFactory {
   def update (e: DBInfo) : DBInfo = {
     new DBInfo(e.id, e.created_at, new Timestamp(DateTime.now.getMillis))
   }
+
 }
 
 
