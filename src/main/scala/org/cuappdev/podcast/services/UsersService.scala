@@ -29,7 +29,7 @@ trait UsersService extends UserEntityTable with Config {
 
 
   // Get a user by fb_id
-  def getByFbID(fb_id: String): Future[Option[UserEntity]] = {
+  def getUserByFbID(fb_id: String): Future[Option[UserEntity]] = {
     db.run(users.filter(_.fb_id === fb_id).result.headOption)
   }
 
@@ -41,7 +41,7 @@ trait UsersService extends UserEntityTable with Config {
     val fb_user: com.restfb.types.User = fb.fetchObject("me", classOf[com.restfb.types.User])
 
     // See if the user exists
-    val u: Future[Option[UserEntity]] = this.getByFbID(fb_user.getId)
+    val u: Future[Option[UserEntity]] = this.getUserByFbID(fb_user.getId)
     u.flatMap {
       // If we have this user already
       case Some(user) => Future.successful(Some(user))

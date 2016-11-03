@@ -29,16 +29,20 @@ trait Protocol extends DefaultJsonProtocol {
   // DBInfo + Field subclass formatting
   implicit val dbInfoFormat = jsonFormat3(DBInfo)
 
+
   // EntityProtocol
   class EntityProtocol[F <: Fields, E <: Entity] (f: JsObject => F,
-                                                  implicit val FieldFormat : RootJsonFormat[F],
+                                                  fieldFormat : RootJsonFormat[F],
                                                   factory: (DBInfo, F) => E) extends JsonFormat[E] {
+
+    // JSON formatting for the fields
+    implicit val thisFieldFormat = fieldFormat
 
     // Write entities
     def write (obj: E): JsValue = {
       (obj.getDBInfo.toJson, obj.getFields.asInstanceOf[F].toJson) match {
-        case (dbInfo: JsObject, fields: JsObject) => a.copy(fields = fields ++ b.fields)
-        case _ => throw new SerializationException("This is entity is malformatted")
+        case (JsObject(dbInfo), JsObject(fields)) => JsObject(dbInfo ++ fields)
+        case _ => throw new SerializationException("This is entity is mal-formatted")
       }
     }
 

@@ -37,7 +37,7 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     * @param id the ID of the episode
     * @return the episode entity
     */
-  def getByID(id: Long): Future[Option[EpisodeEntity]] = {
+  def getEpisodeByID(id: Long): Future[Option[EpisodeEntity]] = {
     db.run(episodes.filter(_.id === id).result.headOption)
   }
 
@@ -48,7 +48,7 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     * @return an EpisodeEntity updated with the new fields
     */
   def updateEpisode(id: Long, fields: EpisodeFields): Future[Option[EpisodeEntity]] = {
-    val e : Future[Option[EpisodeEntity]] = getByID(id)
+    val e : Future[Option[EpisodeEntity]] = getEpisodeByID(id)
     e.flatMap {
       case Some(entity) => Future.successful(Some(EpisodeFactory.update(entity, fields)))
       case None => Future.failed(new EpisodeNotFoundException("Episode not found"))
@@ -61,7 +61,7 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     * @return the ID of the deleted episode
     */
   def deleteEpisode(id: Long) : Future[Option[Long]] = {
-    val e : Future[Option[EpisodeEntity]] = getByID(id)
+    val e : Future[Option[EpisodeEntity]] = getEpisodeByID(id)
     e.flatMap {
       case Some(entity) => /* TODO: delete here */ Future.successful(Some(id))
       case None => Future.failed(new EpisodeNotFoundException("Episode not found"))
