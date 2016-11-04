@@ -13,9 +13,14 @@ trait Protocol extends StockProtocol {
   implicit val userFormat =
     new EntityProtocol[UserFields, UserEntity](jsonFormat1(UserFields), UserFactory.instantiate)
 
+  implicit val likeFormat =
+    new EntityProtocol[LikeFields, LikeEntity](jsonFormat2(LikeFields), LikeFactory.instantiate)
 
-  // TODO: More models
+  implicit val seriesFormat =
+    new EntityProtocol[SeriesFields, SeriesEntity](jsonFormat4(SeriesFields), SeriesFactory.instantiate)
 
+  implicit val subscriptionFormat =
+    new EntityProtocol[SubscriptionFields, SubscriptionEntity](jsonFormat2(SubscriptionFields), SubscriptionFactory.instantiate)
 
 
 }
