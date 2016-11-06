@@ -38,7 +38,7 @@ trait StockProtocol extends DefaultJsonProtocol {
     def write (obj: E): JsValue = {
       (obj.getDBInfo.toJson, obj.getFields.asInstanceOf[F].toJson) match {
         case (JsObject(dbInfo), JsObject(fields)) => JsObject(dbInfo ++ fields)
-        case _ => throw new SerializationException("This is entity is mal-formatted")
+        case _ => throw new SerializationException("This entity is malformatted")
       }
     }
 
@@ -48,6 +48,15 @@ trait StockProtocol extends DefaultJsonProtocol {
       val dFields = json.convertTo[F]
       factory(dDbInfo, dFields)
     }
+  }
+
+  // FieldsProtocol
+  class FieldsProtocol[F <: Fields] (fieldFormat: RootJsonFormat[F]) extends JsonFormat[F] {
+    implicit val thisFormat = fieldFormat
+
+    def write (obj: F): JsValue = obj.toJson
+
+    def read (json: JsValue) : F = json.convertTo[F]
   }
 
 

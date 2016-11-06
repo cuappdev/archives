@@ -4,12 +4,11 @@ import org.cuappdev.podcast.models._
 
 trait Protocol extends StockProtocol {
 
+  // Formatting for entities
 
-  // Episode formatting
   implicit val episodeFormat =
     new EntityProtocol[EpisodeFields, EpisodeEntity](jsonFormat6(EpisodeFields), EpisodeFactory.instantiate)
 
-  // User formatting
   implicit val userFormat =
     new EntityProtocol[UserFields, UserEntity](jsonFormat1(UserFields), UserFactory.instantiate)
 
@@ -23,4 +22,24 @@ trait Protocol extends StockProtocol {
     new EntityProtocol[SubscriptionFields, SubscriptionEntity](jsonFormat2(SubscriptionFields), SubscriptionFactory.instantiate)
 
 
+  // Formatting for fields
+
+  implicit val episodeFieldsFormat =
+    new FieldsProtocol[EpisodeFields](jsonFormat6(EpisodeFields))
+
+  implicit val userFieldsFormat =
+    new FieldsProtocol[UserFields](jsonFormat1(UserFields))
+
+  implicit val likeFieldsFormat =
+    new FieldsProtocol[LikeFields](jsonFormat2(LikeFields))
+
+  implicit val seriesFieldsFormat =
+    new FieldsProtocol[SeriesFields](jsonFormat4(SeriesFields))
+
+  implicit val subscriptionFieldsFormat =
+    new FieldsProtocol[SubscriptionFields](jsonFormat2(SubscriptionFields))
+
+
 }
+
+object Protocol extends Protocol
