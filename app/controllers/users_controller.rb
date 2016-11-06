@@ -111,7 +111,7 @@ class UsersController < ApplicationController
     page_length = params[:l].blank? ? 5 : (params[:l]).to_i
     page = params[:p].blank? ? 0 : (params[:p]).to_i
     sorted_data = User.where('id in (?)', all_user_ids).sort do |a,b|
-      comp = (-@user.mutual_friends(a.id) <=> -@user.mutual_friends(b.id))
+      comp = (-@user.mutual_following_count(a.id) <=> -@user.mutual_following_count(b.id))
       comp.zero? ? (-(a.like_count) <=> -(b.like_count)) : comp
     end
     data = sorted_data.slice(page * page_length, page_length).as_json(user_id: @user.id)
