@@ -1,5 +1,5 @@
-require 'rails_helpers'
-require './helpers'
+require 'rails_helper'
+require_relative 'helpers'
 
 RSpec.describe LikesController, type: :controller do
 
