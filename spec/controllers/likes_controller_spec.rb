@@ -9,7 +9,7 @@ RSpec.describe LikesController, type: :controller do
   end
 
   it "likes previously not-liked post" do
-    post :likes, unlike: "0", post_id: @p.id
+    post :create, unlike: "0", post_id: @p.id
     response_json = extract_response(response)
     expect(response_json["success"]).to eq(true)
     expect(response_json["liked"]).to eq(true)
@@ -17,21 +17,21 @@ RSpec.describe LikesController, type: :controller do
 
   it "unlikes previously liked post" do
     l = FactoryGirl.create(:like, user_id: @u.id, post_id: @p.id)
-    post :likes, unlike: "1", post_id: @p.id
+    post :create, unlike: "1", post_id: @p.id
     response_json = extract_response(response)
     expect(response_json["success"]).to eq(true)
     expect(response_json["liked"]).to eq(false)
   end
 
   it "doesn't like previously not-liked post" do
-    post :likes, unlike: "1", post_id: @p.id
+    post :create, unlike: "1", post_id: @p.id
     response_json = extract_response(response)
     expect(response_json["success"]).to eq(false)
   end
 
   it "doesn't like previously liked post" do
     l = FactoryGirl.create(:like, user_id: @u.id, post_id: @p.id)
-    post :followings, unlike: "0", post_id: @p.id
+    post :create, unlike: "0", post_id: @p.id
     response_json = extract_response(response)
     expect(response_json["success"]).to eq(false)
   end
