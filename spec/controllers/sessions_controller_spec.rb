@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
   it "creates session using a FB token" do

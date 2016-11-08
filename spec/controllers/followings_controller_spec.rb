@@ -1,5 +1,4 @@
-require 'rails_helper'
-require_relative 'helpers'
+require_relative '../rails_helper'
 
 RSpec.describe FollowingsController, type: :controller do
 
