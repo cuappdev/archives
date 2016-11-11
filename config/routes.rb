@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   post 'followings' => 'followings#create'
   delete 'followings' => 'followings#destroy'
 
+  get 'notify' => 'likes#notify'
+
   get 'users/:id/posts' => 'users#posts'
   get 'users/:id/likes' => 'users#likes'
   get 'users/:id/following' => 'users#following'
