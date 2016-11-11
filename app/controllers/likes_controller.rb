@@ -8,7 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-
+require 'json'
 class LikesController < ApplicationController
   include HttpHelper
   before_action :authorize, only: [:create, :is_liked]
@@ -23,19 +23,19 @@ class LikesController < ApplicationController
     if success_val
         @user = User.find(post.user_id)
         @user.increment(:hipster_score, 1).save
-        notify(@user.id) 
+        notify(@user.push_id) 
     end
     render json: { success: success_val, liked: true }
   end
 
-  def notify#(user_id)
-    url = "http://10.145.5.191:3000/push" #TODO
+  def notify(user_push_id)
+    url = "http://10.145.5.191:8080/push" #TODO
     headers = {'Content-Type' =>'application/json'} 
     body = {:app => "TEMPO", 
-            :message => "Someone liked your post!", #TODO  
-            :target_id => ["dd7572d6-9a6c-4497-917f-5efaf92ed6c2"],  
+            :message =>  "Someone liked your post!", 
+            :target_ids => [user_push_id],  
             :notification => 1}
-    res = push(headers, body, url)
+    res = post_no_ssl(headers, body.to_json, url)
   end 
 
   def destroy

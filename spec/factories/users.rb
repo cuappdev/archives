@@ -6,15 +6,16 @@
 #  name             :string
 #  hipster_score    :integer          default(0)
 #  caption          :string
-#  location_id      :integer
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
 #  followers_count  :integer          default(0)
+#  location_id      :integer
 #  like_count       :integer          default(0)
 #  fbid             :string
 #  username         :string
 #  email            :string
 #  followings_count :integer          default(0)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  push_id          :string
 #
 
 FactoryGirl.define do
