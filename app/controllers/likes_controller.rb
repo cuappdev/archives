@@ -32,7 +32,7 @@ class LikesController < ApplicationController
     url = "http://10.145.5.191:8080/push" #TODO
     headers = {'Content-Type' =>'application/json'} 
     body = {:app => "TEMPO", 
-            :message =>  "Someone liked your post!", 
+            :message =>  "Someone liked your post!", #TODO 
             :target_ids => [user_push_id],  
             :notification => 1}
     res = post_no_ssl(headers, body.to_json, url)
