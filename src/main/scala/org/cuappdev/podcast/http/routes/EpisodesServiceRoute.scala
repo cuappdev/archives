@@ -2,6 +2,7 @@ package org.cuappdev.podcast.http.routes
 
 import org.cuappdev.podcast.services.EpisodesService
 import org.cuappdev.podcast.models.SecurityDirectives
+import org.cuappdev.podcast.models.EpisodeFields
 import spray.json._
 import akka.http.scaladsl.server.Directives._
 

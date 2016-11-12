@@ -9,7 +9,7 @@ trait HttpService extends UsersServiceRoute with EpisodesServiceRoute with Likes
   val routes =
     pathPrefix("v1") {
       corsHandler {
-        usersRoute // ~ otherRoute ~ otherRoute
+        usersRoute ~ episodesRoute
       }
     }
 }
