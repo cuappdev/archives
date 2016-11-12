@@ -1,4 +1,4 @@
-# This file is copied to spec/ when you run 'rails generate rspec:install'
+  # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
@@ -60,16 +60,7 @@ RSpec.configure do |config|
 end
 
 # Helper function to check JSON responses from the API
-def check_response(a)
-  json = JSON.parse(a[:response].body)
-  if a[:print]
-    pp json
-  end
-  expect(json["success"]).to be(a[:success])
+def check_response(response)
+  json = JSON.parse(response.body)
   return json
-end
-
-def extract_response(resp)
-  r = { response: resp, print: true, success: true }
-  check_response(r)
 end
