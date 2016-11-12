@@ -16,7 +16,7 @@ trait EpisodesServiceRoute extends EpisodesService with BaseServiceRoute with Se
       } ~
       post {
         entity(as[EpisodeFields]) { entity =>
-          complete(createEpisode(entity).map { e => "OK" })
+          complete(createEpisode(entity).map { e => e.toJson })
         }
       }
     }
