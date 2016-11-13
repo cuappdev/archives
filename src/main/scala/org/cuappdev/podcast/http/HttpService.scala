@@ -4,12 +4,14 @@ import org.cuappdev.podcast.http.routes._
 import org.cuappdev.podcast.utils.CorsSupport
 import akka.http.scaladsl.server.Directives._
 
-trait HttpService extends UsersServiceRoute with EpisodesServiceRoute with LikesServiceRoute with CorsSupport {
+trait HttpService extends UsersServiceRoute with EpisodesServiceRoute
+  with LikesServiceRoute with SeriesServiceRoute with SubscriptionsServiceRoute
+  with CorsSupport {
 
   val routes =
     pathPrefix("v1") {
       corsHandler {
-        usersRoute ~ episodesRoute
+        usersRoute ~ episodesRoute ~ likesRoute ~ seriesRoute ~ subscriptionsRoute
       }
     }
 }
