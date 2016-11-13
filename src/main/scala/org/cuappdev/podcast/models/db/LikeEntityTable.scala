@@ -36,6 +36,6 @@ trait LikeEntityTable extends DatabaseConfig with UserEntityTable with EpisodeEn
   }
 
   // Gets likes from the DB
-  protected val like = TableQuery[Likes]
+  protected val likes = TableQuery[Likes]
 
 }

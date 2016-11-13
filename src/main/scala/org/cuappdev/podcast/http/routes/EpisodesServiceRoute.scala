@@ -20,7 +20,5 @@ trait EpisodesServiceRoute extends EpisodesService with BaseServiceRoute with Se
         }
       }
     }
-
-
   }
 }
