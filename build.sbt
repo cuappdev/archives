@@ -30,7 +30,9 @@ libraryDependencies ++= {
     "org.scalamock" %% "scalamock-scalatest-support" % scalaMockV % "it,test",
     "com.typesafe.akka" %% "akka-http-testkit-experimental" % akkaStreamV % "it,test",
     // FB Graph API Integration
-    "com.restfb" % "restfb" % "1.32.0"
+    "com.restfb" % "restfb" % "1.32.0",
+    // HTTP Requests
+    "org.scalaj" %% "scalaj-http" % "2.3.0"
   )
 }
 
