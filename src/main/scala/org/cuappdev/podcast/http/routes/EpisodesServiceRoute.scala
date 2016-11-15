@@ -13,17 +13,12 @@ trait EpisodesServiceRoute extends EpisodesService with BaseServiceRoute with Se
     pathEndOrSingleSlash {                                // /episodes
       get {
         complete(getEpisodes().map { e => e.toJson })
-      } ~
-      post {
-        entity(as[EpisodeFields]) { entity =>
-          complete(createEpisode(entity).map { e => e.toJson })
-        }
       }
     } ~ pathPrefix(IntNumber) { id =>
-      delete {
-        complete(deleteEpisode(id).map { e => e.toJson })
+        delete {
+          complete(deleteEpisode(id).map { e => e.toJson })
+        }
       }
-    }
 
   }
 }

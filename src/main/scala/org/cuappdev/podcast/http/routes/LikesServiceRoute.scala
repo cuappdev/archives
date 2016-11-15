@@ -18,6 +18,10 @@ trait LikesServiceRoute extends LikesService with BaseServiceRoute with Security
         entity(as[LikeFields]) { entity =>
           complete(createLike(entity).map { e => e.toJson })
         }
+      } ~ pathPrefix(IntNumber) { id =>
+        delete {
+          complete(deleteLike(id).map { e => e.toJson })
+        }
       }
     }
 

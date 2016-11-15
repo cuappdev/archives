@@ -16,17 +16,6 @@ trait EpisodesService extends EpisodeEntityTable with Config {
 
   import driver.api._
 
-  /**
-    * Creates a new episode given some fields.
-    * @param fields the EpisodeFields needed to create the EpisodeEntity
-    * @return the newly created EpisodeEntity
-    */
-  def createEpisode(fields : EpisodeFields): Future[Option[EpisodeEntity]] = {
-    val newEpisode = EpisodeFactory.create(fields)
-    db.run(episodes returning episodes += newEpisode)
-    Future.successful(Some(newEpisode))
-  }
-
   /** Gets all the episodes.
     * @return all of the episodes
     */
@@ -39,20 +28,6 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     */
   def getEpisodeByID(id: Long): Future[Option[EpisodeEntity]] = {
     db.run(episodes.filter(_.id === id).result.headOption)
-  }
-
-  /**
-    * Updates an episode.
-    * @param id the ID of the episode
-    * @param fields the EpisodeFields containing new values
-    * @return an EpisodeEntity updated with the new fields
-    */
-  def updateEpisode(id: Long, fields: EpisodeFields): Future[Option[EpisodeEntity]] = {
-    val e : Future[Option[EpisodeEntity]] = getEpisodeByID(id)
-    e.flatMap {
-      case Some(entity) => Future.successful(Some(EpisodeFactory.update(entity, fields)))
-      case None => Future.failed(new EpisodeNotFoundException("Episode not found"))
-    }
   }
 
   /**

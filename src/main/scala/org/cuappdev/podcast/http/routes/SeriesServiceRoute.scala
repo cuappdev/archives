@@ -12,11 +12,6 @@ trait SeriesServiceRoute extends SeriesService with BaseServiceRoute with Securi
     pathEndOrSingleSlash {                                // /likes
       get {
         complete(getSeries().map { e => e.toJson })
-      } ~
-      post {
-        entity(as[SeriesFields]) { entity =>
-          complete(createSeries(entity).map { e => e.toJson })
-        }
       }
     }
 

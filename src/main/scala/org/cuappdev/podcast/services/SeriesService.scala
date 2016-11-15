@@ -22,15 +22,4 @@ trait SeriesService extends SeriesEntityTable with Config {
     db.run(series.filter(_.id === id).result.headOption)
   }
 
-  /**
-    * Creates a new series given some fields.
-    * @param fields the SeriesFields needed to create the SeriesEntity
-    * @return the newly created SeriesEntity
-    */
-  def createSeries(fields : SeriesFields): Future[Option[SeriesEntity]] = {
-    val newSeries = SeriesFactory.create(fields)
-    db.run(series returning series += newSeries)
-    Future.successful(Some(newSeries))
-  }
-
 }

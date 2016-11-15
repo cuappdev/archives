@@ -20,6 +20,8 @@ import scala.concurrent.Future
 
 object UsersService extends UsersService
 
+case class UserNotFoundException(msg: String) extends Exception(msg: String)
+
 trait UsersService extends UserEntityTable with Config {
 
   import driver.api._
@@ -31,6 +33,11 @@ trait UsersService extends UserEntityTable with Config {
   // Get a user by fb_id
   def getUserByFbID(fb_id: String): Future[Option[UserEntity]] = {
     db.run(users.filter(_.fb_id === fb_id).result.headOption)
+  }
+
+  // Get a user by ID
+  def getUserByID(id: Long): Future[Option[UserEntity]] = {
+    db.run(users.filter(_.id === id).result.headOption)
   }
 
 
@@ -54,12 +61,19 @@ trait UsersService extends UserEntityTable with Config {
     }
   }
 
+  /**
+    * Deletes a user.
+    * @param id the ID of the subscription to delete
+    * @return the ID of the deleted subscription
+    */
+  def deleteUser(id: Long) : Future[Option[Long]] = {
+    val e : Future[Option[UserEntity]] = getUserByID(id)
+    e.flatMap {
+      case Some(entity) => {
+        db.run(users.filter(_.id === id).delete)
+        Future.successful(Some(id)) }
+      case None => Future.failed(new UserNotFoundException("Like not found"))
+    }
+  }
 
 }
-
-
-
-
-
-
-

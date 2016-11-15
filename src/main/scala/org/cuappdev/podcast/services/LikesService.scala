@@ -8,6 +8,7 @@ import org.cuappdev.podcast.utils.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+case class LikeNotFoundException(msg: String) extends Exception(msg: String)
 
 object LikesService extends LikesService
 
@@ -33,6 +34,21 @@ trait LikesService extends LikeEntityTable with Config {
   // Get an episode by ID
   def getLikeByID(id: Long): Future[Option[LikeEntity]] = {
     db.run(likes.filter(_.id === id).result.headOption)
+  }
+
+  /**
+    * Deletes a like.
+    * @param id the ID of the like to delete
+    * @return the ID of the deleted like
+    */
+  def deleteLike(id: Long) : Future[Option[Long]] = {
+    val e : Future[Option[LikeEntity]] = getLikeByID(id)
+    e.flatMap {
+      case Some(entity) => {
+        db.run(likes.filter(_.id === id).delete)
+        Future.successful(Some(id)) }
+      case None => Future.failed(new LikeNotFoundException("Like not found"))
+    }
   }
 
 
