@@ -63,17 +63,12 @@ trait EpisodesService extends EpisodeEntityTable with Config {
   def deleteEpisode(id: Long) : Future[Option[Long]] = {
     val e : Future[Option[EpisodeEntity]] = getEpisodeByID(id)
     e.flatMap {
-      case Some(entity) => /* TODO: delete here */ Future.successful(Some(id))
+      case Some(entity) => {
+        db.run(episodes.filter(_.id === id).delete)
+        Future.successful(Some(id)) }
       case None => Future.failed(new EpisodeNotFoundException("Episode not found"))
     }
   }
 
 
 }
-
-
-
-
-
-
-

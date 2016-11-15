@@ -19,6 +19,11 @@ trait EpisodesServiceRoute extends EpisodesService with BaseServiceRoute with Se
           complete(createEpisode(entity).map { e => e.toJson })
         }
       }
+    } ~ pathPrefix(IntNumber) { id =>
+      delete {
+        complete(deleteEpisode(id).map { e => e.toJson })
+      }
     }
+
   }
 }
