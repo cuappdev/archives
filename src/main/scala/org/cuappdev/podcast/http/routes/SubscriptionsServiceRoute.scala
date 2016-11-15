@@ -18,9 +18,9 @@ trait SubscriptionsServiceRoute extends SubscriptionsService with BaseServiceRou
           complete(createSubscription(entity).map { e => e.toJson })
         }
       }
-    } ~ pathPrefix(IntNumber) { id =>
+    } ~ path("l" ~ LongNumber) { id =>
         delete {
-          complete(deleteLike(id).map { e => e.toJson })
+          complete(deleteSubscription(id).map { e => e.toJson })
         }
     }
   }
