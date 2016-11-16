@@ -13,9 +13,9 @@ class AudioSearchAPI (audiosearchAppId: String, audiosearchSecret: String) {
   val oAuthResponse = Http(baseUrl + "/oauth/token").param("grant_type", "client_credentials").headers(headers)
 }
 
+
+
 /* Singleton */
-object AudioSearchAPIInstance extends Config {
-
+object AudioSearch extends Config {
   val instance = new AudioSearchAPI (audiosearchAppId, audiosearchSecret)
-
 }
