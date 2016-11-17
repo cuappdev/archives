@@ -1,16 +1,30 @@
 package org.cuappdev.podcast.utils
 
-import akka.http.scaladsl.model.HttpResponse
+/* Necessary for handling HTTP response */
+import spray.json._
+import DefaultJsonProtocol._
+
 import scalaj.http._
 
 /* Filled with AudioSearchAPI HTTP requests */
 class AudioSearchAPI (audiosearchAppId: String, audiosearchSecret: String) {
 
+  val signature = Base64.encodeString(audiosearchAppId + ":" + audiosearchSecret)
   val baseUrl = "https://www.audiosear.ch"
-  val headers : Map[String, String] = Map("Authorization" -> ("Basic " + audiosearchAppId + ":" + audiosearchSecret),
+  val headers : Map[String, String] = Map("Authorization" -> ("Basic " + signature),
                     "Content-Type" -> "application/x-www-form-urlencoded")
 
-  val oAuthResponse = Http(baseUrl + "/oauth/token").param("grant_type", "client_credentials").headers(headers)
+  /* OAuth */
+  val response = Http(baseUrl + "/oauth/token")
+    .param("grant_type", "client_credentials")
+    .headers(headers).postForm.asString.body
+
+  /* Grab Access Token (.get b/c Option) */
+  val accessToken = response.parseJson.asJsObject.fields.get("access_token").get
+
+  /* Ensure we got it via print */
+  println(accessToken)
+
 }
 
 
