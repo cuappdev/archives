@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 
   def likes
     @user = User.find(params[:id])
-    @likes = @user.likes.includes(:post)
+    @likes = @user.likes.includes(:post).order('updated_at DESC')
     @songs = @likes.map{ |like| like.post.songs.first }.uniq
     render json: { songs: @songs }
   end
