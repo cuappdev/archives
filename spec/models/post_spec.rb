@@ -16,8 +16,4 @@ RSpec.describe Post, type: :model do
     expect(@p.valid?).to eq(false)
   end
 
-  it "tests songs of post" do
-    expect(@p.songs.length).to eq(2)
-  end
-
 end

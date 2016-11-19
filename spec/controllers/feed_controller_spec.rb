@@ -13,7 +13,7 @@ RSpec.describe FeedController, type: :controller do
   it "grabs empty feed properly" do
     # Grab feed when authenticated as @user3
     get :index
-    response_json = extract_response(response)
+    response_json = check_response(response)
     expect(response_json["posts"]).to eq([])
   end
 
@@ -21,7 +21,7 @@ RSpec.describe FeedController, type: :controller do
     # Grab feed when authenticated as user1, who is following user2
     get :index
     r = { response: response, print: true, success: true }
-    response_json = extract_response(response)
+    response_json = check_response(response)
     expect(response_json["posts"]).to eq([@post.as_json(id: @user1.id)])
   end
 
