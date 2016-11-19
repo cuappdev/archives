@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119011430) do
+ActiveRecord::Schema.define(version: 20161119075613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,13 +100,10 @@ ActiveRecord::Schema.define(version: 20151119011430) do
     t.integer  "followings_count", default: 0
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.string   "push_id"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", using: :btree
-  add_index "users", ["followers_count"], name: "index_users_on_followers_count", using: :btree
-  add_index "users", ["followings_count"], name: "index_users_on_followings_count", using: :btree
-  add_index "users", ["like_count"], name: "index_users_on_like_count", using: :btree
-  add_index "users", ["location_id"], name: "index_users_on_location_id", using: :btree
-  add_index "users", ["name"], name: "index_users_on_name", using: :btree
+  add_index "users", ["fbid"], name: "index_users_on_fbid", using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", using: :btree
 
 end

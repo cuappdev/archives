@@ -17,7 +17,7 @@ class Song < ActiveRecord::Base
 
   # Grab all the posts
   def posts
-    Post.where('id in (?)', (SongPost.where('song_id = (?)', self.id).pluck(:post_id)))
+    Post.joins("INNER JOIN song_posts ON posts.id = song_posts.post_id WHERE song_posts.song_id = (?)", self.id).select("posts.*")
   end
 
   # Count number of users who posted a particular song
