@@ -10,31 +10,42 @@ import com.sun.xml.internal.ws.encoding.soap.SerializationException
 import spray.json._
 
 
-trait StockProtocol extends DefaultJsonProtocol {
+trait BaseProtocol extends DefaultJsonProtocol {
 
-  // Amazing thread about this here: https://goo.gl/y79ggA
+  /**
+    * Timestamp JSON protocol
+    * Source: https://goo.gl/y79ggA
+    */
   implicit object TimestampFormat extends JsonFormat[Timestamp] {
 
-    // Handle writing
+    /* Write Timestamp */
     def write(obj: Timestamp) = JsNumber(obj.getTime)
 
-    // Handle reading
+    /* Read Timestamp */
     def read(json: JsValue) = json match {
       case JsNumber(time) => new Timestamp(time.toLong)
       case _ => throw DeserializationException("Should be a number")
     }
+
   }
 
-  // EntityProtocol
+  /**
+    * Entity JSON protocol
+    * @param fieldFormat - Format for the fields of this entity
+    * @param factory - Factory involving this entity
+    * @tparam F - The Fields class of this Entity
+    * @tparam E - The Entity class of this Entity
+    */
   class EntityProtocol[F <: Fields, E <: Entity] (fieldFormat : RootJsonFormat[F],
                                                   factory: (DBInfo, F) => E) extends JsonFormat[E] {
 
-    // DBInfo + Field subclass formatting
+    /* DBInfo + Field subclass formatting */
     implicit val dbInfoFormat = jsonFormat3(DBInfo)
-    // JSON formatting for the fields
+
+    /* JSON formatting for the fields */
     implicit val thisFieldFormat = fieldFormat
 
-    // Write entities
+    /* Write Entities */
     def write (obj: E): JsValue = {
       (obj.getDBInfo.toJson, obj.getFields.asInstanceOf[F].toJson) match {
         case (JsObject(dbInfo), JsObject(fields)) => JsObject(dbInfo ++ fields)
@@ -42,22 +53,13 @@ trait StockProtocol extends DefaultJsonProtocol {
       }
     }
 
-    // Reading entities
+    /* Reading Entities */
     def read (json: JsValue): E = {
       val dDbInfo = json.convertTo[DBInfo]
       val dFields = json.convertTo[F]
       factory(dDbInfo, dFields)
     }
+
   }
-
-  // FieldsProtocol
-  class FieldsProtocol[F <: Fields] (fieldFormat: RootJsonFormat[F]) extends JsonFormat[F] {
-    implicit val thisFormat = fieldFormat
-
-    def write (obj: F): JsValue = obj.toJson
-
-    def read (json: JsValue) : F = json.convertTo[F]
-  }
-
 
 }
