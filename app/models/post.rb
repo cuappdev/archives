@@ -20,7 +20,7 @@ class Post < ActiveRecord::Base
 
   before_create :default_values
   def songs
-    Song.where(id: SongPost.where(post_id: self.id).pluck(:song_id))
+    Song.joins("INNER JOIN song_posts ON songs.id = song_posts.song_id WHERE song_posts.post_id = (?)", self.id).select("songs.*")
   end
 
   def as_json(options = {})

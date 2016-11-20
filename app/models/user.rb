@@ -82,10 +82,8 @@ class User < ActiveRecord::Base
 
   # Returns a list of following
   def following_list
-    fids = followings_ids
-    fids.count < 1 ? [] : User.where('id IN (?)', fids)
+    User.joins("INNER JOIN followings ON followings.followed_id = users.id WHERE followings.follower_id = (?)", self.id).select("users.*")
   end
-
 
   # Likes a post
   def like(post_id)
@@ -107,7 +105,7 @@ class User < ActiveRecord::Base
 
   # Returns list of song ids
   def my_songs
-    SongPost.where('post_id in (?)', (Post.where('user_id = (?)', self.id).pluck(:id))).pluck(:song_id)
+    SongPost.joins("INNER JOIN posts ON song_posts.post_id = posts.id WHERE posts.user_id = (?)", self.id).pluck(:song_id)
   end
 
 
