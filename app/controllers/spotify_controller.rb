@@ -22,11 +22,12 @@ class SpotifyController < ApplicationController
     access_token = "Bearer " + @spotify_cred.access_token
     header = {'Content-Type' =>'application/json', "Authorization" => access_token}
     url = '#{SPOTIFY_URL}users/#{username}/playlists'
+
     res = post(header, body.to_json, url)
     playlistId = res["id"]
 
     @spotify_cred.update_playlist(playlistId)
-    redirect_to "#{ENV["icefishing-app-redirect"]}callback?access_token=#{token[:access_token]}&session_code=#{session_code}&expires_at=#{token[:expires_at]}"
+    redirect_to "#{ENV["tempo_redirect"]}callback?access_token=#{token[:access_token]}&session_code=#{session_code}&expires_at=#{token[:expires_at]}"
   end
   def get_access_token
     if @user.spotify_cred.blank?
