@@ -26,12 +26,9 @@ class PostsController < ApplicationController
     if @success
       time_from = @song_post.created_at
       hipster_count = 4 - (Post.where(user_id: user_id, created_at: (time_from - 24.hours)..time_from).count)
-      @user.increment(:hipster_score, hipster_count).save 
+      @user.increment(:hipster_score, hipster_count).save
     end
     hipster_user.increment(:hipster_score, 10).save if (!hipster_user.blank? and @success)
-    if (@success)
-       add_to_followers_playlist(user_id, params[:song][:spotify_url])
-    end
     render json: { success: !@song.blank?, post: @post.as_json(id: user_id) }
   end
   private

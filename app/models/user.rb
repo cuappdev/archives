@@ -97,11 +97,11 @@ class User < ActiveRecord::Base
     like.valid? || post.blank? ? true : false
   end
 
-  # Updates push id 
+  # Updates push id
   def update_push_id(push_id)
     self.push_id = push_id
     self.save
-  end 
+  end
 
 
   # Returns list of song ids
@@ -156,6 +156,7 @@ class User < ActiveRecord::Base
   end
 
   def as_json(options = {})
+      p "IN EOSVOPUHIUHSDOVIBDSIUH PAOS HIU ODUSBDISUB"
       if options[:limited]
         exclude = [:followers_count, :followers, :followings_count, :following, :is_following]
         more_hash = {}

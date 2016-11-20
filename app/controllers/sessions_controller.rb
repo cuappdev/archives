@@ -11,13 +11,13 @@
 #
 
 class SessionsController < ApplicationController
-  require 'http_helper'
+  include HttpHelper
   def create
     #check for an existing user with this fbid
     user_token = params[:user][:usertoken]
     url = FACEBOOK_USER_URL + user_token
-    res = get({}, {}, url)
-    res = JSON.parse(response.body)
+    res = get({}, {"nothing": true}.to_json, url)
+    p res
     fbid = res["id"]
 
     #check for invalid user token
