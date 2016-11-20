@@ -2,7 +2,8 @@ package org.cuappdev.podcast.services
 
 import org.cuappdev.podcast.models.db.EpisodeEntityTable
 import org.cuappdev.podcast.models.{EpisodeEntity, EpisodeFactory, EpisodeFields}
-import org.cuappdev.podcast.utils.Config
+import org.cuappdev.podcast.utils.{AudioSearch, Config}
+import spray.json.JsObject
 
 // Execution requirements
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -16,10 +17,11 @@ trait EpisodesService extends EpisodeEntityTable with Config {
 
   import driver.api._
 
-  /** Gets all the episodes.
-    * @return all of the episodes
+  /**
+    * TODO
+    * @return
     */
-  def getEpisodes(): Future[Seq[EpisodeEntity]] = db.run(episodes.result)
+  def getEpisodes(): JsObject = AudioSearch.instance.trendingEpsiodes(Map())
 
   /**
     * Gets an episode with a specific ID.
@@ -30,20 +32,6 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     db.run(episodes.filter(_.id === id).result.headOption)
   }
 
-  /**
-    * Deletes an episode.
-    * @param id the ID of the episode to delete
-    * @return the ID of the deleted episode
-    */
-  def deleteEpisode(id: Long) : Future[Option[Long]] = {
-    val e : Future[Option[EpisodeEntity]] = getEpisodeByID(id)
-    e.flatMap {
-      case Some(entity) => {
-        db.run(episodes.filter(_.id === id).delete)
-        Future.successful(Some(id)) }
-      case None => Future.failed(new EpisodeNotFoundException("Episode not found"))
-    }
-  }
 
 
 }

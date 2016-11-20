@@ -62,4 +62,9 @@ trait BaseProtocol extends DefaultJsonProtocol {
 
   }
 
+  /**
+    * APIResponse JSON protocol
+    */
+  implicit val apiResponseFormat = jsonFormat2(APIResponse)
+
 }

@@ -52,6 +52,11 @@ class AudioSearchAPI (audiosearchAppId: String, audiosearchSecret: String) {
     get (baseUrl + "/search/episodes/" + encodeURI(queryString), params)
   }
 
+  /* Get trending episodes */
+  def trendingEpsiodes (params: Map [String, String]) : JsObject = {
+    get (baseUrl + "/trending/", params)
+  }
+
   /* Get show by ID assigned by audiosearch */
   def getShow (id: Integer, params: Map [String, String]) : JsObject = {
     get (baseUrl + "/shows/" + id.toString, params)
