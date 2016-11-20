@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  post 'users/register_push' => "users#register_push"
   post 'users/valid_username' => 'users#valid_username'
   get 'users/valid_fbid' => 'users#valid_fbid'
   post 'users/authenticate' => 'sessions#create'

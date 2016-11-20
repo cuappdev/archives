@@ -8,8 +8,9 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-
+require 'json'
 class LikesController < ApplicationController
+  include HttpHelper
   before_action :authorize, only: [:create, :is_liked]
   def create
     @unlike = params[:unlike]
@@ -20,10 +21,22 @@ class LikesController < ApplicationController
     end
     success_val = @user.like(post_id)
     if success_val
-        User.find(post.user_id).increment(:hipster_score, 1).save
+        @user = User.find(post.user_id)
+        @user.increment(:hipster_score, 1).save
+        notify(@user.push_id) 
     end
     render json: { success: success_val, liked: true }
   end
+
+  def notify(user_push_id)
+    url = "http://10.145.5.191:8080/push" #TODO
+    headers = {'Content-Type' =>'application/json'} 
+    body = {:app => "TEMPO", 
+            :message =>  "Someone liked your post!", #TODO 
+            :target_ids => [user_push_id],  
+            :notification => 1}
+    res = post_no_ssl(headers, body.to_json, url)
+  end 
 
   def destroy
     post_id = params[:post_id]
