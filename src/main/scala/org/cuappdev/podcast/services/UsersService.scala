@@ -26,22 +26,36 @@ trait UsersService extends UserEntityTable with Config {
 
   import driver.api._
 
-  // Gets all the users
+  /**
+    * Gets all the users
+    * @return - Future
+    */
   def getUsers(): Future[Seq[UserEntity]] = db.run(users.result)
 
 
-  // Get a user by fb_id
+  /**
+    * Get a user by Facebook ID
+    * @param fb_id - String
+    * @return - Future
+    */
   def getUserByFbID(fb_id: String): Future[Option[UserEntity]] = {
     db.run(users.filter(_.fb_id === fb_id).result.headOption)
   }
 
-  // Get a user by ID
+  /**
+    * Get a user by ID
+    * @param id - The ID of the user to get (Long)
+    * @return - Future
+    */
   def getUserByID(id: Long): Future[Option[UserEntity]] = {
     db.run(users.filter(_.id === id).result.headOption)
   }
 
-
-  // Gets a user via FB authentication
+  /**
+    * Gets a user via FB authentication
+    * @param fb_token - The FB Token characterizing the user (String)
+    * @return - Future with the UserEntity
+    */
   def getOrCreateUser(fb_token: String): Future[Option[UserEntity]] = {
     // Grab fb info
     val fb: FacebookClient = new DefaultFacebookClient(fb_token, facebookSecret, Version.VERSION_2_8)
@@ -62,9 +76,9 @@ trait UsersService extends UserEntityTable with Config {
   }
 
   /**
-    * Deletes a user.
-    * @param id the ID of the subscription to delete
-    * @return the ID of the deleted subscription
+    * Deletes a user
+    * @param id - The ID of the user to delete (Long)
+    * @return - Future with the ID of the deleted subscription
     */
   def deleteUser(id: Long) : Future[Option[Long]] = {
     val e : Future[Option[UserEntity]] = getUserByID(id)

@@ -25,8 +25,6 @@ trait UsersServiceRoute extends UsersService with BaseServiceRoute with Security
           }
         }
       }
-
-
   }
 
 }
