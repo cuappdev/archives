@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161119075613) do
+ActiveRecord::Schema.define(version: 20161119082744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,9 +98,10 @@ ActiveRecord::Schema.define(version: 20161119075613) do
     t.string   "username"
     t.string   "email"
     t.integer  "followings_count", default: 0
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "push_id"
+    t.boolean  "active",           default: true
   end
 
   add_index "users", ["fbid"], name: "index_users_on_fbid", using: :btree

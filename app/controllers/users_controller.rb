@@ -6,15 +6,17 @@
 #  name             :string
 #  hipster_score    :integer          default(0)
 #  caption          :string
-#  location_id      :integer
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
 #  followers_count  :integer          default(0)
+#  location_id      :integer
 #  like_count       :integer          default(0)
 #  fbid             :string
 #  username         :string
 #  email            :string
 #  followings_count :integer          default(0)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  push_id          :string
+#  active           :boolean          default(TRUE)
 #
 
 class UsersController < ApplicationController
@@ -35,7 +37,6 @@ class UsersController < ApplicationController
     render json: User.find(params[:id]).as_json(user_id: @user.id, include_followers: true, include_following: true)
   end
 
-
   def create
     @user = User.create(user_params)
     render json: { success: !@user.blank? }
@@ -49,6 +50,9 @@ class UsersController < ApplicationController
     render json: { success: success, user: @user.as_json(include_followers: true) }, status: status
   end
 
+  def register_push 
+    User.find_by(id: params[:user_id]).update_push_id(params[:push_id])
+  end 
 
   def following
     @param_user = User.find(params[:id]) unless params[:id].blank?

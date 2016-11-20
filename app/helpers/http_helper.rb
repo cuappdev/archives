@@ -10,6 +10,16 @@ module HttpHelper
     return JSON.parse(response.body)
   end
 
+  def post_no_ssl(headers, body, url)
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = false
+    request = Net::HTTP::Post.new(uri.request_uri, headers)
+    request.body = body
+    response = http.request(request)
+    return JSON.parse(response.body)
+  end
+
   def get(headers, body, url)
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)

@@ -6,15 +6,17 @@
 #  name             :string
 #  hipster_score    :integer          default(0)
 #  caption          :string
-#  location_id      :integer
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
 #  followers_count  :integer          default(0)
+#  location_id      :integer
 #  like_count       :integer          default(0)
 #  fbid             :string
 #  username         :string
 #  email            :string
 #  followings_count :integer          default(0)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  push_id          :string
+#  active           :boolean          default(TRUE)
 #
 
 class User < ActiveRecord::Base
@@ -94,6 +96,12 @@ class User < ActiveRecord::Base
     end
     like.valid? || post.blank? ? true : false
   end
+
+  # Updates push id 
+  def update_push_id(push_id)
+    self.push_id = push_id
+    self.save
+  end 
 
 
   # Returns list of song ids
