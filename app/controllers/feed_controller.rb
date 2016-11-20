@@ -1,7 +1,6 @@
 class FeedController < ApplicationController
   before_action :authorize, only: [:index]
   def index
-    p "IN FEEEEEEEEEEEEEEEEDD"
     followings_ids = @user.followings_ids
     posts = Post
       .where(created_at: (Time.now - 24.hours)..Time.now)
