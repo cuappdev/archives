@@ -1,15 +1,15 @@
 {
   "contacts": [
-    { "service": "Call Cornell University Police",
+    { "service": "Cornell University Police",
       "number": "6072551111"
     },
-    { "service": "Call Emergency Services",
+    { "service": "Emergency Services",
       "number": "911"
     },
-    { "service": "Call Blue Light Escorts",
+    { "service": "Blue Light Escorts",
       "number": "6072557373"
     },
-    { "service": "Call Gannett Health Services",
+    { "service": "Gannett Health Services",
       "number": "6072555155"
     }
   ]
