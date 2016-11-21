@@ -15,7 +15,7 @@ class LikesController < ApplicationController
   def create
     post_id = params[:post_id]
     db_post = Post.find(post_id) unless post_id.blank?
-    if (db_post.blank? or db_post_id.blank?)
+    if (db_post.blank? or post_id.blank?)
       render json: {success: false, liked: !@unlike}
     end
     success_val = @user.like(post_id)
@@ -28,7 +28,7 @@ class LikesController < ApplicationController
   end
 
   def notify(user_push_id)
-    url = "http://localhost:8080/push" #TODO
+    url = "http://localhost:8080/push"
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
             :message =>  "Someone liked your post!", #TODO
