@@ -35,7 +35,7 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
   /** Checks if the session is valid (i.e. not expired) **/
   def checkSessionValid(session: Future[Option[SessionEntity]]) : Future[Boolean] = {
     session.flatMap {
-      case Some(s) => Future.successful(s.fields.expires_at.getMillis > DateTime.now.getMillis)
+      case Some(s) => Future.successful(s.fields.expires_at.getTime > DateTime.now.getMillis)
       case None => {
         Future.failed(new SessionNotFoundException("Session not found"))
       }
@@ -44,14 +44,17 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
 
   /** Grabs a user by the session's token (as long as the session is not expired) **/
   def grabUserBySessionToken(token: String) : Future[UserEntity] = {
-    val session : Future[Option[SessionEntity]] = db.run(sessions.filter(_.fields.token === token).result.headOption)
+    val session : Future[Option[SessionEntity]] = db.run(sessions.filter(_.token === token).result.headOption)
     val expired : Future[Boolean] = checkSessionValid(session)
     expired.flatMap {
       case true => {
-        val user : Future[Option[UserEntity]] = db.run(users.filter(_.id == session.user_id).result.headOption)
-        user.flatMap {
-          case Some(u) => Future.successful(u)
-          case None => Future.failed(new UserNotFoundException("User associated with this session not found."))
+        session.flatMap {
+          case Some(s) => val user : Future[Option[UserEntity]] = db.run(users.filter(_.id === s.fields.user_id).result.headOption);
+            user.flatMap {
+              case Some(u) => Future.successful(u)
+              case None => Future.failed(new UserNotFoundException("User associated with this session not found."))
+            }
+          case None => Future.failed(new SessionNotFoundException("Session not found."))
         }
       }
       case false => {
@@ -61,7 +64,7 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
   }
 
   def generateSession(updateToken: String) : Future[SessionEntity] = {
-    val session : Future[Option[SessionEntity]] = db.run(sessions.filter(_.fields.update_token == updateToken).result.headOption)
+    val session : Future[Option[SessionEntity]] = db.run(sessions.filter(_.update_token === updateToken).result.headOption)
     session.flatMap {
       case Some(s) => val session = SessionFactory.create(
         new SessionFields(
