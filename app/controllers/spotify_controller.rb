@@ -8,7 +8,8 @@ class SpotifyController < ApplicationController
     session_code = params[:state]
     token = client.auth_code.get_token(params[:code], redirect_uri: redirect_uri).to_hash
     access_token = "Bearer " + token[:access_token]
-    url = SPOTIFY_AUTH_URL
+    spotify_url = "https://api.spotify.com/v1/"
+    url = spotify_url + "me"
     headers = {'Content-Type' =>'application/json', 'Authorization' => access_token}
     res = post(headers, {"nothing":true}.to_json, url)
 
@@ -21,7 +22,7 @@ class SpotifyController < ApplicationController
     body = {:name => "Icefishing Playlist"}
     access_token = "Bearer " + @spotify_cred.access_token
     header = {'Content-Type' =>'application/json', "Authorization" => access_token}
-    url = '#{SPOTIFY_URL}users/#{username}/playlists'
+    url = '#{spotify_url}users/#{username}/playlists'
 
     res = post(header, body.to_json, url)
     playlistId = res["id"]
