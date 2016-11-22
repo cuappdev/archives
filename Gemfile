@@ -28,7 +28,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'oauth2'
 
 gem 'figaro'
-
+gem 'dotenv'
 gem 'httparty'
 
 gem 'active_model_serializers'
