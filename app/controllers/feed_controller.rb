@@ -7,6 +7,6 @@ class FeedController < ApplicationController
       .where('user_id IN (?)', followings_ids + [@user.id])
       .order('created_at DESC')
       .map { |post| post.as_json(id: @user.id) }
-    render json: { posts: posts }
+    render json: { "posts": posts}
   end
 end

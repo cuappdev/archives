@@ -5,10 +5,9 @@ Rails.application.routes.draw do
   post 'users/authenticate' => 'sessions#create'
   post 'users/logout' => 'sessions#logout'
 
-  get 'users' => 'users#index'
-  get 'users' => 'users#show'
   post 'users' => 'users#create'
-  put 'users' => 'users#update'
+  put 'users/:id/toggle_push' => "users#toggle_push"
+  put 'users/:id' => 'users#update'
 
   post 'posts' => 'posts#create'
 
@@ -26,6 +25,8 @@ Rails.application.routes.draw do
   get 'users/:id/likes' => 'users#likes'
   get 'users/:id/following' => 'users#following'
   get 'users/:id/followers' => 'users#followers'
+  get 'users/:id' => 'users#show'
+  get 'users' => 'users#index'
   post 'likes/is_liked' => 'likes#is_liked'
   post 'users/suggestions' => 'users#user_suggestions'
   get 'spotify/get_hash' => 'spotify#get_hash'

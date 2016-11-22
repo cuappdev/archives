@@ -10,8 +10,8 @@
 #
 
 class FollowingsController < ApplicationController
-  before_action :authorize, only: [:create]
-  include FollowingsHelper
+  before_action :authorize, only: [:create, :destroy]
+  include HttpHelper
   def create
     followed_id = (params[:followed_id])
     # cant follow yourself
@@ -20,23 +20,24 @@ class FollowingsController < ApplicationController
     end
     # success value on the follow or unfollow
     success_val = @user.follow(followed_id)
-    if success_val 
-      notify(@user.push_id) 
-    end 
+    #if success_val 
+      #notify(@user.push_id) if their settings allow them to notify
+    #end
     render json: { success: success_val, follow: true }
   end
 
   def notify(user_push_id)
-    url = "http://10.145.5.191:8080/push" #TODO
-    headers = {'Content-Type' =>'application/json'} 
-    body = {:app => "TEMPO", 
-            :message =>  "Someone is following you!", #TODO 
-            :target_ids => [user_push_id],  
+    url = "http://localhost:8080/push" #TODO
+    headers = {'Content-Type' =>'application/json'}
+    body = {:app => "TEMPO",
+            :message =>  "Someone is following you!", #TODO
+            :target_ids => [user_push_id],
             :notification => 2}
     res = post_no_ssl(headers, body.to_json, url)
-  end 
+  end
 
   def destroy
+    followed_id = params[:followed_id]
     success_val = @user.unfollow(followed_id)
     render json: { success: success_val, follow: false}
   end

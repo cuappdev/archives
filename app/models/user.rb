@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
 
   # Returns a list of following
   def following_list
-    User.joins("INNER JOIN followings ON followings.followed_id = users.id WHERE followings.follower_id = (?)", self.id).select("users.*")
+    User.joins("INNER JOIN followings ON followings.followed_id = users.id WHERE followings.follower_id = #{self.id}").select("users.*")
   end
 
   # Likes a post
@@ -97,16 +97,21 @@ class User < ActiveRecord::Base
     like.valid? || post.blank? ? true : false
   end
 
-  # Updates push id 
+  # Updates push id
   def update_push_id(push_id)
     self.push_id = push_id
     self.save
-  end 
+  end
 
+  # Updates remote_push_notifications_enabled
+  def update_push_notifications_enabled(enabled)
+    self.remote_push_notifications_enabled = enabled
+    self.save
+  end
 
   # Returns list of song ids
   def my_songs
-    SongPost.joins("INNER JOIN posts ON song_posts.post_id = posts.id WHERE posts.user_id = (?)", self.id).pluck(:song_id)
+    SongPost.joins("INNER JOIN posts ON song_posts.post_id = posts.id WHERE posts.user_id = #{self.id}").pluck(:song_id)
   end
 
 

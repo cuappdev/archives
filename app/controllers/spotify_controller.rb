@@ -10,7 +10,7 @@ class SpotifyController < ApplicationController
     access_token = "Bearer " + token[:access_token]
     url = SPOTIFY_AUTH_URL
     headers = {'Content-Type' =>'application/json', 'Authorization' => access_token}
-    res = post(headers, {}, url)
+    res = post(headers, {"nothing":true}.to_json, url)
 
     @spotify_cred = SpotifyCred.create(user_id: Session.where(code: session_code).limit(1).pluck(:user_id).first,
                                         access_token: token[:access_token],
@@ -22,8 +22,10 @@ class SpotifyController < ApplicationController
     access_token = "Bearer " + @spotify_cred.access_token
     header = {'Content-Type' =>'application/json', "Authorization" => access_token}
     url = '#{SPOTIFY_URL}users/#{username}/playlists'
-    res = post(header, body, url)
-    playlistId = res["id"]  
+
+    res = post(header, body.to_json, url)
+    playlistId = res["id"]
+
     @spotify_cred.update_playlist(playlistId)
     redirect_to "#{ENV["tempo_redirect"]}callback?access_token=#{token[:access_token]}&session_code=#{session_code}&expires_at=#{token[:expires_at]}"
   end
