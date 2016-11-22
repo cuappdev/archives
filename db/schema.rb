@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161119075613) do
+ActiveRecord::Schema.define(version: 20161122073219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,18 +89,19 @@ ActiveRecord::Schema.define(version: 20161119075613) do
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
-    t.integer  "hipster_score",    default: 0
+    t.integer  "hipster_score",                     default: 0
     t.string   "caption"
-    t.integer  "followers_count",  default: 0
+    t.integer  "followers_count",                   default: 0
     t.integer  "location_id"
-    t.integer  "like_count",       default: 0
+    t.integer  "like_count",                        default: 0
     t.string   "fbid"
     t.string   "username"
     t.string   "email"
-    t.integer  "followings_count", default: 0
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "followings_count",                  default: 0
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "push_id"
+    t.boolean  "remote_push_notifications_enabled", default: true
   end
 
   add_index "users", ["fbid"], name: "index_users_on_fbid", using: :btree

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post 'users/logout' => 'sessions#logout'
 
   post 'users' => 'users#create'
+  put 'users/:id/toggle_push' => "users#toggle_push"
   put 'users/:id' => 'users#update'
 
   post 'posts' => 'posts#create'

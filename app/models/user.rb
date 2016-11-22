@@ -103,6 +103,11 @@ class User < ActiveRecord::Base
     self.save
   end
 
+  # Updates remote_push_notifications_enabled
+  def update_push_notifications_enabled(enabled)
+    self.remote_push_notifications_enabled = enabled
+    self.save
+  end
 
   # Returns list of song ids
   def my_songs

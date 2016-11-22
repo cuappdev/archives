@@ -20,8 +20,8 @@ class FollowingsController < ApplicationController
     end
     # success value on the follow or unfollow
     success_val = @user.follow(followed_id)
-    #if success_val
-      #notify(@user.push_id)
+    #if success_val 
+      #notify(@user.push_id) if their settings allow them to notify
     #end
     render json: { success: success_val, follow: true }
   end

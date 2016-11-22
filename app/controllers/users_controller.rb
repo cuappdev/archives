@@ -54,6 +54,12 @@ class UsersController < ApplicationController
     User.find_by(id: params[:user_id]).update_push_id(params[:push_id])
   end 
 
+  def toggle_push
+    @param_user = User.find_by(id: params[:id])
+    @param_user.update_push_notifications_enabled(params[:enabled])
+    render json: { success: @param_user.remote_push_notifications_enabled == params[:enabled] }
+  end 
+
   def following
     @param_user = User.find(params[:id]) unless params[:id].blank?
     render json: {success: !@param_user.blank?, following: @param_user.following_list.map { |u| u.as_json(user_id: @user.id) }}
