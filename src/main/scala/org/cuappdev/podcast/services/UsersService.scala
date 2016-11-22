@@ -4,10 +4,11 @@ package org.cuappdev.podcast.services
 import com.restfb.DefaultFacebookClient
 import com.restfb.FacebookClient
 import com.restfb.Version
-import org.cuappdev.podcast.models.{UserFactory, UserFields}
+import org.cuappdev.podcast.models.{UserFactory, UserFields, SessionEntity, SessionFields, SessionFactory}
+import org.cuappdev.podcast.services.SessionsService
 
 // User entity + db stuff
-import org.cuappdev.podcast.models.db.UserEntityTable
+import org.cuappdev.podcast.models.db.{UserEntityTable, SessionEntityTable}
 import org.cuappdev.podcast.models.UserEntity
 import org.cuappdev.podcast.utils.Config
 
@@ -22,7 +23,7 @@ object UsersService extends UsersService
 
 case class UserNotFoundException(msg: String) extends Exception(msg: String)
 
-trait UsersService extends UserEntityTable with Config {
+trait UsersService extends UserEntityTable with SessionEntityTable with Config {
 
   import driver.api._
 
@@ -70,8 +71,24 @@ trait UsersService extends UserEntityTable with Config {
       case None => {
         val newUser = UserFactory.create(UserFields(fb_user.getId))
         db.run(users returning users += newUser)
+        getOrCreateUserSession(newUser)
         Future.successful(Some(newUser))
       }
+    }
+  }
+
+  def getOrCreateUserSession(user: UserEntity) : Future[Option[SessionEntity]] = {
+    val session : Future[Option[SessionEntity]] = db.run(sessions.filter(_.user_id === user.dBInfo.id).result.headOption)
+    session.flatMap {
+      case Some(s) => Future.successful(Some(s))
+      case None => val s = SessionFactory.create(
+        new SessionFields(
+          SessionsService.generateToken(),
+          SessionsService.generateToken(),
+          SessionsService.generateExpiresAt(),
+          user.dBInfo.id)
+        );
+        Future.successful(Some(s))
     }
   }
 

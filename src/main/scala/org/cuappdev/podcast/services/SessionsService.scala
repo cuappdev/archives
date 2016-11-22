@@ -3,7 +3,6 @@ package org.cuappdev.podcast.services
 import org.cuappdev.podcast.models.db.{SessionEntityTable, UserEntityTable}
 import org.cuappdev.podcast.models.{SessionEntity, SessionFields, SessionFactory, UserEntity}
 import org.cuappdev.podcast.utils.Config
-import org.cuappdev.podcast.services.UsersService
 
 import java.sql.Timestamp
 import org.joda.time.DateTime
