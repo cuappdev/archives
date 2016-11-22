@@ -22,7 +22,7 @@ class LikesController < ApplicationController
     if success_val
         @user = User.find(db_post.user_id)
         @user.increment(:hipster_score, 1).save
-        notify(@user.push_id)
+        #notify(@user.push_id)
     end
     render json: { success: success_val, liked: true }
   end
@@ -43,7 +43,7 @@ class LikesController < ApplicationController
     @user = User.find(@post.user_id)
     success_val = @user.unlike(post_id)
     if success_val
-      User.find(post.user_id).increment(:hipster_score, -1).save
+      User.find(@post.user_id).increment(:hipster_score, -1).save
     end
     render json: { success: success_val, liked: false }
   end

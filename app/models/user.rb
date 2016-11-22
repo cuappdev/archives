@@ -156,7 +156,6 @@ class User < ActiveRecord::Base
   end
 
   def as_json(options = {})
-      p "IN EOSVOPUHIUHSDOVIBDSIUH PAOS HIU ODUSBDISUB"
       if options[:limited]
         exclude = [:followers_count, :followers, :followings_count, :following, :is_following]
         more_hash = {}

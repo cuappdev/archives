@@ -10,8 +10,7 @@
 #
 
 class FollowingsController < ApplicationController
-  before_action :authorize, only: [:create]
-  include FollowingsHelper
+  before_action :authorize, only: [:create, :destroy]
   include HttpHelper
   def create
     followed_id = (params[:followed_id])
@@ -21,9 +20,9 @@ class FollowingsController < ApplicationController
     end
     # success value on the follow or unfollow
     success_val = @user.follow(followed_id)
-    if success_val
-      notify(@user.push_id)
-    end
+    #if success_val
+      #notify(@user.push_id)
+    #end
     render json: { success: success_val, follow: true }
   end
 
@@ -38,6 +37,7 @@ class FollowingsController < ApplicationController
   end
 
   def destroy
+    followed_id = params[:followed_id]
     success_val = @user.unfollow(followed_id)
     render json: { success: success_val, follow: false}
   end
