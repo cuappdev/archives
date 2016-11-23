@@ -24,6 +24,7 @@ class LikesController < ApplicationController
         @user.increment(:hipster_score, 1).save
         if @user.remote_push_notifications_enabled 
           notify(@user.push_id) 
+        end 
     end
     render json: { success: success_val, liked: true }
   end
