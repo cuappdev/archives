@@ -51,7 +51,9 @@ class UsersController < ApplicationController
   end
 
   def register_push 
-    User.find_by(id: params[:user_id]).update_push_id(params[:push_id])
+    @param_user = User.find_by(id: params[:user_id])
+    @param_user.update_push_id(params[:push_id])
+    render json: { success: @param_user.push_id == params[:push_id] }
   end 
 
   def toggle_push

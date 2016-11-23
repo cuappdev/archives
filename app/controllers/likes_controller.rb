@@ -22,7 +22,7 @@ class LikesController < ApplicationController
     if success_val
         @user = User.find(db_post.user_id)
         @user.increment(:hipster_score, 1).save
-        #notify(@user.push_id)
+        #notify(@user.push_id) if their settings allow them to notify
     end
     render json: { success: success_val, liked: true }
   end
