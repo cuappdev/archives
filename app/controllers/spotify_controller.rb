@@ -21,19 +21,19 @@ class SpotifyController < ApplicationController
                                         expires_at: token[:expires_at],
                                         spotify_id: username)
 
-    data = {:name => "Tempo"}
-    access_token = "Bearer " + @spotify_cred.access_token
-    uri = URI.parse('https://api.spotify.com/v1/users/'+ username + '/playlists')
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', "Authorization" => access_token})
-    request.body = data.to_json
-    response = http.request(request)
-    res = JSON.parse(response.body)
-    playlistId = res["id"]
+    # data = {:name => "Tempo"}
+    # access_token = "Bearer " + @spotify_cred.access_token
+    # uri = URI.parse('https://api.spotify.com/v1/users/'+ username + '/playlists')
+    # http = Net::HTTP.new(uri.host, uri.port)
+    # http.use_ssl = true
+    # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    # request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' =>'application/json', "Authorization" => access_token})
+    # request.body = data.to_json
+    # response = http.request(request)
+    # res = JSON.parse(response.body)
+    # playlistId = res["id"]
 
-    @spotify_cred.update_playlist(playlistId)
+    # @spotify_cred.update_playlist(playlistId)
     redirect_to "#{ENV["tempo_redirect"]}callback?access_token=#{token[:access_token]}&session_code=#{session_code}&expires_at=#{token[:expires_at]}"
   end
   def get_access_token
