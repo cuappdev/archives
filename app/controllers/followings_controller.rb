@@ -20,14 +20,14 @@ class FollowingsController < ApplicationController
     end
     # success value on the follow or unfollow
     success_val = @user.follow(followed_id)
-    #if success_val 
-      #notify(@user.push_id) if their settings allow them to notify
-    #end
+    if (success_val and @user.remote_push_notifications_enabled) 
+          notify(@user.push_id) 
+    end
     render json: { success: success_val, follow: true }
   end
 
   def notify(user_push_id)
-    url = "http://localhost:8080/push" #TODO
+    url = "http://9144f8af.ngrok.io/push" #TODO
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
             :message =>  "Someone is following you!", #TODO
