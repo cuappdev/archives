@@ -22,13 +22,14 @@ class LikesController < ApplicationController
     if success_val
         @user = User.find(db_post.user_id)
         @user.increment(:hipster_score, 1).save
-        #notify(@user.push_id) if their settings allow them to notify
+        if @user.remote_push_notifications_enabled: 
+          notify(@user.push_id) 
     end
     render json: { success: success_val, liked: true }
   end
 
   def notify(user_push_id)
-    url = "http://localhost:8080/push"
+    url = "http://9144f8af.ngrok.io"
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
             :message =>  "Someone liked your post!", #TODO
