@@ -14,12 +14,9 @@ module HttpHelper
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = false
-    print "hello"
     request = Net::HTTP::Post.new(uri.request_uri, headers)
-    print "bye"
     request.body = body
     response = http.request(request)
-    print response
     return JSON.parse(response.body)
   end
 
