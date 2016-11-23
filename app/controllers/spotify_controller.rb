@@ -21,7 +21,7 @@ class SpotifyController < ApplicationController
                                         expires_at: token[:expires_at],
                                         spotify_id: username)
 
-    data = {:name => "Icefishing Playlist"}
+    data = {:name => "Tempo"}
     access_token = "Bearer " + @spotify_cred.access_token
     uri = URI.parse('https://api.spotify.com/v1/users/'+ username + '/playlists')
     http = Net::HTTP.new(uri.host, uri.port)
