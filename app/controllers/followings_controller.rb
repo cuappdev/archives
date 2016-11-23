@@ -23,7 +23,7 @@ class FollowingsController < ApplicationController
     if success_val 
       @followed_user = User.find(followed_id)
       if @followed_user.remote_push_notifications_enabled 
-          notify(@folowed_user.push_id) 
+          notify(@followed_user.push_id) 
       end 
     end
     render json: { success: success_val, follow: true }
