@@ -89,6 +89,9 @@ class User < ActiveRecord::Base
   # Likes a post
   def like(post_id)
     post = Post.find(post_id)
+    if post.user_id == self.id #can't like own post 
+      return false
+    end 
     like = Like.create(post_id: post_id, user_id: self.id)
     if like.valid? || post.blank?
       User.increment_counter(:like_count,self)
