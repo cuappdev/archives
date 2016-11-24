@@ -47,17 +47,13 @@ class AudioSearchAPI (audiosearchAppId: String, audiosearchSecret: String) {
     try {
       if (result.asJsObject.fields("status").asInstanceOf[JsString].value.equals("failure")) {
         accessToken = getAccessToken
-        result = performGet(url, params)
-        log(result)
-        result
+        result = performGet(url, params); log(result); result
       } else {
-        log(result)
-        result
+        log(result); result
       }
     } catch {
       case e : Exception => {
-        log(result)
-        result
+        log(result); result
       }
     }
   }
@@ -67,13 +63,8 @@ class AudioSearchAPI (audiosearchAppId: String, audiosearchSecret: String) {
     URLEncoder.encode(v, "utf-8")
   }
 
-  /* Get episode by ID assigned by audiosearch */
-  def getEpisode (id: Integer, params: Map [String, String]) : JsValue = {
-    get ("/episodes/" + id.toString, params)
-  }
-
   /* Get episodes that are related to a specific episode */
-  def getEpisodeRelated (id: Integer, params: Map [String, String]) : JsValue = {
+  def getEpisodeRelated (id: Long, params: Map [String, String]) : JsValue = {
     get ("/episodes/" + id.toString + "/related", params)
   }
 
@@ -83,12 +74,12 @@ class AudioSearchAPI (audiosearchAppId: String, audiosearchSecret: String) {
   }
 
   /* Get show by ID assigned by audiosearch */
-  def getShow (id: Integer, params: Map [String, String]) : JsValue = {
+  def getShow (id: Long, params: Map [String, String]) : JsValue = {
     get ("/shows/" + id.toString, params)
   }
 
   /* Get shows that are related to a specific show */
-  def getShowRelated (id: Integer, params: Map [String, String]) : JsValue = {
+  def getShowRelated (id: Long, params: Map [String, String]) : JsValue = {
     get ("/shows/" + id.toString + "/related", params)
   }
 

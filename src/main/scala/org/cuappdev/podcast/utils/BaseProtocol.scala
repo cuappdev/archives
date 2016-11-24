@@ -3,6 +3,7 @@ package org.cuappdev.podcast.utils
 import org.cuappdev.podcast.models._
 import java.sql.Timestamp
 
+import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import com.sun.xml.internal.ws.encoding.soap.SerializationException
 
 // Incredibly useful JSON implementation in Scala
