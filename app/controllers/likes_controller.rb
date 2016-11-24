@@ -18,23 +18,23 @@ class LikesController < ApplicationController
     if (db_post.blank? or post_id.blank?)
       render json: {success: false, liked: !@unlike}
     end
-    success_val = @user.like(post_id)
+    success_val = @user.like(db_post)
     if success_val
-        @user = User.find(db_post.user_id)
-        @user.increment(:hipster_score, 1).save
-        if @user.remote_push_notifications_enabled 
-          notify(@user.push_id) 
+        @poster = User.find(db_post.user_id)
+        @poster.increment(:hipster_score, 1).save
+        if @poster.id == @user.id and @poster.remote_push_notifications_enabled 
+          notify(@poster.push_id, @user.username) 
         end 
     end
     render json: { success: success_val, liked: true }
   end
 
-  def notify(user_push_id)
-    url = "http://9144f8af.ngrok.io/push"
+  def notify(poster_push_id, username)
+    url = "http://9144f8af.ngrok.io/push" #TODO @celine 
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
-            :message =>  "Someone liked your post!", #TODO
-            :target_ids => [user_push_id],
+            :message =>  "#{username} liked your post!", 
+            :target_ids => [poster_push_id],
             :notification => 1}
     res = post_no_ssl(headers, body.to_json, url)
   end

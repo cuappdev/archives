@@ -23,18 +23,18 @@ class FollowingsController < ApplicationController
     if success_val 
       @followed_user = User.find(followed_id)
       if @followed_user.remote_push_notifications_enabled 
-          notify(@followed_user.push_id) 
+          notify(@followed_user.push_id, @user.username) 
       end 
     end
     render json: { success: success_val, follow: true }
   end
 
-  def notify(user_push_id)
-    url = "http://9144f8af.ngrok.io/push" #TODO
+  def notify(followed_push_id, follower_username)
+    url = "http://9144f8af.ngrok.io/push" #TODO @celine 
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
-            :message =>  "Someone is following you!", #TODO
-            :target_ids => [user_push_id],
+            :message =>  "#{follower_username} is following you!", 
+            :target_ids => [followed_push_id],
             :notification => 2}
     res = post_no_ssl(headers, body.to_json, url)
   end
