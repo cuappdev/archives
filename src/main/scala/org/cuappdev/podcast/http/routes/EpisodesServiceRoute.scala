@@ -9,16 +9,21 @@ import akka.http.scaladsl.server.Directives._
 trait EpisodesServiceRoute extends EpisodesService with BaseServiceRoute with SecurityDirectives  {
 
   val episodesRoute = pathPrefix("episodes") {
-
-    pathEndOrSingleSlash {                                // /episodes
+    pathEndOrSingleSlash {                                /* /episodes */
       get {
-        complete(getEpisodes().map { e => e.toJson })
+        complete("{}")
       }
-    } ~ pathPrefix(IntNumber) { id =>
-        delete {
-          complete(deleteEpisode(id).map { e => e.toJson })
+    } ~ {
+      pathPrefix("search") {                              /* /episodes/search/:query */
+        pathEndOrSingleSlash {
+          get {
+            parameters("query") { query =>
+              complete(searchEpisodes(query).map { ep => ep.toJson })
+            }
+          }
         }
       }
+    }
 
   }
 }
