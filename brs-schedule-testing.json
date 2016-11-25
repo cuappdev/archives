@@ -10,43 +10,43 @@
       "lat": "42.456014",
       "long": "-76.482934",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["3:02 AM", "3:22 AM", "3:42 AM", "4:02 AM", "4:22 AM", "4:42 AM", "5:02 AM", "5:22 AM", "5:42 AM"]
+      "times": ["4:02 PM", "4:22 PM", "4:42 PM", "5:02 PM", "5:22 PM", "5:42 PM", "6:02 PM", "6:22 PM", "6:42 PM"]
     },
     { "name": "Stewart Ave & University Ave",
       "lat": "42.449280",
       "long": "-76.490343",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["3:04 AM", "3:24 AM", "3:44 AM", "4:04 AM", "4:24 AM", "4:44 AM", "5:04 AM", "5:24 AM", "5:44 AM"]
+      "times": ["4:04 PM", "4:24 PM", "4:44 PM", "5:04 PM", "5:24 PM", "5:44 PM", "6:04 PM", "6:24 PM", "6:44 PM"]
     },
     { "name": "Baker Flag Pole on West Ave",
       "lat": "42.447517",
       "long": "-76.487631",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["3:06 AM", "3:26 AM", "3:46 AM", "4:06 AM", "4:26 AM", "4:46 AM", "5:06 AM", "5:26 AM", "5:46 AM"]
+      "times": ["4:06 PM", "4:26 PM", "4:46 PM", "5:06 PM", "5:26 PM", "5:46 PM", "6:06 PM", "6:26 PM", "6:46 PM"]
     },
     { "name": "Schwartz Center on College Ave",
       "lat": "42.442612",
       "long": "-76.485271",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["3:07 AM", "3:27 AM", "3:47 AM", "4:07 AM", "4:27 AM", "4:47 AM", "5:07 AM", "5:27 AM", "5:47 AM"]
+      "times": ["4:07 PM", "4:27 PM", "4:47 PM", "5:07 PM", "5:27 PM", "5:47 PM", "6:07 PM", "6:27 PM", "6:47 PM"]
     },
     { "name": "Dryden Rd & Eddy St",
       "lat": "42.442135",
       "long": "-76.487489",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["3:08 AM", "3:28 AM", "3:48 AM", "4:08 AM", "4:28 AM", "4:48 AM", "5:08 AM", "5:28 AM", "5:48 AM"]
+      "times": ["4:08 PM", "4:28 PM", "4:48 PM", "5:08 PM", "5:28 PM", "5:48 PM", "6:08 PM", "6:28 PM", "6:48 PM"]
     },
     { "name": "Stewart Ave & University Ave",
       "lat": "42.449280",
       "long": "-76.490343",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["3:10 AM", "3:30 AM", "3:50 AM", "4:10 AM", "4:30 AM", "4:50 AM", "5:10 AM", "5:30 AM", "5:50 AM"]
+      "times": ["4:10 PM", "4:30 PM", "4:50 PM", "5:10 PM", "5:30 PM", "5:50 PM", "6:10 PM", "6:30 PM", "6:50 PM"]
     },
     { "name": "Thurston Ave & Cradit Farm Dr",
       "lat": "42.452587",
       "long": "-76.481102",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["3:12 AM", "3:32 AM", "3:52 AM", "4:12 AM", "4:32 AM", "4:52 AM", "5:12 AM", "5:32 AM", "5:52 AM"]
+      "times": ["4:12 PM", "4:32 PM", "4:52 PM", "5:12 PM", "5:32 PM", "5:52 PM", "6:12 PM", "6:32 PM", "6:52 PM"]
     }
   ]
 }
