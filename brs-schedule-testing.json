@@ -4,7 +4,7 @@
       "lat": "42.456737",
       "long": "-76.475049",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["3:00 AM", "3:20 AM", "3:40 AM", "4:00 AM", "4:20 AM", "4:40 AM", "5:00 AM", "5:20 AM", "5:40 AM"]
+      "times": ["4:00 PM", "4:20 PM", "4:40 PM", "5:00 PM", "5:20 PM", "5:40 PM", "6:00 PM", "6:20 PM", "6:40 PM"]
     },
     { "name": "Jessup Rd & Kelvin Pl",
       "lat": "42.456014",
