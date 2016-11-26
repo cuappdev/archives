@@ -46,7 +46,7 @@
       "lat": "42.452587",
       "long": "-76.481102",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["6:52 PM", "7:12 PM", , "7:32 PM"]
+      "times": ["6:52 PM", "7:12 PM", "7:32 PM"]
     }
   ]
 }
