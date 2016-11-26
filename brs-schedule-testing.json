@@ -4,13 +4,13 @@
       "lat": "42.456737",
       "long": "-76.475049",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11: 06 PM", "11:08 PM", "11:10 PM"]
+      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11:06 PM", "11:08 PM", "11:10 PM"]
     },
     { "name": "Jessup Rd & Kelvin Pl",
       "lat": "42.456014",
       "long": "-76.482934",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11: 06 PM", "11:08 PM", "11:10 PM"]
+      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11:06 PM", "11:08 PM", "11:10 PM"]
     },
     { "name": "Stewart Ave & University Ave",
       "lat": "42.449280",
@@ -22,31 +22,31 @@
       "lat": "42.447517",
       "long": "-76.487631",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11: 06 PM", "11:08 PM", "11:10 PM"]
+      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11:06 PM", "11:08 PM", "11:10 PM"]
     },
     { "name": "Schwartz Center on College Ave",
       "lat": "42.442612",
       "long": "-76.485271",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11: 06 PM", "11:08 PM", "11:10 PM"]
+      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11:06 PM", "11:08 PM", "11:10 PM"]
     },
     { "name": "Dryden Rd & Eddy St",
       "lat": "42.442135",
       "long": "-76.487489",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11: 06 PM", "11:08 PM", "11:10 PM"]
+      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11:06 PM", "11:08 PM", "11:10 PM"]
     },
     { "name": "Stewart Ave & University Ave",
       "lat": "42.449280",
       "long": "-76.490343",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11: 06 PM", "11:08 PM", "11:10 PM"]
+      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11:06 PM", "11:08 PM", "11:10 PM"]
     },
     { "name": "Thurston Ave & Cradit Farm Dr",
       "lat": "42.452587",
       "long": "-76.481102",
       "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11: 06 PM", "11:08 PM", "11:10 PM"]
+      "times": ["11:00 PM", "11:02 PM", "11:04 PM", "11:06 PM", "11:08 PM", "11:10 PM"]
     }
   ]
 }
