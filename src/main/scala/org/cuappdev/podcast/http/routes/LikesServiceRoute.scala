@@ -12,11 +12,11 @@ trait LikesServiceRoute extends LikesService with BaseServiceRoute with Security
 
     pathEndOrSingleSlash {                                // /likes
       get {
-        complete(getLikes().map { e => e.toJson })
+        sessionComplete(getLikes().map { e => e.toJson })
       } ~
       post {
         entity(as[LikeFields]) { entity =>
-          complete(createLike(entity).map { e => e.toJson })
+          sessionComplete(createLike(entity).map { e => e.toJson })
         }
       }
     } /* ~ path(LongNumber) { id =>

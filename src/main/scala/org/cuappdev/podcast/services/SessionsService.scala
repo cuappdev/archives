@@ -5,6 +5,7 @@ import org.cuappdev.podcast.models.{SessionEntity, SessionFields, SessionFactory
 import org.cuappdev.podcast.utils.Config
 
 import java.sql.Timestamp
+import java.util.UUID
 import org.joda.time.DateTime
 
 // Execution requirements
@@ -22,7 +23,7 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
 
   /** Helper function for generating a session token. **/
   def generateToken() : String = {
-    "<put something here>"
+    UUID.randomUUID().toString()
   }
 
   /** Helper function that creates an 'expires_at' time for a session. **/

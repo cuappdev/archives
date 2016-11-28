@@ -12,14 +12,14 @@ trait EpisodesServiceRoute extends EpisodesService
   val episodesRoute = pathPrefix("episodes") {
     pathEndOrSingleSlash {                                /* /episodes */
       get {
-        complete("{}")
+        sessionComplete("{}")
       }
     } ~ {
       pathPrefix("search") {
         pathEndOrSingleSlash {                            /* /episodes/search?query={query} */
           get {
             parameters("query") { query =>
-              complete(respond(success=true,
+              sessionComplete(respond(success=true,
                 JsObject("episodes" -> JsArray(searchEpisodes(query).map { ep => ep.toJson }.toVector))).toJson)
             }
           }

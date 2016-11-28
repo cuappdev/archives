@@ -11,11 +11,11 @@ trait SubscriptionsServiceRoute extends SubscriptionsService with BaseServiceRou
 
     pathEndOrSingleSlash {                                // /episodes
       get {
-        complete(getSubscriptions().map { e => e.toJson })
+        sessionComplete(getSubscriptions().map { e => e.toJson })
       } ~
       post {
         entity(as[SubscriptionFields]) { entity =>
-          complete(createSubscription(entity).map { e => e.toJson })
+          sessionComplete(createSubscription(entity).map { e => e.toJson })
         }
       }
     } /* ~ path("l" ~ LongNumber) { id =>
