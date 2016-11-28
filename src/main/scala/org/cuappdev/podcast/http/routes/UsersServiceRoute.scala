@@ -10,12 +10,12 @@ trait UsersServiceRoute extends UsersService with BaseServiceRoute with Security
   // Very basic route
   val usersRoute = pathPrefix("users") {
 
-    pathEndOrSingleSlash {                                // /users
+    pathEndOrSingleSlash {                                /* /users */
       get {
         complete(getUsers().map { u => u.toJson })
       }
     } ~
-      pathPrefix("fb_auth") {                             // /users/fb_auth
+      pathPrefix("fb_auth") {                             /* /users/fb_auth */
         pathEndOrSingleSlash {
           post {
             // Grab the header + respond

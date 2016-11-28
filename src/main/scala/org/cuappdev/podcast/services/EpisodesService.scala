@@ -3,7 +3,7 @@ package org.cuappdev.podcast.services
 import org.cuappdev.podcast.models.db.EpisodeEntityTable
 import org.cuappdev.podcast.models.{EpisodeEntity, EpisodeFactory, EpisodeFields}
 import org.cuappdev.podcast.utils.{AudioSearch, Config}
-import spray.json.JsObject
+import spray.json.{JsArray, JsNumber, JsObject, JsString, JsValue}
 
 // Execution requirements
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -14,24 +14,23 @@ object EpisodesService extends EpisodesService
 case class EpisodeNotFoundException(msg: String) extends Exception(msg: String)
 
 trait EpisodesService extends EpisodeEntityTable with Config {
-
   import driver.api._
 
-  /**
-    * TODO
-    * @return
-    */
-  def getEpisodes(): JsObject = AudioSearch.instance.trendingEpsiodes(Map())
-
-  /**
-    * Gets an episode with a specific ID.
-    * @param id the ID of the episode
-    * @return the episode entity
-    */
-  def getEpisodeByID(id: Long): Future[Option[EpisodeEntity]] = {
-    db.run(episodes.filter(_.id === id).result.headOption)
+  /* Search episodes via a query */
+  def searchEpisodes (query: String): Seq [EpisodeEntity] = {
+    /* Grab API response */
+    val eps : JsArray = AudioSearch.getInstance.searchEpisodes(query, Map())
+                                    .asJsObject.fields("results").asInstanceOf[JsArray]
+    /* Build result */
+    eps.elements.map(jsonVal =>  EpisodeFactory.create(jsonVal))
   }
 
-
+  /* Get related episodes (given audiosearch_id) */
+  def relatedEpisodes (id: Long) : Seq [EpisodeEntity] = {
+    /* Grab API response */
+    val eps : JsArray = AudioSearch.getInstance.getEpisodeRelated(id, Map()).asInstanceOf[JsArray]
+    /* Build result */
+    eps.elements.map(jsonVal => EpisodeFactory.create(jsonVal))
+  }
 
 }
