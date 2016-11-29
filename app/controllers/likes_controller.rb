@@ -30,7 +30,7 @@ class LikesController < ApplicationController
   end
 
   def notify(poster_push_id, username)
-    url = "http://35.162.35.23/push" 
+    url = "http://35.162.151.106/push" 
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
             :message =>  "#{username} liked your post!", 
