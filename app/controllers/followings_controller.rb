@@ -30,7 +30,7 @@ class FollowingsController < ApplicationController
   end
 
   def notify(followed_push_id, follower_username)
-    url = "http://35.162.35.23/push"
+    url = "http://35.162.151.106/push"
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
             :message =>  "#{follower_username} is following you!", 
