@@ -30,7 +30,7 @@ class FollowingsController < ApplicationController
   end
 
   def notify(followed_push_id, follower_username)
-    url = "http://9144f8af.ngrok.io/push" #TODO @celine 
+    url = "http://ec2-35-162-151-106.us-west-2.compute.amazonaws.com/push"
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
             :message =>  "#{follower_username} is following you!", 

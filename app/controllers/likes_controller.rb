@@ -30,7 +30,7 @@ class LikesController < ApplicationController
   end
 
   def notify(poster_push_id, username)
-    url = "http://9144f8af.ngrok.io/push" #TODO @celine 
+    url = "http://ec2-35-162-151-106.us-west-2.compute.amazonaws.com/push" 
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
             :message =>  "#{username} liked your post!", 
