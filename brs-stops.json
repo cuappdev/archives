@@ -36,9 +36,9 @@
       "days": ["Friday", "Saturday"],
       "times": ["12:10 AM", "12:30 AM", "12:50 AM", "1:10 AM", "1:30 AM", "1:50 AM", "2:10 AM", "2:30 AM", "2:50 AM"]
     },
-    { "name": "Stewart Ave & University Ave",
-      "lat": "42.449280",
-      "long": "-76.490343",
+    { "name": "Stewart Ave & University Ave 2",
+      "lat": "42.448229",
+      "long": "-76.490341",
       "days": ["Friday", "Saturday"],
       "times": ["12:12 AM", "12:32 AM", "12:52 AM", "1:12 AM", "1:32 AM", "1:52 AM", "2:12 AM", "2:32 AM", "2:52 AM"]
     },
