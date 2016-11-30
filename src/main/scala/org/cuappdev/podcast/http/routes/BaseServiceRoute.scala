@@ -28,11 +28,21 @@ trait BaseServiceRoute extends Protocol with SprayJsonSupport with Config {
               case Success(s) => grabCreatedSuccess = grabUserBySessionToken(s.fields.token)
                   grabCreatedSuccess.flatMap {
                     case Success(u) => complete(func(u))
-                    case Failure(_) => "Something went wrong."
+                    case Failure(e) => complete(respond(
+                      success=false,
+                      data=(
+                        "errors" -> JsArray(JSString(e.toString)))
+                      )
+                    )
                   }
             }
           }
-        case Failure(_) => "Something went wrong."
+        case Failure(e) => complete(respond(
+          success=false,
+          data=(
+            "errors" -> JsArray(JsString(e.toString))
+          )
+        ))
       }
     }
   }
