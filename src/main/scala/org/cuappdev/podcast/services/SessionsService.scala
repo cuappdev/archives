@@ -43,7 +43,7 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
   }
 
   /** Grabs a user by the session's token (as long as the session is not expired) **/
-  def grabUserBySessionToken(token: String) : Future[UserEntity] = {
+  def grabUserBySessionToken(token: String) : Future[Option[UserEntity]] = {
     val session : Future[Option[SessionEntity]] = db.run(sessions.filter(_.token === token).result.headOption)
     val expired : Future[Boolean] = checkSessionValid(session)
     expired.flatMap {
@@ -51,19 +51,19 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
         session.flatMap {
           case Some(s) => val user : Future[Option[UserEntity]] = db.run(users.filter(_.id === s.fields.user_id).result.headOption);
             user.flatMap {
-              case Some(u) => Future.successful(u)
-              case None => Future.failed(new UserNotFoundException("User associated with this session not found."))
+              case Some(u) => Future.successful(Some(u))
+              case None => Future.failed(new UserNotFoundException("User not found."))
             }
           case None => Future.failed(new SessionNotFoundException("Session not found."))
         }
       }
       case false => {
-        Future.failed(new SessionExpiredException("Session expired."))
+        Future.successful(None)
       }
     }
   }
 
-  def generateSession(updateToken: String) : Future[SessionEntity] = {
+  def generateSession(updateToken: String) : Future[Option[SessionEntity]] = {
     val session : Future[Option[SessionEntity]] = db.run(sessions.filter(_.update_token === updateToken).result.headOption)
     session.flatMap {
       case Some(s) => val session = SessionFactory.create(
@@ -73,8 +73,8 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
           generateExpiresAt(),
           s.fields.user_id)
         );
-      Future.successful(session)
-      case None => Future.failed(new SessionNotFoundException("Session with this update token not found."))
+      Future.successful(Some(session))
+      case None => Future.successful(None)
     }
   }
 

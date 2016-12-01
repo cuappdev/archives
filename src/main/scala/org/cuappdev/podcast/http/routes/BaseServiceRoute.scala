@@ -7,7 +7,15 @@ import akka.event.{Logging, LoggingAdapter}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.stream.ActorMaterializer
-import org.cuappdev.podcast.services.SessionsService
+import org.cuappdev.podcast.services.SessionsService._
+import org.cuappdev.podcast.models.UserEntity
+import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.StandardRoute
+import org.cuappdev.podcast.utils.APIResponse
+import org.cuappdev.podcast.utils.APIResponseDirectives
+import spray.json._
+import scala.concurrent.Future
+import scala.util.{Success, Failure}
 
 import scala.concurrent.ExecutionContext
 
@@ -16,34 +24,24 @@ trait BaseServiceRoute extends Protocol with SprayJsonSupport with Config {
   protected implicit def materializer: ActorMaterializer
   protected def log: LoggingAdapter
 
-  protected def sessionComplete(func) = {
+  protected def sessionComplete(func : (UserEntity => APIResponse)) : StandardRoute = {
     headerValueByName("SESSION_TOKEN") { sessionToken =>
-      grabSuccess = grabUserBySessionToken(sessionToken)
+      val grabSuccess = grabUserBySessionToken(sessionToken)
       grabSuccess.flatMap {
-        case Success(u) => complete(func(u))
-        case Failure(ex : SessionExpiredException) =>
+        case Some(u) => complete(func(u))
+        case None =>
           headerValueByName("UPDATE_TOKEN") { updateToken =>
-            generateSuccess = generateSession(updateToken)
+            val generateSuccess = generateSession(updateToken)
             generateSuccess.flatMap {
-              case Success(s) => grabCreatedSuccess = grabUserBySessionToken(s.fields.token)
-                  grabCreatedSuccess.flatMap {
-                    case Success(u) => complete(func(u))
-                    case Failure(e) => complete(respond(
-                      success=false,
-                      data=(
-                        "errors" -> JsArray(JSString(e.toString)))
-                      )
-                    )
-                  }
+              case Some(s) => val grabCreatedSuccess = grabUserBySessionToken(s.fields.token)
+                grabCreatedSuccess.flatMap {
+                  case Some(u) => complete(func(u))
+                  case None => complete(respond(success=false,
+                    JsObject("errors" -> JsArray(JsString("Unable to create session.")).toJson)))
+                }
             }
           }
-        case Failure(e) => complete(respond(
-          success=false,
-          data=(
-            "errors" -> JsArray(JsString(e.toString))
-          )
-        ))
+        }
       }
-    }
   }
 }
