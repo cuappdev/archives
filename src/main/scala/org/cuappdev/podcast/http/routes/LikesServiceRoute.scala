@@ -13,13 +13,17 @@ trait LikesServiceRoute extends LikesService with BaseServiceRoute with Security
 
     pathEndOrSingleSlash {                                // /likes
       get {
-        sessionComplete({user =>
-          getLikes().map { e => e.toJson }})
+        headerValueByName("SESSION_TOKEN") { session =>
+          sessionComplete(session, {user =>
+            getLikes().map { e => e.toJson }})
+          }
       } ~
       post {
         entity(as[LikeFields]) { entity =>
-          sessionComplete({user =>
-            createLike(entity).map { e => e.toJson }})
+          headerValueByName("SESSION_TOKEN") { session =>
+            sessionComplete(session, {user =>
+              createLike(entity).map { e => e.toJson }})
+            }
         }
       }
     } /* ~ path(LongNumber) { id =>

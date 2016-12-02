@@ -12,15 +12,19 @@ trait SubscriptionsServiceRoute extends SubscriptionsService with BaseServiceRou
 
     pathEndOrSingleSlash {                                // /episodes
       get {
-        sessionComplete({ user =>
-          getSubscriptions().map { e => e.toJson }
-        })
+        headerValueByName("SESSION_TOKEN") { session =>
+          sessionComplete(session, { user =>
+            getSubscriptions().map { e => e.toJson }
+          })
+        }
       } ~
       post {
         entity(as[SubscriptionFields]) { entity =>
-          sessionComplete({ user =>
-            createSubscription(entity).map { e => e.toJson }
-          })
+          headerValueByName("SESSION_TOKEN") { session =>
+            sessionComplete(session, { user =>
+              createSubscription(entity).map { e => e.toJson }
+            })
+          }
         }
       }
     } /* ~ path("l" ~ LongNumber) { id =>
