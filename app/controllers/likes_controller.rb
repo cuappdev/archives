@@ -11,7 +11,7 @@
 require 'json'
 class LikesController < ApplicationController
   include HttpHelper
-  before_action :authorize, only: [:create, :is_liked]
+  before_action :authorize, only: [:create, :is_liked, :destroy]
   def create
     post_id = params[:post_id]
     db_post = Post.find(post_id) unless post_id.blank?
