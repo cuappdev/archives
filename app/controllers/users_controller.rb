@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     if (params[:q].blank?)
       render json: { users: [] } and return
     end
-    @users = User.where('username ILIKE :query', query: "#{ params[:q] }%")
+    @users = User.where('username ILIKE :query OR name ILIKE :query', query: "#{ params[:q] }%")
     render json: { users: @users.map { |user| user.as_json(include_following: true, include_followers: true, user_id: @user.id) } }
   end
 
