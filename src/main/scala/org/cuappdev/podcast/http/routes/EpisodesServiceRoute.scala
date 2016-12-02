@@ -5,6 +5,7 @@ import org.cuappdev.podcast.models.SecurityDirectives
 import spray.json._
 import akka.http.scaladsl.server.Directives._
 import org.cuappdev.podcast.utils.APIResponseDirectives
+import scala.concurrent.Future
 
 trait EpisodesServiceRoute extends EpisodesService
   with BaseServiceRoute with SecurityDirectives with APIResponseDirectives {
@@ -12,16 +13,25 @@ trait EpisodesServiceRoute extends EpisodesService
   val episodesRoute = pathPrefix("episodes") {
     pathEndOrSingleSlash {                                /* /episodes */
       get {
-        sessionComplete("{}")
+        sessionComplete({user =>
+          Future.successful(
+            respond(success=true,
+              data=JsObject()).toJson
+          ) })
       }
     } ~ {
       pathPrefix("search") {
         pathEndOrSingleSlash {                            /* /episodes/search?query={query} */
           get {
             parameters("query") { query =>
-              sessionComplete(respond(success=true,
-                JsObject("episodes" -> JsArray(searchEpisodes(query).map { ep => ep.toJson }.toVector))).toJson)
-            }
+              sessionComplete({ user =>
+                Future.successful(
+                  respond(
+                  success=true,
+                  data=JsObject("episodes" ->
+                    JsArray(searchEpisodes(query).map { ep => ep.toJson }.toVector)))
+                  .toJson)})
+              }
           }
         }
       }
@@ -30,8 +40,13 @@ trait EpisodesServiceRoute extends EpisodesService
         pathEndOrSingleSlash {                            /* /episodes/related?id={id} */
           get {
             parameters("id") { id =>
-              complete(respond(success=true,
-                JsObject("episodes" -> JsArray(relatedEpisodes(Integer.parseInt(id)).map { ep => ep.toJson }.toVector))))
+              sessionComplete({ user =>
+                Future.successful(
+                  respond(
+                  success=true,
+                  data=JsObject("episodes" ->
+                    JsArray(relatedEpisodes(Integer.parseInt(id)).map { ep => ep.toJson }.toVector)))
+                  .toJson)})
             }
           }
         }

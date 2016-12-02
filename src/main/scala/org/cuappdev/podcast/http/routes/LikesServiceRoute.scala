@@ -5,6 +5,7 @@ import org.cuappdev.podcast.models.SecurityDirectives
 import org.cuappdev.podcast.models.LikeFields
 import spray.json._
 import akka.http.scaladsl.server.Directives._
+import scala.concurrent.Future
 
 trait LikesServiceRoute extends LikesService with BaseServiceRoute with SecurityDirectives  {
 
@@ -12,11 +13,13 @@ trait LikesServiceRoute extends LikesService with BaseServiceRoute with Security
 
     pathEndOrSingleSlash {                                // /likes
       get {
-        sessionComplete(getLikes().map { e => e.toJson })
+        sessionComplete({user =>
+          getLikes().map { e => e.toJson }})
       } ~
       post {
         entity(as[LikeFields]) { entity =>
-          sessionComplete(createLike(entity).map { e => e.toJson })
+          sessionComplete({user =>
+            createLike(entity).map { e => e.toJson }})
         }
       }
     } /* ~ path(LongNumber) { id =>

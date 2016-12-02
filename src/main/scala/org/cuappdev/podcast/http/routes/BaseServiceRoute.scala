@@ -19,25 +19,25 @@ import scala.util.{Success, Failure}
 
 import scala.concurrent.ExecutionContext
 
-trait BaseServiceRoute extends Protocol with SprayJsonSupport with Config {
+trait BaseServiceRoute extends Protocol with SprayJsonSupport with Config with APIResponseDirectives {
   protected implicit def executor: ExecutionContext
   protected implicit def materializer: ActorMaterializer
   protected def log: LoggingAdapter
 
-  protected def sessionComplete(func : (UserEntity => APIResponse)) : StandardRoute = {
+  protected def sessionComplete(func : (UserEntity => Future[JsValue])) : Future[StandardRoute] = {
     headerValueByName("SESSION_TOKEN") { sessionToken =>
       val grabSuccess = grabUserBySessionToken(sessionToken)
       grabSuccess.flatMap {
-        case Some(u) => complete(func(u))
+        case Some(u) => Future.successful(complete(func(u)))
         case None =>
           headerValueByName("UPDATE_TOKEN") { updateToken =>
             val generateSuccess = generateSession(updateToken)
             generateSuccess.flatMap {
               case Some(s) => val grabCreatedSuccess = grabUserBySessionToken(s.fields.token)
                 grabCreatedSuccess.flatMap {
-                  case Some(u) => complete(func(u))
-                  case None => complete(respond(success=false,
-                    JsObject("errors" -> JsArray(JsString("Unable to create session.")).toJson)))
+                  case Some(u) => Future.successful(complete(func(u)))
+                  case None => Future.successful(complete(respond(success=false,
+                    JsObject("errors" -> JsArray(JsString("Unable to create session.")))).toJson))
                 }
             }
           }

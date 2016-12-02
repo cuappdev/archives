@@ -5,13 +5,16 @@ import org.cuappdev.podcast.models.SecurityDirectives
 import org.cuappdev.podcast.models.SeriesFields
 import spray.json._
 import akka.http.scaladsl.server.Directives._
+import scala.concurrent.Future
 
 trait SeriesServiceRoute extends SeriesService with BaseServiceRoute with SecurityDirectives  {
   val seriesRoute = pathPrefix("series") {
 
     pathEndOrSingleSlash {                                // /likes
       get {
-        sessionComplete(getSeries().map { e => e.toJson })
+        sessionComplete({ user =>
+          getSeries().map { e => e.toJson }
+        })
       }
     }
 
