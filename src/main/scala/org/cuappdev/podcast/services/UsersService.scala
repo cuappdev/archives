@@ -22,6 +22,7 @@ import scala.concurrent.Future
 object UsersService extends UsersService
 
 case class UserNotFoundException(msg: String) extends Exception(msg: String)
+case class UserErrorException(msg: String) extends Exception(msg: String)
 
 trait UsersService extends UserEntityTable with SessionEntityTable with Config {
 
@@ -57,21 +58,24 @@ trait UsersService extends UserEntityTable with SessionEntityTable with Config {
     * @param fb_token - The FB Token characterizing the user (String)
     * @return - Future with the UserEntity
     */
-  def getOrCreateUser(fb_token: String): Future[Option[UserEntity]] = {
+  def getOrCreateUser(fb_token: String): Future[(Future[Option[UserEntity]], Future[Option[SessionEntity]])] = {
     // Grab fb info
     val fb: FacebookClient = new DefaultFacebookClient(fb_token, facebookSecret, Version.VERSION_2_8)
     val fb_user: com.restfb.types.User = fb.fetchObject("me", classOf[com.restfb.types.User])
 
     // See if the user exists
     val u: Future[Option[UserEntity]] = this.getUserByFbID(fb_user.getId)
-    u.flatMap {
+    u.map {
       /* If we have this user already */
-      case Some(user) => Future.successful(Some(user))
-      /*  */
-      case None => {
-        val newUser = UserFactory.create(UserFields(fb_user.getId))
-        db.run(users returning users += newUser).map(_ => Some(newUser))
-      }
+      case Some(user) =>
+        val session = SessionsService.sessionFromUser(user)
+        (Future.successful(Some(user)), session)
+      /* If we don't have this user already */
+      case None =>
+        val user = UserFactory.create(UserFields(fb_user.getId))
+        val newUser = db.run(users returning users += user).map(_ => Some(user))
+        val session = SessionsService.sessionFromUser(user)
+        (newUser, session)
     }
   }
 
