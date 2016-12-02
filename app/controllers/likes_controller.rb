@@ -22,7 +22,7 @@ class LikesController < ApplicationController
     if success_val
         @poster = User.find(db_post.user_id)
         @poster.increment(:hipster_score, 1).save
-        if !@poster.push_id.nil? and @poster.remote_push_notifications_enabled 
+        if @poster.id != @user.id and !@poster.push_id.nil? and @poster.remote_push_notifications_enabled 
           notify(@poster.push_id, @user.username) 
         end 
     end
