@@ -22,7 +22,7 @@ class FollowingsController < ApplicationController
     success_val = @user.follow(followed_id)
     if success_val 
       @followed_user = User.find(followed_id)
-      if @followed_user.remote_push_notifications_enabled 
+      if !@followed_user.push_id.nil? and @followed_user.remote_push_notifications_enabled 
           notify(@followed_user.push_id, @user.username) 
       end 
     end

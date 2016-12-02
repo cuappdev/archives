@@ -53,6 +53,7 @@ class UsersController < ApplicationController
   def register_push 
     @param_user = User.find_by(id: params[:user_id])
     @param_user.update_push_id(params[:push_id])
+    @param_user.update_push_notifications_enabled(true)
     render json: { success: @param_user.push_id == params[:push_id] }
   end 
 
