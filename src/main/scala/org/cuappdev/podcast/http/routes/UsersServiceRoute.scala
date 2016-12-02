@@ -18,9 +18,11 @@ trait UsersServiceRoute extends UsersService with BaseServiceRoute with Security
 
     pathEndOrSingleSlash {                                /* /users */
       get {
-        sessionComplete({ user =>
-          getUsers().map { u => u.toJson }
-        })
+        headerValueByName("SESSION_TOKEN") { session =>
+          sessionComplete(session, { user =>
+            respond(success = true, data = JsNull.asJsObject).toJson
+          })
+        }
       }
     } ~
       pathPrefix("fb_auth") {                             /* /users/fb_auth */

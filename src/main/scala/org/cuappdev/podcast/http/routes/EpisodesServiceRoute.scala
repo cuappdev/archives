@@ -13,11 +13,11 @@ trait EpisodesServiceRoute extends EpisodesService
   val episodesRoute = pathPrefix("episodes") {
     pathEndOrSingleSlash {                                /* /episodes */
       get {
+
         sessionComplete({user =>
-          Future.successful(
             respond(success=true,
               data=JsObject()).toJson
-          ) })
+          })
       }
     } ~ {
       pathPrefix("search") {
@@ -25,12 +25,10 @@ trait EpisodesServiceRoute extends EpisodesService
           get {
             parameters("query") { query =>
               sessionComplete({ user =>
-                Future.successful(
-                  respond(
-                  success=true,
+                  respond(success=true,
                   data=JsObject("episodes" ->
                     JsArray(searchEpisodes(query).map { ep => ep.toJson }.toVector)))
-                  .toJson)})
+                  .toJson})
               }
           }
         }
