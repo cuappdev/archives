@@ -31,7 +31,7 @@ trait BaseServiceRoute extends Protocol with SprayJsonSupport with Config with A
         case Some(u) => Future.successful(complete(func(u)))
         case None =>
           headerValueByName("UPDATE_TOKEN") { updateToken =>
-            val generateSuccess = generateSession(updateToken)
+            val generateSuccess = updateSession(updateToken)
             generateSuccess.flatMap {
               case Some(s) => val grabCreatedSuccess = grabUserBySessionToken(s.fields.token)
                 grabCreatedSuccess.flatMap {

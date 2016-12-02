@@ -1,10 +1,14 @@
 package org.cuappdev.podcast.http.routes
 
-import org.cuappdev.podcast.services.UsersService
-import org.cuappdev.podcast.models.SecurityDirectives
+import java.lang
+
+import org.cuappdev.podcast.services.{SessionNotFoundException, SessionsService, UsersService}
+import org.cuappdev.podcast.models.{SecurityDirectives, SessionEntity}
 import spray.json._
 import akka.http.scaladsl.server.Directives._
+
 import scala.concurrent.Future
+import scala.util.control
 
 trait UsersServiceRoute extends UsersService with BaseServiceRoute with SecurityDirectives {
 
@@ -23,7 +27,21 @@ trait UsersServiceRoute extends UsersService with BaseServiceRoute with Security
           post {
             // Grab the header + respond
             headerValueByName("FB_TOKEN") { fb_token =>
-              complete(getOrCreateUser(fb_token).map { u => u.toJson })
+              getOrCreateUser(fb_token).map {
+                case Some(u) =>
+                  val session = SessionsService.sessionFromUser(u)
+                  val userJSON = u.toJson
+                  val sessionJSON = session.map {
+                    case Some (s) => s.toJson
+                    case None => SessionNotFoundException("Session not found by that token.")
+                  }
+                  respond(success = true,
+                    data = JsObject(Map("session" -> sessionJSON,
+                                        "user"    -> userJSON)).toJson
+                case None =>
+                  respond(success = false,
+                    data = JsObject("error" -> "Something went wrong")).toJson
+              }
             }
           }
         }

@@ -65,30 +65,13 @@ trait UsersService extends UserEntityTable with SessionEntityTable with Config {
     // See if the user exists
     val u: Future[Option[UserEntity]] = this.getUserByFbID(fb_user.getId)
     u.flatMap {
-      // If we have this user already
+      /* If we have this user already */
       case Some(user) => Future.successful(Some(user))
-      // If we don't have this user already
+      /*  */
       case None => {
         val newUser = UserFactory.create(UserFields(fb_user.getId))
-        db.run(users returning users += newUser)
-        getOrCreateUserSession(newUser)
-        Future.successful(Some(newUser))
+        db.run(users returning users += newUser).map(_ => Some(newUser))
       }
-    }
-  }
-
-  def getOrCreateUserSession(user: UserEntity) : Future[Option[SessionEntity]] = {
-    val session : Future[Option[SessionEntity]] = db.run(sessions.filter(_.user_id === user.dBInfo.id).result.headOption)
-    session.flatMap {
-      case Some(s) => Future.successful(Some(s))
-      case None => val s = SessionFactory.create(
-        new SessionFields(
-          SessionsService.generateToken(),
-          SessionsService.generateToken(),
-          SessionsService.generateExpiresAt(),
-          user.dBInfo.id)
-        );
-        Future.successful(Some(s))
     }
   }
 
