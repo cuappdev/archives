@@ -13,8 +13,8 @@ trait EpisodesServiceRoute extends EpisodesService
   val episodesRoute = pathPrefix("episodes") {
     pathEndOrSingleSlash {                                /* /episodes */
       get {
-
-        sessionComplete({user =>
+        headerValueByName("SESSION_TOKEN") { session =>
+          sessionComplete(session, {user =>
             respond(success=true,
               data=JsObject()).toJson
           })
@@ -24,12 +24,14 @@ trait EpisodesServiceRoute extends EpisodesService
         pathEndOrSingleSlash {                            /* /episodes/search?query={query} */
           get {
             parameters("query") { query =>
-              sessionComplete({ user =>
+              headerValueByName("SESSION_TOKEN") { session =>
+                sessionComplete(session, { user =>
                   respond(success=true,
-                  data=JsObject("episodes" ->
-                    JsArray(searchEpisodes(query).map { ep => ep.toJson }.toVector)))
-                  .toJson})
-              }
+                    data=JsObject("episodes" ->
+                      JsArray(searchEpisodes(query).map { ep => ep.toJson }.toVector)))
+                    .toJson})
+              }}
+            }
           }
         }
       }
@@ -38,13 +40,15 @@ trait EpisodesServiceRoute extends EpisodesService
         pathEndOrSingleSlash {                            /* /episodes/related?id={id} */
           get {
             parameters("id") { id =>
-              sessionComplete({ user =>
-                Future.successful(
+              headerValueByName("SESSION_TOKEN") { session =>
+                sessionComplete(session, { user =>
                   respond(
-                  success=true,
-                  data=JsObject("episodes" ->
-                    JsArray(relatedEpisodes(Integer.parseInt(id)).map { ep => ep.toJson }.toVector)))
-                  .toJson)})
+                    success=true,
+                    data=JsObject("episodes" ->
+                      JsArray(relatedEpisodes(Integer.parseInt(id)).map { ep => ep.toJson }.toVector)))
+                    .toJson
+                })
+              }
             }
           }
         }
