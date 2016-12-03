@@ -31,7 +31,8 @@ trait EpisodesServiceRoute extends EpisodesService
                   respond(success=true,
                     data=JsObject("episodes" ->
                       JsArray(searchEpisodes(query).map { ep => ep.toJson }.toVector)))
-                    .toJson})
+                    .toJson
+                })
               }}
             }
           }
@@ -46,7 +47,7 @@ trait EpisodesServiceRoute extends EpisodesService
                     respond(
                       success=true,
                       data=JsObject("episodes" ->
-                        JsArray(relatedEpisodes(Integer.parseInt(id)).map { ep => ep.toJson }.toVector)))
+                        JsArray(relatedEpisodes(id).map { ep => ep.toJson }.toVector)))
                       .toJson
                   })
                 }
@@ -54,7 +55,6 @@ trait EpisodesServiceRoute extends EpisodesService
             }
           }
         }
-
-    }
+      }
   }
 }

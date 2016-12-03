@@ -58,7 +58,7 @@ trait UsersService extends UserEntityTable with SessionEntityTable with Config {
     * @param fb_token - The FB Token characterizing the user (String)
     * @return - Future with the UserEntity
     */
-  def getOrCreateUser(fb_token: String): Future[(Future[Option[UserEntity]], Future[Option[SessionEntity]])] = {
+  def getOrCreateUser(fb_token: String): Future[(Future[UserEntity], Future[SessionEntity])] = {
     // Grab fb info
     val fb: FacebookClient = new DefaultFacebookClient(fb_token, facebookSecret, Version.VERSION_2_8)
     val fb_user: com.restfb.types.User = fb.fetchObject("me", classOf[com.restfb.types.User])
@@ -69,11 +69,11 @@ trait UsersService extends UserEntityTable with SessionEntityTable with Config {
       /* If we have this user already */
       case Some(user) =>
         val session = SessionsService.sessionFromUser(user)
-        (Future.successful(Some(user)), session)
+        (Future.successful(user), session)
       /* If we don't have this user already */
       case None =>
         val user = UserFactory.create(UserFields(fb_user.getId))
-        val newUser = db.run(users returning users += user).map(_ => Some(user))
+        val newUser = db.run(users returning users += user)
         val session = SessionsService.sessionFromUser(user)
         (newUser, session)
     }

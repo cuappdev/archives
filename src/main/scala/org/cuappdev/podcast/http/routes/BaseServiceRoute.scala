@@ -24,10 +24,7 @@ trait BaseServiceRoute extends Protocol with SprayJsonSupport with Config with A
 
   /** Session completion **/
   protected def sessionComplete(sessionToken: String, func : (UserEntity => JsValue)) : StandardRoute = {
-    complete(grabUserBySessionToken(sessionToken).map {
-      case Some (u) => func(u)
-      case None => UserNotFoundException("This user is not found")
-    }.asInstanceOf[Future[JsValue]])
+    complete(grabUserBySessionToken(sessionToken).map { u => func(u) })
   }
 
 }

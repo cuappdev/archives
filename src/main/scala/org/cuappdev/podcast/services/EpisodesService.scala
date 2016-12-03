@@ -16,7 +16,7 @@ case class EpisodeNotFoundException(msg: String) extends Exception(msg: String)
 trait EpisodesService extends EpisodeEntityTable with Config {
   import driver.api._
 
-  /* Search episodes via a query */
+  /** Search episodes via a query **/
   def searchEpisodes (query: String): Seq [EpisodeEntity] = {
     /* Grab API response */
     val eps : JsArray = AudioSearch.getInstance.searchEpisodes(query, Map())
@@ -25,10 +25,12 @@ trait EpisodesService extends EpisodeEntityTable with Config {
     eps.elements.map(jsonVal =>  EpisodeFactory.create(jsonVal))
   }
 
-  /* Get related episodes (given audiosearch_id) */
-  def relatedEpisodes (id: Long) : Seq [EpisodeEntity] = {
+  /** Get related episodes (given audiosearch_id) **/
+  def relatedEpisodes (id: String) : Seq [EpisodeEntity] = {
+    /* Get long value */
+    val idLong = Integer.parseInt(id).toLong
     /* Grab API response */
-    val eps : JsArray = AudioSearch.getInstance.getEpisodeRelated(id, Map()).asInstanceOf[JsArray]
+    val eps : JsArray = AudioSearch.getInstance.getEpisodeRelated(idLong, Map()).asInstanceOf[JsArray]
     /* Build result */
     eps.elements.map(jsonVal => EpisodeFactory.create(jsonVal))
   }

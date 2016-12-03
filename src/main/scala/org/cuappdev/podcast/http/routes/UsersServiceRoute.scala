@@ -35,14 +35,9 @@ trait UsersServiceRoute extends UsersService with BaseServiceRoute with Security
                 case (futureU, futureS) =>
                   futureS.map { s =>
                     futureU.map { u =>
-                      (s, u) match {
-                        case (Some(s1), Some(u1)) =>
-                          respond(success = true,
-                          data = JsObject("session" -> s1.toJson,
-                                          "user" -> u1.toJson)).toJson
-                        case _ => SessionNotFoundException("An error occurred.")
-                      }
-
+                      respond(success = true,
+                        data = JsObject("session" -> s.toJson,
+                          "user" -> u.toJson)).toJson
                     }
                   }
                 case _ => UserErrorException("An error occurred.")

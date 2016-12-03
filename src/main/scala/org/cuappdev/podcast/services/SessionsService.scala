@@ -37,7 +37,7 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
   }
 
   /** Grabs a user by the session's token (as long as the session is not expired) **/
-  def grabUserBySessionToken(token: String) : Future[Option[UserEntity]] = {
+  def grabUserBySessionToken(token: String) : Future[UserEntity] = {
     val session : Future[Option[SessionEntity]] =
       db.run(sessions.filter(_.token === token).result.headOption)
 
@@ -49,7 +49,7 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
           val user : Future[Option[UserEntity]] =
             db.run(users.filter(_.id === s.fields.user_id).result.headOption);
           user.flatMap {
-            case Some(u) => Future.successful(Some(u))
+            case Some(u) => Future.successful(u)
             case None => Future.failed(UserNotFoundException("User not found."))
           }
         } else {
@@ -62,7 +62,7 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
   }
 
   /** Creates a session after FB Authentication on a user **/
-  def sessionFromUser(user: UserEntity) : Future[Option[SessionEntity]] = {
+  def sessionFromUser(user: UserEntity) : Future[SessionEntity] = {
     val session : Future[Option[SessionEntity]] =
       db.run(sessions.filter(_.user_id === user.dBInfo.id).result.headOption)
     session.flatMap {
@@ -72,7 +72,8 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
             generateToken(),
             generateExpiresAt(),
             s.fields.user_id))
-        db.run(sessions.filter(_.id === s.dBInfo.id).update(updatedSession)).map(_ => Some(updatedSession))
+        db.run(sessions.filter(_.id === s.dBInfo.id)
+          .update(updatedSession)).map(_ => updatedSession)
       case None =>
         val newSession = SessionFactory.create(
           SessionFields(
@@ -81,7 +82,7 @@ trait SessionsService extends SessionEntityTable with UserEntityTable with Confi
             SessionsService.generateExpiresAt(),
             user.dBInfo.id)
         )
-        db.run(sessions returning sessions += newSession).map(_ => Some(newSession))
+        db.run(sessions returning sessions += newSession)
     }
   }
 
