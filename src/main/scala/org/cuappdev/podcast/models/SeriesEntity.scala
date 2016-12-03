@@ -28,9 +28,7 @@ object SeriesFactory extends EntityFactory[SeriesEntity, SeriesFields] {
     val title = json.fields("title").asInstanceOf[JsString].value
     val description = json.fields.get("description") match
       { case None => "" case Some(d) => d.asInstanceOf[JsString].value }
-    val audioURL = json.fields("audio_files").asInstanceOf[JsArray]
-      .elements.apply(0).asJsObject.fields("mp3").asInstanceOf[JsString].value
-    val imageArr = json.fields("image_urls").asInstanceOf[JsArray]
+    val imageArr = json.fields("image_files").asInstanceOf[JsArray]
     val imageURL =
       if (imageArr.elements.nonEmpty) imageArr.elements.apply(0)
         .asJsObject.fields("file").asJsObject.fields("url").asInstanceOf[JsString].value

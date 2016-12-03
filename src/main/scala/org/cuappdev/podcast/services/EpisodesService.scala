@@ -1,9 +1,9 @@
 package org.cuappdev.podcast.services
-
 import org.cuappdev.podcast.models.db.EpisodeEntityTable
-import org.cuappdev.podcast.models.{EpisodeEntity, EpisodeFactory, EpisodeFields}
-import org.cuappdev.podcast.utils.{AudioSearch, Config}
-import spray.json.{JsArray, JsNumber, JsObject, JsString, JsValue}
+import org.cuappdev.podcast.models.{EpisodeFactory}
+import org.cuappdev.podcast.utils.{APIResponseDirectives, AudioSearch, Protocol}
+import spray.json.{JsArray, JsObject, JsValue}
+import spray.json._
 
 // Execution requirements
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -13,26 +13,38 @@ object EpisodesService extends EpisodesService
 
 case class EpisodeNotFoundException(msg: String) extends Exception(msg: String)
 
-trait EpisodesService extends EpisodeEntityTable with Config {
-  import driver.api._
+trait EpisodesService extends EpisodeEntityTable
+  with APIResponseDirectives
+  with Protocol {
 
   /** Search episodes via a query **/
-  def searchEpisodes (query: String): Seq [EpisodeEntity] = {
+  def searchEpisodes (query: String): JsValue = {
     /* Grab API response */
     val eps : JsArray = AudioSearch.getInstance.searchEpisodes(query, Map())
                                     .asJsObject.fields("results").asInstanceOf[JsArray]
     /* Build result */
-    eps.elements.map(jsonVal =>  EpisodeFactory.create(jsonVal))
+    val result = eps.elements.map(j => EpisodeFactory.create(j))
+    /* JSON response */
+    respond(success=true,
+      data=JsObject("episodes" ->
+        JsArray(result.map { ep => ep.toJson }.toVector)))
+      .toJson
   }
 
-  /** Get related episodes (given audiosearch_id) **/
-  def relatedEpisodes (id: String) : Seq [EpisodeEntity] = {
+  /** Get related episodes (given audiosearch id) **/
+  def relatedEpisodes (id: String) : JsValue = {
     /* Get long value */
     val idLong = Integer.parseInt(id).toLong
     /* Grab API response */
     val eps : JsArray = AudioSearch.getInstance.getEpisodeRelated(idLong, Map()).asInstanceOf[JsArray]
     /* Build result */
-    eps.elements.map(jsonVal => EpisodeFactory.create(jsonVal))
+    val result = eps.elements.map(j => EpisodeFactory.create(j))
+    /* JSON response */
+    respond(
+      success=true,
+      data=JsObject("episodes" ->
+        JsArray(result.map { ep => ep.toJson }.toVector)))
+      .toJson
   }
 
 }
