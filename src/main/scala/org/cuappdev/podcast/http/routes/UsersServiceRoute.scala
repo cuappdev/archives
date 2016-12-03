@@ -33,11 +33,20 @@ trait UsersServiceRoute extends UsersService with BaseServiceRoute with Security
               /* Get the user */
               complete(getOrCreateUser(fb_token).map {
                 case (futureU, futureS) =>
-                  respond(success = true,
-                    data = JsObject("session" -> futureU.toJson,
-                                    "user" -> futureS.toJson)).toJson
-                case _ => UserErrorException("An error occurred")
-              }.toJson)
+                  futureS.map { s =>
+                    futureU.map { u =>
+                      (s, u) match {
+                        case (Some(s1), Some(u1)) =>
+                          respond(success = true,
+                          data = JsObject("session" -> s1.toJson,
+                                          "user" -> u1.toJson)).toJson
+                        case _ => SessionNotFoundException("An error occurred.")
+                      }
+
+                    }
+                  }
+                case _ => UserErrorException("An error occurred.")
+              }.asInstanceOf[Future[Future[Future[JsValue]]]])
             }
           }
         }

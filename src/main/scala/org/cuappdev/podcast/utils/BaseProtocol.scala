@@ -6,9 +6,13 @@ import java.sql.Timestamp
 import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import com.sun.xml.internal.ws.encoding.soap.SerializationException
 
+import scala.util.{Failure, Success}
+
 // Incredibly useful JSON implementation in Scala
 // https://github.com/spray/spray-json
 import spray.json._
+
+import scala.concurrent.Future
 
 
 trait BaseProtocol extends DefaultJsonProtocol {

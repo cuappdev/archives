@@ -27,7 +27,7 @@ trait BaseServiceRoute extends Protocol with SprayJsonSupport with Config with A
     complete(grabUserBySessionToken(sessionToken).map {
       case Some (u) => func(u)
       case None => UserNotFoundException("This user is not found")
-    }.toJson)
+    }.asInstanceOf[Future[JsValue]])
   }
 
 }

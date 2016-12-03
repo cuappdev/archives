@@ -29,6 +29,12 @@ trait Protocol extends BaseProtocol {
   implicit val subscriptionFormat =
     new EntityProtocol[SubscriptionFields, SubscriptionEntity](subscriptionFieldsFormat, SubscriptionFactory.instantiate)
 
+
+  implicit val sessionFieldsFormat = jsonFormat4(SessionFields)
+  implicit val sessionFormat =
+    new EntityProtocol[SessionFields, SessionEntity](sessionFieldsFormat, SessionFactory.instantiate)
+
+
 }
 
 object Protocol extends Protocol

@@ -11,13 +11,15 @@ trait EpisodesServiceRoute extends EpisodesService
   with BaseServiceRoute with SecurityDirectives with APIResponseDirectives {
 
   val episodesRoute = pathPrefix("episodes") {
-    pathEndOrSingleSlash {                                /* /episodes */
+    pathEndOrSingleSlash {
+      /* /episodes */
       get {
         headerValueByName("SESSION_TOKEN") { session =>
-          sessionComplete(session, {user =>
-            respond(success=true,
-              data=JsObject()).toJson
+          sessionComplete(session, { user =>
+            respond(success = true,
+              data = JsObject()).toJson
           })
+        }
       }
     } ~ {
       pathPrefix("search") {
@@ -34,25 +36,25 @@ trait EpisodesServiceRoute extends EpisodesService
             }
           }
         }
-      }
-    } ~ {
-      pathPrefix("related") {
-        pathEndOrSingleSlash {                            /* /episodes/related?id={id} */
-          get {
-            parameters("id") { id =>
-              headerValueByName("SESSION_TOKEN") { session =>
-                sessionComplete(session, { user =>
-                  respond(
-                    success=true,
-                    data=JsObject("episodes" ->
-                      JsArray(relatedEpisodes(Integer.parseInt(id)).map { ep => ep.toJson }.toVector)))
-                    .toJson
-                })
+      } ~ {
+        pathPrefix("related") {
+          pathEndOrSingleSlash {                            /* /episodes/related?id={id} */
+            get {
+              parameters("id") { id =>
+                headerValueByName("SESSION_TOKEN") { session =>
+                  sessionComplete(session, { user =>
+                    respond(
+                      success=true,
+                      data=JsObject("episodes" ->
+                        JsArray(relatedEpisodes(Integer.parseInt(id)).map { ep => ep.toJson }.toVector)))
+                      .toJson
+                  })
+                }
               }
             }
           }
         }
-      }
+
     }
   }
 }

@@ -8,17 +8,5 @@ import akka.http.scaladsl.server.Directives._
 import scala.concurrent.Future
 
 trait SeriesServiceRoute extends SeriesService with BaseServiceRoute with SecurityDirectives  {
-  val seriesRoute = pathPrefix("series") {
 
-    pathEndOrSingleSlash {                                // /likes
-      get {
-        headerValueByName("SESSION_TOKEN") { session =>
-          sessionComplete(session, { user =>
-            getSeries().map { e => e.toJson }
-          })
-        }
-      }
-    }
-
-  }
 }
