@@ -22,18 +22,19 @@ class LikesController < ApplicationController
     if success_val
         @poster = User.find(db_post.user_id)
         @poster.increment(:hipster_score, 1).save
+        track_name = db_post.songs.first.track
         if @poster.id != @user.id and !@poster.push_id.nil? and @poster.remote_push_notifications_enabled 
-          notify(@poster.push_id, @user.username) 
+          notify(@poster.push_id, @user.username, track_name) 
         end 
     end
     render json: { success: success_val, liked: true }
   end
 
-  def notify(poster_push_id, username)
+  def notify(poster_push_id, username, track_name)
     url = "http://35.163.179.243:8080/push" 
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
-            :message =>  "#{username} liked your post!", 
+            :message =>  "#{username} liked a song you posted: #{track_name}!", 
             :target_ids => [poster_push_id],
             :notification => 1}
     res = post_no_ssl(headers, body.to_json, url)
