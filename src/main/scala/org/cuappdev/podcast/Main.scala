@@ -1,6 +1,6 @@
 package org.cuappdev.podcast
 
-import org.cuappdev.podcast.http.HttpService
+import org.cuappdev.podcast.http.HttpServiceRoute
 import org.cuappdev.podcast.utils.Config
 import org.cuappdev.podcast.utils.Migration
 
@@ -13,7 +13,7 @@ import scala.util.Properties
 import scala.concurrent.ExecutionContext
 
 /* Main entrypoint of the app  */
-object Main extends App with Config with HttpService with Migration {
+object Main extends App with Config with HttpServiceRoute with Migration {
   private implicit val system = ActorSystem()
 
   protected implicit val executor: ExecutionContext = system.dispatcher

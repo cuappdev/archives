@@ -2,7 +2,6 @@ package org.cuappdev.podcast.services
 import org.cuappdev.podcast.models.db.EpisodeEntityTable
 import org.cuappdev.podcast.models.{EpisodeFactory}
 import org.cuappdev.podcast.utils.{APIResponseDirectives, AudioSearch, Protocol}
-import spray.json.{JsArray, JsObject, JsValue}
 import spray.json._
 
 // Execution requirements
