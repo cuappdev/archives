@@ -8,6 +8,7 @@ import akka.actor.ActorSystem
 import akka.event.{Logging, LoggingAdapter}
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
+import scala.util.Properties
 
 import scala.concurrent.ExecutionContext
 
@@ -20,6 +21,7 @@ object Main extends App with Config with HttpService with Migration {
   protected implicit val materializer: ActorMaterializer = ActorMaterializer()
 
   migrate()
+  val port = Properties.envOrElse("PORT", "9000").toInt
 
-  Http().bindAndHandle(routes, httpInterface, httpPort)
+  Http().bindAndHandle(routes, interface = "0.0.0.0", port = port)
 }
