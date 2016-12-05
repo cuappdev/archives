@@ -1,6 +1,6 @@
 package org.cuappdev.podcast.models
 
-import spray.json.{JsArray, JsNumber, JsString, JsValue}
+import spray.json._
 
 /** Factory and entity for Series. **/
 
@@ -27,7 +27,11 @@ object SeriesFactory extends EntityFactory[SeriesEntity, SeriesFields] {
     val audiosearchID = json.fields("id").asInstanceOf[JsNumber].value.longValue()
     val title = json.fields("title").asInstanceOf[JsString].value
     val description = json.fields.get("description") match
-      { case None => "" case Some(d) => d.asInstanceOf[JsString].value }
+      {
+        case None => ""
+        case Some(JsString(d)) => d.asInstanceOf[JsString].value
+        case Some(JsNull) => ""
+      }
     val imageArr = json.fields("image_files").asInstanceOf[JsArray]
     val imageURL =
       if (imageArr.elements.nonEmpty) imageArr.elements.apply(0)

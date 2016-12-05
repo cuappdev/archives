@@ -1,6 +1,6 @@
 package org.cuappdev.podcast.models
 
-import spray.json.{JsArray, JsNumber, JsString, JsValue}
+import spray.json._
 ;
 
 /** Factory and entity for Episode. **/
@@ -32,7 +32,11 @@ object EpisodeFactory extends EntityFactory[EpisodeEntity, EpisodeFields] {
     val audiosearchID = json.fields("id").asInstanceOf[JsNumber].value.longValue()
     val title = json.fields("title").asInstanceOf[JsString].value
     val description = json.fields.get("description") match
-      { case None => "" case Some(d) => d.asInstanceOf[JsString].value }
+      {
+        case None => ""
+        case Some(JsString(d)) => d.asInstanceOf[JsString].value
+        case Some(JsNull) => ""
+      }
     val audioArr = json.fields("audio_files").asInstanceOf[JsArray]
     val audioURL =
       if (audioArr.elements.nonEmpty)
