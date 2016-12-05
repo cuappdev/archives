@@ -30,19 +30,30 @@ object EpisodeFactory extends EntityFactory[EpisodeEntity, EpisodeFields] {
   def create (jsonVal: JsValue) : EpisodeEntity = {
     val json = jsonVal.asJsObject
     val audiosearchID = json.fields("id").asInstanceOf[JsNumber].value.longValue()
-    val title = json.fields("title").asInstanceOf[JsString].value
-    val description = json.fields.get("description") match
-      {
-        case None => ""
-        case Some(JsString(d)) => d
-        case Some(JsNull) => ""
-      }
+    val title = json.fields.get("title") match {
+      case None => ""
+      case Some(JsString(d)) => d
+      case Some(JsNull) => ""
+    }
+    val description = json.fields.get("description") match {
+      case None => ""
+      case Some(JsString(d)) => d
+      case Some(JsNull) => ""
+    }
     val audioArr = json.fields("audio_files").asInstanceOf[JsArray]
     val audioURL =
       if (audioArr.elements.nonEmpty)
-        audioArr.elements.apply(0).asJsObject.fields("mp3").asInstanceOf[JsString].value
+        audioArr.elements.apply(0).asJsObject.fields.get("mp3") match {
+          case None => ""
+          case Some(JsString(d)) => d
+          case Some(JsNull) => ""
+        }
       else ""
-    val imageURL = json.fields("image_urls").asJsObject.fields("full").asInstanceOf[JsString].value
+    val imageURL = json.fields("image_urls").asJsObject.fields.get("full") match {
+      case None => ""
+      case Some(JsString(d)) => d
+      case Some(JsNull) => ""
+    }
     EpisodeFactory.create(EpisodeFields(audiosearchID, title, description, audioURL, imageURL, None))
   }
 

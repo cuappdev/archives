@@ -25,17 +25,24 @@ object SeriesFactory extends EntityFactory[SeriesEntity, SeriesFields] {
   def create (jsonVal : JsValue) : SeriesEntity = {
     val json = jsonVal.asJsObject
     val audiosearchID = json.fields("id").asInstanceOf[JsNumber].value.longValue()
-    val title = json.fields("title").asInstanceOf[JsString].value
-    val description = json.fields.get("description") match
-      {
-        case None => ""
-        case Some(JsString(d)) => d
-        case Some(JsNull) => ""
-      }
+    val title = json.fields.get("title") match {
+      case None => ""
+      case Some(JsString(d)) => d
+      case Some(JsNull) => ""
+    }
+    val description = json.fields.get("description") match {
+      case None => ""
+      case Some(JsString(d)) => d
+      case Some(JsNull) => ""
+    }
     val imageArr = json.fields("image_files").asInstanceOf[JsArray]
     val imageURL =
-      if (imageArr.elements.nonEmpty) imageArr.elements.apply(0)
-        .asJsObject.fields("file").asJsObject.fields("url").asInstanceOf[JsString].value
+      if (imageArr.elements.nonEmpty)
+        imageArr.elements.apply(0).asJsObject.fields("file").asJsObject.fields.get("url") match {
+          case None => ""
+          case Some(JsString(d)) => d
+          case Some(JsNull) => ""
+        }
       else  ""
     SeriesFactory.create(SeriesFields(audiosearchID, title, description, imageURL))
   }
