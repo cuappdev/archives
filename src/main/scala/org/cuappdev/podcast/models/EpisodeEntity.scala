@@ -34,7 +34,7 @@ object EpisodeFactory extends EntityFactory[EpisodeEntity, EpisodeFields] {
     val description = json.fields.get("description") match
       {
         case None => ""
-        case Some(JsString(d)) => d.asInstanceOf[JsString].value
+        case Some(JsString(d)) => d
         case Some(JsNull) => ""
       }
     val audioArr = json.fields("audio_files").asInstanceOf[JsArray]

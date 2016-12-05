@@ -29,7 +29,7 @@ object SeriesFactory extends EntityFactory[SeriesEntity, SeriesFields] {
     val description = json.fields.get("description") match
       {
         case None => ""
-        case Some(JsString(d)) => d.asInstanceOf[JsString].value
+        case Some(JsString(d)) => d
         case Some(JsNull) => ""
       }
     val imageArr = json.fields("image_files").asInstanceOf[JsArray]
