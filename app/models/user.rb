@@ -16,7 +16,7 @@
 #  created_at                        :datetime         not null
 #  updated_at                        :datetime         not null
 #  push_id                           :string
-#  remote_push_notifications_enabled :boolean          default(TRUE)
+#  remote_push_notifications_enabled :boolean          default(FALSE)
 #
 
 class User < ActiveRecord::Base
