@@ -15,6 +15,8 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-stream-experimental" % akkaStreamV,
     "com.typesafe.akka" %% "akka-http-core-experimental" % akkaStreamV,
     "com.typesafe.akka" %% "akka-http-spray-json-experimental" % akkaStreamV,
+    // DB connection pooling
+    "com.zaxxer" % "HikariCP" % "2.5.1",
     // Function Relational Model (FRM)
     "com.typesafe.slick" %% "slick" % slickVersion,
     "org.slf4j" % "slf4j-nop" % "1.6.4",

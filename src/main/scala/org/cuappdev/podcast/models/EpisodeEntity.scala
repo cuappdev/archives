@@ -40,7 +40,11 @@ object EpisodeFactory extends EntityFactory[EpisodeEntity, EpisodeFields] {
       case Some(JsString(d)) => d
       case Some(JsNull) => ""
     }
-    val audioArr = json.fields("audio_files").asInstanceOf[JsArray]
+    val audioArr = json.fields.get("audio_files") match {
+      case None => JsArray()
+      case Some(JsArray(d)) => JsArray(d)
+      case Some(JsNull) => JsArray()
+    }
     val audioURL =
       if (audioArr.elements.nonEmpty)
         audioArr.elements.apply(0).asJsObject.fields.get("mp3") match {

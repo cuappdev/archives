@@ -35,7 +35,11 @@ object SeriesFactory extends EntityFactory[SeriesEntity, SeriesFields] {
       case Some(JsString(d)) => d
       case Some(JsNull) => ""
     }
-    val imageArr = json.fields("image_files").asInstanceOf[JsArray]
+    val imageArr = json.fields.get("image_files") match {
+      case None => JsArray()
+      case Some(JsArray(d)) => JsArray(d)
+      case Some(JsNull) => JsArray()
+    }
     val imageURL =
       if (imageArr.elements.nonEmpty)
         imageArr.elements.apply(0).asJsObject.fields("file").asJsObject.fields.get("url") match {
