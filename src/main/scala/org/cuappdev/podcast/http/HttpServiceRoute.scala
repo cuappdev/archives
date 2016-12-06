@@ -14,19 +14,16 @@ trait HttpServiceRoute extends UsersServiceRoute with EpisodesServiceRoute
     pathPrefix("v1") {
       corsHandler {
         usersRoute ~ episodesRoute ~ seriesRoute
-      } ~ {
-        pathPrefix("search") {
-          pathEndOrSingleSlash {                            /* /search?query={query} */
-            get {
-              parameters("query") { query =>
-                headerValueByName("SESSION_TOKEN") { session =>
-                  sessionComplete(session, { user =>
-                    searchEverything(query)
-                  })
-                }}
-            }
+      } ~
+      (path("search") & get) {
+        parameters("query") { query =>
+          headerValueByName("SESSION_TOKEN") { session =>
+            sessionComplete(session, { user =>
+              searchEverything(query)
+            })
           }
         }
       }
+
     }
 }

@@ -23,7 +23,8 @@ trait BaseServiceRoute extends Protocol with SprayJsonSupport with Config with A
   protected def log: LoggingAdapter
 
   /** Session completion **/
-  protected def sessionComplete(sessionToken: String, func : (UserEntity => JsValue)) : StandardRoute = {
+  protected def sessionComplete(sessionToken: String,
+                                func : (UserEntity => JsValue)) : StandardRoute = {
     complete(grabUserBySessionToken(sessionToken).map { u => func(u) })
   }
 
