@@ -19,7 +19,12 @@ trait SeriesService extends SeriesEntityTable
   def searchSeries (query: String) : JsValue = {
     /* Grab API response */
     val series : JsArray = AudioSearch.getInstance.searchShows(query, Map())
-                                          .asJsObject.fields("results").asInstanceOf[JsArray]
+                                          .asJsObject.fields.get("results") match {
+      case None => JsArray()
+      case Some(JsNull) => JsArray()
+      case Some(JsArray(d)) => JsArray(d)
+      case _ => throw new Exception()
+    }
     /* Build result */
     val result = series.elements.map(j => SeriesFactory.create(j))
     /* JSON response */
