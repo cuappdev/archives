@@ -43,8 +43,8 @@ class AudioSearchAPI (audiosearchAppId: String, audiosearchSecret: String) {
 
   /* GET wrapper for audiosearch (auto-refreshes on command) */
   def get (url: String, params: Map[String, String]): JsValue = {
-    var result = performGet(url, params)
     try {
+      var result = performGet(url, params)
       if (result.asJsObject.fields("status").asInstanceOf[JsString].value.equals("failure")) {
         accessToken = getAccessToken
         result = performGet(url, params); log(result); result
@@ -53,7 +53,7 @@ class AudioSearchAPI (audiosearchAppId: String, audiosearchSecret: String) {
       }
     } catch {
       case e : Exception => {
-        log(result); result
+        JsObject()
       }
     }
   }

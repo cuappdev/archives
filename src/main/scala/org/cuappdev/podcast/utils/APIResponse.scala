@@ -16,7 +16,9 @@ case class APIResponse (success: Boolean, data: JsObject)
 trait APIResponseDirectives {
 
   /* Utility method */
-  def respond (success: Boolean, data: JsObject): APIResponse = APIResponse (success, data)
+  def respond (success: Boolean,
+               data: JsObject): APIResponse =
+    APIResponse (success, data)
 
 
 }
