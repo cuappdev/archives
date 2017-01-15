@@ -23,12 +23,20 @@ class LikesController < ApplicationController
         @poster = User.find(db_post.user_id)
         @poster.increment(:hipster_score, 1).save
         track_name = db_post.songs.first.track
-        if @poster.id != @user.id and !@poster.push_id.nil? and @poster.remote_push_notifications_enabled 
+        if shouldNotify(@user, @poster)
+          Notification.create(from: @user.id, to: @poster.id, notification_type: 1)
           notify(@poster.push_id, @user.username, track_name) 
         end 
     end
     render json: { success: success_val, liked: true }
   end
+
+  def shouldNotify(user, poster) # user likes post of poster
+    return (poster.id != user.id and 
+           !poster.push_id.nil? and 
+           poster.remote_push_notifications_enabled and
+           !Notification.exists?(from: user.id, to: poster.id, notification_type: 1)) 
+  end 
 
   def notify(poster_push_id, username, track_name)
     url = "http://35.163.179.243:8080/push" 

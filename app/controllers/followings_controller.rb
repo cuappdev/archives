@@ -22,12 +22,19 @@ class FollowingsController < ApplicationController
     success_val = @user.follow(followed_id)
     if success_val 
       @followed_user = User.find(followed_id)
-      if !@followed_user.push_id.nil? and @followed_user.remote_push_notifications_enabled 
+      if shouldNotify(@user, @followed_user) 
+          Notification.create(from: @user.id, to: followed_id, notification_type: 2)
           notify(@followed_user.push_id, @user.username) 
       end 
     end
     render json: { success: success_val, follow: true }
   end
+
+  def shouldNotify(user, followed_user) # user is trying to follow followed_user
+    return (!followed_user.push_id.nil? and 
+           followed_user.remote_push_notifications_enabled and 
+           !Notification.exists?(from:user.id, to:followed_user.id, notification_type:2))
+  end 
 
   def notify(followed_push_id, follower_username)
     url = "http://35.163.179.243:8080/push"
