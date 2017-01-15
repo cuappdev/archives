@@ -33,7 +33,7 @@ class FollowingsController < ApplicationController
     url = "http://35.163.179.243:8080/push"
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
-            :message =>  "#{follower_username} is following you!", 
+            :message =>  "@#{follower_username} is following you!", 
             :target_ids => [followed_push_id],
             :notification => 2}
     res = post_no_ssl(headers, body.to_json, url)
