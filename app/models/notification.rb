@@ -11,6 +11,4 @@ class Notification < ActiveRecord::Base
 	validates :from, presence: true
 	validates :to, presence: true
 	validates :notification_type, presence: true
-	belongs_to :from, class_name: "User"
-	belongs_to :to, class_name: "User"
 end 
