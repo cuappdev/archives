@@ -1,57 +1,57 @@
 require 'mailchimp'
 class StaticPagesController < ApplicationController
 
-	
 
-	def home 
-		email = params[:email]
-		@user = User.create({ email: email })
-		result = @user.valid?
-		data = result ? @user : { error: @user.errors.full_messages }
 
-		mailchimp = Mailchimp::API.new(ENV["MAILCHIMP_API_KEY"])
-		# Conditionally add to general mailing list 
-		if result 
-			begin  
-				mailchimp.lists.subscribe(ENV["CUAPPDEV_INFO_LIST_ID"], { "email" => @user.email }) 
-			rescue Mailchimp::ListAlreadySubscribedError
-				data = { error: "You're already subscribed to our mailing list" }
-				result = false 
-			end 
-		end 
+  def home
+    email = params[:email]
+    @user = User.create({ email: email })
+    result = @user.valid?
+    data = result ? @user : { error: @user.errors.full_messages }
 
-		respond_to do |f|
-			f.html 
-			f.json { render json: { success: result, data: data }}
-		end 
+    mailchimp = Mailchimp::API.new(ENV["MAILCHIMP_API_KEY"])
+    # Conditionally add to general mailing list
+    if result
+      begin
+        mailchimp.lists.subscribe(ENV["CUAPPDEV_INFO_LIST_ID"], { "email" => @user.email })
+      rescue Mailchimp::ListAlreadySubscribedError
+        data = { error: "You're already subscribed to our mailing list" }
+        result = false
+      end
+    end
 
-	end 
+    respond_to do |f|
+      f.html
+      f.json { render json: { success: result, data: data }}
+    end
 
-	def recruitment
-	end 
+  end
 
-	def training
-	end 
+  def recruitment
+  end
 
-	def team 
-	end 
+  def training
+  end
 
-	def apply
-	end 
+  def team
+  end
 
-	def projects
-	end 
+  def apply
+  end
 
-	def legal
-	end 
+  def projects
+  end
 
-	def idea
-	end 
+  def legal
+  end
 
-	def contact 
-	end 
+  def idea
+  end
 
-	
+  def contact
+  end
+
+
 
 
 end

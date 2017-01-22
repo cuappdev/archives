@@ -25,29 +25,29 @@ $red-hover: #E30000;
 
 // Bolding of certain parts of the page (depending on whether we're currently on it or not)
 .bold {
-	font-weight: bold; 
+  font-weight: bold;
 }
 
-// Red text, title or otherwise 
+// Red text, title or otherwise
 .slogan {
-	padding-top: 30px;
-	padding-bottom: 30px;
-	color: rgb(193, 0, 0);
-	font-size: 40px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  color: rgb(193, 0, 0);
+  font-size: 40px;
 }
 
-// Red text modified 
+// Red text modified
 .modified-slogan {
-	padding-top: 0px;
+  padding-top: 0px;
 }
 
 
-// BARS - For various sections 
+// BARS - For various sections
 .white-barz, .black-barz, .offwhite-barz, .gray-barz, .darkgray-barz {
-	width: 100%;
-	position: relative;
-	padding-top: $primary-padding; 
-	padding-bottom: $primary-padding;
+  width: 100%;
+  position: relative;
+  padding-top: $primary-padding;
+  padding-bottom: $primary-padding;
 }
 
 .white-barz { background-color: rgb(255, 255, 255); }
@@ -57,162 +57,160 @@ $red-hover: #E30000;
 .darkgray-barz { background-color: rgb(66, 66, 66); }
 
 
-// Used to style white text in various boxes 
-.text-white { 
-	font-size: 24px; 
-	color: white; 
-	text-align: center;
-	margin-right: 100px;
-	margin-left: 100px; 
+// Used to style white text in various boxes
+.text-white {
+  font-size: 24px;
+  color: white;
+  text-align: center;
+  margin-right: 100px;
+  margin-left: 100px;
 }
 
 
-// Used to style black paragraph text on various pages 
+// Used to style black paragraph text on various pages
 .text-black  {
-	font-size: 24px;
-	color: black;
+  font-size: 24px;
+  color: black;
 }
 
-// Modifies text-white and text-black 
+// Modifies text-white and text-black
 .text-paragraph {
-	margin-right: 100px;
-	margin-left: 100px;
+  margin-right: 100px;
+  margin-left: 100px;
 }
 
 
-// Red links used on various pages 
+// Red links used on various pages
 .red-link {
-	color: $red-regular;
+  color: $red-regular;
 }
 
 .red-link:hover {
-	color: $red-hover;
-	text-decoration: none;
+  color: $red-hover;
+  text-decoration: none;
 }
 
 .red-link:active {
-	color: $red-regular;
+  color: $red-regular;
 }
 
 
-// TOP TEXT OF A SECTION 
+// TOP TEXT OF A SECTION
 .text-top {
-	padding-top: 100px;
-	padding-bottom: 5px;
-	margin-bottom: 0px; // B/c of some bootstrap issue
+  padding-top: 100px;
+  padding-bottom: 5px;
+  margin-bottom: 0px; // B/c of some bootstrap issue
 }
 
-// MIDDLE TEXT OF A SECTION 
+// MIDDLE TEXT OF A SECTION
 .text-middle {
-	padding-top: 5px;
-	padding-bottom: 5px;
-	margin-bottom: 0px; // B/c of some bootstrap issue
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 0px; // B/c of some bootstrap issue
 }
 
 
-// BOTTOM TEXT OF A SECTION 
+// BOTTOM TEXT OF A SECTION
 .text-bottom {
-	padding-top: 5px;
-	padding-bottom: 100px;
-	margin-bottom: 0px; // B/c of some bootstrap issue
+  padding-top: 5px;
+  padding-bottom: 100px;
+  margin-bottom: 0px; // B/c of some bootstrap issue
 }
 
 
-// TO AUGMENT TEXT MAKE IT LARGER  
+// TO AUGMENT TEXT MAKE IT LARGER
 .text-large {
-	font-size: 50px;
+  font-size: 50px;
 }
 
 .text-medium {
-	font-size: 26px;
+  font-size: 26px;
 }
 
 .text-small {
-	font-size: 16px;
+  font-size: 16px;
 }
 
 
-// Padding for massive screens 
+// Padding for massive screens
 @media screen and (min-width: 1601px) {
 
-	.text {
-		padding-top: 300px;
-		padding-bottom: 300px; 
-		text-align: center; 
-		margin-bottom: 0px; 
-	}
+  .text {
+    padding-top: 300px;
+    padding-bottom: 300px;
+    text-align: center;
+    margin-bottom: 0px;
+  }
 
-	.modified-slogan {
-		margin-left: 100px;
-	}
+  .modified-slogan {
+    margin-left: 100px;
+  }
 
 }
 
-// Padding on larger screens 
+// Padding on larger screens
 @media screen and (max-width: 1600px) {
-	.text {
-		padding-top: 225px;
-		padding-bottom: 225px;
-		text-align: center;
-		margin-bottom: 0px;
-	}
+  .text {
+    padding-top: 225px;
+    padding-bottom: 225px;
+    text-align: center;
+    margin-bottom: 0px;
+  }
 
-	
 
-	.modified-slogan {
-		margin-left: 100px;
-	}
+
+  .modified-slogan {
+    margin-left: 100px;
+  }
 
 }
 
 
-// Padding on smaller screens 
+// Padding on smaller screens
 @media screen and (max-width: 768px) {
-	.text {
-		padding-top: 100px;
-		padding-bottom: 100px;
-		text-align: center; 
-		margin-bottom: 0px;
-	}
+  .text {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    text-align: center;
+    margin-bottom: 0px;
+  }
 
-	.text-white, .text-black, .text-black-paragraph {
-		margin-left: 15px;
-		margin-right: 15px;
-		font-size: 16px;
-	}
+  .text-white, .text-black, .text-black-paragraph {
+    margin-left: 15px;
+    margin-right: 15px;
+    font-size: 16px;
+  }
 
-	.modified-slogan {
-		margin-left: 15px;
-		font-size: 25px; 
-	}
+  .modified-slogan {
+    margin-left: 15px;
+    font-size: 25px;
+  }
 
-	// Slightly larger than white/black text 
-	.text-large {
-		font-size: 22px; 
-	}
+  // Slightly larger than white/black text
+  .text-large {
+    font-size: 22px;
+  }
 
-	.text-top {
-		padding-top: 60px;
-	}
+  .text-top {
+    padding-top: 60px;
+  }
 
-	.text-bottom { 
-		padding-bottom: 60px;
-	}
+  .text-bottom {
+    padding-bottom: 60px;
+  }
 
-	// Reduced padding for banner bars on mobile  
-	.white-barz, 
-	.black-barz, 
-	.offwhite-barz, 
-	.gray-barz, 
-	.darkgray-barz {
-		padding-top: $mobile-padding;
-		padding-bottom: $mobile-padding;
-	}
+  // Reduced padding for banner bars on mobile
+  .white-barz,
+  .black-barz,
+  .offwhite-barz,
+  .gray-barz,
+  .darkgray-barz {
+    padding-top: $mobile-padding;
+    padding-bottom: $mobile-padding;
+  }
 
-	.bullet {
-		padding-bottom: 50px;
-	}
+  .bullet {
+    padding-bottom: 50px;
+  }
 
 }
-
-

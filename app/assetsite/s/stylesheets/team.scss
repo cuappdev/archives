@@ -1,15 +1,15 @@
 // For team page 
 .team-top {
-	background: image-url('TopTeam.png') no-repeat center center;
-	-webkit-background-size: cover;
+  background: image-url('TopTeam.png') no-repeat center center;
+  -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 .company {
-  padding: 15px; 
+  padding: 15px;
 }
 
 .app-dev-logo {
@@ -19,39 +19,38 @@
     padding-top: 50px;
  }
 
-.social-media { 
-	align-content: center;
+.social-media {
+  align-content: center;
 }
 
 .team-member img {
-  border-radius: 100%; 
+  border-radius: 100%;
 }
 
 .media-logo:hover {
-  -moz-box-shadow: 1px 1px 5px #999; 
-  -webkit-box-shadow: 1px 1px 5px #999; 
+  -moz-box-shadow: 1px 1px 5px #999;
+  -webkit-box-shadow: 1px 1px 5px #999;
   box-shadow: 1px 1px 5px #999;
 }
 
 .linkedin {
-  border-radius: 0px !important; 
+  border-radius: 0px !important;
 }
 
 
 .team-container {
-  display: inline-block; 
-  margin-top: 20px; 
+  display: inline-block;
+  margin-top: 20px;
   margin-bottom: 20px;
-  width: 100%; 
+  width: 100%;
 }
 
 
 @media screen and (max-width: 768px) {
 
   .team-container {
-    margin-top: 0px; 
-    margin-bottom: 0px; 
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 
 }
-

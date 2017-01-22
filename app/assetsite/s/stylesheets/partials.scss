@@ -1,17 +1,17 @@
 html {
-  font-family: Helvetica, sans-serif; 
+  font-family: Helvetica, sans-serif;
   font-weight: lighter;
 }
 
 
 /* NAVBAR STUFF */
- 
+
 body {
-	margin-top: 70px !important;
+  margin-top: 70px !important;
 }
 
 #right-menu {
-	margin-right: 20px;
+  margin-right: 20px;
 }
 
 
@@ -24,7 +24,7 @@ body {
   color: #C30016;
   background: none;
   margin-bottom: 10px;
-  text-align: center; 
+  text-align: center;
 }
 
 .button:hover {
@@ -41,12 +41,12 @@ body {
 
 .navelement {
   margin-top: 8px;
-  color: #C30016 !important; 
+  color: #C30016 !important;
 }
 
 .navelement:hover {
-  text-decoration: none !important; 
-  color: #E30000 !important;  
+  text-decoration: none !important;
+  color: #E30000 !important;
 }
 
 
@@ -56,12 +56,12 @@ body {
   position: relative;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */ 
+  /* Set the fixed height of the footer here */
   background-color: rgb(45, 45, 45);
 }
 
 
-/* Footer nav */ 
+/* Footer nav */
 .footer-nav {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -71,31 +71,31 @@ body {
 
 }
 
-.footer-nav:hover { 
+.footer-nav:hover {
   text-decoration: none;
   color: white;
 }
 
-/* Footer column */ 
-.footer-column { 
+/* Footer column */
+.footer-column {
   text-decoration: none;
   font-size: 14px;
   margin-top: 8px;
   color: white;
 }
 
-.footer-column:hover { 
+.footer-column:hover {
   text-decoration: none;
-  color: white; 
+  color: white;
 }
 
-.footer-column:active { 
+.footer-column:active {
   text-decoration: none;
   color: white;
 }
 
 
-/* Extra */ 
+/* Extra */
 .email-bar {
   background-color: white;
   border-radius: 20px;
@@ -104,46 +104,46 @@ body {
 }
 
 
-/* Footer copyright styling */ 
+/* Footer copyright styling */
 .copyright {
   margin-top: 20px;
-  margin-bottom: 20px; 
-  color: white; 
+  margin-bottom: 20px;
+  color: white;
 }
 
 
-/* Email button on footer */ 
+/* Email button on footer */
 .email {
   border-radius: 20px;
   background-color: rgb(56, 134, 255);
   border-color: rgb(56, 134, 255);
-  color: white; 
+  color: white;
   padding-left: 10px;
   padding-right: 10px;
   margin-left: 10px;
 }
 
 
-/* Bottom row of the columns of the footer (added to create space) */ 
+/* Bottom row of the columns of the footer (added to create space) */
 .bottom-row {
   margin-bottom: 15px;
 }
 
-/* Form stuff */ 
+/* Form stuff */
 .form-field {
   background-color: rgba(255, 255, 255, 1);
   border-radius: 25px;
 }
 
-/* Button stuff */ 
+/* Button stuff */
 .button-curved {
   border-radius: 20px;
 }
 
 
-/* Class to add to form element when there's an error */ 
-.form_error { 
-  border: 1px solid red; 
+/* Class to add to form element when there's an error */
+.form_error {
+  border: 1px solid red;
 }
 
 
@@ -154,10 +154,10 @@ body {
   }
 
   .button {
-    border: none; 
-    padding: 0px; 
-    margin: 0px; 
-    text-align: left; 
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
   }
 
 }
@@ -170,24 +170,24 @@ body {
 
 
 
-// Email field 
+// Email field
 .email-field {
   border-radius: 10px;
   margin-top: 25px;
   margin-bottom: 25px;
-  width: 75%; 
+  width: 75%;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: white !important; 
-  padding-left: 5px !important; 
-  padding-right: 5px !important; 
+  background-color: white !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
   border-radius: 5px !important;
 }
 
 
-// Email Bottom Button  
-.email-button { 
-  color: white; 
+// Email Bottom Button
+.email-button {
+  color: white;
   background-color: rgb(197, 0, 13);
   padding-top: 5px;
   padding-bottom: 5px;
