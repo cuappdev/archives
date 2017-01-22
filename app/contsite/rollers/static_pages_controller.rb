@@ -1,30 +1,7 @@
-require 'mailchimp'
 class StaticPagesController < ApplicationController
-
-
+  include StaticPagesHelper
 
   def home
-    email = params[:email]
-    @user = User.create({ email: email })
-    result = @user.valid?
-    data = result ? @user : { error: @user.errors.full_messages }
-
-    mailchimp = Mailchimp::API.new(ENV["MAILCHIMP_API_KEY"])
-    # Conditionally add to general mailing list
-    if result
-      begin
-        mailchimp.lists.subscribe(ENV["CUAPPDEV_INFO_LIST_ID"], { "email" => @user.email })
-      rescue Mailchimp::ListAlreadySubscribedError
-        data = { error: "You're already subscribed to our mailing list" }
-        result = false
-      end
-    end
-
-    respond_to do |f|
-      f.html
-      f.json { render json: { success: result, data: data }}
-    end
-
   end
 
   def recruitment
@@ -34,6 +11,7 @@ class StaticPagesController < ApplicationController
   end
 
   def team
+    @groupings = load_team
   end
 
   def apply
@@ -50,8 +28,5 @@ class StaticPagesController < ApplicationController
 
   def contact
   end
-
-
-
 
 end
