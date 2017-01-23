@@ -29,7 +29,7 @@ module StaticPagesHelper
   class TeamMember
 
     # Getter methods
-    attr_reader :name, :year, :role, :category, :photo, :github, :linkedin
+    attr_reader :name, :year, :role, :category, :photo, :github, :linkedin, :web
 
     # Expected order is:
     # [name, year, role, category, photo, github, linkedin]
@@ -41,6 +41,7 @@ module StaticPagesHelper
       @photo = line[4]
       @github = line[5] != "NONE" ? "https://github.com/#{line[5]}" : nil
       @linkedin = line[6] != "NONE" ? "https://www.linkedin.com/in/#{line[6]}" : nil
+      @web = line.size < 8 ? nil : line[7]
     end
 
     # Professional links
@@ -51,6 +52,9 @@ module StaticPagesHelper
       end
       if ! @linkedin.nil?
         links << { link_type: "linkedin", link: @linkedin }
+      end
+      if ! @web.nil?
+        links << { link_type: "web", link: @web }
       end
       links
     end
