@@ -24,7 +24,7 @@
           <div class="col-xs-12" style="padding-bottom: 20px;">
             <%= image_tag "team/#{mem.photo}",
                 class: "center-block",
-                style: "width:150px;height:auto;max-height:150px" %>
+                style: "width:150px;height:150px" %>
           </div>
           <p class="text-medium col-xs-12 text-center"
              style="margin-bottom:0px;">
@@ -36,7 +36,10 @@
 
           <div class="col-xs-12 bullet">
             <% for i in 0...(mem.prof_links.size) %>
-              <div class="<% if i == 0 %>col-xs-offset-<%= mem.prof_links.size == 1 ? 5 : 4 %><% end %> col-xs-2">
+              <div class="
+              <% if i == 0 %>
+                col-xs-offset-<%= mem.prof_links.size == 3 ? 3 : (mem.prof_links.size == 1 ? 5 : 4) %>
+              <% end %> col-xs-2">
                 <a href="<%= mem.prof_links[i][:link] %>" target="_blank">
                   <%= image_tag "team/#{mem.prof_links[i][:link_type]}.png",
                     class: "center-block media-logo #{mem.prof_links[i][:link_type]}",
