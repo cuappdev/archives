@@ -1,4 +1,4 @@
-// For team page 
+// For team page
 .team-top {
   background: image-url('TopTeam.png') no-repeat center center;
   -webkit-background-size: cover;
@@ -21,6 +21,10 @@
 
 .social-media {
   align-content: center;
+}
+
+.team-member {
+  padding: 30px;
 }
 
 .team-member img {

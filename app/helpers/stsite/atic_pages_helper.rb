@@ -21,7 +21,7 @@ module StaticPagesHelper
       categories[mem.category] << mem
     end
 
-    # Return grouped member
+    # Return grouped members
     categories
   end
 
@@ -29,19 +29,30 @@ module StaticPagesHelper
   class TeamMember
 
     # Getter methods
-    attr_reader :name, :year, :role, :category, :photo, :github, :twitter, :linkedin
+    attr_reader :name, :year, :role, :category, :photo, :github, :linkedin
 
     # Expected order is:
-    # [name, year, role, category, photo, github, twitter, linkedin]
+    # [name, year, role, category, photo, github, linkedin]
     def initialize line
       @name = line[0]
       @year = line[1]
       @role = line[2]
       @category = line[3]
       @photo = line[4]
-      @github = line[5] != "NONE" ? line[5] : nil
-      @twitter = line[6] != "NONE" ? line[6] : nil
-      @linkedin = line[7] != "NONE" ? line[7] : nil
+      @github = line[5] != "NONE" ? "https://github.com/#{line[5]}" : nil
+      @linkedin = line[6] != "NONE" ? "https://www.linkedin.com/in/#{line[6]}" : nil
+    end
+
+    # Professional links
+    def prof_links
+      links = Array.new
+      if ! @github.nil?
+        links << { link_type: "github", link: @github }
+      end
+      if ! @linkedin.nil?
+        links << { link_type: "linkedin", link: @linkedin }
+      end
+      links
     end
 
   end
