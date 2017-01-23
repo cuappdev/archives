@@ -28,6 +28,9 @@ module StaticPagesHelper
   # App Dev Team Member
   class TeamMember
 
+    # Getter methods
+    attr_reader :name, :year, :role, :category, :photo, :github, :twitter, :linkedin
+
     # Expected order is:
     # [name, year, role, category, photo, github, twitter, linkedin]
     def initialize line
@@ -36,9 +39,9 @@ module StaticPagesHelper
       @role = line[2]
       @category = line[3]
       @photo = line[4]
-      @github = line[5]
-      @twitter = line[6]
-      @linkedin = line[7]
+      @github = line[5] != "NONE" ? line[5] : nil
+      @twitter = line[6] != "NONE" ? line[6] : nil
+      @linkedin = line[7] != "NONE" ? line[7] : nil
     end
 
   end
