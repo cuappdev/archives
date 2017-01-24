@@ -1,4 +1,23 @@
-# Cornell App Development Website 
+# Cornell App Development Website
 
 [Check it out!](http://www.cuappdev.org/)
 
+## How to Contribute
+
+You must set up `Rails` to work with this project.  To install `Rails`, follow the guide [`here`](http://railsapps.github.io/installrubyonrails-mac.html).
+
+You should also have `PostgreSQL` installed.  Install it [`here`](https://postgresapp.com/).  
+
+Run the following to setup the project:
+
+```
+bundle install
+bundle exec rake db:create
+bundle exec rake db:migrate
+```
+
+To run the server:
+
+```
+rails s
+```
