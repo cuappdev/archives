@@ -1,12 +1,8 @@
 class FeedController < ApplicationController
   before_action :authorize, only: [:index]
   def index
-    followings_ids = @user.followings_ids
-    posts = Post
-      .where(created_at: (Time.now - 24.hours)..Time.now)
-      .where('user_id IN (?)', followings_ids + [@user.id])
-      .order('created_at DESC')
-      .map { |post| post.as_json(id: @user.id) }
+    queryResult = Post.joins("INNER JOIN followings ON (followings.follower_id = #{@user.id} AND posts.user_id = followings.followed_id) OR posts.user_id = #{@user.id} WHERE posts.created_at >= NOW() - '1 day'::INTERVAL ORDER BY posts.created_at DESC").select("posts.*");
+    posts = queryResult.map { |post| post.as_json(id: @user.id) }
     render json: { "posts": posts}
   end
 end
