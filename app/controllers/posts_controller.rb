@@ -24,7 +24,7 @@ class PostsController < ApplicationController
     @song_post = SongPost.create(post_id: @post.id, song_id: @song.id)
     @success = (!@song.id.blank? and !@post.id.blank? and @post.songs.count==1)
     if @success
-      hipster_count = 4 - (Post.where(user_id: user_id, created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count)
+      hipster_count = 5 - (Post.where(user_id: user_id, created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count)
       @user.increment(:hipster_score, hipster_count).save
     end
     hipster_user.increment(:hipster_score, 10).save if (!hipster_user.blank? and @success)
