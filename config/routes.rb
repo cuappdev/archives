@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post 'users' => 'users#create'
   put 'users/:id/toggle_push' => "users#toggle_push"
   put 'users/:id' => 'users#update'
+  put 'notifications/:notification_id' => 'notifications#seen'
 
   post 'posts' => 'posts#create'
 
@@ -31,5 +32,6 @@ Rails.application.routes.draw do
   post 'users/suggestions' => 'users#user_suggestions'
   get 'spotify/get_hash' => 'spotify#get_hash'
   get 'spotify/get_access_token' => 'spotify#get_access_token'
+  get 'notifications/:user_id' => 'notifications#getNotifications'
 
 end
