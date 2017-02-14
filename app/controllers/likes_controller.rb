@@ -53,7 +53,10 @@ class LikesController < ApplicationController
     @post = Post.find(post_id)
     success_val = @user.unlike(post_id)
     if success_val
-      User.find(@post.user_id).increment(:hipster_score, -1).save
+      poster = User.find(@post.user_id)
+      if poster.hipster_score != 0
+        poster.increment(:hipster_score, -1).save
+      end
     end
     render json: { success: success_val, liked: false }
   end
