@@ -17,7 +17,7 @@ class NotificationsController < ApplicationController
 
   def seen
     @notification = Notification.find(params[:notification_id])
-    @notification.seen()
+    @notification.seenNotification()
     render json: { success: @notification.seen }
   end
 end
