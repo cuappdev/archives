@@ -7,6 +7,8 @@
 #  to                :integer
 #  notification_type :integer
 #  seen              :boolean          default(FALSE)
+#  post_id           :integer
+#  message           :string
 #
 
 require 'rails_helper'
