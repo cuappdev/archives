@@ -24,8 +24,9 @@ class LikesController < ApplicationController
         @poster.increment(:hipster_score, 1).save
         track_name = db_post.songs.first.track
         if shouldNotify(@user, @poster, post_id)
-          Notification.create(from: @user.id, to: post_id, notification_type: 1)
-          notify(@poster.push_id, @user.username, track_name) 
+          msg = "@#{@user.username} liked a song you posted: #{track_name}!"
+          Notification.create(from: @user.id, to: @poster.id, post_id: post_id, notification_type: 1, message: msg)
+          Notification.notify([@poster.push_id], msg, 1) 
         end 
     end
     render json: { success: success_val, liked: true }
@@ -37,16 +38,6 @@ class LikesController < ApplicationController
            poster.remote_push_notifications_enabled and
            !Notification.exists?(from: user.id, to: post_id, notification_type: 1)) 
   end 
-
-  def notify(poster_push_id, username, track_name)
-    url = "http://35.163.179.243:8080/push" 
-    headers = {'Content-Type' =>'application/json'}
-    body = {:app => "TEMPO",
-            :message =>  "@#{username} liked a song you posted: #{track_name}!", 
-            :target_ids => [poster_push_id],
-            :notification => 1}
-    res = post_no_ssl(headers, body.to_json, url)
-  end
 
   def destroy
     post_id = params[:post_id]

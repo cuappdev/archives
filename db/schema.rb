@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220043755) do
+ActiveRecord::Schema.define(version: 20170220051326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 20170220043755) do
     t.integer "to"
     t.integer "notification_type"
     t.boolean "seen",              default: false
+    t.integer "post_id"
+    t.string  "message"
   end
 
   add_index "notifications", ["to", "from", "notification_type"], name: "index_notifications_on_to_and_from_and_notification_type", using: :btree

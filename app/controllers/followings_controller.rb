@@ -23,8 +23,9 @@ class FollowingsController < ApplicationController
     if success_val 
       @followed_user = User.find(followed_id)
       if shouldNotify(@user, @followed_user) 
-          Notification.create(from: @user.id, to: followed_id, notification_type: 2)
-          notify(@followed_user.push_id, @user.username) 
+          msg = "@#{@user.username} is following you!"
+          Notification.create(from: @user.id, to: followed_id, notification_type: 2, message: msg)
+          Notification.notify([@followed_user.push_id], msg, 2) 
       end 
     end
     render json: { success: success_val, follow: true }
@@ -35,16 +36,6 @@ class FollowingsController < ApplicationController
            followed_user.remote_push_notifications_enabled and 
            !Notification.exists?(from:user.id, to:followed_user.id, notification_type:2))
   end 
-
-  def notify(followed_push_id, follower_username)
-    url = "http://35.163.179.243:8080/push"
-    headers = {'Content-Type' =>'application/json'}
-    body = {:app => "TEMPO",
-            :message =>  "@#{follower_username} is following you!", 
-            :target_ids => [followed_push_id],
-            :notification => 2}
-    res = post_no_ssl(headers, body.to_json, url)
-  end
 
   def destroy
     followed_id = params[:followed_id]
