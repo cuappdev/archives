@@ -25,7 +25,7 @@ class FollowingsController < ApplicationController
       if shouldNotify(@user, @followed_user) 
           msg = "@#{@user.username} is following you!"
           Notification.create(from: @user.id, to: followed_id, notification_type: 2, message: msg)
-          Notification.notify([@followed_user.push_id], msg, 2) 
+          notify([@followed_user.push_id], msg, 2) 
       end 
     end
     render json: { success: success_val, follow: true }
