@@ -8,7 +8,7 @@ class AddPostIdMessageToNotifications < ActiveRecord::Migration
   			post = Post.find(notification.post_id)
   			notification.to = post.user_id
   			track_name = post.songs.first.track
-  			username = User.find(:id => notification.from).username
+  			username = User.find(notification.from).username
   			notification.message = "@#{username} liked a song you posted: #{track_name}!"
   			notification.save
   		end
