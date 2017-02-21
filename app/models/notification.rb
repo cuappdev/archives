@@ -30,7 +30,7 @@ class Notification < ActiveRecord::Base
      # TODO 
   end
 
-  def notify(ids, message, notification_type)
+  def self.notify(ids, message, notification_type)
     url = "http://35.163.179.243:8080/push"
     headers = {'Content-Type' =>'application/json'}
     body = {:app => "TEMPO",
