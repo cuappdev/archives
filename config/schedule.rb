@@ -20,6 +20,6 @@
 # Learn more: http://github.com/javan/whenever
 set :output, "/log/cronjob.log"
 
-every 30.seconds do
+every 1.minute do
 	runner "Notification.notifyInactiveUsers(3)"
 end
