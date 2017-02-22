@@ -18,8 +18,7 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-set :output, "/log/cronjob.log"
 
-every 1.minute do
+every 24.hours do
 	runner "Notification.notifyInactiveUsers(3)"
 end
