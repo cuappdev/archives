@@ -17,6 +17,7 @@
 #  updated_at                        :datetime         not null
 #  push_id                           :string
 #  remote_push_notifications_enabled :boolean          default(FALSE)
+#  last_active                       :datetime
 #
 
 class User < ActiveRecord::Base
@@ -208,6 +209,7 @@ class User < ActiveRecord::Base
     self.followers_count = 0
     self.followings_count = 0
     self.hipster_score = 0
+    self.last_active = DateTime.now
   end
 
 

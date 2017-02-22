@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220051326) do
+ActiveRecord::Schema.define(version: 20170222021657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 20170220051326) do
     t.datetime "updated_at",                                        null: false
     t.string   "push_id"
     t.boolean  "remote_push_notifications_enabled", default: false
+    t.datetime "last_active"
   end
 
   add_index "users", ["fbid"], name: "index_users_on_fbid", using: :btree
