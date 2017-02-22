@@ -40,6 +40,9 @@ gem 'omniauth-facebook', '~> 1.4.1'
 # Use Unicorn as the app server
 gem 'unicorn'
 
+# whenever gem to be used for cron job
+gem 'whenever', require: false
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

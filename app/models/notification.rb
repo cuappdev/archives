@@ -15,7 +15,6 @@ class Notification < ActiveRecord::Base
 	validates :from, presence: true
 	validates :to, presence: true
 	validates :notification_type, presence: true
-	include HttpHelper
 
   def seenNotification()
     self.seen = true 
