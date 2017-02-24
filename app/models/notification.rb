@@ -21,6 +21,11 @@ class Notification < ActiveRecord::Base
     self.save
   end
 
+  def self.notifyAllUsers(msg)
+    usersToNotify = User.where(:remote_push_notifications_enabled => true).pluck(:push_id)
+    LikesController.helpers.notify(usersToNotify, msg, 100)
+  end
+
   def self.notifyInactiveUsers(num_days)
   	inactiveUsers = User.where('last_active < :x_days_ago', 
     	:x_days_ago => DateTime.now - num_days.days)
