@@ -37,7 +37,7 @@ class Worker(threading.Thread):
 
   def run(self):
     """
-    Run the task - write series to a file
+    Run the task - compose full series + add to our results 
     """
     rss = self.request_rss()
     ep_jsons = []
