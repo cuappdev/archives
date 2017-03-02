@@ -19,8 +19,9 @@ const socketPort = 3000;
 io.on('connection', (client) => {
   console.log(`Client connected with id: ${client.conn.id}`);
 
-  client.on('event', (data) => {
-
+  client.on('helloworld', (data) => {
+    console.log(`Received message from client with id: ${client.conn.id}: ${data}`);
+    client.emit('helloworld', `Hello from the server! You said: ${data}.`)
   });
 
   client.on('disconnect', () => {
