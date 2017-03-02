@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from podcasts.worker import *
+from podcasts.episode_worker import *
 import csv
 import threading
 import sys

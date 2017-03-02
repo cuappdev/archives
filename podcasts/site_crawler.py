@@ -10,4 +10,9 @@ class SiteCrawler(object):
     page = r.get(c.ITUNES_GENRES_URL)
     tree = html.fromstring(page.content)
     elements = tree.xpath("//a[@class='top-level-genre']")
-    return [(e.attrib['title'].lower(), e.attrib['href']) for e in elements]
+    return [(e.attrib['title']
+              .lower()[:(e.attrib['title'].rfind('-')-1)]
+              .replace(' ', ''), e.attrib['href'])
+              for e in elements]
+
+print SiteCrawler().get_genres()

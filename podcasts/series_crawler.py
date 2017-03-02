@@ -2,8 +2,8 @@ import requests as r
 import constants as c
 from lxml import html
 from models.series import Series
-import time
 import urllib
+from api import API
 
 # SeriesCrawler, to get series from a particular webpage
 class SeriesCrawler(object):
@@ -13,6 +13,11 @@ class SeriesCrawler(object):
     self.url    = url
     self.ids    = []
     self.series = []
+
+
+  def set_url(self, url):
+    """For setting / update URL"""
+    self.url = url
 
 
   def _e_to_id(self, e):
@@ -45,8 +50,9 @@ class SeriesCrawler(object):
       curr_ids = ids[i:j]
       ids_with_coms = ','.join(curr_ids)
       id_param = { 'id': ids_with_coms }
-      results = r.get(c.ITUNES_LOOKUP_URL + urllib.urlencode(id_param)).json()['results']
+      results = API().req_itunes(c.ITUNES_LOOKUP_URL +
+                      urllib.urlencode(id_param)).json()['results']
       self.series.extend(results)
       i += 100; j += 100
-      time.sleep(3.5)
+
     return [Series(j).to_line() for j in self.series]

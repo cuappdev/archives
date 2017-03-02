@@ -32,7 +32,9 @@ class Worker(threading.Thread):
     """
     Build episode from entry and line info
     """
-    return Episode(self.line['id'], self.line['title'], self.line['image_url'], entry)
+    return Episode(self.line['id'],
+                   self.line['title'],
+                   self.line['image_url'], entry)
 
 
   def run(self):
