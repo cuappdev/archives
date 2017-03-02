@@ -7,7 +7,6 @@ class Home extends Component {
       <div>
         <Link to='/lecture'>Go to lecture</Link>
         <p>Welcome to the CUAppDev Clicker app!</p>
-        
       </div>
     );
   }

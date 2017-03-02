@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRoute, Router } from 'react-router';
+import { Route, IndexRoute, Redirect } from 'react-router';
 
 /* Routes */
 import PageLayout from './components/PageLayout';
@@ -9,6 +9,8 @@ import Lecture from './components/Lecture';
 export default (
   <Route path='/' component={PageLayout}>
     <IndexRoute component={Home} />
-    <Route path='/lecture' component={Lecture} />
+    <Route path='lecture/student' component={() => (<Lecture userType='students' />)} />
+    <Route path='lecture/professor' component={() => (<Lecture userType='professors' />)} />
+    <Redirect from='lecture' to='lecture/student' />
   </Route>
 );
