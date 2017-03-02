@@ -1,8 +1,10 @@
 import json
 
-class Episode:
+class Episode(object):
 
   def __init__(self, series_id, series_title, series_image_url, entry):
+    """Constructor"""
+
     # Fill fields
     self.series_id    = series_id
     self.series_title = series_title
@@ -20,10 +22,10 @@ class Episode:
       if ('type' in l) and ('audio' in l['type']): self.audio_url = l['href']; break
 
   def to_json(self):
+    """JSON representation of the episode"""
     return json.dumps(self.__dict__)
 
   def _build_date_str(self, d):
-    if d is not None:
-      return str(d.tm_mon) + '-' + str(d.tm_mday) + '-' + str(d.tm_year)
-    else:
-      return ''
+    """Private - builds a date, given `d`"""
+    if d is not None: return str(d.tm_mon) + '-' + str(d.tm_mday) + '-' + str(d.tm_year)
+    else: return ''

@@ -1,6 +1,6 @@
 import feedparser
 import threading
-from episode import *
+from models.episode import Episode
 import json
 from copy import deepcopy
 import os
@@ -37,7 +37,7 @@ class Worker(threading.Thread):
 
   def run(self):
     """
-    Run the task - compose full series + add to our results 
+    Run the task - compose full series + add to our results
     """
     rss = self.request_rss()
     ep_jsons = []
