@@ -1,6 +1,7 @@
 import json
+from entity import Entity 
 
-class Episode(object):
+class Episode(Entity):
 
   def __init__(self, series_id, series_title, series_image_url, entry):
     """Constructor"""
@@ -20,12 +21,3 @@ class Episode(object):
     self.audio_url = None
     for l in entry['links']:
       if ('type' in l) and ('audio' in l['type']): self.audio_url = l['href']; break
-
-  def to_json(self):
-    """JSON representation of the episode"""
-    return json.dumps(self.__dict__)
-
-  def _build_date_str(self, d):
-    """Private - builds a date, given `d`"""
-    if d is not None: return str(d.tm_mon) + '-' + str(d.tm_mday) + '-' + str(d.tm_year)
-    else: return ''

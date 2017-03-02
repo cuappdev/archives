@@ -5,8 +5,8 @@ from models.series import Series
 import time
 import urllib
 
-# SeriesGetter, to get series from a particular webpage
-class SeriesGetter(object):
+# SeriesCrawler, to get series from a particular webpage
+class SeriesCrawler(object):
 
   def __init__(self, url):
     """Constructor"""
@@ -40,18 +40,13 @@ class SeriesGetter(object):
     id acquisition
     """
     ids = self.get_ids()
-    i = 0
-    j = 100
+    i = 0; j = 100
     while i < len(ids):
       curr_ids = ids[i:j]
       ids_with_coms = ','.join(curr_ids)
       id_param = { 'id': ids_with_coms }
-      results = r.get(c.ITUNES_URL + urllib.urlencode(id_param)).json()['results']
+      results = r.get(c.ITUNES_LOOKUP_URL + urllib.urlencode(id_param)).json()['results']
       self.series.extend(results)
       i += 100; j += 100
-      time.sleep(4)
+      time.sleep(3.5)
     return [Series(j).to_line() for j in self.series]
-
-
-getter = SeriesGetter('https://itunes.apple.com/us/genre/podcasts-technology-software-how-to/id1480?mt=2')
-print getter.get_series()

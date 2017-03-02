@@ -1,6 +1,7 @@
 import json
+from entity import Entity
 
-class Series(object):
+class Series(Entity):
 
   # Static (class variable, access via
   # Series.fields)
