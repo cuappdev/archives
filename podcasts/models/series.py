@@ -12,13 +12,13 @@ class Series(Entity):
     """Constructor from iTunes JSON `i_json`"""
 
     self.id = i_json['collectionId']
-    self.title = i_json['collectionName']
-    self.country = i_json['country']
-    self.author = i_json['artistName']
-    self.image_url_sm = i_json['artworkUrl60']
-    self.image_url_lg = i_json['artworkUrl600']
-    self.feed_url = i_json['feedUrl']
-    self.genres = i_json['genres']
+    self.title = i_json['collectionName'].encode('utf-8')
+    self.country = i_json['country'].encode('utf-8')
+    self.author = i_json['artistName'].encode('utf-8')
+    self.image_url_sm = i_json['artworkUrl60'].encode('utf-8')
+    self.image_url_lg = i_json['artworkUrl600'].encode('utf-8')
+    self.feed_url = i_json['feedUrl'].encode('utf-8')
+    self.genres = ';'.join(i_json['genres']).encode('utf-8')
 
   def to_line(self):
     """To 'line' (a.k.a. array we can write with csv module)"""

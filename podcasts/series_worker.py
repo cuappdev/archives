@@ -2,6 +2,7 @@ import threading
 import csv
 from models.series import Series
 from series_crawler import SeriesCrawler
+import os
 
 class SeriesWorker(threading.Thread):
 
@@ -16,6 +17,9 @@ class SeriesWorker(threading.Thread):
     self.tups    = tups
     self.i       = i
     self.crawler = SeriesCrawler()
+    # Make this ...
+    if not os.path.exists('./csv'):
+      os.makedirs('./csv')
 
   def run(self):
     """Requests, parses series, writes to appropriate CSV"""

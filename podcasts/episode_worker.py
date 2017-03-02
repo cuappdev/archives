@@ -48,6 +48,8 @@ class EpisodeWorker(threading.Thread):
 
     result_json = dict()
     result_json['series'] = deepcopy(self.line)
+    result_json['series']['genres'] = \
+      result_json['series']['genres'].split(';')
     result_json['episodes'] = ep_jsons
 
     self.lock.acquire()
