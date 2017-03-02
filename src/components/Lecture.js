@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import io from 'socket.io-client';
 
+import { Alert, Panel } from 'react-bootstrap';
+
 import LectureStudent from './LectureStudent';
 import LectureProfessor from './LectureProfessor';
 
@@ -59,13 +61,26 @@ class Lecture extends Component {
   }
 
   render() {
+    const alert = this.state.connected
+      ? (
+          <Alert bsStyle='success'>
+            <strong>Connected!</strong>
+          </Alert>
+        )
+      : (
+          <Alert bsStyle='danger'>
+            <strong>Disconnected!</strong> Attempting to reconnect...
+          </Alert>
+        );
+
     return (
       <div>
         <Link to='/'>Back to Home</Link>
         <h3>Lecture</h3>
-        <p>You are a {this.props.userType == 'students' ? 'Student' : 'Professor'}!</p>
-        <p style={{ 'color': this.state.connected ? 'green' : 'red' }}>{this.state.connected ? 'Connected' : 'Disconnected. Attempting to reconnect...'}</p>
-        {this.props.userType == 'students' ? <LectureStudent {...this.state} /> : <LectureProfessor {...this.state} />}
+        {alert}
+        <Panel header={'You are a ' + this.props.userType == 'students' ? 'Student' : 'Professor'}>
+          {this.props.userType == 'students' ? <LectureStudent {...this.state} /> : <LectureProfessor {...this.state} />}
+        </Panel>
       </div>
     );
   }

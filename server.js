@@ -16,6 +16,7 @@ app.get('*', (request, response) => {
 
 app.listen(port, () => {
   console.log('Started Clicker server on port ' + port);
+});
 
 /* Sockets */
 
@@ -67,7 +68,5 @@ io.on('connection', (client) => {
 });
 
 server.listen(socketPort, () => {
-  console.log ('Listening for socket.io connections on port ' + socketPort);
+  console.log('Listening for socket.io connections on port ' + socketPort);
 });
-
-

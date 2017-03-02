@@ -7,18 +7,35 @@ class LectureStudent extends Component {
   }
 
   render() {
-    return this.props.question
-      ? (
-          <div>
-            <h3>Question:</h3>
-            <p>{this.props.question.text}</p>
-          </div>
-        )
-      : (
-          <div>
-            <p>Waiting for next question...</p>
-          </div>
-        );
+    if (this.props.question) {
+      const choices = this.props.question.choices;
+
+      if (choices) {
+        const choiceComponent = choices.length === 0
+          ? <input type='text' />
+          : <form>{
+              choices.map((choice, i) => (
+                <li key={choice.id}>
+                  {choice}
+                </li>
+              ))
+            }</form>;
+      }
+
+      return (
+        <div>
+          <h3>Question:</h3>
+          <p>{this.props.question.text}</p>
+          {choiceComponent}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <p>Waiting for next question...</p>
+        </div>
+      );
+    }
   }
 }
 

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import { Button } from 'react-bootstrap';
+
+import QuestionCreator from './QuestionCreator';
+
 class LectureProfessor extends Component {
   constructor(props) {
     super(props);
@@ -12,10 +16,6 @@ class LectureProfessor extends Component {
     });
   }
 
-  handleSend() {
-    this.props.socket.emit('bq', { 'text': this.state.text });
-  }
-
   handleEnd() {
     this.props.socket.emit('eq');
   }
@@ -26,10 +26,7 @@ class LectureProfessor extends Component {
           <button onClick={() => this.handleEnd()}>End Question</button>
         )
       : (
-        <div>
-          <input type='text' placeholder='Enter a question...' onChange={(e) => this.handleTextChange(e)} />
-          <button onClick={() => this.handleSend()}>Send Question</button>
-        </div>
+          <QuestionCreator {...this.props} />
         );
   }
 }
