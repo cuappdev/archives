@@ -14,5 +14,3 @@ class SiteCrawler(object):
               .lower()[:(e.attrib['title'].rfind('-')-1)]
               .replace(' ', ''), e.attrib['href'])
               for e in elements]
-
-print SiteCrawler().get_genres()

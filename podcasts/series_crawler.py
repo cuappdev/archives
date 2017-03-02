@@ -8,7 +8,7 @@ from api import API
 # SeriesCrawler, to get series from a particular webpage
 class SeriesCrawler(object):
 
-  def __init__(self, url):
+  def __init__(self, url=''):
     """Constructor"""
     self.url    = url
     self.ids    = []
@@ -55,4 +55,4 @@ class SeriesCrawler(object):
       self.series.extend(results)
       i += 100; j += 100
 
-    return [Series(j).to_line() for j in self.series]
+    return [Series(j) for j in self.series]

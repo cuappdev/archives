@@ -5,7 +5,7 @@ import json
 from copy import deepcopy
 import os
 
-class Worker(threading.Thread):
+class EpisodeWorker(threading.Thread):
 
   def __init__(self, line, lock, results):
     """
@@ -14,7 +14,7 @@ class Worker(threading.Thread):
     and episode information, and save the information to a
     file called `<series-id>.json`
     """
-    super(Worker, self).__init__()
+    super(EpisodeWorker, self).__init__()
     self.line = line # The line detailing the series info
     self.lock = lock
     self.results = results

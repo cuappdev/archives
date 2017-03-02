@@ -18,6 +18,7 @@ class API(object):
 
   def req_itunes(self, url):
     self.lock.acquire()
+    print("Requesting....")
     results = r.get(url)
     time.sleep(3.5)
     self.lock.release()
