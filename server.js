@@ -52,7 +52,7 @@ io.on('connection', (client) => {
 
   // Respond to Question
   client.on('rq', (data) => {
-    console.log(`Student response received: ${data.text}`);
+    console.log(`Student response received: ${data}`);
     io.to('professors').emit('rq', data);
   });
 

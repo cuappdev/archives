@@ -13,7 +13,8 @@ class Lecture extends Component {
 
     this.state = {
       connected: false,
-      question: null
+      question: null,
+      responses: []
     };
   }
 
@@ -48,6 +49,14 @@ class Lecture extends Component {
         question: null
       });
     });
+
+    socket.on('rq', (data) => {
+      this.setState((prevState, id) => {
+        return {
+          responses: prevState.responses.concat([data])
+        }
+      });
+    });
     
   }
 
@@ -78,7 +87,7 @@ class Lecture extends Component {
         <Link to='/'>Back to Home</Link>
         <h3>Lecture</h3>
         {alert}
-        <Panel header={'You are a ' + this.props.userType == 'students' ? 'Student' : 'Professor'}>
+        <Panel header={this.props.userType == 'students' ? 'Student' : 'Professor'}>
           {this.props.userType == 'students' ? <LectureStudent {...this.state} /> : <LectureProfessor {...this.state} />}
         </Panel>
       </div>
