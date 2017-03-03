@@ -14,8 +14,12 @@ To run the server:
 npm start
 ```
 
+Open your browser to `localhost:8008`.
+
 ## Development
 To instead run the webpack-dev-server for development, run
 ```
 npm run dev
 ```
+
+Open your browser to `localhost:8080`.

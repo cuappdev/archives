@@ -84,7 +84,7 @@ class Lecture extends Component {
 
     return (
       <div>
-        <Link to='/'>Back to Home</Link>
+        <Link to='/'>Back</Link>
         <h3>Lecture</h3>
         {alert}
         <Panel header={this.props.userType == 'students' ? 'Student' : 'Professor'}>

@@ -10,11 +10,7 @@ const app = express();
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('*', (request, response) => {
-  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-});
-
-app.listen(port, () => {
+app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'public', 'index.html'))).listen(port, () => {
   console.log('Started Clicker server on port ' + port);
 });
 
@@ -23,8 +19,6 @@ app.listen(port, () => {
 const server = http.createServer(app);
 const io = socket(server);
 const socketPort = 3000;
-
-
 
 io.on('connection', (client) => {
   console.log(`Client connected with id: ${client.conn.id}`);

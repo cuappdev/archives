@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
+
 class Home extends Component { 
   render() {
     return (
       <div>
-        <Link to='/lecture'>Go to lecture</Link>
-        <p>Welcome to the CUAppDev Clicker app!</p>
+        <h3>Welcome to the CUAppDev Clicker app!</h3>
+        <ListGroup>
+          <ListGroupItem><Link to='/lecture'>Student Sign In</Link></ListGroupItem>
+          <ListGroupItem><Link to='/lecture/professor'>Professor Sign In</Link></ListGroupItem>
+        </ListGroup>
       </div>
     );
   }
