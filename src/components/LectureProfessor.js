@@ -35,8 +35,16 @@ class LectureProfessor extends Component {
           </FormGroup>
           <Button bsStyle='danger' onClick={() => this.handleEnd()}>End Question</Button>
           <h3>Responses</h3>
-          <Table>
-            {choices}
+          <Table striped bordered>
+            <thead>
+              <tr>
+                <th>Response</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              {choices}
+            </tbody>
           </Table>
         </div>
       );

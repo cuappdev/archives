@@ -33,18 +33,15 @@ class LectureStudent extends Component {
 
       return (
         <div>
-          <p>Question: </p>
           <h3>{this.props.question.text}</h3>
           {choiceComponent}
         </div>
       );
-    } else {
-      return (
-        <div>
-          <p>Waiting for next question...</p>
-        </div>
-      );
     }
+    
+    return (
+      <div>Waiting for next question...</div>
+    );
   }
 }
 
