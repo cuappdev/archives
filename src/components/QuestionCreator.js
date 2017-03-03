@@ -73,6 +73,7 @@ class QuestionCreator extends Component {
           <FormControl.Feedback />
         </FormGroup>
         <FormGroup>
+          <label>Choices</label>
           {choices}
           <InputGroup>
             <FormControl

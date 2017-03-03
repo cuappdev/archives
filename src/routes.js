@@ -7,7 +7,7 @@ import Home from './components/Home';
 import Lecture from './components/Lecture';
 
 function requireAuth(nextState, replace) {
-  if (true) {
+  if (false) {
     replace({ pathname: '/' });
   }
 }

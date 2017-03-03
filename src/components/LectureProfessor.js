@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { FormGroup, ControlLabel, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { FormGroup, ControlLabel, Button, Table } from 'react-bootstrap';
 
 import QuestionCreator from './QuestionCreator';
 
@@ -20,29 +20,29 @@ class LectureProfessor extends Component {
   }
 
   render() {
+    if (this.props.question) {
+      const choices = this.props.question.choices.map((choice, i) => (
+        <tr key={i}>
+          <td>{choice}</td>
+          <td>{this.props.responses.filter((r) => r === choice).length}</td>
+        </tr>
+      ));
 
-    const responses = this.props.responses.map((response, i) => (
-      <ListGroupItem key={i}>
-        {response}
-      </ListGroupItem>
-    ));
+      return (
+        <div>
+          <FormGroup>
+            <ControlLabel>Current Question: {this.props.question.text}</ControlLabel>
+          </FormGroup>
+          <Button bsStyle='danger' onClick={() => this.handleEnd()}>End Question</Button>
+          <h3>Responses</h3>
+          <Table>
+            {choices}
+          </Table>
+        </div>
+      );
+    }
 
-    return this.props.question
-      ? (
-          <div>
-            <FormGroup>
-              <ControlLabel>Current Question: {this.props.question.text}</ControlLabel>
-            </FormGroup>
-            <Button bsStyle='danger' onClick={() => this.handleEnd()}>End Question</Button>
-            <h3>Responses</h3>
-            <ListGroup>
-              {responses}
-            </ListGroup>
-          </div>
-        )
-      : (
-          <QuestionCreator {...this.props} />
-        );
+    return <QuestionCreator {...this.props} />
   }
 }
 
