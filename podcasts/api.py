@@ -12,13 +12,13 @@ def singleton(cls):
   return getinstance
 
 class API(object):
+  """iTunes API requestor singleton"""
 
   def __init__(self):
     self.lock = threading.Lock()
 
   def req_itunes(self, url):
     self.lock.acquire()
-    print("Requesting....")
     results = r.get(url)
     time.sleep(3.5)
     self.lock.release()

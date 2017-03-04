@@ -2,17 +2,24 @@ from podcasts.site_crawler import SiteCrawler
 from podcasts.series_worker import SeriesWorker
 
 class SeriesDriver(object):
+  """
+  Drives the acquisition of series +
+  their subsequent storage in `directory`
+  """
 
-  def get_popular(self):
-    """Get most popular series"""
+  def __init__(self, directory):
+    """Constructor"""
+    self.directory = directory
 
-    # Grab appropriate info
-    tups = SiteCrawler().get_genres()
-
+  def get_popular(self, tups):
+    """
+    Get most popular series -
+    `tups` = genre tuples
+    """
     # Threads dispatched
     threads = []
     for i in xrange(0, 10):
-      t = SeriesWorker(tups, i)
+      t = SeriesWorker(self.directory, tups, i)
       threads.append(t)
       t.start()
 
@@ -20,6 +27,4 @@ class SeriesDriver(object):
     for t in threads:
       t.join()
 
-
-# Run this
-SeriesDriver().get_popular()
+SeriesDriver('csv').get_popular(SiteCrawler().get_genres()[0:2])
