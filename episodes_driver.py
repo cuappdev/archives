@@ -1,5 +1,8 @@
 from podcasts.episode_worker import EpisodeWorker
+from podcasts.models.series import Series
+from podcasts.models.episode import Episode
 from os import walk
+import csv
 
 class EpisodeDriver(object):
   """
@@ -8,14 +11,42 @@ class EpisodeDriver(object):
   stored in `directory`
   """
 
-  def __init__(self, directory):
+  def __init__(self, directory, output_dir):
     """Constructor"""
     self.directory = directory
+    self.output_dir = output_dir
 
   def eps_from_series(self):
     """
     Workhorse function that handles grabbing
     series data from csvs and
     """
-    # TODO 
-    pass
+    # Grab the CSV files
+    csvs = []
+    for _, _, filenames in walk('./' + self.directory):
+      csvs.extend(filenames)
+
+    # Build series set
+    series_set = set()
+    for c in csvs:
+      file_name = './' + self.directory + '/' + c
+      reader = csv.DictReader(open(file_name, 'rb'))
+      for line in reader:
+        series_set.add(Series.from_line(line))
+
+    # Series list to be handled by threads
+    series = [s for s in series_set]
+
+    # Threads dispatched
+    threads = []
+    for i in xrange(0, 10):
+      t = EpisodeWorker(self.output_dir, series, i)
+      threads.append(t)
+      t.start()
+
+    # Get them threads together
+    for t in threads:
+      t.join()
+
+
+EpisodeDriver('csv', 'results').eps_from_series()

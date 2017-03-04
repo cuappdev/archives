@@ -7,52 +7,55 @@ import os
 
 class EpisodeWorker(threading.Thread):
 
-  def __init__(self, line, lock, results):
+  def __init__(self, directory, series, i):
     """
     Constructor for thread that will request the RSS of a
     particular podcast series, parse the series details
     and episode information, and save the information to a
-    file called `<series-id>.json`
+    file called `./<directory>/<series-id>.json`
     """
     super(EpisodeWorker, self).__init__()
-    self.line = line # The line detailing the series info
-    self.lock = lock
-    self.results = results
+    self.directory = directory
+    self.series    = series # All series
+    self.i         = i
+    # Make this ...
+    if not os.path.exists('./' + self.directory):
+      os.makedirs('./' + self.directory)
 
 
-  def request_rss(self):
+  def request_rss(self, url):
     """
     Uses information in `line` to request and return the
     RSS feed
     """
-    return feedparser.parse(self.line['feed_url'])
-
-
-  def build_episode(self, entry):
-    """
-    Build episode from entry and line info
-    """
-    return Episode(self.line['id'],
-                   self.line['title'],
-                   self.line['image_url'], entry)
+    return feedparser.parse(url)
 
 
   def run(self):
     """
     Run the task - compose full series + add to our results
     """
-    rss = self.request_rss()
-    ep_jsons = []
-    for entry in rss['entries']:
-      ep_jsons.append(self.build_episode(entry).to_json())
+    while self.i < len(self.series):
+      # Grab line + RSS
+      s = self.series[self.i]
+      rss = self.request_rss(s.feed_url)
 
-    result_json = dict()
-    result_json['series'] = deepcopy(self.line)
-    result_json['series']['genres'] = \
-      result_json['series']['genres'].split(';')
-    result_json['episodes'] = ep_jsons
+      # Compose Episodes
+      ep_jsons = []
+      for entry in rss['entries']:
+        ep_jsons.append(Episode(s, entry).to_json())
 
-    self.lock.acquire()
-    self.results.append(result_json)
-    print("Retrieved " + self.line['id'])
-    self.lock.release()
+      # Build result JSON
+      result_json = dict()
+      result_json['series'] = deepcopy(s.__dict__)
+      result_json['series']['genres'] = \
+        result_json['series']['genres'].split(';')
+      result_json['episodes'] = ep_jsons
+
+      # Write result
+      with open('./' + self.directory + '/' + str(s.id) + '.json', 'wb') as outfile:
+        json.dump(result_json, outfile)
+
+      # Move onto the next one
+      self.i += 10
+      print("Retrieved " + str(s.id))

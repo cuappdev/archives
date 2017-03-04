@@ -1,5 +1,8 @@
+# Standard python ignores
 venv
 *.pyc
 *.env
-output
-csv* 
+
+# Various output directory names 
+csv*
+results*

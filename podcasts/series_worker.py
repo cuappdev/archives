@@ -23,9 +23,9 @@ class SeriesWorker(threading.Thread):
     if not os.path.exists('./' + self.directory):
       os.makedirs('./' + self.directory)
 
+
   def run(self):
     """Requests, parses series, writes to appropriate CSV"""
-
     while self.i < len(self.tups):
       # Grab fields
       name = self.tups[self.i][0]

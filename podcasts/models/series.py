@@ -40,8 +40,10 @@ class Series(Entity):
   @classmethod
   def from_line(cls, L):
     """Series from CSV line `L`"""
-    return cls(L['id'], L['title'], L['country'], L['author'], L['image_url_sm'],
-               L['image_url_lg'], L['feed_url'], L['genres'])
+    return cls(int(L['id'].decode('utf-8')), L['title'].decode('utf-8'),
+                   L['country'].decode('utf-8'), L['author'].decode('utf-8'),
+                   L['image_url_sm'].decode('utf-8'), L['image_url_lg'].decode('utf-8'),
+                   L['feed_url'].decode('utf-8'), L['genres'].decode('utf-8'))
 
 
   def to_line(self):

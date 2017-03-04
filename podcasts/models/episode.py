@@ -1,15 +1,16 @@
 import json
-from entity import Entity 
+from entity import Entity
 
 class Episode(Entity):
 
-  def __init__(self, series_id, series_title, series_image_url, entry):
+  def __init__(self, series, entry):
     """Constructor"""
 
     # Fill fields
-    self.series_id    = series_id
-    self.series_title = series_title
-    self.image_url    = series_image_url
+    self.series_id    = series.id
+    self.series_title = series.title
+    self.image_url_sm = series.image_url_sm
+    self.image_url_lg = series.image_url_lg
     self.title        = '' if 'title' not in entry else entry['title']
     self.author       = '' if 'author' not in entry else entry['author']
     self.summary      = '' if 'summary_detail' not in entry else entry['summary_detail']['value']
@@ -19,5 +20,6 @@ class Episode(Entity):
 
     # Grab audio_url
     self.audio_url = None
-    for l in entry['links']:
-      if ('type' in l) and ('audio' in l['type']): self.audio_url = l['href']; break
+    if 'links' in entry:
+      for l in entry['links']:
+        if ('type' in l) and ('audio' in l['type']): self.audio_url = l['href']; break
