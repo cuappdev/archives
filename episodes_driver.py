@@ -1,6 +1,7 @@
 from podcasts.episode_worker import EpisodeWorker
 from podcasts.models.series import Series
 from podcasts.models.episode import Episode
+from podcasts.storers.json_storer import JsonStorer
 from os import walk
 import csv
 
@@ -11,10 +12,10 @@ class EpisodeDriver(object):
   stored in `directory`
   """
 
-  def __init__(self, directory, output_dir):
+  def __init__(self, directory, storer):
     """Constructor"""
     self.directory = directory
-    self.output_dir = output_dir
+    self.storer    = storer
 
   def eps_from_series(self):
     """
@@ -39,8 +40,8 @@ class EpisodeDriver(object):
 
     # Threads dispatched
     threads = []
-    for i in xrange(0, 10):
-      t = EpisodeWorker(self.output_dir, series, i)
+    for i in xrange(0, 20):
+      t = EpisodeWorker(self.storer, series, i)
       threads.append(t)
       t.start()
 
@@ -49,4 +50,4 @@ class EpisodeDriver(object):
       t.join()
 
 
-EpisodeDriver('csv', 'results').eps_from_series()
+EpisodeDriver('csv', JsonStorer('results')).eps_from_series()

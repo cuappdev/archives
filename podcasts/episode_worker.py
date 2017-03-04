@@ -1,26 +1,22 @@
 import feedparser
 import threading
 from models.episode import Episode
-import json
 from copy import deepcopy
 import os
 
 class EpisodeWorker(threading.Thread):
 
-  def __init__(self, directory, series, i):
+  def __init__(self, storer, series, i):
     """
     Constructor for thread that will request the RSS of a
     particular podcast series, parse the series details
-    and episode information, and save the information to a
-    file called `./<directory>/<series-id>.json`
+    and episode information, and save the information
+    w/`storer`
     """
     super(EpisodeWorker, self).__init__()
-    self.directory = directory
-    self.series    = series # All series
-    self.i         = i
-    # Make this ...
-    if not os.path.exists('./' + self.directory):
-      os.makedirs('./' + self.directory)
+    self.storer = storer
+    self.series = series # All series
+    self.i      = i
 
 
   def request_rss(self, url):
@@ -52,10 +48,9 @@ class EpisodeWorker(threading.Thread):
         result_json['series']['genres'].split(';')
       result_json['episodes'] = ep_jsons
 
-      # Write result
-      with open('./' + self.directory + '/' + str(s.id) + '.json', 'wb') as outfile:
-        json.dump(result_json, outfile)
+      # Store podcast
+      self.storer.store(result_json)
 
       # Move onto the next one
-      self.i += 10
+      self.i += 20
       print("Retrieved " + str(s.id))
