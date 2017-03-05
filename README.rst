@@ -17,7 +17,7 @@ To install ``py-podcast`` ::
 Usage
 -----
 
-To grab ``Service Record : Arena`` data of the player ``Spitimou`` ::
+Below indicates ways you can use the various drivers and workers of this package ::
 
   import podcasts
 
@@ -25,12 +25,11 @@ To grab ``Service Record : Arena`` data of the player ``Spitimou`` ::
 
 Couchbase Setup
 ---------------
-Parts of this project use ``Couchbase``.  Download ``Couchbase Server`` here_ (or use `Docker`_) and the ``Couchbase Python SDK`` here_
+Parts of this project use ``Couchbase``.  Download `Couchbase Server`_ (or use `Docker`_) and the `Couchbase Python SDK`_
 
-.. _`iTunes Search API`: https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
-.. _here: https://www.couchbase.com/downloads
+.. _`Couchbase Server`: https://www.couchbase.com/downloads
 .. _`Docker`: https://hub.docker.com/r/couchbase/server/
-.. _here: https://developer.couchbase.com/documentation/server/4.0/sdks/python-2.0/download-links.html#download-and-apiref
+.. _`Couchbase Python SDK`: https://developer.couchbase.com/documentation/server/4.0/sdks/python-2.0/download-links.html#download-and-apiref
 
 Tests
 -----
