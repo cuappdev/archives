@@ -1,6 +1,6 @@
-============
-# Py Podcast
-============
+==========
+py-podcast
+==========
 
 iTunes podcast data retrieval and storage utilizing `iTunes Search API`_ and `iTunes Podcast Preview`_
 
