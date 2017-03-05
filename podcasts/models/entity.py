@@ -1,16 +1,6 @@
 import json
 from datetime import datetime
 
-# https://goo.gl/jPXD44
-def json_serial(obj):
-  """JSON serializer for objects not serializable by default json code"""
-
-  if isinstance(obj, datetime):
-    serial = obj.isoformat()
-    return serial
-  raise TypeError ("Type not serializable")
-
-
 class Entity(object):
   """Parent of all models of this driver"""
 
@@ -21,6 +11,7 @@ class Entity(object):
   def _build_date_str(self, d):
     """Private - builds a date, given `d`"""
     if d is not None:
-      return datetime(d.tm_year, d.tm_mon, d.tm_mday, d.tm_hour, d.tm_min, d.tm_sec)
+      dt = datetime(d.tm_year, d.tm_mon, d.tm_mday, d.tm_hour, d.tm_min, d.tm_sec)
+      return int((dt-datetime(1970,1,1)).total_seconds())
     else:
       return None

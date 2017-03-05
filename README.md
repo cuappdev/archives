@@ -4,6 +4,4 @@ iTunes podcast data-retrieval and storage utilizing [`iTunes Search API`](https:
 
 ## Couchbase Setup
 
-Parts of this project use `Couchbase`.  Download `Couchbase Server` [here](https://www.couchbase.com/downloads) and the `Couchbase Python SDK` [here](https://developer.couchbase.com/documentation/server/4.0/sdks/python-2.0/download-links.html#download-and-apiref)
-
-## Required Environment Variables 
+Parts of this project use `Couchbase`.  Download `Couchbase Server` [here](https://www.couchbase.com/downloads) (or use [`Docker`](https://hub.docker.com/r/couchbase/server/)) and the `Couchbase Python SDK` [here](https://developer.couchbase.com/documentation/server/4.0/sdks/python-2.0/download-links.html#download-and-apiref)

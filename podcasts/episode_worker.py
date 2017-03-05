@@ -37,9 +37,9 @@ class EpisodeWorker(threading.Thread):
       rss = self.request_rss(s.feed_url)
 
       # Compose Episodes
-      ep_jsons = []
+      ep_dicts = []
       for entry in rss['entries']:
-        ep_jsons.append(Episode(s, entry).to_json())
+        ep_dicts.append(Episode(s, entry).__dict__)
 
       # Build result dict
       result_dict = dict()
@@ -47,7 +47,7 @@ class EpisodeWorker(threading.Thread):
       result_dict['series']['genres'] = \
         result_dict['series']['genres'].split(';')
       result_dict['series']['type'] = 'series'
-      
+      result_dict['episodes'] = ep_dicts
 
       # Store podcast
       self.storer.store(result_dict)

@@ -1,21 +1,14 @@
 #!/usr/bin/python
 
-from podcasts.episode_worker import *
-import csv
-import threading
-import sys
+from series_driver import SeriesDriver
+from episodes_driver import EpisodesDriver
+from podcasts.site_crawler import SiteCrawler
+from podcasts.storers.couchbase_storer import CouchbaseStorer
 
-god_lock = threading.Lock()
-results = []
+DIRECTORY  = 'csv'
+BUCKET_URL = 'couchbase://localhost:8091/podcasts'
 
-with open(sys.argv[1], 'rb') as the_file:
-  reader = csv.DictReader(the_file)
-  for line in reader:
-    w = EpisodeWorker(line, god_lock, results)
-    w.start()
-    w.join()
-  if not os.path.exists('./output'):
-    os.makedirs('./output')
-
-  with open('output/results.json', 'w') as outfile:
-    json.dump(results, outfile)
+# Grab all series first
+# SeriesDriver(DIRECTORY).get_popular(SiteCrawler().get_genres())
+# Grab all episodes once we have data stored
+EpisodesDriver(DIRECTORY, CouchbaseStorer(BUCKET_URL)).eps_from_series()

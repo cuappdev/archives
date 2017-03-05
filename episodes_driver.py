@@ -6,7 +6,7 @@ from podcasts.storers.couchbase_storer import CouchbaseStorer
 import csv
 import os
 
-class EpisodeDriver(object):
+class EpisodesDriver(object):
   """
   Drives the acquisition of episodes
   based on series that exist in csv's
@@ -49,7 +49,3 @@ class EpisodeDriver(object):
     # Get them threads together
     for t in threads:
       t.join()
-
-
-# EpisodeDriver('csv', JsonStorer('results')).eps_from_series()
-EpisodeDriver('csv', CouchbaseStorer('couchbase://localhost/travel-sample', ''))

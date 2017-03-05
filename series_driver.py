@@ -26,5 +26,3 @@ class SeriesDriver(object):
     # Get them threads together
     for t in threads:
       t.join()
-
-SeriesDriver('csv').get_popular(SiteCrawler().get_genres()[0:2])
