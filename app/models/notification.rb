@@ -53,5 +53,4 @@ class Notification < ActiveRecord::Base
      Notification.create(to: user.id, notification_type: 100, message: msg)
      LikesController.helpers.notify([user.push_id], msg, 100)
    end
-  end
 end 
