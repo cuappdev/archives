@@ -11,7 +11,7 @@ for line in open('./podcasts/__init__.py'):
 assert version
 
 setup(
-  name='py-podcasts',
+  name='py-podcast',
   version=version,
   description='Podcast Series / Episodes Data Retrieval and Storage in Python',
   author='Joe Antonakakis',
