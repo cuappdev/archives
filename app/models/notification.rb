@@ -49,6 +49,7 @@ class Notification < ActiveRecord::Base
          msg = "Your followers miss you. Post today!"
        else
          msg = "What are you listening to?"
+       end
      end  
      Notification.create(to: user.id, notification_type: 100, message: msg)
      LikesController.helpers.notify([user.push_id], msg, 100)
