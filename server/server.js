@@ -43,14 +43,12 @@ io.on('connection', (client) => {
   const address = client.handshake.address;
   const userType = client.handshake.query.userType;
 
-  if (question) {
-    client.emit('bq', question);
+  client.emit('bq', question);
 
-    if (userType === 'professors') {
-      client.emit()
-    }
+  if (userType === 'professors') {
+    console.log(responses);
+    client.emit('rq', responses);
   }
-
 
   client.join(userType, () => {
     console.log(`Client has joined room: ${userType}`);
@@ -71,6 +69,7 @@ io.on('connection', (client) => {
     console.log('Question ended');
 
     question = null
+    responses = {}
     io.emit('eq', data);
   });
 
@@ -82,7 +81,9 @@ io.on('connection', (client) => {
 
     responses[address] = data;
 
-    io.to('professors').emit('rq', { address: data });
+    var response = {}
+    response[address] = data
+    io.to('professors').emit('rq', response);
   });
 
   // Ping Professors

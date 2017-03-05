@@ -14,7 +14,7 @@ class Lecture extends Component {
     this.state = {
       connected: false,
       question: null,
-      responses: []
+      responses: {}
     };
   }
 
@@ -46,18 +46,17 @@ class Lecture extends Component {
 
     socket.on('eq', (data) => {
       this.setState({
-        question: null
+        question: null,
+        responses: null
       });
     });
 
     socket.on('rq', (data) => {
       this.setState((prevState, id) => {
-        return {
-          responses: prevState.responses.concat([data])
-        }
+        return { responses: Object.assign({}, prevState.responses, data) }
       });
     });
-    
+
   }
 
   componentWillUnmount() {

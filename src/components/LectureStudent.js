@@ -38,7 +38,7 @@ class LectureStudent extends Component {
         </div>
       );
     }
-    
+
     return (
       <div>Waiting for next question...</div>
     );

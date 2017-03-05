@@ -21,10 +21,19 @@ class LectureProfessor extends Component {
 
   render() {
     if (this.props.question) {
-      const choices = this.props.question.choices.map((choice, i) => (
+      const responseCounts = {}
+      for (var address in this.props.responses) {
+        if (!this.props.responses.hasOwnProperty(address)) continue;
+
+        const response = this.props.responses[address];
+        if (response in responseCounts) responseCounts[response] += 1;
+        else responseCounts[response] = 1
+      }
+
+      const responses = Object.keys(responseCounts).map((response, i) => (
         <tr key={i}>
-          <td>{choice}</td>
-          <td>{this.props.responses.filter((r) => r === choice).length}</td>
+          <td>{response}</td>
+          <td>{responseCounts[response]}</td>
         </tr>
       ));
 
@@ -43,7 +52,7 @@ class LectureProfessor extends Component {
               </tr>
             </thead>
             <tbody>
-              {choices}
+              {responses}
             </tbody>
           </Table>
         </div>
