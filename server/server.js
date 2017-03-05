@@ -2,15 +2,30 @@ import http from 'http';
 import express from 'express';
 import path from 'path';
 import socket from 'socket.io';
-import utils from './utils'
+import utils from './utils';
+import bodyParser from 'body-parser';
+
 /* Server */
 
 const port = process.env.PORT || 8008;
 const app = express();
 
-app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
-app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'public', 'index.html'))).listen(port, () => {
+app.use('/lecture/professor', utils.basicAuth('cuappdev', 'shipit'));
+app.use(express.static(path.join(__dirname, '/../public')));
+
+app.post('/login', (req, res) => {
+  res.status(200).json({
+    success: req.body.password === 'shipit',
+    session: 'session'
+  });
+});
+
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/../public/index.html'))).listen(port, () => {
   console.log('Started Clicker server on port ' + port);
 });
 
@@ -20,11 +35,22 @@ const server = http.createServer(app);
 const io = socket(server);
 const socketPort = 3000;
 
-// let lecture =
+var question = null
+var responses = {}
+var clients = []
 
 io.on('connection', (client) => {
-  console.log(client.handshake);
+  const address = client.handshake.address;
   const userType = client.handshake.query.userType;
+
+  if (question) {
+    client.emit('bq', question);
+
+    if (userType === 'professors') {
+      client.emit()
+    }
+  }
+
 
   client.join(userType, () => {
     console.log(`Client has joined room: ${userType}`);
@@ -35,12 +61,16 @@ io.on('connection', (client) => {
   // Begin Question
   client.on('bq', (data) => {
     console.log(`Beginning question: ${data.text}`);
+
+    question = data
     io.emit('bq', data);
   });
 
   // End Question
   client.on('eq', (data) => {
     console.log('Question ended');
+
+    question = null
     io.emit('eq', data);
   });
 
@@ -49,7 +79,10 @@ io.on('connection', (client) => {
   // Respond to Question
   client.on('rq', (data) => {
     console.log(`Student response received: ${data}`);
-    io.to('professors').emit('rq', data);
+
+    responses[address] = data;
+
+    io.to('professors').emit('rq', { address: data });
   });
 
   // Ping Professors
