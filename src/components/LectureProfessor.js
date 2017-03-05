@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { FormGroup, ControlLabel, Button, Table } from 'react-bootstrap';
 
 import QuestionCreator from './QuestionCreator';
+import LectureVisualizer from './LectureVisualizer';
 
 class LectureProfessor extends Component {
   constructor(props) {
@@ -21,6 +22,8 @@ class LectureProfessor extends Component {
 
   render() {
     if (this.props.question) {
+
+      // Get response counts
       const responseCounts = {}
       for (var address in this.props.responses) {
         if (!this.props.responses.hasOwnProperty(address)) continue;
@@ -30,7 +33,10 @@ class LectureProfessor extends Component {
         else responseCounts[response] = 1
       }
 
-      const responses = Object.keys(responseCounts).map((response, i) => (
+      // Get responses
+
+      // Create response table
+      const responseList = Object.keys(responseCounts).map((response, i) => (
         <tr key={i}>
           <td>{response}</td>
           <td>{responseCounts[response]}</td>
@@ -52,9 +58,10 @@ class LectureProfessor extends Component {
               </tr>
             </thead>
             <tbody>
-              {responses}
+              {responseList}
             </tbody>
           </Table>
+          <LectureVisualizer responseCounts={responseCounts} />
         </div>
       );
     }

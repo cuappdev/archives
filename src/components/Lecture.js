@@ -47,7 +47,7 @@ class Lecture extends Component {
     socket.on('eq', (data) => {
       this.setState({
         question: null,
-        responses: null
+        responses: null,
       });
     });
 

@@ -20,8 +20,8 @@ app.use(express.static(path.join(__dirname, '/../public')));
 
 app.post('/login', (req, res) => {
   res.status(200).json({
-    success: req.body.password === 'shipit',
-    session: 'session'
+    success: true
+    // success: req.body.password === 'shipit'
   });
 });
 
