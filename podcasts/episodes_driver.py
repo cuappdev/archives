@@ -1,8 +1,8 @@
-from podcasts.episode_worker import EpisodeWorker
-from podcasts.models.series import Series
-from podcasts.models.episode import Episode
-from podcasts.storers.json_storer import JsonStorer
-from podcasts.storers.couchbase_storer import CouchbaseStorer
+from episode_worker import EpisodeWorker
+from models.series import Series
+from models.episode import Episode
+from storers.json_storer import JsonStorer
+from storers.couchbase_storer import CouchbaseStorer
 import csv
 import os
 

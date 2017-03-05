@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-from series_driver import SeriesDriver
-from episodes_driver import EpisodesDriver
+from podcasts.series_driver import SeriesDriver
+from podcasts.episodes_driver import EpisodesDriver
 from podcasts.site_crawler import SiteCrawler
 from podcasts.storers.couchbase_storer import CouchbaseStorer
 

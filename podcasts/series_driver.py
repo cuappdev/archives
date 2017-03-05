@@ -1,5 +1,5 @@
-from podcasts.site_crawler import SiteCrawler
-from podcasts.series_worker import SeriesWorker
+from site_crawler import SiteCrawler
+from series_worker import SeriesWorker
 
 class SeriesDriver(object):
   """
