@@ -35,6 +35,16 @@ class Notification < ActiveRecord::Base
   		if queryResult.length > 0 
   			msg = "You have #{queryResult.length} new song suggestions from your friends on Tempo!"
   		end
+      if queryResult.length == 0
+        randomNumber = rand(3)
+        case randomNumber
+        when 0
+          msg = "Have a song you’ve been listening to recently? Share it on Tempo"
+        when 1
+          msg = "Your followers miss you. Post today!"
+        when 2
+          msg = "What are you listening to?"
+      end  
   		Notification.create(to: user.id, notification_type: 100, message: msg)
   	    LikesController.helpers.notify([user.push_id], msg, 100)
   	end
