@@ -7,6 +7,7 @@ class Episode(Entity):
     """Constructor"""
 
     # Fill fields
+    self.type         = 'episode'
     self.series_id    = series.id
     self.series_title = series.title
     self.image_url_sm = series.image_url_sm

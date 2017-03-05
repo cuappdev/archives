@@ -5,10 +5,10 @@ class Storer(object):
 
   __metaclass__ = ABCMeta
 
-  def store(self, result_json):
+  def store(self, result_dict):
     """
-    Given a `result_json` with complete
+    Given a `result_dict` with complete
     series and episode info, store it
     accordingly
     """
-    pass # Leave up to implementation 
+    pass # Leave up to implementation

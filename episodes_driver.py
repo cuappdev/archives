@@ -2,8 +2,9 @@ from podcasts.episode_worker import EpisodeWorker
 from podcasts.models.series import Series
 from podcasts.models.episode import Episode
 from podcasts.storers.json_storer import JsonStorer
-from os import walk
+from podcasts.storers.couchbase_storer import CouchbaseStorer
 import csv
+import os
 
 class EpisodeDriver(object):
   """
@@ -24,7 +25,7 @@ class EpisodeDriver(object):
     """
     # Grab the CSV files
     csvs = []
-    for _, _, filenames in walk('./' + self.directory):
+    for _, _, filenames in os.walk('./' + self.directory):
       csvs.extend(filenames)
 
     # Build series set
@@ -50,4 +51,5 @@ class EpisodeDriver(object):
       t.join()
 
 
-EpisodeDriver('csv', JsonStorer('results')).eps_from_series()
+# EpisodeDriver('csv', JsonStorer('results')).eps_from_series()
+EpisodeDriver('csv', CouchbaseStorer('couchbase://localhost/travel-sample', ''))

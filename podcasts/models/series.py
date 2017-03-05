@@ -14,14 +14,15 @@ class Series(Entity):
     Constructor -
     NOTE: `genres` is ';'-delimitted list of genres as a string
     """
-    self.id = s_id
-    self.title = title.encode('utf-8')
-    self.country = country.encode('utf-8')
-    self.author = author.encode('utf-8')
+    self.type         = 'series'
+    self.id           = s_id
+    self.title        = title.encode('utf-8')
+    self.country      = country.encode('utf-8')
+    self.author       = author.encode('utf-8')
     self.image_url_sm = image_url_sm.encode('utf-8')
     self.image_url_lg = image_url_lg.encode('utf-8')
-    self.feed_url = feed_url.encode('utf-8')
-    self.genres = genres.encode('utf-8')
+    self.feed_url     = feed_url.encode('utf-8')
+    self.genres       = genres.encode('utf-8')
 
 
   def __hash__(self):

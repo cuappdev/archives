@@ -41,15 +41,16 @@ class EpisodeWorker(threading.Thread):
       for entry in rss['entries']:
         ep_jsons.append(Episode(s, entry).to_json())
 
-      # Build result JSON
-      result_json = dict()
-      result_json['series'] = deepcopy(s.__dict__)
-      result_json['series']['genres'] = \
-        result_json['series']['genres'].split(';')
-      result_json['episodes'] = ep_jsons
+      # Build result dict
+      result_dict = dict()
+      result_dict['series'] = deepcopy(s.__dict__)
+      result_dict['series']['genres'] = \
+        result_dict['series']['genres'].split(';')
+      result_dict['series']['type'] = 'series'
+      
 
       # Store podcast
-      self.storer.store(result_json)
+      self.storer.store(result_dict)
 
       # Move onto the next one
       self.i += 20

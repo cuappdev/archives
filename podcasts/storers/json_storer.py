@@ -13,7 +13,7 @@ class JsonStorer(Storer):
       os.makedirs('./' + self.directory)
 
 
-  def store(self, result_json):
+  def store(self, result_dict):
     """See Storer#store(result_json)"""
     s_id = result_json['series']['id']
     with open('./' + self.directory + '/' + str(s_id) + '.json', 'wb') as outfile:
