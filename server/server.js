@@ -2,7 +2,7 @@ import http from 'http';
 import express from 'express';
 import path from 'path';
 import socket from 'socket.io';
-
+import utils from './utils'
 /* Server */
 
 const port = process.env.PORT || 8008;
@@ -20,8 +20,10 @@ const server = http.createServer(app);
 const io = socket(server);
 const socketPort = 3000;
 
+// let lecture =
+
 io.on('connection', (client) => {
-  console.log(`Client connected with id: ${client.conn.id}`);
+  console.log(client.handshake);
   const userType = client.handshake.query.userType;
 
   client.join(userType, () => {
