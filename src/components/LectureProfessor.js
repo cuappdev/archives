@@ -36,10 +36,10 @@ class LectureProfessor extends Component {
       // Get responses
 
       // Create response table
-      const responseList = Object.keys(responseCounts).map((response, i) => (
+      const responseList = this.props.question.choices.map((choice, i) => (
         <tr key={i}>
-          <td>{response}</td>
-          <td>{responseCounts[response]}</td>
+          <td>{choice}</td>
+          <td>{responseCounts[choice] || 0}</td>
         </tr>
       ));
 
@@ -61,7 +61,7 @@ class LectureProfessor extends Component {
               {responseList}
             </tbody>
           </Table>
-          <LectureVisualizer responseCounts={responseCounts} />
+          <LectureVisualizer responseCounts={responseCounts} choices={this.props.question.choices} />
         </div>
       );
     }
