@@ -14,7 +14,7 @@ class LectureStudent extends Component {
       choiceIndex: i
     });
 
-    this.props.socket.emit('rq', this.props.question.choices[i]);
+    this.props.socket.emit('rq', { response: this.props.question.choices[i] });
   }
 
   render() {

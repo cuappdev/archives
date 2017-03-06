@@ -14,6 +14,7 @@ class Lecture extends Component {
     this.state = {
       connected: false,
       question: null,
+      response: null,
       responses: {}
     };
   }
@@ -26,34 +27,35 @@ class Lecture extends Component {
     });
 
     socket.on('connect', () => {
-      console.log(`Connected to socket with id ${socket.id}`);
+      console.log('Connected to socket');
       this.setState({
         connected: true
       });
     });
 
     socket.on('disconnect', () => {
+      console.log('Disconnected from socket');
       this.setState({
-        connected: false
+        connected: false,
+        question: null,
+        response: null,
+        responses: {}
       });
     });
 
-    socket.on('bq', (data) => {
-      this.setState({
-        question: data
-      });
-    });
+    socket.on('bq', (data) => this.setState(data));
 
-    socket.on('eq', (data) => {
+    socket.on('eq', () => {
       this.setState({
         question: null,
-        responses: null,
+        response: null,
+        responses: {}
       });
     });
 
     socket.on('rq', (data) => {
       this.setState((prevState, id) => {
-        return { responses: Object.assign({}, prevState.responses, data) }
+        return { responses: data.responses || Object.assign({}, prevState.responses, data.response) }
       });
     });
 
@@ -61,11 +63,6 @@ class Lecture extends Component {
 
   componentWillUnmount() {
     this.state.socket.close();
-  }
-
-  handleSend() {
-    const message = 'Hey server!';
-    this.state.socket.emit('helloworld', message);
   }
 
   render() {
@@ -87,7 +84,7 @@ class Lecture extends Component {
         <h3>Lecture</h3>
         {alert}
         <Panel header={this.props.userType == 'students' ? 'Student' : 'Professor'}>
-          {this.props.userType == 'students' ? <LectureStudent {...this.state} /> : <LectureProfessor {...this.state} />}
+          {this.props.userType === 'students' ? <LectureStudent {...this.state} /> : <LectureProfessor {...this.state} />}
         </Panel>
       </div>
     );

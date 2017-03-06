@@ -47,7 +47,7 @@ class QuestionCreator extends Component {
       'choices': this.state.choices
     };
 
-    this.props.socket.emit('bq', data);
+    this.props.socket.emit('bq', { question: data });
   }
 
   render() {
