@@ -18,11 +18,13 @@ export default (app, port) => {
       console.log(`Client has joined room: ${userType}`);
     });
 
-    if (userType === 'professors') {
-      client.emit('bq', { question: question });
-      client.emit('rq', { responses: responses });
-    } else {
-      client.emit('bq', { question: question, response: responses[address] });
+    if (question) {
+      if (userType === 'professors') {
+        client.emit('bq', { question: question });
+        client.emit('rq', { responses: responses });
+      } else {
+        client.emit('bq', { question: question, response: responses[address] });
+      }
     }
 
     // Professors
@@ -54,7 +56,7 @@ export default (app, port) => {
 
       var response = {}
       response[address] = data.response
-      io.to('professors').emit('rq', data);
+      io.to('professors').emit('rq', { responses: response });
     });
 
     // Ping Professors

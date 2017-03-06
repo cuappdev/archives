@@ -20,7 +20,7 @@ class Lecture extends Component {
   }
 
   componentDidMount() {
-    const socket = io('/', { query: `userType=${this.props.userType}`});
+    const socket = io(':3000', { query: `userType=${this.props.userType}`});
 
     this.setState({
       socket: socket
@@ -55,7 +55,7 @@ class Lecture extends Component {
 
     socket.on('rq', (data) => {
       this.setState((prevState, id) => {
-        return { responses: data.responses || Object.assign({}, prevState.responses, data.response) }
+        return { responses: Object.assign({}, prevState.responses, data.responses) }
       });
     });
 
