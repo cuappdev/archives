@@ -20,7 +20,7 @@ class Lecture extends Component {
   }
 
   componentDidMount() {
-    const socket = io(`:${process.env.PORT || '3000'}`, { query: `userType=${this.props.userType}`});
+    const socket = io('/', { query: `userType=${this.props.userType}`});
 
     this.setState({
       socket: socket
