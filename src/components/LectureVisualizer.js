@@ -9,7 +9,13 @@ class LectureVisualizer extends Component {
   render() {
     const chartProps = {
       data: {
-        labels: this.props.choices,
+        labels: this.props.choices.map((choice, i) => {
+          if (choice.length > 10) {
+            const truncated = choice.substring(0, 10);
+            return truncated + '...';
+          }
+          return choice;
+        }),
         datasets: [
             {
                 fillColor: 'rgba(220,220,220,0.5)',

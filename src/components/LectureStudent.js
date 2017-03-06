@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Radio } from 'react-bootstrap';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
 class LectureStudent extends Component {
   constructor(props) {
@@ -18,20 +18,20 @@ class LectureStudent extends Component {
     if (this.props.question) {
       const choices = this.props.question.choices;
 
-      const choiceComponent = !choices || choices.length === 0
-        ? <input type='text' />
-        : <form>{
-            choices.map((choice, i) => (
-              <Radio key={i} onClick={(e) => this.handleSend(e, i)} checked={this.props.response === choice}>
-                {choice}
-              </Radio>
-            ))
-          }</form>;
+      const choiceList = !choices || choices.length === 0
+        ? (<input type='text' />)
+        : choices.map((choice, i) => (
+            <ListGroupItem key={i} onClick={(e) => this.handleSend(e, i)} active={this.props.response === choice}>
+              {choice}
+            </ListGroupItem>
+          ));
 
       return (
         <div>
           <h3>{this.props.question.text}</h3>
-          {choiceComponent}
+          <ListGroup>
+            {choiceList}
+          </ListGroup>
         </div>
       );
     }
