@@ -20,7 +20,7 @@ class Lecture extends Component {
   }
 
   componentDidMount() {
-    const socket = io(':3000', { query: `userType=${this.props.userType}`});
+    const socket = io(`:${process.env.PORT || '3000'}`, { query: `userType=${this.props.userType}`});
 
     this.setState({
       socket: socket
@@ -65,12 +65,27 @@ class Lecture extends Component {
     this.state.socket.close();
   }
 
+  handleResponse(i) {
+    this.setState({
+      response: this.state.question.choices[i]
+    });
+  }
+
   render() {
-    const alert = this.state.connected
+    const lecture = this.state.connected
       ? (
-          <Alert bsStyle='success'>
-            <strong>Connected</strong>
-          </Alert>
+          <div>
+            <Alert bsStyle='success'>
+              <strong>Connected</strong>
+            </Alert>
+            <Panel header={this.props.userType == 'students' ? 'Student' : 'Professor'}>
+              {
+                this.props.userType === 'students'
+                  ? <LectureStudent {...this.state} handleResponse={(i) => this.handleResponse(i)} />
+                  : <LectureProfessor {...this.state} />
+              }
+            </Panel>
+          </div>
         )
       : (
           <Alert bsStyle='warning'>
@@ -82,10 +97,7 @@ class Lecture extends Component {
       <div>
         <Link to='/'>Back</Link>
         <h3>Lecture</h3>
-        {alert}
-        <Panel header={this.props.userType == 'students' ? 'Student' : 'Professor'}>
-          {this.props.userType === 'students' ? <LectureStudent {...this.state} /> : <LectureProfessor {...this.state} />}
-        </Panel>
+        {lecture}
       </div>
     );
   }

@@ -10,10 +10,7 @@ class LectureStudent extends Component {
   }
 
   handleSend(e, i) {
-    this.setState({
-      choiceIndex: i
-    });
-
+    this.props.handleResponse(i);
     this.props.socket.emit('rq', { response: this.props.question.choices[i] });
   }
 
@@ -25,7 +22,7 @@ class LectureStudent extends Component {
         ? <input type='text' />
         : <form>{
             choices.map((choice, i) => (
-              <Radio key={i} onClick={(e) => this.handleSend(e, i)} checked={this.state.choiceIndex === i}>
+              <Radio key={i} onClick={(e) => this.handleSend(e, i)} checked={this.props.response === choice}>
                 {choice}
               </Radio>
             ))
