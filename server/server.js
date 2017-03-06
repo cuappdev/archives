@@ -7,7 +7,8 @@ import bodyParser from 'body-parser';
 
 /* Server */
 
-const port = process.env.PORT || 8008;
+const port = process.env.PORT || 3000;
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -25,15 +26,12 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/../public/index.html'))).listen(port, () => {
-  console.log('Started Clicker server on port ' + port);
-});
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/../public/index.html')));
 
 /* Sockets */
 
 const server = http.createServer(app);
 const io = socket(server);
-const socketPort = 3000;
 
 var question = null
 var responses = {}
@@ -97,6 +95,6 @@ io.on('connection', (client) => {
   });
 });
 
-server.listen(socketPort, () => {
-  console.log('Listening for socket.io connections on port ' + socketPort);
+server.listen(port, () => {
+  console.log('Clicker server listening on port ' + port);
 });
