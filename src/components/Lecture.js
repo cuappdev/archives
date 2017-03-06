@@ -15,12 +15,14 @@ class Lecture extends Component {
       connected: false,
       question: null,
       response: null,
-      responses: {}
+      responses: {},
+      studentCount: 0,
+      professorCount: 0
     };
   }
 
   componentDidMount() {
-    const socket = io('/', { query: `userType=${this.props.userType}`});
+    const socket = io(':3000', { query: `userType=${this.props.userType}`});
 
     this.setState({
       socket: socket
@@ -39,7 +41,9 @@ class Lecture extends Component {
         connected: false,
         question: null,
         response: null,
-        responses: {}
+        responses: {},
+        studentCount: 0,
+        professorCount: 0
       });
     });
 
@@ -56,6 +60,18 @@ class Lecture extends Component {
     socket.on('rq', (data) => {
       this.setState((prevState, id) => {
         return { responses: Object.assign({}, prevState.responses, data.responses) }
+      });
+    });
+
+    socket.on('sc', (data) => {
+      this.setState({
+        studentCount: data
+      });
+    });
+
+    socket.on('pc', (data) => {
+      this.setState({
+        professorCount: data
       });
     });
 
@@ -76,7 +92,9 @@ class Lecture extends Component {
       ? (
           <div>
             <Alert bsStyle='success'>
-              <strong>Connected</strong>
+              <h4>Connected</h4>
+              <p>{this.state.studentCount} students</p>
+              <p>{this.state.professorCount} professors</p>
             </Alert>
             <Panel header={this.props.userType == 'students' ? 'Student' : 'Professor'}>
               {

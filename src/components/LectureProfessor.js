@@ -60,7 +60,11 @@ class LectureProfessor extends Component {
               {responseList}
             </tbody>
           </Table>
-          <LectureVisualizer responseCounts={responseCounts} choices={this.props.question.choices} />
+          <LectureVisualizer
+            responseCounts={responseCounts}
+            choices={this.props.question.choices}
+            responses={this.props.responses}
+          />
         </div>
       );
     }

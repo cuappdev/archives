@@ -8,7 +8,8 @@ export default (app, port) => {
 
   var question = null;
   var responses = {};
-  var clients = [];
+  var students = {};
+  var professors = {};
 
   io.on('connection', (client) => {
     const address = client.handshake.address;
@@ -18,14 +19,40 @@ export default (app, port) => {
       console.log(`Client has joined room: ${userType}`);
     });
 
-    if (question) {
-      if (userType === 'professors') {
+
+    if (userType === 'professors') {
+      professors[address] = (professors[address] || 0) + 1;
+
+      if (question) {
         client.emit('bq', { question: question });
         client.emit('rq', { responses: responses });
-      } else {
+      }
+    } else {
+      students[address] = (students[address] || 0) + 1;
+
+      if (question) {
         client.emit('bq', { question: question, response: responses[address] });
       }
     }
+
+    io.emit('pc', Object.keys(professors).length);
+    io.emit('sc', Object.keys(students).length);
+
+    // Disconnect
+
+    client.on('disconnect', () => {
+      console.log(`Client disconnected with id: ${client.conn.id}`);
+
+      if (userType === 'professors') {
+        professors[address] -= 1;
+        if (professors[address] === 0) delete professors[address];
+        io.emit('pc', Object.keys(professors).length);
+      } else {
+        students[address] -= 1;
+        if (students[address] === 0) delete students[address];
+        io.emit('sc', Object.keys(students).length);
+      }
+    });
 
     // Professors
 
@@ -65,9 +92,6 @@ export default (app, port) => {
       io.to('professors').emit('pp', data);
     });
 
-    client.on('disconnect', () => {
-      console.log(`Client disconnected with id: ${client.conn.id}`);
-    });
   });
 
   server.listen(port, () => {
