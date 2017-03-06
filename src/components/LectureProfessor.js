@@ -45,9 +45,8 @@ class LectureProfessor extends Component {
 
       return (
         <div>
-          <FormGroup>
-            <ControlLabel>Current Question: {this.props.question.text}</ControlLabel>
-          </FormGroup>
+          <h3>Current Question</h3>
+          <p><strong>{this.props.question.text}</strong></p>
           <Button bsStyle='danger' onClick={() => this.handleEnd()}>End Question</Button>
           <h3>Responses</h3>
           <Table striped bordered>

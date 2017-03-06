@@ -7,7 +7,6 @@ class LectureVisualizer extends Component {
   }
 
   render() {
-    console.log(this.props.responseCounts);
     const chartProps = {
       data: {
         labels: this.props.choices,
@@ -22,12 +21,16 @@ class LectureVisualizer extends Component {
         ]
       },
 			options: {
+        barValueSpacing: 10,
 				responsive: true
 			}
     };
 
     return (
-      <BarChart {...chartProps} />
+      <div>
+        <h3>Response Visualization</h3>
+        <BarChart {...chartProps} />
+      </div>
     )
   }
 }

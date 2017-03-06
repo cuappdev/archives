@@ -72,12 +72,12 @@ class Lecture extends Component {
     const alert = this.state.connected
       ? (
           <Alert bsStyle='success'>
-            <strong>Connected!</strong>
+            <strong>Connected</strong>
           </Alert>
         )
       : (
-          <Alert bsStyle='danger'>
-            <strong>Disconnected!</strong> Attempting to reconnect...
+          <Alert bsStyle='warning'>
+            <strong>Connecting...</strong>
           </Alert>
         );
 
