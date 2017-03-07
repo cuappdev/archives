@@ -34,7 +34,7 @@ class EpisodeWorker(threading.Thread):
     while self.i < len(self.series):
       # Grab line + RSS
       s = self.series[self.i]
-      rss = self.request_rss(s.feed_url)
+      rss = self.request_rss(s.feedUrl)
 
       # Compose Episodes
       ep_dicts = []

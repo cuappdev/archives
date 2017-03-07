@@ -6,6 +6,7 @@ venv
 # Various output directory names
 csv*
 results*
+data*
 
 # PyPI stuff 
 *.egg-info

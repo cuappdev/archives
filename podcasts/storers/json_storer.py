@@ -14,7 +14,7 @@ class JsonStorer(Storer):
 
 
   def store(self, result_dict):
-    """See Storer#store(result_json)"""
-    s_id = result_json['series']['id']
+    """See Storer#store(result_dict)"""
+    s_id = result_dict['series']['id']
     with open('./' + self.directory + '/' + str(s_id) + '.json', 'wb') as outfile:
-      json.dump(result_json, outfile)
+      json.dump(result_dict, outfile)
