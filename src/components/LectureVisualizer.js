@@ -7,7 +7,7 @@ class LectureVisualizer extends Component {
     super(props);
 
     this.state = {
-      scaleSteps: 20,
+      scaleSteps: 10,
       scaleStepWidth: 5
     };
   }
