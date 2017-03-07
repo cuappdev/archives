@@ -22,7 +22,7 @@ class CouchbaseStorer(Storer):
 
   def _make_episode_key(self, series_id, episode_dict):
     """Episode key for Couchbase"""
-    return str(series_id) + ':' + str(episode_dict['pub_date'])
+    return str(series_id) + ':' + str(episode_dict['pubDate'])
 
 
   def store(self, result_dict):
