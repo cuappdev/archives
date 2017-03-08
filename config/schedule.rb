@@ -20,5 +20,5 @@
 # Learn more: http://github.com/javan/whenever
 
 every 24.hours do
-	runner "Notification.notifyInactiveUsers(3)"
+	runner "Notification.notifyInactiveUsers(2)"
 end
