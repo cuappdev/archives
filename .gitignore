@@ -8,7 +8,7 @@ csv*
 results*
 data*
 
-# PyPI stuff 
+# PyPI stuff
 *.egg-info
 *.DS_Store
 *.egg*
@@ -16,3 +16,4 @@ build
 dist
 pypi_guide
 clean
+job.py
