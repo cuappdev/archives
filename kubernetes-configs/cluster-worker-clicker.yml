@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: couchbase-worker-clicker-rc
+spec:
+  replicas: 1
+  selector:
+    app: couchbase-worker-clicker-pod
+  template:
+    metadata:
+      labels:
+        app: couchbase-worker-clicker-pod
+    spec:
+      containers:
+      - name: couchbase-worker-clicker
+        image: arungupta/couchbase:k8s
+        env:
+          - name: TYPE
+            value: "WORKER"
+          - name: COUCHBASE_MASTER
+            value: "couchbase-master-clicker-service"
+          - name: AUTO_REBALANCE
+            value: "false"
+        ports:
+        - containerPort: 8091
+          name: port-8091
+        - containerPort: 8092
+          name: port-8092
+        - containerPort: 8093
+          name: port-8093
+        - containerPort: 8094
+          name: port-8094
+        - containerPort: 11207
+          name: port-11207
+        - containerPort: 11211
+          name: port-11211
+        - containerPort: 11210
+          name: port-11210
+        - containerPort: 18091
+          name: port-18091
+        - containerPort: 18092
+          name: port-18092
+        - containerPort: 18093
+          name: port-18093
