@@ -18,6 +18,8 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+set :output, {:error => '~/log/cronjoberr.log', :standard => '~/log/cronjob.log'}
+
 every 60.seconds do
 	runner "Notification.notifyInactiveUsers(2)"
 end
