@@ -33,7 +33,7 @@ class Notification < ActiveRecord::Base
      defaultMsg = "Seems like you have been inactive for a couple days... Come back and share a song or two! :)"
      inactiveUsersToNotify.each do |user|
        #### TODO: remove duplicate code ####
-       sqlQuery = "(SELECT posts.* FROM posts INNER JOIN followings ON (followings.follower_id = %i AND posts.user_id = followings.followed_id) WHERE posts.created_at >= NOW() - '1 day'::INTERVAL UNION SELECT * FROM posts WHERE posts.user_id = %i AND posts.created_at >= NOW() - '1 day'::INTERVAL) ORDER BY created_at DESC;" % [user.id, user.id]
+       sqlQuery = "SELECT posts.* FROM posts INNER JOIN followings ON (followings.follower_id = %i AND posts.user_id = followings.followed_id) WHERE posts.created_at >= NOW() - '1 day'::INTERVAL;" % [user.id]
        queryResult = Post.find_by_sql(sqlQuery)
        #### above gets the posts in your current feed #### 
        msg = defaultMsg
