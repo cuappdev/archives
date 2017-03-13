@@ -90,11 +90,7 @@ class LectureVisualizer extends Component {
       </ButtonToolbar>
     );
 
-    return (
-      <div>
-        <BarChart {...chartProps} />
-      </div>
-    )
+    return <BarChart {...chartProps} />
   }
 }
 

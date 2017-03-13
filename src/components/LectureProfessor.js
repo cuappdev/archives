@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { FormGroup, ControlLabel, Button, Table } from 'react-bootstrap';
+import { FormGroup, ControlLabel, Button, ButtonToolbar, Table, Modal } from 'react-bootstrap';
 
 import QuestionCreator from './QuestionCreator';
 import LectureVisualizer from './LectureVisualizer';
@@ -8,6 +8,10 @@ import LectureVisualizer from './LectureVisualizer';
 class LectureProfessor extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showVisualizer: false
+    }
   }
 
   handleTextChange(e) {
@@ -18,6 +22,12 @@ class LectureProfessor extends Component {
 
   handleEnd() {
     this.props.socket.emit('eq');
+  }
+
+  handleVisualizerToggle() {
+    this.setState({
+      showVisualizer: !this.state.showVisualizer
+    })
   }
 
   render() {
@@ -43,28 +53,42 @@ class LectureProfessor extends Component {
         </tr>
       ));
 
+      const numResponses = Object.keys(this.props.responses).length;
+
       return (
         <div>
           <h3>Current Question</h3>
           <p><strong>{this.props.question.text}</strong></p>
-          <Button bsStyle='danger' onClick={() => this.handleEnd()}>End Question</Button>
-          <h3>Responses</h3>
-          <Table striped bordered>
-            <thead>
-              <tr>
-                <th>Response</th>
-                <th>Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              {responseList}
-            </tbody>
-          </Table>
-          <LectureVisualizer
-            responseCounts={responseCounts}
-            choices={this.props.question.choices}
-            responses={this.props.responses}
-          />
+          <p>{numResponses} {numResponses == 1 ? 'response' : 'responses'}</p>
+          <br />
+          <ButtonToolbar>
+            <Button bsStyle='danger' onClick={() => this.handleEnd()}>End Question</Button>
+            <Button onClick={() => this.handleVisualizerToggle()}>Show Responses</Button>
+          </ButtonToolbar>
+          <Modal show={this.state.showVisualizer} onHide={() => this.handleVisualizerToggle()}>
+            <Modal.Header>Responses</Modal.Header>
+            <Modal.Body>
+              <Table striped bordered>
+                <thead>
+                  <tr>
+                    <th>Response</th>
+                    <th>Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {responseList}
+                </tbody>
+              </Table>
+              <LectureVisualizer
+                responseCounts={responseCounts}
+                choices={this.props.question.choices}
+                responses={this.props.responses}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={() => this.handleVisualizerToggle()}>Close</Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       );
     }
