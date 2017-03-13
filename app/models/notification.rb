@@ -31,7 +31,7 @@ class Notification < ActiveRecord::Base
      :x_days_ago => DateTime.now - num_days.days)
     # inactiveUsersToNotify = inactiveUsers.where(:remote_push_notifications_enabled => true)
      inactiveUsersToNotify = inactiveUsers.where(:remote_push_notifications_enabled => true).pluck(:push_id)
-     randomNumer = Random.rand(3)
+     randomNumber = Random.rand(3)
      msg = "Have a song you've been listening to recently? Share it on Tempo!" 
      case randomNumber
       when 0
