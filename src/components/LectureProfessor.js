@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { FormGroup, ControlLabel, Button, ButtonToolbar, Table, Modal } from 'react-bootstrap';
+import { FormGroup, ControlLabel, Button, ButtonToolbar, Table, Modal, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import QuestionCreator from './QuestionCreator';
 import LectureVisualizer from './LectureVisualizer';
@@ -43,6 +43,22 @@ class LectureProfessor extends Component {
         else responseCounts[response] = 1
       }
 
+      const choices = this.props.question.choices;
+
+      const choiceList = !choices || choices.length === 0
+        ? (<p>Free Response</p>)
+        : (
+            <ListGroup>
+            {
+              choices.map((choice, i) => (
+                <ListGroupItem key={i}>
+                  {choice}
+                </ListGroupItem>
+              ))
+            }
+          </ListGroup>
+        );
+
       // Get responses
 
       // Create response table
@@ -59,6 +75,7 @@ class LectureProfessor extends Component {
         <div>
           <h3>Current Question</h3>
           <p><strong>{this.props.question.text}</strong></p>
+          {choiceList}
           <p>{numResponses} {numResponses == 1 ? 'response' : 'responses'}</p>
           <br />
           <ButtonToolbar>
