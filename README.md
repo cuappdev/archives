@@ -1,6 +1,8 @@
 # Podcast App Web Client 
 
-[Cornell App Development](http://www.cuappdev.org) Podcast HTTP client.  
+**NOTE:** This backend served as an MVP implementation of the Podcast app layer using Akka, and demonstrates very well how to utilize PostgreSQL with Akka to build a REST API.  
+
+This implementation of the backend is not used in production, however. 
 
 ## PostgreSQL Database Setup 
 
