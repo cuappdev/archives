@@ -1,33 +1,20 @@
-# TCAT-BACKEND
+# TCAT Backend (WIP)
 
-Install Instructions :
+This is the backend implementation of the TCAT app. Currently a work in progress, it will use TCAT scheduling data to calculate a route between two destinations using the TCAT bus system. It is built using Python 3.
 
-1.Install NodeJs from https://nodejs.org/en/download/stable/
+Install:
+1. Install the Python library `virtualenv`
 
-    Note: Use “Stable”--should be version 5.10
+   `pip install virtualenv`
 
-2.Install NPM at version 2.14.15 with `$ npm install npm@2.14.15 -g`
+2. Open a terminal in this project's directory and create a virtual environment `venv`
 
-Note: A later version was installed along with Node--we are installing an older version
-ADDENDUM after lecture: If you get an error that says "requires root/administrator privileges", add the word
-"sudo" to the beginning of the sommand and run it again. Then, type in yourpassword (it won't show on the
-screen) and hit ENTER.  It should work this time.
+   `virtualenv venv`
 
-3.Clone the Chatroom application with `$ git clone https://github.com/cuappdev/tcat-backend.git`
+3. Install the requisite Python libraries using the given `requirements.txt`
 
-4.Go into the TCAT-BACKEND directory you just cloned and run the following commands:
+   `venv/Scripts/pip install -r requirements.txt`
 
-    $ npm install (This step reads the package.json file and installs all necessary Node Modules.)
-    $ mkdir data (This step creates an empty "data" folder inside you chatroom application.)
+4. Start the server to access endpoints
 
-5.From your original terminal window, run `$ npm start`
-
-You should now have a running server.  Check to see if it worked by navigating to localhost:3000 in your browser.  You should see a success message.
-
-The following endpoints are provided currently:
-
-/schedules
-
-/stop-locations
-
-/stop-schedules
+   `venv/Scripts/python endpoints.py`
