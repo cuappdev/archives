@@ -18,3 +18,26 @@ Install:
 4. Start the server to access endpoints
 
    `venv/Scripts/python endpoints.py`
+
+Endpoints:
+1. GET /
+
+   "Hello, world!"
+
+2. GET /navigate
+
+   Currently returns a dummy route.
+
+3. GET /stops
+
+   Currently returns a list of dummy stops
+
+Roadmap:
+1. Implement schedule aggregation and output to an intermediate .xlsx file (for verification of success)
+2. Implement the buildup of the graph
+2. Implement a Dijkstra's algorithm that takes in two stops and computes a route if possible
+3. Gather latitude-longitudes for stops and implement routing between lat-longs as a reduction to Dijkstra's
+4. Add "area" specialization for routing
+
+Considerations:
+1. We may have TCAT's GTFS data on-hand next month. If so, we would immediately switch over to using that as our backend data.
