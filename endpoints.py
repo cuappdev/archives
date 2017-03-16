@@ -10,35 +10,47 @@ def navigate():
   resp = {
     "departureTime": "7:21 PM",
     "arrivalTime": "7:39 PM",
-    "timeUntilDeparture": 5,
+
+
     "directions": [{
       "directionType": "walk",
-      "departureTime": "7:21 PM",
-      "departurePlace": "Statler Hall",
+      "time": "7:21 PM",
+      "place": "Statler Hall",
+      "location": [42.4446, 76.4823],
+
       "travelDistance": 0.2
     },{
-      "directionType": "board",
+      "directionType": "depart",
+      "time": "7:24 PM",
+      "place": "Statler Hall",
+      "location": [42.4446, 76.4823];
+
       "routeNumber": 32,
       "bound": "inbound",
-      "stops": ["Bus Stop Name", "Bus Stop Name", "Bus Stop Name"],
-      "departureTime": "7:24 PM",
-      "departurePlace": "Statler Hall",
+      "stops": ["Statler Hall", "Ithaca Commons"],
       "arrivalTime": "7:36 PM",
-      "arrivalPlace": "Ithaca Commons",
-      "travelTime": 12
+    },
+    ,{
+      "directionType": "arrive",
+      "time": "7:36 PM",
+      "place": "Ithaca Commons",
+      "location": [42.4396, 76.4970]
     },{
       "directionType": "walk",
-      "departureTime": "7:39 PM",
-      "departurePlace": "Angry Mom Records",
+      "time": "7:39 PM",
+      "place": "Angry Mom Records",
+      "location": [42.4393, 76.4982],
+      
       "travelDistance": 0.2
     }],
-    "mainStops": ["Baker Flagpole", "Angry Mom Records"]
+    "stopNames": ["Statler Hall", "Ithaca Commons"],
+    "stopNames": [32, 32]
   }
   return jsonify(resp)
 
 @app.route('/stops')
 def stops():
-  return jsonify([{"name": "Statler Hall", "number": 32}])
+  return jsonify([{"name": "Statler Hall", "numbers": [32]}, {"name": "Ithaca Commons", "numbers": [32]}])
 
 if __name__ == '__main__':
   app.run('0.0.0.0')

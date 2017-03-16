@@ -26,16 +26,32 @@ Endpoints:
 
 2. GET /navigate
 
+   Calculates and returns a route using the TCAT bus system between a source and a destination
+
+   Requires: 
+   *. `source` - a latitude-longitude pair indicating the start of the route
+   *. `sink`- a latitude-longitude pair indicating the destination of the route.
+   *. `area`- a general area for the destination of the route.
+
+   Use only one of `sink` or `area` to indicate a destination. If both are supplied, only `sink` will be considered as the destination.
+
+   Returns:
+   *. A list containing steps of a route. The encoding of the route is determined by the iOS models of the route.
+
    Currently returns a dummy route.
 
 3. GET /stops
+
+   Returns a list of stops, where each stop includes:
+   *. stop name
+   *. routes that it is a part of
 
    Currently returns a list of dummy stops
 
 Roadmap:
 1. Implement schedule aggregation and output to an intermediate .xlsx file (for verification of success)
 2. Implement the buildup of the graph
-2. Implement a Dijkstra's algorithm that takes in two stops and computes a route if possible
+2. Implement Dijkstra's algorithm that takes in two stops and computes a route if possible
 3. Gather latitude-longitudes for stops and implement routing between lat-longs as a reduction to Dijkstra's
 4. Add "area" specialization for routing
 
