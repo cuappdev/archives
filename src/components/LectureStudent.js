@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+
+import utils from '../utils';
 
 class LectureStudent extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class LectureStudent extends Component {
         ? (<input type='text' />)
         : choices.map((choice, i) => (
             <ListGroupItem key={i} onClick={(e) => this.handleSend(e, i)} active={this.props.response === choice}>
-              {choice}
+              <span><strong>{utils.alphabet[i]}</strong> {choice}</span>
             </ListGroupItem>
           ));
 

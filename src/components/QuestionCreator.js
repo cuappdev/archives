@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
 import { FormGroup, InputGroup, ControlLabel, FormControl, HelpBlock, Checkbox, Button } from 'react-bootstrap';
+
+import utils from '../utils';
 
 class QuestionCreator extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class QuestionCreator extends Component {
   render() {
     const choices = this.state.choices.map((choice, i) => (
       <Checkbox checked key={i}>
-        {choice}
+        <span><strong>{utils.alphabet[i]}</strong> {choice}</span>
       </Checkbox>
     ));
 

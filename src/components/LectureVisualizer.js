@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
 const BarChart = require('react-chartjs').Bar;
 
+import utils from '../utils';
+
 class LectureVisualizer extends Component {
   constructor(props) {
     super(props);
@@ -31,13 +33,7 @@ class LectureVisualizer extends Component {
   render() {
     const chartProps = {
       data: {
-        labels: this.props.choices.map((choice, i) => {
-          if (choice.length > 10) {
-            const truncated = choice.substring(0, 10);
-            return truncated + '...';
-          }
-          return choice;
-        }),
+        labels: this.props.choices.map((choice, i) => utils.alphabet[i]),
         datasets: [
             {
                 fillColor: 'rgba(52, 152, 219,0.5)',

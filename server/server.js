@@ -3,7 +3,7 @@ import path from 'path';
 import utils from './utils';
 import bodyParser from 'body-parser';
 
-import lecture from './lecture.js';
+import lecture from './lecture';
 
 /* Server */
 

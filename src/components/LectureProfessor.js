@@ -4,6 +4,7 @@ import { FormGroup, ControlLabel, Button, ButtonToolbar, Table, Modal, ListGroup
 
 import QuestionCreator from './QuestionCreator';
 import LectureVisualizer from './LectureVisualizer';
+import utils from '../utils';
 
 class LectureProfessor extends Component {
   constructor(props) {
@@ -52,7 +53,7 @@ class LectureProfessor extends Component {
             {
               choices.map((choice, i) => (
                 <ListGroupItem key={i}>
-                  {choice}
+                  <span><strong>{utils.alphabet[i]}</strong> {choice}</span>
                 </ListGroupItem>
               ))
             }
@@ -64,7 +65,7 @@ class LectureProfessor extends Component {
       // Create response table
       const responseList = this.props.question.choices.map((choice, i) => (
         <tr key={i}>
-          <td>{choice}</td>
+          <td><strong>{utils.alphabet[i]}</strong> {choice}</td>
           <td>{responseCounts[choice] || 0}</td>
         </tr>
       ));

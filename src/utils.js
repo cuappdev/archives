@@ -7,3 +7,5 @@ exports.validate = function(response) {
 		throw error
 	}
 };
+
+exports.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
