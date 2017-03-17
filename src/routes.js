@@ -18,8 +18,7 @@ export default (
   <Route path='/' component={PageLayout}>
     <IndexRoute component={Home} />
     <Route path='lecture/student' component={() => (<Lecture userType='students' />)} />
-    <Route path='lecture/professor' component={() => (<div></div>)} onEnter={requireAuth}/>
-    <Route path='lecture/professor-appdev' component={() => (<Lecture userType='professors' />)}/>
+    <Route path='lecture/professor' component={() => (<Lecture userType='professors' />)} />
     <Route path='login' component={Login} />
     <Redirect from='lecture' to='lecture/student' />
     <Route path='*' component={NotFound} />
