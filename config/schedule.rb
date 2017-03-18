@@ -20,6 +20,6 @@
 # Learn more: http://github.com/javan/whenever
 set :output, {:error => '~/log/cronjoberr.log', :standard => '~/log/cronjob.log'}
 
-every 24.hours do
+every 48.hours do
 	runner "Notification.notifyInactiveUsers(2)"
 end
