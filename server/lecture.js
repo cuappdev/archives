@@ -1,6 +1,21 @@
 import http from 'http';
 import socket from 'socket.io';
 
+/*
+
+**SOCKET PROTOCOL**
+
+bq: Begin Question
+rq: Respond to Question
+eq: End Question
+
+sm: Send message
+
+pc: Professor Count
+sc: Student Count
+
+*/
+
 export default (app, port) => {
 
   const server = http.createServer(app);
@@ -10,6 +25,7 @@ export default (app, port) => {
   var responses = {};
   var students = {};
   var professors = {};
+  var messages = {};
 
   io.on('connection', (client) => {
     const address = client.handshake.address;
@@ -22,6 +38,8 @@ export default (app, port) => {
 
     if (userType === 'professors') {
       professors[address] = (professors[address] || 0) + 1;
+
+      client.emit('sm', { messages: messages });
 
       if (question) {
         client.emit('bq', { question: question });
@@ -68,8 +86,8 @@ export default (app, port) => {
     client.on('eq', () => {
       console.log('Question ended');
 
-      question = null
-      responses = {}
+      question = null;
+      responses = {};
       io.emit('eq');
     });
 
@@ -81,15 +99,20 @@ export default (app, port) => {
 
       responses[address] = data.response;
 
-      var response = {}
-      response[address] = data.response
+      var response = {};
+      response[address] = data.response;
       io.to('professors').emit('rq', { responses: response });
     });
 
-    // Ping Professors
-    client.on('pp', (data) => {
-      console.log(`Professor pinged: ${data.ping.text}`);
-      io.to('professors').emit('pp', data);
+    // Message Professors
+    client.on('sm', (data) => {
+      console.log(`Incoming student message: ${data.message}`);
+
+      messages[address] = data.message;
+
+      var message = {};
+      message[address] = data.message;
+      io.to('professors').emit('sm', { messages: message });
     });
 
   });
