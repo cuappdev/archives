@@ -96,13 +96,11 @@ class Lecture extends Component {
               <p>{this.state.studentCount} students</p>
               <p>{this.state.professorCount} professors</p>
             </Alert>
-            <Panel header={this.props.userType == 'students' ? 'Student' : 'Professor'}>
-              {
-                this.props.userType === 'students'
-                  ? <LectureStudent {...this.state} handleResponse={(i) => this.handleResponse(i)} />
-                  : <LectureProfessor {...this.state} />
-              }
-            </Panel>
+            {
+              this.props.userType === 'students'
+                ? <LectureStudent {...this.state} handleResponse={(i) => this.handleResponse(i)} />
+                : <LectureProfessor {...this.state} />
+            }
           </div>
         )
       : (

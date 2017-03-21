@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Panel, ListGroup, ListGroupItem, FormGroup, FormControl, Button } from 'react-bootstrap';
 
 import utils from '../utils';
 
@@ -15,7 +15,23 @@ class LectureStudent extends Component {
     this.props.socket.emit('rq', { response: this.props.question.choices[i] });
   }
 
+  handlePingChange(e) {
+    this.setState({
+      pingText: e.target.value
+    });
+  }
+
+  handlePingSend() {
+    this.setState({
+      pingText: ''
+    });
+  }
+
   render() {
+    var question = (
+      <div>Waiting for next question...</div>
+    );
+
     if (this.props.question) {
       const choices = this.props.question.choices;
 
@@ -27,7 +43,7 @@ class LectureStudent extends Component {
             </ListGroupItem>
           ));
 
-      return (
+      question = (
         <div>
           <h3>{this.props.question.text}</h3>
           <ListGroup>
@@ -38,7 +54,22 @@ class LectureStudent extends Component {
     }
 
     return (
-      <div>Waiting for next question...</div>
+      <div>
+        <Panel header={'Student'}>
+          {question}
+        </Panel>
+        <Panel header={'Message the professors:'}>
+          <FormGroup controlId='formControlsTextarea'>
+            <FormControl
+              componentClass='textarea'
+              onChange={(e) => this.handlePingChange(e)}
+              placeholder='Do you need help? Did we make a typo?'
+              value={this.state.pingText}
+            />
+          </FormGroup>
+          <Button bsStyle='primary' onClick={() => this.handlePingSend()}>Send</Button>
+        </Panel>
+      </div>
     );
   }
 }

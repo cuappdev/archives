@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { FormGroup, ControlLabel, Button, ButtonToolbar, Table, Modal, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { FormGroup, ControlLabel, Button, ButtonToolbar, Table, Modal, ListGroup, ListGroupItem, Panel } from 'react-bootstrap';
 
 import QuestionCreator from './QuestionCreator';
 import LectureVisualizer from './LectureVisualizer';
@@ -32,6 +32,8 @@ class LectureProfessor extends Component {
   }
 
   render() {
+    var question = <QuestionCreator {...this.props} />;
+
     if (this.props.question) {
 
       // Get response counts
@@ -72,7 +74,7 @@ class LectureProfessor extends Component {
 
       const numResponses = Object.keys(this.props.responses).length;
 
-      return (
+      question = (
         <div>
           <h3>Current Question</h3>
           <p><strong>{this.props.question.text}</strong></p>
@@ -111,7 +113,16 @@ class LectureProfessor extends Component {
       );
     }
 
-    return <QuestionCreator {...this.props} />
+    return (
+      <div>
+        <Panel header={'Professor'}>
+          {question}
+        </Panel>
+        <Panel header={'Student Messages'}>
+          No messages...
+        </Panel>
+      </div>
+    );
   }
 }
 
