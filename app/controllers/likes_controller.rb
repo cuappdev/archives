@@ -36,7 +36,7 @@ class LikesController < ApplicationController
     return (poster.id != user.id and 
            !poster.push_id.nil? and 
            poster.remote_push_notifications_enabled and
-           !Notification.exists?(from: user.id, to: post_id, notification_type: 1)) 
+           !Notification.exists?(from: user.id, post_id: post_id, notification_type: 1)) 
   end 
 
   def destroy
