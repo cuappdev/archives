@@ -16,6 +16,7 @@ class Lecture extends Component {
       question: null,
       response: null,
       responses: {},
+      messages: {},
       studentCount: 0,
       professorCount: 0
     };

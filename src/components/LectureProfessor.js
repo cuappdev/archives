@@ -113,13 +113,25 @@ class LectureProfessor extends Component {
       );
     }
 
+    const messages = Object.keys(this.props.messages).length === 0
+      ? <p>No messages</p>
+      : (<ul>
+          {
+            Object.keys(this.props.messages).map((address, i) => (
+              <li key={i}>
+                {this.props.messages[address]}
+              </li>
+            ))
+          }
+        </ul>
+      );
     return (
       <div>
         <Panel header={'Professor'}>
           {question}
         </Panel>
         <Panel header={'Student Messages'}>
-          No messages...
+          {messages}
         </Panel>
       </div>
     );
