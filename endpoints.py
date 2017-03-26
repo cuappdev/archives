@@ -23,13 +23,13 @@ def navigate():
       "directionType": "depart",
       "time": "7:24 PM",
       "place": "Statler Hall",
-      "location": [42.4446, 76.4823];
+      "location": [42.4446, 76.4823],
 
       "routeNumber": 32,
       "bound": "inbound",
       "stops": ["Statler Hall", "Ithaca Commons"],
       "arrivalTime": "7:36 PM",
-    },
+    }
     ,{
       "directionType": "arrive",
       "time": "7:36 PM",
