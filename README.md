@@ -11,13 +11,24 @@ Install:
 
    `virtualenv venv`
 
+3. Enter your virtual environment
+
+   Windows:    `venv\Scripts\activate`
+   Unix/Linux: `venv/bin/activate`
+   
+   You should see "(venv)" appear at the beginning of your terminal prompt. This means you have successfully entered the virtual environment, and any further `pip` and `python` commands will be self-contained and not affect your global install
+
 3. Install the requisite Python libraries using the given `requirements.txt`
 
-   `venv/Scripts/pip install -r requirements.txt`
+   pip install -r requirements.txt
 
 4. Start the server to access endpoints
 
-   `venv/Scripts/python endpoints.py`
+   python endpoints.py
+
+5. To exit your virtual environment
+
+   `deactivate`
 
 Endpoints:
 1. GET /
@@ -49,11 +60,9 @@ Endpoints:
    Currently returns a list of dummy stops
 
 Roadmap:
-1. Implement schedule aggregation and output to an intermediate .xlsx file (for verification of success)
-2. Implement the buildup of the graph
-2. Implement Dijkstra's algorithm that takes in two stops and computes a route if possible
-3. Gather latitude-longitudes for stops and implement routing between lat-longs as a reduction to Dijkstra's
-4. Add "area" specialization for routing
+1. Study and implement the RAPTOR algorithm (see `raptor_alenex.pdf` for more details)
+2. Gather latitude-longitudes for stops and implement routing between lat-longs as a reduction to RAPTOR
+3. Add "area" specialization for routing
 
 Considerations:
 1. We may have TCAT's GTFS data on-hand next month. If so, we would immediately switch over to using that as our backend data.

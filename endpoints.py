@@ -29,8 +29,7 @@ def navigate():
       "bound": "inbound",
       "stops": ["Statler Hall", "Ithaca Commons"],
       "arrivalTime": "7:36 PM",
-    }
-    ,{
+    },{
       "directionType": "arrive",
       "time": "7:36 PM",
       "place": "Ithaca Commons",
@@ -53,4 +52,4 @@ def stops():
   return jsonify([{"name": "Statler Hall", "numbers": [32]}, {"name": "Ithaca Commons", "numbers": [32]}])
 
 if __name__ == '__main__':
-  app.run('0.0.0.0')
+  app.run('0.0.0.0')  

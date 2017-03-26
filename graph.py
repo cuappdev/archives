@@ -20,7 +20,7 @@ def is_end(s):
 
 # Load the workbook as readonly to save memory space 
 def load_schedule():
-  wb = load_workbook(filename='tcat-schedule.xlsx', read_only=True)
+  wb = load_workbook(filename='tcat-schedule.xlsx')
   ws = wb["schedule"]
   return ws
 
@@ -64,6 +64,8 @@ def next_matrix(ws, row):
 
   return (route, bound, days, stops, matrix, row)
 
+# Parse the next route from the file
+# Requires: value at (row, ROUTE_COL) be the the start of a new schedule
 def next_route(ws, row):
   current_route = []
   next_row = 0
@@ -76,20 +78,50 @@ def next_route(ws, row):
     current_route.append((route, bound, days, stops, matrix))
     next_route = ws[idx(next_row, ROUTE_COL)].value.strip()
   return (current_route, next_row)
-"""
-def merge_bounds(route):
-  n = len(route)
-  if n == 1:
-    return route
-  outbound = route[:n/2]
-  inbound = outbound=route[n/2:]
-  n = n/2
 
+
+def merge_matrices(route_data):
+  n = len(route_data)
+  if n == 1:
+    (route, bound, days, stops, matrix) = route_data[0]
+    return (route, [(days, bound, stops, matrix)])
+  outbound = route_data[:n//2]
+  inbound =route_data[n//2:]
+  n = n//2
+
+  route = ""
+  updated_route_data = []
   for i in range(n):
     (route1, bound1, days1, stops1, matrix1) = outbound[i]
-    (route2, bound2, days2, stops2, matrix2) = outbound[i]
+    (route2, bound2, days2, stops2, matrix2) = inbound[i]
+    route = route1
+    days = days1
+    bounds = [
+      (bound1, (0, len(stops1))),
+      (bound2, (len(stops1), len(stops1) + len(stops2)))
+    ]
     stops = stops1 + stops2
-
-    rows = len(matrix1)
+    matrix = []
+    
+    rows = min(len(matrix1), len(matrix2))
     for j in range(rows):
-"""
+      #print(j)
+      matrix.append(matrix1[j] + matrix2[j])
+    if len(matrix1) > len(matrix2):
+      matrix.append(matrix1[-1])
+    else:
+      matrix.append(matrix2[-1])
+
+    updated_route_data.append((days, bounds, stops, matrix))
+  return (route, updated_route_data)
+
+def load_routes(ws):
+  row = 1
+  tcat_data = []
+  while not is_end(ws[idx(row, ROUTE_COL)].value):
+    (route_data, next_row) = next_route(ws, row)
+    merged_data = merge_matrices(route_data)
+    tcat_data.append(merged_data)
+    row = next_row
+  return tcat_data
+
