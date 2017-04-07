@@ -34,5 +34,5 @@
     "travelDistance": 0.2
   }],
   "stopNames": ["Statler Hall", "Ithaca Commons"],
-  "stopNames": [32, 32]
+  "stopNumbers": [32, 32]
 }
