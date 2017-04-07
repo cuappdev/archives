@@ -49,7 +49,13 @@ def navigate():
 
 @app.route('/stops')
 def stops():
-  return jsonify([{"name": "Statler Hall", "numbers": [32]}, {"name": "Ithaca Commons", "numbers": [32]}])
+  return jsonify([{
+      "name": "Statler Hall", 
+      "location": [42.4446, 76.4823]
+    }, {
+      "name": "Ithaca Commons", 
+      "location": [42.4396, 76.4970]
+    }])
 
 if __name__ == '__main__':
   app.run('0.0.0.0')  
