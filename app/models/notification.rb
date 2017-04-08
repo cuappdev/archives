@@ -40,30 +40,25 @@ class Notification < ActiveRecord::Base
         msg = "What are you listening to?"
       else
         msg = "Your followers miss you. Post today!"
-      end
+     end
      LikesController.helpers.notify(inactiveUsersToNotify, msg, 100)
-    # inactiveUsersToNotify.each do |user|
-    #    ### TODO: remove duplicate code ####
-    #   sqlQuery = "SELECT posts.* FROM posts INNER JOIN followings ON (followings.follower_id = %i AND posts.user_id = followings.followed_id) WHERE posts.created_at >= NOW() - '1 day'::INTERVAL;" % [user.id]
-    #   queryResult = Post.find_by_sql(sqlQuery)
-    #    ### above gets the posts in your current feed #### 
-    #   msg = defaultMsg
-    #   if queryResult.length > 0 
-    #     msg = "You have #{queryResult.length} new song suggestions from your friends on Tempo!"
-    #   end
-    #   if queryResult.length == 0
-    #     randomNumber = Random.rand(3)
-    #     case randomNumber
-    #     when 0
-    #       msg = "Have a song you’ve been listening to recently? Share it on Tempo!"
-    #     when 1
-    #      msg = "Your followers miss you. Post today!"
-    #     else
-    #       msg = "What are you listening to?"
-    #     end
-    #   end  
-    #   Notification.create(to: user.id, notification_type: 100, message: msg)
-    #   LikesController.helpers.notify([user.push_id], msg, 100)
-    # end
+  end
+
+  def as_json(options = {}) 
+    data = {
+      type: self.notification_type,
+      to: self.to,
+      from: User.find(self.from).as_json,
+      post_id: self.post_id 
+    }
+
+    json = {
+      id: self.id,
+      message: self.message, 
+      generic: self.notification_type != 1 && self.notification_type != 2,
+      data: data,
+      seen: self.seen 
+    }
+    return json
   end
 end
