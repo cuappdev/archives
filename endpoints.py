@@ -54,8 +54,8 @@ def navigate():
       
       "travelDistance": 0.2
     }],
-    "mainStops": ["Statler Hall", "Ithaca Commons"],
-    "mainStopsNums": [32, 32]
+    "stopNames": ["Statler Hall", "Ithaca Commons"],
+    "stopNumbers": [32, 32]
   }
   return jsonify(resp)
 
