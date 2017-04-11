@@ -9,6 +9,8 @@
 #  seen              :boolean          default(FALSE)
 #  post_id           :integer
 #  message           :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
 #
 
 require 'rails_helper'
