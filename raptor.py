@@ -2,6 +2,7 @@ from pprint import pprint
 import data
 import copy
 import google
+import getkml
 
 def distance(a, b):
   loc = data.get_stops_mapped()[b]
@@ -89,6 +90,7 @@ def raptor1(source, sink, sink_name, day, time):
     'bound': trip[0][1],
     'stops': list(map(lambda x: x[0], trip)),
     'arrivalTime': data.stringify_time(trip[-1][2])
+    'kml': getkml.get_kml()[number].to_string()
   }
 
   arriveDirection = {
