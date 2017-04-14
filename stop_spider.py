@@ -12,7 +12,8 @@ class StopSpider(scrapy.Spider):
     coordinate = response.css('div.g1-inner li a::attr(href)')[3].extract()
     coordinates = list(map(float, re.findall(r"[-+]?\d*\.\d+|\d+", coordinate)[0:2]))
     return {
-      stop: coordinates
+      "name": stop,
+      "location": coordinates
     }
 
   def parse(self, response):
