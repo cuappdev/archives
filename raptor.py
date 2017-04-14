@@ -89,7 +89,7 @@ def raptor1(source, sink, sink_name, day, time):
     'routeNumber': number,
     'bound': trip[0][1],
     'stops': list(map(lambda x: x[0], trip)),
-    'arrivalTime': data.stringify_time(trip[-1][2])
+    'arrivalTime': data.stringify_time(trip[-1][2]),
     'kml': getkml.get_kml()[number].to_string()
   }
 
