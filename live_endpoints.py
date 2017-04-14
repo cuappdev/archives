@@ -12,9 +12,10 @@ def hello_world():
 
 @app.route('/navigate')
 def navigate():
-  source = request.args.get('source')
+  lat = request.args.get('lat')
+  lng = request.args.get('lng')
   sink = request.args.get('sink')
-  (source_location, _) = google.get_coordinates(source)
+  source_location = [float(lat), float(lng)]
   (sink_location, sink_name) = google.get_coordinates(sink)
 
   now = datetime.datetime.now()
