@@ -2,3 +2,4 @@
 venv
 .~*
 tcat*
+_pycache_
