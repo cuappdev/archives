@@ -13,7 +13,7 @@ def find_subset(source, start_time, trip):
   i = 0
   #pprint(trip[i])
   (stop, bound, time) = trip[i]
-  while stop != source and time <= start_time:
+  while stop != source or time <= start_time:
     i += 1
     (stop, bound, time) = trip[i]
 
@@ -21,9 +21,10 @@ def find_subset(source, start_time, trip):
   (stop, bound, time) = trip[j]
   if stop == source:
     j = j + 1
+    (stop, bound, time) = trip[j]
   while stop != source and j < len(trip):
-      (stop, bound, time) = trip[j]
       j += 1
+      (stop, bound, time) = trip[j]
   return trip[i:j+1]
 
 def raptor1(source, sink, sink_name, day, time):

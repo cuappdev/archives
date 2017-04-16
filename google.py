@@ -7,6 +7,7 @@ def get_coordinates(place_id):
   parameters = {'key': PLACES_API_KEY, 'placeid': place_id}
   response = requests.get('https://maps.googleapis.com/maps/api/place/details/json', params=parameters)
   j = response.json()
+  print(j)
   location = j['result']['geometry']['location']
   return ([location['lat'], location['lng']], j['result']['name'])
 

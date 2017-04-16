@@ -1,8 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import json
 import data
 import raptor
 import datetime
+import google
 
 app = Flask(__name__)
 
@@ -15,6 +16,7 @@ def navigate():
   lat = request.args.get('lat')
   lng = request.args.get('lng')
   sink = request.args.get('sink')
+  print("{} {} {}".format(lat, lng, sink))
   source_location = [float(lat), float(lng)]
   (sink_location, sink_name) = google.get_coordinates(sink)
 
