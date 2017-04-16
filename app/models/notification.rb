@@ -59,7 +59,8 @@ class Notification < ActiveRecord::Base
       message: self.message, 
       generic: self.notification_type != 1 && self.notification_type != 2,
       data: data,
-      seen: self.seen 
+      seen: self.seen, 
+      updated_at: self.updated_at
     }
     return json
   end
