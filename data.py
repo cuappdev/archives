@@ -3,8 +3,6 @@ from pprint import pprint
 import re
 from functools import reduce
 
-TIME_REGEX = r'\d+|AM|PM'
-
 data = None
 stops = None
 stops_mapped = None
@@ -18,16 +16,6 @@ def stringify_time(time):
   hours = time // 60
   minutes = time - 60 * hours
   return '{}:{} {}'.format(hours, minutes, m)
-
-def intify_time(time):
-  components = re.findall(TIME_REGEX, time)
-  if components == []: return -1
-  hours = int(components[0])
-  minutes = int(components[1])
-  int_time = hours * 60 + minutes
-  if components[2] == 'PM':
-    int_time += 12 * 60
-  return int_time 
 
 def intify_timetable(times):
   return list(map(lambda x: list(map(intify_time, x)), times))
