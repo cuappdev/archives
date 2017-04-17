@@ -17,6 +17,5 @@ def get_kml():
       for j in range(len(f3)):
         for f4 in f3[j].features():
           number = int(re.findall(r'\d+', f4.name)[0])
-          print(number)
           all_kml[number]=f4
   return all_kml

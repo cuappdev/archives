@@ -8,24 +8,36 @@ def distance(a, b):
   loc = data.get_stops_mapped()[b]
   return (a[0] - loc[0])**2 + (a[1] - loc[1])**2
 
-def find_subset(source, start_time, trip):
-  subset = []
+def find_subset(source, sink, start_time, trip):
   i = 0
   #pprint(trip[i])
   (stop, bound, time) = trip[i]
-  while stop != source or time <= start_time:
+  while not (stop == source):
     i += 1
+    if i >= len(trip):
+      return []
     (stop, bound, time) = trip[i]
 
   j = i + 1
-  (stop, bound, time) = trip[j]
-  if stop == source:
-    j = j + 1
+  if j < len(trip):
     (stop, bound, time) = trip[j]
-  while stop != source and j < len(trip):
-      j += 1
+    if stop == source:
+      i = i + 1
+      j = i + 1
       (stop, bound, time) = trip[j]
-  return trip[i:j+1]
+    while stop != source and j < len(trip):
+        j += 1
+        if j >= len(trip):
+          break;
+        (stop, bound, time) = trip[j]
+
+  subtrip = trip[i:j]
+  min_index = 0
+  for i in range(len(subtrip)):
+    if distance(sink, subtrip[i][0]) < distance(sink, subtrip[min_index][0]):
+      min_index = i
+  return subtrip[i:min_index+1]
+
 
 def raptor1(source, sink, sink_name, day, time):
   reduced_data = {}
@@ -55,19 +67,13 @@ def raptor1(source, sink, sink_name, day, time):
   for stop in source_closest:
     if stop in stopRoutes:
       for route in stopRoutes[stop]:
-        trip = find_subset(stop, time, reduced_data[route]['trips'][0])
-        trip = list(filter(lambda x: x[2] != -1, trip))
+        trip = list(filter(lambda x: x[2] >= time, reduced_data[route]['trips'][0]))
         if trip != []:
-          trips.append((route, trip))
+          trip = find_subset(stop, sink, time, trip)
+          if trip != []:
+            trips.append((route, trip))
 
-  sorted_trips = []
-  for trip in trips:
-    sorted_trip = copy.deepcopy(trip)
-    sorted_trip[1].sort(key=lambda x: distance(sink, x[0]))
-    sorted_trips.append(sorted_trip)
-
-  trip = min(sorted_trips, key=lambda x: x[1][0][2])
-  trip[1].sort(key=lambda x: x[2 ])
+  trip = min(trips, key=lambda x: x[1][-1][2])
   (number, trip) = trip
 
   (distance1, time1) = google.get_distance_time(source, data.get_stops_mapped()[trip[0][0]])

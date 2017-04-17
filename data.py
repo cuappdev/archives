@@ -17,7 +17,7 @@ def stringify_time(time):
     m = 'PM'
   hours = time // 60
   minutes = time - 60 * hours
-  return '{}:{} {}'.format(hours, minutes, m)
+  return '{}:{:0>2} {}'.format(hours, minutes, m)
 
 def intify_time(time):
   components = re.findall(TIME_REGEX, time)
