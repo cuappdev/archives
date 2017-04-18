@@ -2,6 +2,8 @@ from dot import Map
 import json
 import convert
 from model import *
+from fastkml import kml
+import re
 
 # List of stops and their locations
 _stops = None
@@ -11,6 +13,8 @@ _routes = None
 _stops_in_routes = None
 # Mapping of stops to routes they are part of
 _stops_to_routes = None
+# All kml for the stops
+_all_kml = None
 
 # Load all the data
 def load():
@@ -18,6 +22,7 @@ def load():
   global _routes
   global _stops_in_routes
   global _stops_to_routes
+  global _all_kml
   # Load stops from disk
   if _stops == None:
     with open('stops.json') as stops_file:
@@ -45,6 +50,20 @@ def load():
         if stop in route.stops:
           _stops_to_routes[stop].append(route)
 
+  # Load kml
+  if _all_kml == None:
+    _all_kml = {}
+    k = kml.KML()
+    with open('tcat-routes.kml') as f:
+      k.from_string(f.read())
+    features = list(k.features())
+    f2 = list(features[0].features())
+    for i in range(len(f2)):
+      f3 = list(f2[i].features())
+      for j in range(len(f3)):
+        for f4 in f3[j].features():
+          number = int(re.findall(r'\d+', f4.name)[0])
+          _all_kml[number]=f4
 
 def stops():
   load()
@@ -55,6 +74,11 @@ def routes():
   load()
   global routes
   return routes
+
+def all_kml():
+  load()
+  global _all_kml
+  return _all_kml
 
 def stops_in_routes():
   load()
