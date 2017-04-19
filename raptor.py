@@ -3,39 +3,57 @@ import data
 import copy
 import google
 import getkml
+from pprint import pprint
+from math import radians, cos, sin, asin, sqrt
+
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points 
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians 
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+    # haversine formula 
+    dlon = lon2 - lon1 
+    dlat = lat2 - lat1 
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a)) 
+    r = 3956 # Radius of earth in kilometers. Use 3956 for miles
+    return c * r
 
 def distance(a, b):
   loc = data.get_stops_mapped()[b]
-  return (a[0] - loc[0])**2 + (a[1] - loc[1])**2
+  return haversine(a[0], a[1], loc[0], loc[1])
 
 def find_subset(source, sink, start_time, trip):
   i = 0
-  #pprint(trip[i])
-  (stop, bound, time) = trip[i]
-  while not (stop == source):
-    i += 1
-    if i >= len(trip):
-      return []
+  found = False
+  while i < len(trip):
     (stop, bound, time) = trip[i]
+    if stop == source and time >= start_time:
+      found = True
+      break
+    i += 1
 
+  # If no time availabe, then we are done
+  if not found:
+    return []
+
+  # Find an end to the trip
   j = i + 1
-  if j < len(trip):
+  while j < len(trip):
     (stop, bound, time) = trip[j]
-    if stop == source:
-      i = i + 1
-      j = i + 1
-      (stop, bound, time) = trip[j]
-    while stop != source and j < len(trip):
-        j += 1
-        if j >= len(trip):
-          break;
-        (stop, bound, time) = trip[j]
+    if stop == source and j != i + 1:
+      break
+    j += 1
+
 
   subtrip = trip[i:j]
   min_index = 0
-  for i in range(len(subtrip)):
-    if distance(sink, subtrip[i][0]) < distance(sink, subtrip[min_index][0]):
-      min_index = i
+  for k in range(len(subtrip)):
+    if distance(sink, subtrip[k][0]) < distance(sink, subtrip[min_index][0]):
+      min_index = k
   return subtrip[i:min_index+1]
 
 
@@ -62,70 +80,62 @@ def raptor1(source, sink, sink_name, day, time):
   source_closest = list(data.get_stops_in_data())
 
   source_closest.sort(key=lambda x: distance(source, x))
+  pprint(source_closest)
 
   trips = []
   for stop in source_closest:
     if stop in stopRoutes:
       for route in stopRoutes[stop]:
-        trip = list(filter(lambda x: x[2] >= time, reduced_data[route]['trips'][0]))
+        trip = find_subset(stop, sink, time, reduced_data[route]['trips'][0])
         if trip != []:
-          trip = find_subset(stop, sink, time, trip)
-          if trip != []:
-            trips.append((route, trip))
+          trips.append((route, trip))
 
-  trip = min(trips, key=lambda x: x[1][-1][2])
-  (number, trip) = trip
+  directions = []
+  for (number, trip) in trips:
+    walkToDirection = {
+      'directionType':'walk',
+      'place': trip[0][0],
+      'location': source,
+      'destinationLocation': data.get_stops_mapped()[trip[0][0]],
+    }
 
-  (distance1, time1) = google.get_distance_time(source, data.get_stops_mapped()[trip[0][0]])
-  (distance2, time2) = google.get_distance_time(data.get_stops_mapped()[trip[-1][0]], sink)
+    departDirection = {
+      'directionType': 'depart',
+      'place': trip[0][0],
+      'location': data.get_stops_mapped()[trip[0][0]],
+      'time': data.stringify_time(trip[0][2]),
 
-  walkToDirection = {
-    'directionType':'walk',
-    'place': trip[0][0],
-    'location': data.get_stops_mapped()[trip[0][0]],
-    'time': data.stringify_time(trip[0][2] - time1),
-    'travelDistance': distance1
-  }
+      'routeNumber': number,
+      'bound': trip[0][1],
+      'stops': list(map(lambda x: x[0], trip)),
+      'arrivalTime': data.stringify_time(trip[-1][2]),
+      'kml': getkml.get_kml()[number].to_string()
+    }
 
-  departDirection = {
-    'directionType': 'depart',
-    'place': trip[0][0],
-    'location': data.get_stops_mapped()[trip[0][0]],
-    'time': data.stringify_time(trip[0][2]),
+    arriveDirection = {
+      'directionType': 'arrive',
+      'place': trip[-1][0],
+      'location': data.get_stops_mapped()[trip[-1][0]],
+      'time': data.stringify_time(trip[-1][2]),
+    }
 
-    'routeNumber': number,
-    'bound': trip[0][1],
-    'stops': list(map(lambda x: x[0], trip)),
-    'arrivalTime': data.stringify_time(trip[-1][2]),
-    'kml': getkml.get_kml()[number].to_string()
-  }
+    walkToDirection2 = {
+      'directionType':'walk',
+      'place': trip[-1][0],
+      'location': data.get_stops_mapped()[trip[-1][0]],
+      'destinationLocation': sink
+    }
 
-  arriveDirection = {
-    'directionType': 'arrive',
-    'place': trip[-1][0],
-    'location': data.get_stops_mapped()[trip[-1][0]],
-    'time': data.stringify_time(trip[-1][2]),
-  }
+    directions.append({
+      'directions':[
+        walkToDirection,
+        departDirection,
+        arriveDirection,
+        walkToDirection2
+      ] ,
 
-  walkToDirection2 = {
-    'directionType':'walk',
-    'place': trip[-1][0],
-    'location': sink_name,
-    'time': data.stringify_time(trip[-1][2] + time2),
-    'travelDistance': distance2
-  }
+      'stopNames': departDirection['stops'],
+      'stopNumbers': [number] * len(departDirection['stops'])
+    })
 
-  return {
-    'departureTime': walkToDirection['time'],
-    'arrivalTime': walkToDirection2['time'],
-
-    'directions':[
-      walkToDirection,
-      departDirection,
-      arriveDirection,
-      walkToDirection2
-    ] ,
-
-    'stopNames': departDirection['stops'],
-    'stopNumbers': [number] * len(departDirection['stops'])
-  }
+  return directions
