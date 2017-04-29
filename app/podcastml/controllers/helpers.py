@@ -33,7 +33,7 @@ def grab_type(bucket,input_type,series_dict={},limit=100):
 	offset = 0
 	if series_dict:
 		series_keys = series_dict.keys()
-	while len(episodes.keys())<5000:
+	while True:
 		result = GetRequest().get_query(bucket,"select * from podcasts WHERE type=\"" + input_type + "\" ",limit,offset)
 		if result.get_single_result() == None:
 			break
