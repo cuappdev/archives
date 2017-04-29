@@ -57,7 +57,7 @@ def find_subset(source, sink, start_time, trip):
   return subtrip[i:min_index+1]
 
 
-def raptor1(source, sink, sink_name, day, time):
+def raptor1(source, sink, sink_name, day, depart_time):
   reduced_data = {}
   for route in data.get_data():
     for trip in route['trips']:
@@ -80,23 +80,29 @@ def raptor1(source, sink, sink_name, day, time):
   source_closest = list(data.get_stops_in_data())
 
   source_closest.sort(key=lambda x: distance(source, x))
-  pprint(source_closest)
 
   trips = []
   for stop in source_closest:
     if stop in stopRoutes:
       for route in stopRoutes[stop]:
-        trip = find_subset(stop, sink, time, reduced_data[route]['trips'][0])
-        if trip != []:
+        trip = find_subset(stop, sink, depart_time, reduced_data[route]['trips'][0])
+        if trip != [] and len(trip) > 1:
           trips.append((route, trip))
 
   directions = []
-  for (number, trip) in trips:
+  n = min(7, len(trips))
+  for (number, trip) in trips[:n]:
+    (distance1, time1) = google.get_distance_time(source, data.get_stops_mapped()[trip[0][0]])
+    (distance2, time2) = google.get_distance_time(data.get_stops_mapped()[trip[-1][0]], sink)
+
     walkToDirection = {
       'directionType':'walk',
       'place': trip[0][0],
       'location': source,
       'destinationLocation': data.get_stops_mapped()[trip[0][0]],
+
+      'time': data.stringify_time(trip[0][2] - time1),
+      'travelDistance': distance1
     }
 
     departDirection = {
@@ -123,10 +129,19 @@ def raptor1(source, sink, sink_name, day, time):
       'directionType':'walk',
       'place': trip[-1][0],
       'location': data.get_stops_mapped()[trip[-1][0]],
-      'destinationLocation': sink
+      'destinationLocation': sink,
+
+      'time': data.stringify_time(trip[-1][2] + time2),
+      'travelDistance': distance2
     }
 
+    stopNames = [departDirection['stops'][0], departDirection['stops'][-1]]
+    stopNumbers = [number, -1]
+
     directions.append({
+      'departureTime': walkToDirection['time'],
+      'arrivalTime': walkToDirection2['time'],
+
       'directions':[
         walkToDirection,
         departDirection,
@@ -134,8 +149,9 @@ def raptor1(source, sink, sink_name, day, time):
         walkToDirection2
       ] ,
 
-      'stopNames': departDirection['stops'],
-      'stopNumbers': [number] * len(departDirection['stops'])
+      'stopNames': stopNames,
+      'stopNumbers': stopNumbers
     })
 
+  directions.sort(key=lambda x: data.intify_time(x['departureTime']))
   return directions

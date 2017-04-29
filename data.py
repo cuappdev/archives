@@ -11,18 +11,24 @@ stops_mapped = None
 stops_in_data = None
 
 def stringify_time(time):
+  if time < 0:
+    time += 24 * 60
   m = 'AM'
   if time > 12 * 60:
     time -= 12 * 60
     m = 'PM'
   hours = time // 60
   minutes = time - 60 * hours
+  if hours == 0:
+    hours = 12
   return '{}:{:0>2} {}'.format(hours, minutes, m)
 
 def intify_time(time):
   components = re.findall(TIME_REGEX, time)
   if components == []: return -1
   hours = int(components[0])
+  if hours == 12:
+    hours = 0
   minutes = int(components[1])
   int_time = hours * 60 + minutes
   if components[2] == 'PM':
