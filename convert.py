@@ -2,6 +2,18 @@ from dotaccess import Map
 import json
 import re
 
+
+def time_int_to_string(time):
+  m = 'AM'
+  if time > 12 * 60:
+    time -= 12 * 60
+    m = 'PM'
+  hours = time // 60
+  minutes = time - 60 * hours
+  if hours == 0:
+    hours = 12
+  return '{}:{:0>2} {}'.format(hours, minutes, m)
+
 # Convert a time_string_to_int
 def time_string_to_int(time):
   time_regex = r'\d+|AM|PM'

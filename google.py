@@ -9,18 +9,3 @@ def get_coordinates(place_id):
   j = response.json()
   location = j['result']['geometry']['location']
   return ([location['lat'], location['lng']], j['result']['name'])
-
-def get_distance_time(loc1, loc2):
-  parameters = {
-    'key': DISTANCE_MATRIX_API_KEY, 
-    'origins': "{},{}".format(loc1[0], loc1[1]),
-    'destinations': "{},{}".format(loc2[0], loc2[1]),
-    "mode": "walking"
-  }
-  response = requests.get('https://maps.googleapis.com/maps/api/distancematrix/json', params=parameters)
-  j = response.json()
-  distance = j['rows'][0]['elements'][0]['distance']['value']
-  distance *= 0.000621371
-  time = j['rows'][0]['elements'][0]['duration']['value']
-  time = time // 60
-  return (distance, time)
