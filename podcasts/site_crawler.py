@@ -42,6 +42,3 @@ class SiteCrawler(object):
       print 'Getting {}'.format(g_url)
       result.extend(self.generate_urls_for_genre(g_url))
     return result
-
-
-print SiteCrawler().all_urls()
