@@ -1,124 +1,97 @@
 from pprint import pprint
+from dotaccess import Map
 import data
 import copy
-import google
-import getkml
+# import google
 
-def distance(a, b):
-  loc = data.get_stops_mapped()[b]
-  return (a[0] - loc[0])**2 + (a[1] - loc[1])**2
+lookup = None
+num_rounds = 1
 
-def find_subset(source, start_time, trip):
-  subset = []
-  i = 0
-  #pprint(trip[i])
-  (stop, bound, time) = trip[i]
-  while stop != source and time <= start_time:
-    i += 1
-    (stop, bound, time) = trip[i]
+def raptor(start, day, depart_time):
+  
+  global num_transfers
+  marked_stops = { start }
+  journeys = [Map({}) for i in range(num_rounds)]
 
-  j = i + 1
-  (stop, bound, time) = trip[j]
-  if stop == source:
-    j = j + 1
-  while stop != source and j < len(trip):
-      (stop, bound, time) = trip[j]
-      j += 1
-  return trip[i:j+1]
+  for k in range(num_rounds):
+    Q = set([])
+    for stop in marked_stops:
+      for route in data.routes():
+        if route.has_stop(stop):
+          Q.add((route, stop))
+    marked_stops.remove(stop)
 
-def raptor1(source, sink, sink_name, day, time):
-  reduced_data = {}
-  for route in data.get_data():
-    for trip in route['trips']:
-      if day in trip['days']:
-        reduced_data[route['number']] = {
-          'stops': trip['stops'],
-          'trips': trip['trips']
-        }
-        break
+    if k == 0:
+      for (route, stop) in Q:
+        trips = route.trips_from_stop_day_time(stop, day, depart_time)
+        for trip in trips:
+          for i in range(1, len(trip)):
+            if trip[i].stop not in journeys[k]:
+              journeys[k][trip[i].stop] = trip[0:i+1]
+              marked_stops.add(stop)
+            elif journeys[k][trip[i].stop][-1].time > trip[i].time:
+              journeys[k][trip[i].stop] = trip[0:i+1]
+              marked_stops.add(stop)
+    else:
+      for (route, stop) in Q:
+        trips = route.trips_from_stop_day_time(stop, day, journeys[k-1][stop][-1].time)
+        for trip in trips:
+          for i in range(1, len(trip)):
+            if trip[i].stop not in journeys[k]:
+              journeys[k][trip[i].stop] = journeys[k-1][stop] + trip[0:i+1]
+              marked_stops.add(stop)
+            elif journeys[k][trip[i].stop][-1].time > trip[i].time:
+              journeys[k][trip[i].stop] = journeys[k-1][stop] + trip[0:i+1]
+              marked_stops.add(stop)
 
-  stopRoutes = {}
-  for stop in data.get_stops_in_data():
-    for (number, trip) in reduced_data.items():
-      if stop in trip['stops']:
-        if stop not in stopRoutes:
-          stopRoutes[stop] = set([number])
-        else:
-          stopRoutes[stop].add(number)
+  return journeys[-1]
 
-  source_closest = list(data.get_stops_in_data())
+def inverse_raptor(start, day, arrive_time):
+  global num_transfers
+  marked_stops = { start }
+  journeys = [Map({}) for i in range(num_rounds)]
 
-  source_closest.sort(key=lambda x: distance(source, x))
+  for k in range(num_rounds):
+    Q = set([])
+    for stop in marked_stops:
+      for route in data.routes():
+        if route.has_stop(stop):
+          Q.add((route, stop))
+    marked_stops.remove(stop)
 
-  trips = []
-  for stop in source_closest:
-    if stop in stopRoutes:
-      for route in stopRoutes[stop]:
-        trip = find_subset(stop, time, reduced_data[route]['trips'][0])
-        trip = list(filter(lambda x: x[2] != -1, trip))
-        if trip != []:
-          trips.append((route, trip))
+    if k == 0:
+      for (route, stop) in Q:
+        trips = route.trips_to_stop_day_time(stop, day, arrive_time)
+        for trip in trips:
+          for i in range(len(trip)-1, -1, -1):
+            if trip[i].stop not in journeys[k]:
+              journeys[k][trip[i].stop] = trip[i:len(trip)]
+              marked_stops.add(stop)
+            elif journeys[k][trip[i].stop][-1].time < trip[i].time:
+              journeys[k][trip[i].stop] = trip[i:len(trip)]
+              marked_stops.add(stop)
+    else:
+      for (route, stop) in Q:
+        trips = route.trips_from_stop_day_time(stop, day, journeys[k-1][stop][0].time)
+        for trip in trips:
+          for i in range(len(trip)-1, -1, -1):
+            if trip[i].stop not in journeys[k]:
+              journeys[k][trip[i].stop] = trip[i:len(trip)] + journeys[k-1][stop] 
+              marked_stops.add(stop)
+            elif journeys[k][trip[i].stop][-1].time < trip[i].time:
+              journeys[k][trip[i].stop] = trip[i:len(trip)] + journeys[k-1][stop]
+              marked_stops.add(stop)
 
-  sorted_trips = []
-  for trip in trips:
-    sorted_trip = copy.deepcopy(trip)
-    sorted_trip[1].sort(key=lambda x: distance(sink, x[0]))
-    sorted_trips.append(sorted_trip)
+  return journeys[-1]
 
-  trip = min(sorted_trips, key=lambda x: x[1][0][2])
-  trip[1].sort(key=lambda x: x[2 ])
-  (number, trip) = trip
+"""
 
-  (distance1, time1) = google.get_distance_time(source, data.get_stops_mapped()[trip[0][0]])
-  (distance2, time2) = google.get_distance_time(data.get_stops_mapped()[trip[-1][0]], sink)
+def compute_journeys(start, stop, depart_time, arrival_time):
+  if arrival_time != 2400:
+    return compute_journeys_inverse(start, stop, depart_time, arrival_time)
 
-  walkToDirection = {
-    'directionType':'walk',
-    'place': trip[0][0],
-    'location': data.get_stops_mapped()[trip[0][0]],
-    'time': data.stringify_time(trip[0][2] - time1),
-    'travelDistance': distance1
-  }
+   
 
-  departDirection = {
-    'directionType': 'depart',
-    'place': trip[0][0],
-    'location': data.get_stops_mapped()[trip[0][0]],
-    'time': data.stringify_time(trip[0][2]),
+def compute_journeys_inverse(start, stop, depart_time, arrival_time) 
 
-    'routeNumber': number,
-    'bound': trip[0][1],
-    'stops': list(map(lambda x: x[0], trip)),
-    'arrivalTime': data.stringify_time(trip[-1][2]),
-    'kml': getkml.get_kml()[number].to_string()
-  }
-
-  arriveDirection = {
-    'directionType': 'arrive',
-    'place': trip[-1][0],
-    'location': data.get_stops_mapped()[trip[-1][0]],
-    'time': data.stringify_time(trip[-1][2]),
-  }
-
-  walkToDirection2 = {
-    'directionType':'walk',
-    'place': trip[-1][0],
-    'location': sink_name,
-    'time': data.stringify_time(trip[-1][2] + time2),
-    'travelDistance': distance2
-  }
-
-  return {
-    'departureTime': walkToDirection['time'],
-    'arrivalTime': walkToDirection2['time'],
-
-    'directions':[
-      walkToDirection,
-      departDirection,
-      arriveDirection,
-      walkToDirection2
-    ] ,
-
-    'stopNames': departDirection['stops'],
-    'stopNumbers': [number] * len(departDirection['stops'])
-  }
+"""

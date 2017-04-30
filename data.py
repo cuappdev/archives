@@ -1,4 +1,4 @@
-from dot import Map
+from dotaccess import Map
 import json
 import convert
 from model import *
@@ -67,13 +67,13 @@ def load():
 
 def stops():
   load()
-  global stops
-  return stops
+  global _stops
+  return _stops
 
 def routes():
   load()
-  global routes
-  return routes
+  global _routes
+  return _routes
 
 def all_kml():
   load()
@@ -82,18 +82,18 @@ def all_kml():
 
 def stops_in_routes():
   load()
-  global stops_in_routes
-  return stops_in_routes
+  global _stops_in_routes
+  return _stops_in_routes
 
 def routes_for_stop(stop):
   load()
-  global stops_to_routes
-  return stops_to_routes[stop]
+  global _stops_to_routes
+  return _stops_to_routes[stop]
 
 def location_from_stop(stop):
   load()
-  global stops
-  for s in stops:
+  global _stops
+  for s in _stops:
     if s.name == stop:
       return s.location
   return None
