@@ -34,4 +34,4 @@ Parts of this project use ``Couchbase``.  Download `Couchbase Server`_ (or use `
 Tests
 -----
 
-``TODO``
+These have yet to be written, but this package has been hand-tested thoroughly. 
