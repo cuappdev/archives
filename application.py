@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import json
 import data
+import convert
 import raptor
 import datetime
 import google
@@ -17,7 +18,8 @@ def navigate():
   data.load()
   source = request.args.get('source')
   sink = request.args.get('sink')
-  
+  depart_time = request.args.get('depart_time')
+
   source_location = list(map(float, re.findall(r"[-+]?\d*\.\d+|\d+", source)[0:2]))
   sink_match = re.match(r"[-+]?\d*\.\d+|\d+,[-+]?\d*\.\d+|\d+", sink)
   sink_location = []
@@ -25,12 +27,16 @@ def navigate():
     sink_location = list(map(float, re.findall(r"[-+]?\d*\.\d+|\d+", sink)[0:2]))
   else:
     (sink_location, sink_name) = google.get_coordinates(sink)
+  if depart_time != None:
+    depart_time = convert.time_string_to_int(depart_time)
 
   print("{} {}".format(source_location, sink_location))
 
   now = datetime.datetime.now()
   midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
   time = (now - midnight).seconds // 60
+  if depart_time != None:
+    time = depart_time
   day = datetime.datetime.today().weekday()
 
   return jsonify(raptor.compute_journeys(source_location, sink_location, sink_name, day, time))

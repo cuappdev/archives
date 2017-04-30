@@ -111,10 +111,13 @@ def format_output(source, sink, sink_name, depart_time, trip):
       'destinationLocation': data.location_from_stop(trip[0].stop),
     })
   i = 0
+
   while i < len(trip) - 1:
     if trip[i].number != trip[i+1].number:
       break
     i += 1
+  
+  stopNumbers = []
   if i != len(trip) - 1:
     directions.append({
         'directionType': 'depart',
@@ -134,6 +137,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'location': data.location_from_stop(trip[i].stop),
         'time': convert.time_int_to_string(trip[i].time)
       })
+    stopNumbers.append(trip[0].number)
     directions.append({
         'directionType': 'depart',
         'place': trip[i+1].stop,
@@ -152,6 +156,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'location': data.location_from_stop(trip[-1].stop),
         'time': convert.time_int_to_string(trip[-1].time)
       })
+    stopNumbers.append(trip[i+1].number)
   else:
     directions.append({
         'directionType': 'depart',
@@ -171,13 +176,19 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'location': data.location_from_stop(trip[-1].stop),
         'time': convert.time_int_to_string(trip[-1].time)
       })
+    stopNumbers.append(trip[0].number)
   directions.append({
       'directionType':'walk',
       'place': sink_name,
       'location': data.location_from_stop(trip[-1].stop),
       'destinationLocation': sink,
     })
-  return directions
+  stopNumbers.append(-1)
+  return {
+    'stopNames': list(map(lambda x: x.stop, trip)),
+    'stopNumbers': stopNumbers,
+    'directions': directions
+  }
 
 def compute_journeys(source, sink, sink_name, day, depart_time):
   source_closest = list(data.stops_in_routes())
