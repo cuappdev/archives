@@ -1,6 +1,18 @@
-from dot import Map
+from dotaccess import Map
 import json
 import re
+
+
+def time_int_to_string(time):
+  m = 'AM'
+  if time > 12 * 60:
+    time -= 12 * 60
+    m = 'PM'
+  hours = time // 60
+  minutes = time - 60 * hours
+  if hours == 0:
+    hours = 12
+  return '{}:{:0>2} {}'.format(hours, minutes, m)
 
 # Convert a time_string_to_int
 def time_string_to_int(time):
@@ -10,6 +22,8 @@ def time_string_to_int(time):
   hours = int(components[0])
   minutes = int(components[1])
   int_time = hours * 60 + minutes
+  if hours == 12:
+    int_time = minutes
   if components[2] == 'PM':
     int_time += 12 * 60
   return int_time
@@ -71,7 +85,7 @@ def convert_tables(tables):
           'bound': [table.bound] * len(table.stops),
           'days': table.days,   
           'stops': table.stops,
-          'times': table.times
+          'times': list(map(lambda x: list(map(time_string_to_int, x)), table.times))
         }))
   new_tables += merge_tables(outbound_tables, inbound_tables)
   new_tables += merge_tables(south_tables, north_tables)

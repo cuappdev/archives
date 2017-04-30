@@ -6,7 +6,7 @@ import datetime
 import google
 import re
 
-application = app = Flask(__name__)
+app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
@@ -29,14 +29,14 @@ def navigate():
 
   now = datetime.datetime.now()
   midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
-  time = (now - midnight).seconds // 60 - 300
-  day = datetime.datetime.today().weekday() + 1
+  time = (now - midnight).seconds // 60
+  day = datetime.datetime.today().weekday()
 
-  return jsonify(raptor.raptor1(source_location, sink_location, '', day, time))
+  return jsonify(raptor.compute_journeys(source_location, sink_location, sink_name, day, time))
 
 @app.route('/stops')
 def stops():
   return jsonify(data.get_stops())
 
 if __name__ == '__main__':
-  application.run(host='0.0.0.0', debug=True)  
+  app.run(host='0.0.0.0')  
