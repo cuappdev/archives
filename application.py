@@ -14,6 +14,7 @@ def hello_world():
 
 @app.route('/navigate')
 def navigate():
+  data.load()
   source = request.args.get('source')
   sink = request.args.get('sink')
   

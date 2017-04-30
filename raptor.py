@@ -6,7 +6,6 @@ import copy
 from math import radians, cos, sin, asin, sqrt
 # import google
 
-lookup = None
 num_rounds = 1
 
 
@@ -127,6 +126,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'bound': trip[0].bound,
         'stops': list(map(lambda x: x.stop, trip[0:i+1])),
         'arrivalTime': convert.time_int_to_string(trip[i].time),
+        'kml': data.all_kml()[trip[0].number].to_string()
       })
     directions.append({
         'directionType': 'arrive',
@@ -144,6 +144,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'bound': trip[i+1].bound,
         'stops': list(map(lambda x: x.stop, trip[i+1:len(trip)])),
         'arrivalTime': convert.time_int_to_string(trip[-1].time),
+        'kml': data.all_kml()[trip[i+1].number].to_string()
       })
     directions.append({
         'directionType': 'arrive',
@@ -162,6 +163,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'bound': trip[0].bound,
         'stops': list(map(lambda x: x.stop, trip)),
         'arrivalTime': convert.time_int_to_string(trip[-1].time),
+        'kml': data.all_kml()[trip[0].number].to_string()
       })
     directions.append({
         'directionType': 'arrive',
