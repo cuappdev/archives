@@ -18,14 +18,12 @@ class EpisodeWorker(threading.Thread):
     self.series = series # All series
     self.i      = i
 
-
   def request_rss(self, url):
     """
     Uses information in `line` to request and return the
     RSS feed
     """
     return feedparser.parse(url)
-
 
   def run(self):
     """

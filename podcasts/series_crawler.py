@@ -14,11 +14,9 @@ class SeriesCrawler(object):
     self.ids    = []
     self.series = []
 
-
   def set_url(self, url):
     """For setting / update URL"""
     self.url = url
-
 
   def _e_to_id(self, e):
     """
@@ -30,14 +28,12 @@ class SeriesCrawler(object):
                     .rfind('/id')+3):]
                     .replace('?mt=2', ''))
 
-
   def get_ids(self):
     """Grab the ID's of podcasts on `self.url` page"""
     page = r.get(self.url)
     tree = html.fromstring(page.content)
     ids_elements = tree.xpath("//div[@id='selectedcontent']/div/ul/li/a")
     return [self._e_to_id(e) for e in ids_elements]
-
 
   def get_series(self):
     """

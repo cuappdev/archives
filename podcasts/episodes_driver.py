@@ -31,7 +31,7 @@ class EpisodesDriver(object):
     # Build series set
     series_set = set()
     for c in csvs:
-      file_name = './' + self.directory + '/' + c
+      file_name = './{}/{}'.format(self.directory, c)
       reader = csv.DictReader(open(file_name, 'rb'))
       for line in reader:
         series_set.add(Series.from_line(line))

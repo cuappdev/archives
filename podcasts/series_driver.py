@@ -13,8 +13,7 @@ class SeriesDriver(object):
 
   def get_popular(self, tups):
     """
-    Get most popular series -
-    `tups` = genre tuples
+    Get most popular series - `tups` = genre tuples
     """
     # Threads dispatched
     threads = []
