@@ -11,14 +11,14 @@ class SeriesDriver(object):
     """Constructor"""
     self.directory = directory
 
-  def get_popular(self, tups):
+  def get_series_from_urls(self, urls):
     """
-    Get most popular series - `tups` = genre tuples
+    Get most popular series - `urls` = genre URLs
     """
     # Threads dispatched
     threads = []
     for i in xrange(0, 10):
-      t = SeriesWorker(self.directory, tups, i)
+      t = SeriesWorker(self.directory, urls, i)
       threads.append(t)
       t.start()
 

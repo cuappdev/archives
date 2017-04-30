@@ -8,15 +8,12 @@ class SiteCrawler(object):
 
   def get_genres(self):
     """
-    Grab (genre,url) tuples from iTunes Podcast preview
+    Grab genre URLs from iTunes Podcast preview
     """
     page = r.get(c.ITUNES_GENRES_URL)
     tree = html.fromstring(page.content)
     elements = tree.xpath("//a[@class='top-level-genre']")
-    return [(e.attrib['title']
-              .lower()[:(e.attrib['title'].rfind('-')-1)]
-              .replace(' ', ''), e.attrib['href'])
-              for e in elements]
+    return [e.attrib['href'] for e in elements]
 
   def generate_urls_for_genre(self, genre_url):
     """
@@ -41,8 +38,10 @@ class SiteCrawler(object):
     All url's to get podcasts
     """
     result = []
-    genres = [g[1] for g in self.get_genres()]
-    for g_url in genres:
+    for g_url in self.get_genres():
       print 'Getting {}'.format(g_url)
       result.extend(self.generate_urls_for_genre(g_url))
     return result
+
+
+print SiteCrawler().all_urls()

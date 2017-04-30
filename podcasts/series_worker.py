@@ -27,10 +27,8 @@ class SeriesWorker(threading.Thread):
     """Requests, parses series, writes to appropriate CSV"""
     while self.i < len(self.tups):
       # Grab fields
-      name = self.tups[self.i][0]
-      url  = self.tups[self.i][1]
-      namestamp = name + '-' + \
-        str(int(round(time.time()))) + '.csv' # For timestamping the CSV
+      url  = self.tups[self.i]
+      namestamp = str(int(round(time.time()))) + '.csv'
 
       # GET request
       print "Attempting to request " + name
