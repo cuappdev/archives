@@ -5,7 +5,6 @@ import constants as c
 import string
 import log
 
-
 # Entity with utilities for iTunes preview site for Podcasts
 class SiteCrawler(object):
 
@@ -35,7 +34,7 @@ class SiteCrawler(object):
       if len(elements) == 0:
         urls.append(base)
       else:
-        for i in xrange(1, _find_num_pages(base)):
+        for i in xrange(1, self._find_num_pages(base)):
           urls.append('{}&page={}#page'.format(base, i))
     return urls
 
@@ -70,3 +69,5 @@ class SiteCrawler(object):
       self.logger.info('Getting {}'.format(g_url))
       result.extend(self.generate_urls_for_genre(g_url))
     return result
+
+print SiteCrawler().generate_urls_for_genre('https://itunes.apple.com/us/genre/podcasts-religion-spirituality/id1314?mt=2')
