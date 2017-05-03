@@ -24,10 +24,8 @@ Below indicates ways you can use the various drivers and workers of this package
   import logging
 
   # Drivers and crawlers
-  import podcasts
   from podcasts.series_driver import SeriesDriver
   from podcasts.episodes_driver import EpisodesDriver
-  from podcasts.site_crawler import SiteCrawler
 
   # Storers
   from podcasts.storers.json_storer import JsonStorer
