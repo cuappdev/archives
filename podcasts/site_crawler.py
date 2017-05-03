@@ -2,9 +2,13 @@ import requests as r
 import constants as c
 from lxml import html
 import string
+import log
 
 # Entity with utilities for iTunes preview site for Podcasts
 class SiteCrawler(object):
+
+  def __init__(self):
+    self.logger = log.logger
 
   def get_genres(self):
     """
@@ -39,6 +43,6 @@ class SiteCrawler(object):
     """
     result = []
     for g_url in self.get_genres():
-      print 'Getting {}'.format(g_url)
+      self.logger.info('Getting {}'.format(g_url))
       result.extend(self.generate_urls_for_genre(g_url))
     return result

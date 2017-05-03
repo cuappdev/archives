@@ -25,7 +25,6 @@ setup(
   },
   install_requires=[
     'appdirs>=1.4.2',
-    'couchbase>=2.2.1',
     'feedparser>=5.2.1',
     'lxml>=3.7.3',
     'packaging>=16.8',

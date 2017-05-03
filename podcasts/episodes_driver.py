@@ -2,7 +2,6 @@ from episode_worker import EpisodeWorker
 from models.series import Series
 from models.episode import Episode
 from storers.json_storer import JsonStorer
-from storers.couchbase_storer import CouchbaseStorer
 import csv
 import os
 
@@ -13,10 +12,11 @@ class EpisodesDriver(object):
   stored in `directory`
   """
 
-  def __init__(self, directory, storer):
+  def __init__(self, directory, storer, num_threads=20):
     """Constructor"""
-    self.directory = directory
-    self.storer    = storer
+    self.directory   = directory
+    self.storer      = storer
+    self.num_threads = num_threads
 
   def eps_from_series(self):
     """
@@ -25,7 +25,7 @@ class EpisodesDriver(object):
     """
     # Grab the CSV files
     csvs = []
-    for _, _, filenames in os.walk('./' + self.directory):
+    for _, _, filenames in os.walk('./{}'.format(self.directory)):
       csvs.extend(filenames)
 
     # Build series set
@@ -41,7 +41,7 @@ class EpisodesDriver(object):
 
     # Threads dispatched
     threads = []
-    for i in xrange(0, 20):
+    for i in xrange(0, self.num_threads):
       t = EpisodeWorker(self.storer, series, i)
       threads.append(t)
       t.start()

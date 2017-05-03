@@ -2,6 +2,7 @@ import feedparser
 import threading
 from models.episode import Episode
 from copy import deepcopy
+import log
 import os
 
 class EpisodeWorker(threading.Thread):
@@ -14,6 +15,7 @@ class EpisodeWorker(threading.Thread):
     w/`storer`
     """
     super(EpisodeWorker, self).__init__()
+    self.logger = log.logger
     self.storer = storer
     self.series = series # All series
     self.i      = i
@@ -52,4 +54,4 @@ class EpisodeWorker(threading.Thread):
 
       # Move onto the next one
       self.i += 20
-      print("Retrieved " + str(s.id))
+      self.logger.info('Retrieved {}'.format(str(s.id)))

@@ -7,6 +7,7 @@ venv
 csv*
 results*
 data*
+jsons* 
 
 # PyPI stuff
 *.egg-info
@@ -16,4 +17,3 @@ build
 dist
 pypi_guide
 clean
-job.py

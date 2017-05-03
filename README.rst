@@ -19,19 +19,34 @@ Usage
 
 Below indicates ways you can use the various drivers and workers of this package ::
 
+  # General imports
+  import sys
+  import logging
+
+  # Drivers and crawlers
   import podcasts
+  from podcasts.series_driver import SeriesDriver
+  from podcasts.episodes_driver import EpisodesDriver
+  from podcasts.site_crawler import SiteCrawler
 
-  # TODO
+  # Storers
+  from podcasts.storers.json_storer import JsonStorer
 
-Couchbase Setup
----------------
-Parts of this project use ``Couchbase``.  Download `Couchbase Server`_ (or use `Docker`_) and the `Couchbase Python SDK`_
+  # Constants
+  DIRECTORY = 'csv'
+  JSON_DIR  = 'jsons'
 
-.. _`Couchbase Server`: https://www.couchbase.com/downloads
-.. _`Docker`: https://hub.docker.com/r/couchbase/server/
-.. _`Couchbase Python SDK`: https://developer.couchbase.com/documentation/server/4.0/sdks/python-2.0/download-links.html#download-and-apiref
+  logging.getLogger('py-podcast').disabled = False # Change to `True` if you don't want logging
+
+  # Series
+  genre_urls = ['https://itunes.apple.com/us/genre/podcasts-business/id1321?mt=2']
+  SeriesDriver(DIRECTORY).get_series_from_urls(genre_urls)
+
+  # Episodes
+  EpisodesDriver(DIRECTORY, JsonStorer(JSON_DIR)).eps_from_series()
+
 
 Tests
 -----
 
-These have yet to be written, but this package has been hand-tested thoroughly. 
+These have yet to be written, but this package has been hand-tested thoroughly.
