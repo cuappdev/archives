@@ -5,6 +5,7 @@ tcat*
 __pycache__
 __pycache__/*
 vagrant/tcatbackend.pem
+vagrant/.vagrant
 
 # Elastic Beanstalk Files
 
