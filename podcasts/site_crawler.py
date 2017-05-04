@@ -69,5 +69,3 @@ class SiteCrawler(object):
       self.logger.info('Getting {}'.format(g_url))
       result.extend(self.generate_urls_for_genre(g_url))
     return result
-
-print SiteCrawler().generate_urls_for_genre('https://itunes.apple.com/us/genre/podcasts-religion-spirituality/id1314?mt=2')
