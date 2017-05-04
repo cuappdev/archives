@@ -203,5 +203,5 @@ def compute_journeys(source, sink, sink_name, day, depart_time):
       trips.append(journeys[stop2])
 
   trips.sort(key=lambda x: x[-1].time)
-  return list(map(lambda x: format_output(source, sink, sink_name, depart_time, x), trips))
+  return list(map(lambda x: format_output(source, sink, sink_name, depart_time, x), trips))[0:8]
 
