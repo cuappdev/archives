@@ -1,9 +1,12 @@
 .DS_Store
 venv
 .~*
-tcat*
+
 __pycache__
 __pycache__/*
+
+data
+data/*
 
 # Elastic Beanstalk Files
 
