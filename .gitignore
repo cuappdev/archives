@@ -5,11 +5,6 @@ tcat*
 __pycache__
 __pycache__/*
 
-# Ilan's Vagrant Voodoo
-vagrant
-vagrant/tcatbackend.pem
-vagrant/.vagrant
-
 # Elastic Beanstalk Files
 
 .elasticbeanstalk
