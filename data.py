@@ -24,13 +24,13 @@ def load():
   global _all_kml
   # Load stops from disk
   if _stops == None:
-    with open('data\\stops.json') as stops_file:
+    with open('data/stops.json') as stops_file:
       _stops = json.load(stops_file)
       _stops = list(map(lambda x: Map(x), _stops))
   
   # Load data from disk, convert it, and use the model
   if _routes == None:
-    _routes = convert.convert('data\\routes.json')
+    _routes = convert.convert('data/routes.json')
     _routes = list(map(lambda x: Route(x), _routes))
 
   # Process routes for stops
@@ -51,7 +51,7 @@ def load():
 
   # Load kml
   if _all_kml == None:
-    with open('data\\kml.json') as kml_file:
+    with open('data/kml.json') as kml_file:
       _all_kml = json.load(kml_file)
       _all_kml = list(map(lambda x: Map(x), _all_kml))
 

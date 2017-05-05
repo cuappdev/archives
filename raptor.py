@@ -129,7 +129,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'bound': trip[0].bound,
         'stops': list(map(lambda x: x.stop, trip[0:i+1])),
         'arrivalTime': convert.time_int_to_string(trip[i].time),
-        'kml': data.all_kml()[trip[0].number].to_string()
+        'kml': data.kml_for_number(trip[0].number)
       })
     directions.append({
         'directionType': 'arrive',
@@ -148,7 +148,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'bound': trip[i+1].bound,
         'stops': list(map(lambda x: x.stop, trip[i+1:len(trip)])),
         'arrivalTime': convert.time_int_to_string(trip[-1].time),
-        'kml': data.all_kml()[trip[i+1].number].to_string()
+        'kml': data.kml_for_number(trip[i+1].number)
       })
     directions.append({
         'directionType': 'arrive',
@@ -168,7 +168,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'bound': trip[0].bound,
         'stops': list(map(lambda x: x.stop, trip)),
         'arrivalTime': convert.time_int_to_string(trip[-1].time),
-        'kml': data.all_kml()[trip[0].number].to_string()
+        'kml': data.kml_for_number(trip[0].number)
       })
     directions.append({
         'directionType': 'arrive',
@@ -203,5 +203,5 @@ def compute_journeys(source, sink, sink_name, day, depart_time):
       trips.append(journeys[stop2])
 
   trips.sort(key=lambda x: x[-1].time)
-  return list(map(lambda x: format_output(source, sink, sink_name, depart_time, x), trips))[0:8]
+  return list(map(lambda x: format_output(source, sink, sink_name, depart_time, x), trips))
 

@@ -19,6 +19,10 @@ def navigate():
   source = request.args.get('source')
   sink = request.args.get('sink')
   depart_time = request.args.get('depart_time')
+  print('source {}'.format(source))
+  print('sink {}'.format(sink))
+  print('depart_time {}'.format(depart_time))
+  print()
 
   source_location = convert.lat_lng_string_to_list(source)
   source_name = source
@@ -30,11 +34,11 @@ def navigate():
   if sink_location == None:
     (sink_location, sink_name) = google.get_coordinates(sink)
 
+  now = datetime.datetime.now()
+  midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
+  time = (now - midnight).seconds // 60
   if depart_time != None:
-    now = datetime.datetime.now()
-    midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
-    time = (now - midnight).seconds // 60
-    time = depart_time
+    time = convert.time_string_to_int(depart_time)
   
   day = datetime.datetime.today().weekday()
 
@@ -45,11 +49,11 @@ def navigate():
       day, 
       time
     )
-  return jsonify()
+  return jsonify(journeys)
 
 @application.route('/stops')
 def stops():
-  return jsonify(data.get_stops())
+  return jsonify(data.stops())
 
 if __name__ == '__main__':
   application.run()  

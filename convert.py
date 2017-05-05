@@ -4,7 +4,7 @@ import re
 
 def lat_lng_string_to_list(lat_lng):
   if re.match(r"[-+]?\d*\.\d+|\d+,[-+]?\d*\.\d+|\d+", lat_lng):
-    list(map(float, re.findall(r"[-+]?\d*\.\d+|\d+", lat_lng)[0:2]))
+    return list(map(float, re.findall(r"[-+]?\d*\.\d+|\d+", lat_lng)[0:2]))
 
 def time_int_to_string(time):
   m = 'AM'
