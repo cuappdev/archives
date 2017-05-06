@@ -44,14 +44,25 @@ class RedisConn(object):
     """
     if len(mat.shape) != 2:
         raise BaseException('Shape of input matrix must be of size 2')
+    # rows,cols = mat.shape
+    # array_dtype = str(mat.dtype)
+    # m = mat.ravel().tostring()
+    # key = '{0}|{1}#{2}#{3}'.format(int(time.time()), array_dtype, rows, cols)
+    # self.redisDb.set(name,m)
+    # return key
     rows,cols = mat.shape
-    array_dtype = str(mat.dtype)
-    m = mat.ravel().tostring()
-    key = '{0}|{1}#{2}#{3}'.format(int(time.time()), array_dtype, rows, cols)
-    self.redisDb.set(name,m)
-    return key
+    m = Matrix(name,rows, cols,self.redisDb,self.block_size)
+    # Separate blocks and send them to the redis server
+    for j in range(0, m.row_blocks()):
+        for i in range(0, m.col_blocks()):
+            block_name = m.block_name(j,i)
+            block = mat[max(j*self.block_size,0):min((j+1)*self.block_size,rows+1),
+                        max(i*self.block_size,0):min((i+1)*self.block_size,cols+1)]
+            m.create_block(block_name, block)
+    return str(rows) + "|" + str(cols)
+  def get_numpy(self,name,loc):
+    print loc
+    row,col = self.redisDb.get(loc).split('|')
+    return Matrix(name,row,col,self.redisDb).get_numpy_matrix()
 
-  def get_numpy(self,name,key):
-    d_mat = self.redisDb.get(name)
-    array_dtype, row, col = key.split('|')[1].split('#')
-    return np.fromstring(d_mat, dtype=array_dtype).reshape(int(row), int(col))
+
