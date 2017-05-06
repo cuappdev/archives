@@ -1,6 +1,7 @@
+from lxml import html
+from series_crawler import SeriesCrawler
 import requests as r
 import constants as c
-from lxml import html
 import string
 import log
 
@@ -33,9 +34,31 @@ class SiteCrawler(object):
       if len(elements) == 0:
         urls.append(base)
       else:
-        for i in xrange(1, len(elements[0].getchildren()) + 1):
+        for i in xrange(1, self._find_num_pages(base)):
           urls.append('{}&page={}#page'.format(base, i))
     return urls
+
+  def _find_num_pages(self, url):
+    """
+    Find the number of pages paginating a genre's letter URL
+    """
+    def _new_url(i):
+      return '{}&page={}#page'.format(url, i)
+    i = 0
+    j = 2000
+    k = (i + j) / 2
+    crawler = SeriesCrawler(_new_url(k))
+    while (i < j):
+      ids = crawler.get_ids()
+      if len(ids) == 1: # If we only find one (we've gone too far)
+        j = k # Don't decrement by 1 b/c this could be the last page
+        k = (i + j) / 2
+        crawler.set_url(_new_url(k))
+      else:
+        i = k + 1
+        k = (i + j) / 2
+        crawler.set_url(_new_url(k))
+    return i
 
   def all_urls(self):
     """

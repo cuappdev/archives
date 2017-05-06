@@ -9,13 +9,17 @@ from api import API
 class SeriesCrawler(object):
 
   def __init__(self, url=''):
-    """Constructor"""
+    """
+    Constructor
+    """
     self.url    = url
     self.ids    = []
     self.series = []
 
   def set_url(self, url):
-    """For setting / update URL"""
+    """
+    For setting / update URL
+    """
     self.url = url
 
   def _e_to_id(self, e):
@@ -29,7 +33,9 @@ class SeriesCrawler(object):
                     .replace('?mt=2', ''))
 
   def get_ids(self):
-    """Grab the ID's of podcasts on `self.url` page"""
+    """
+    Grab the ID's of podcasts on `self.url` page
+    """
     page = r.get(self.url)
     tree = html.fromstring(page.content)
     ids_elements = tree.xpath("//div[@id='selectedcontent']/div/ul/li/a")
