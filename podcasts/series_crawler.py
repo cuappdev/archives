@@ -57,4 +57,4 @@ class SeriesCrawler(object):
       self.series.extend(results)
       i += 100; j += 100
 
-    return [Series.from_json(j) for j in self.series]
+    return [Series.from_itunes_json(j) for j in self.series]

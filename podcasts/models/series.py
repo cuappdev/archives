@@ -30,12 +30,21 @@ class Series(Entity):
     return self.id
 
   @classmethod
-  def from_json(cls, J):
+  def from_itunes_json(cls, J):
     """
     Series from iTunes JSON `J`
     """
     return cls(J['collectionId'], J['collectionName'], J['country'],
                J['artistName'], J['artworkUrl60'], J['artworkUrl600'],
+               J['feedUrl'], ';'.join(J['genres']))
+
+  @classmethod
+  def from_db_json(cls, J):
+    """
+    Series from DB JSON `J`
+    """
+    return cls(J['id'], J['title'], J['country'],
+               J['author'], J['imageUrlSm'], J['imageUrlLg'],
                J['feedUrl'], ';'.join(J['genres']))
 
   @classmethod
