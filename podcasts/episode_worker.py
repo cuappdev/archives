@@ -4,6 +4,7 @@ from models.episode import Episode
 from copy import deepcopy
 import log
 import os
+import pdb
 
 class EpisodeWorker(threading.Thread):
 
@@ -54,4 +55,9 @@ class EpisodeWorker(threading.Thread):
 
       # Move onto the next one
       self.i += 20
-      self.logger.info('Retrieved {}'.format(str(s.id)))
+      self.logger.info('Retrieved and stored {}'.format(str(s.id)))
+
+if __name__=="__main__":
+  worker = EpisodeWorker(None, None, 0)
+  rss = worker.request_rss("http://feeds.soundcloud.com/users/soundcloud:users:154009125/sounds.rss")
+  pdb.set_trace()
