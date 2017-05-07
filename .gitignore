@@ -1,3 +1,6 @@
 podcastenv/
+ml.ipynb
+.ipynb_checkpoints/*
+dump.rdb
 .env
 *.pyc
