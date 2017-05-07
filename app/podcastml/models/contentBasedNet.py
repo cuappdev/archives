@@ -4,6 +4,9 @@ from keras.models import Model
 from keras.layers.merge import dot
 import keras.backend as K
 ####
+#### Scientific Libraries
+import numpy as np
+####
 #### Logging Imports
 import log
 ####
@@ -34,8 +37,8 @@ class CBN(object):
     self.batch_size         = batch_size
     self.collab_filter	    = collab_filter
     self.num_epocs          = num_epocs
-    self.model              = self.create_fitted_model()
     self.logger             = log.logger
+    self.model              = self.create_fitted_model()
 
   def create_fitted_model(self,single_user=True):
     """
@@ -65,15 +68,15 @@ class CBN(object):
     error = Lambda(lambda x: K.mean(K.square(x[0] - x[1]), axis=-1, keepdims = True))
     model = Model(inputs = [user_in, meta_features_in,true_rating_in],
                          outputs = error([prediction, true_rating_in]))
-    model.compile(loss = 'mae', optimizer = 'adam', metrics=['accuracy','loss'])
+    model.compile(loss = 'mae', optimizer = 'adam', metrics=['accuracy'])
     self.logger.info('Compiled model and beginning fitting')
     if single_user:
-        model.fit([self.users,self.meta_features,self.ratings],labels,validation_split = .1,epochs=self.num_epocs,verbose=0)
+        model.fit([self.users[0],self.meta_features,self.ratings[0]],self.labels,validation_split = .1,epochs=self.num_epocs,verbose=0)
     else:
         for epoch in range(self.num_epocs):
             self.logger.info('Starting epoch %d of %d' % (epoch,self.num_epocs))
             for i,u_id in enumerate(self.user_indeces):
-                model.train_on_batch([float(u_id)/self.n_users,self.meta_features,ratings[i]],labels)
+                model.train_on_batch([float(u_id)/self.n_users,self.meta_features,ratings[i]],self.labels)
             self.logger.info('Finished epoch %d of %d' % (epoch,self.num_epocs))    
     self.logger.info('Finished fitting model')  
     self.logger.info('Created test model')

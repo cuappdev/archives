@@ -112,13 +112,25 @@ def preprocessing():
 	logger.info('Creating tag_to_index')
 	tag_to_index = {t:i for i,t in enumerate(index_to_tag)}
 	logger.info('Finished Creating tag_to_index')
-	logger.info('Applying SVD on TFIDF')
-	u, s, v_trans = svds(doc_by_vocab, k=100)
-	logger.info('Finished applying SVD')
-	logger.info('Dumping into Redis')
-	h5f = h5py.File('u.hdf5', 'w', driver='core', backing_store=False)
-	doc_compressed = h5f.create_dataset("doc_compressed",data=u)
-	h5f.close()
+	logger.info('Building CBN model')
+	### TESTING ON ONE USER
+	n_users = 1
+	ratings = np.zeros((n_users,doc_by_vocab.shape[0]))
+	for e in [k for k,v in episode_tags.iteritems() if ('business' in v or 'money' in v or 'finance' in v)]:
+	    ratings[0][episode_title_to_index[e]] = 0.99
+	user_indeces = [1]
+	users = np.array([[float(k)/(n_users+1)]*len(episode_title_to_index) for k in user_indeces])
+	labels = np.zeros((len(episode_title_to_index)))
+	### 
+	cbn = CBN(users,user_indeces,ratings,doc_by_vocab,labels)
+	recommendations_indexes = np.array([cbn.predict(1,k) for k in doc_by_vocab]).flatten().argsort()[::-1]
+	# logger.info('Applying SVD on TFIDF')
+	# u, s, v_trans = svds(doc_by_vocab, k=100)
+	# logger.info('Finished applying SVD')
+	# logger.info('Dumping into Redis')
+	# h5f = h5py.File('u.hdf5', 'w', driver='core', backing_store=False)
+	# doc_compressed = h5f.create_dataset("doc_compressed",data=u)
+	# h5f.close()
 
 
 	# else:
@@ -160,4 +172,4 @@ def preprocessing():
 	# 	json.dumps(doc_by_vocab,open("doc_by_vocab.json","w"),cls=NumpyEncoder)
 	# 	key = rConn.store_numpy("doc_by_vocab",doc_by_vocab)
 	# 	rDB.set('doc_by_vocab_data',key)
-	return http_resource("nice",'result')
+	return http_resource([episode_index_to_title[e] for e in recommendations_indexes[:15]],'result')
