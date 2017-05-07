@@ -52,8 +52,13 @@ def json_numpy_obj_hook(dct):
         return np.frombuffer(data, dct['dtype']).reshape(dct['shape'])
     return dct
 
-
 BUCKET_URL = 'memcached://a3a0672a5043d11e7ae440601bf6be1c-1487269672.us-west-2.elb.amazonaws.com'
+
+@podcastml.route('/topics', methods=['GET'])
+def run_topic_model():
+    bucket = Cbucket('couchbase://localhost/podcasts','')
+    episodes_dict = grab_type(bucket,'episode',series_dict,limit=1000)
+
 @podcastml.route('/', methods=['GET'])
 def get_everything():
 	n_feats = 5000
