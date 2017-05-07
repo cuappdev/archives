@@ -35,7 +35,7 @@ class PostsController < ApplicationController
 
   def viewed
       Post.find(params[:id]).increment(:views, 1).save
-      render json: { success: true, views: Post.find(params[:id].views }
+      render json: { success: true, views: Post.find(params[:id].views) }
   end
   private
   def song_params
