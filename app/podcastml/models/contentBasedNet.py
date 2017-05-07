@@ -69,7 +69,7 @@ class CBN(object):
     self.logger.info('Compiled model and beginning fitting')
     if single_user:
         model.fit([self.users,self.meta_features,self.ratings],labels,validation_split = .1,epochs=self.num_epocs,verbose=0)
-    elif:
+    else:
         for epoch in range(self.num_epocs):
             self.logger.info('Starting epoch %d of %d' % (epoch,self.num_epocs))
             for i,u_id in enumerate(self.user_indeces):
