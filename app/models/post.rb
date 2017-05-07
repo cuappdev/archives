@@ -7,6 +7,7 @@
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  views      :integer
 #
 
 class Post < ActiveRecord::Base
@@ -26,7 +27,8 @@ class Post < ActiveRecord::Base
   def as_json(options = {})
       more_hash = {
         like_count: self.like_count,
-        is_liked: User.find(options[:id]).liked?(self.id)
+        is_liked: User.find(options[:id]).liked?(self.id),
+        views: self.views
       }
     super(options).merge(post: more_hash, song: self.songs.first, user: self.user.as_json(limited: true))
   end
@@ -34,5 +36,6 @@ class Post < ActiveRecord::Base
   private
   def default_values
     self.like_count = 0
+    self.views = 0
   end
 end

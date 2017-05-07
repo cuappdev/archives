@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   put 'notifications/:notification_id' => 'notifications#seen'
 
   post 'posts' => 'posts#create'
+  put 'posts/:id' => 'posts#viewed'
 
   post 'likes' => 'likes#create'
   delete 'likes' => 'likes#destroy'

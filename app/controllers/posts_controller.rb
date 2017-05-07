@@ -7,6 +7,7 @@
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  views      :integer
 #
 
 class PostsController < ApplicationController
@@ -30,6 +31,11 @@ class PostsController < ApplicationController
     end
     hipster_user.increment(:hipster_score, 10).save if (!hipster_user.blank? and @success)
     render json: { success: !@song.blank?, post: @post.as_json(id: user_id) }
+  end
+
+  def viewed
+      Post.find(params[:id]).increment(:views, 1).save
+      render json: { success: true, views: Post.find(params[:id].views }
   end
   private
   def song_params
