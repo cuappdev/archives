@@ -46,6 +46,17 @@ def hello_world():
 	logger.info('This is hello world')
 	return http_resource("Hello World",'result')
 
+@podcastml.route('/topics', methods=['GET'])
+def run_topic_model():
+    """
+    Runs the topic model.
+    """
+    series = podcast_bucket.get_series()
+    episodes = podcast_bucket.get_episodes(series_dict=series,limit=20000)
+    t = TopicModel(episodes=episodes, series=series, n_tags=100)
+    # TODO run
+    return
+
 @podcastml.route('dump', methods=['GET'])
 def preprocessing():
 	arguments = request.args

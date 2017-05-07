@@ -10,7 +10,7 @@ class TopicModel:
     series_dictionary = None
     
     def _series_summary(self, series):
-        pass
+        return ""
     
     def _corpus_from_documents(self, docs):
         for doc in documents:
