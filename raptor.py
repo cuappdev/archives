@@ -186,7 +186,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
   stopNumbers.append(-1)
   return {
     'allStopNames': list(map(lambda x: x.stop, trip)),
-    'mainStopNames': [trip[0].stop, trip[-1].stop] + [sink_name],
+    'mainStopNames': [trip[0].stop, trip[-1].stop],
     'stopNumbers': stopNumbers,
     'directions': directions
   }
