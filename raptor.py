@@ -123,7 +123,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'directionType': 'depart',
         'place': trip[0].stop,
         'location': data.location_from_stop(trip[0].stop),
-        'time': convert.time_int_to_string(trip[0].time),
+        'departureTime': convert.time_int_to_string(trip[0].time),
 
         'routeNumber': trip[0].number,
         'bound': trip[0].bound,
@@ -135,14 +135,14 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'directionType': 'arrive',
         'place': trip[i].stop,
         'location': data.location_from_stop(trip[i].stop),
-        'time': convert.time_int_to_string(trip[i].time)
+        'arrivalTime': convert.time_int_to_string(trip[i].time)
       })
     stopNumbers.append(trip[0].number)
     directions.append({
         'directionType': 'depart',
         'place': trip[i+1].stop,
         'location': data.location_from_stop(trip[i+1].stop),
-        'time': convert.time_int_to_string(trip[i+1].time),
+        'departureTime': convert.time_int_to_string(trip[i+1].time),
 
         'routeNumber': trip[i+1].number,
         'bound': trip[i+1].bound,
@@ -154,7 +154,7 @@ def format_output(source, sink, sink_name, depart_time, trip):
         'directionType': 'arrive',
         'place': trip[-1].stop,
         'location': data.location_from_stop(trip[-1].stop),
-        'time': convert.time_int_to_string(trip[-1].time)
+        'arrivalTime': convert.time_int_to_string(trip[-1].time)
       })
     stopNumbers.append(trip[i+1].number)
   else:
@@ -185,7 +185,8 @@ def format_output(source, sink, sink_name, depart_time, trip):
     })
   stopNumbers.append(-1)
   return {
-    'stopNames': list(map(lambda x: x.stop, trip)),
+    'allStopNames': list(map(lambda x: x.stop, trip)),
+    'mainStopNames': [trip[0].stop, trip[-1].stop],
     'stopNumbers': stopNumbers,
     'directions': directions
   }
