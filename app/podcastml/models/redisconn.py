@@ -1,12 +1,10 @@
+#### Redis imports
 import redis
-import time 
-import numpy as np
-from app.podcastml.models.matrix import Matrix
-
+####
 class RedisConn(object):
   """Redis Connection object"""
 
-  def __init__(self, name='ilan_server',host='localhost', port=6379, db=0,max_execs=3,timeout=10,block_size=256,slave_number=2):
+  def __init__(self, name='podcastML',host='localhost', port=6379, db=0,max_execs=3,timeout=10,block_size=256,slave_number=2):
     """Constructor"""
     self.name 			= name
     self.host        	= host 
@@ -37,32 +35,5 @@ class RedisConn(object):
   	for c in range(self.slave_number-self.db-1):
   		data['redis_slaves']['slave'+str(c)] = {'host':self.host,'port':self.port,'db':self.db+c}
   	return server.Server(data)
-
-  def store_numpy(self,name,mat):
-    """
-      Creates a matrix from a numpy matrix
-    """
-    if len(mat.shape) != 2:
-        raise BaseException('Shape of input matrix must be of size 2')
-    # rows,cols = mat.shape
-    # array_dtype = str(mat.dtype)
-    # m = mat.ravel().tostring()
-    # key = '{0}|{1}#{2}#{3}'.format(int(time.time()), array_dtype, rows, cols)
-    # self.redisDb.set(name,m)
-    # return key
-    rows,cols = mat.shape
-    m = Matrix(name,rows, cols,self.redisDb,self.block_size)
-    # Separate blocks and send them to the redis server
-    for j in range(0, m.row_blocks()):
-        for i in range(0, m.col_blocks()):
-            block_name = m.block_name(j,i)
-            block = mat[max(j*self.block_size,0):min((j+1)*self.block_size,rows+1),
-                        max(i*self.block_size,0):min((i+1)*self.block_size,cols+1)]
-            m.create_block(block_name, block)
-    return str(rows) + "|" + str(cols)
-  def get_numpy(self,name,loc):
-    print loc
-    row,col = self.redisDb.get(loc).split('|')
-    return Matrix(name,row,col,self.redisDb).get_numpy_matrix()
 
 

@@ -18,8 +18,7 @@ class GetRequest(object):
   def get_query(self, bucket, q,limit,offset):
     self.lock.acquire()
     query = NQuery(q + " LIMIT " + str(limit) + " OFFSET " + str(limit*offset))
-    print query
-    results = bucket.bucket.n1ql_query(query)
+    results = bucket.n1ql_query(query)
     self.lock.release()
     return results
 

@@ -3,7 +3,7 @@ from entity import Entity
 
 class Episode(Entity):
 
-  def __init__(self, series, title, author, summary, pubDate, duration, tags, audioUrl):
+  def __init__(self, series, title,author,summary,pubDate,duration,tags,audioUrl):
     """Constructor"""
 
     # Fill fields
