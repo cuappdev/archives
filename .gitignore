@@ -1,0 +1,3 @@
+podcastenv/
+.env
+*.pyc
