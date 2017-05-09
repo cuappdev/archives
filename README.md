@@ -1,1 +1,1 @@
-# podcast-ml
+# podcast-ml [![Build Status](https://travis-ci.org/cuappdev/podcast-ml.svg?branch=master)](https://travis-ci.org/cuappdev/podcast-ml)
