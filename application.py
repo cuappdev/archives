@@ -36,7 +36,7 @@ def navigate():
 
   now = datetime.datetime.now()
   midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
-  time = (now - midnight).seconds // 60
+  time = (now - midnight).seconds // 60 - 4 * 60
   if depart_time != None:
     time = convert.time_string_to_int(depart_time)
   
