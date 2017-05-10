@@ -188,7 +188,9 @@ def format_output(source, sink, sink_name, depart_time, trip):
     'allStopNames': list(map(lambda x: x.stop, trip)),
     'mainStopNames': [trip[0].stop, trip[-1].stop],
     'stopNumbers': stopNumbers,
-    'directions': directions
+    'directions': directions,
+    'departureTime' : directions[1]['departureTime'],
+    'arrivalTime' : directions[-2]['arrivalTime']
   }
 
 def compute_journeys(source, sink, sink_name, day, depart_time):
@@ -202,7 +204,5 @@ def compute_journeys(source, sink, sink_name, day, depart_time):
     sink_closest.sort(key=lambda x: distance(sink, x))
     for stop2 in sink_closest[0:7]:
       trips.append(journeys[stop2])
-
-  trips.sort(key=lambda x: x[-1].time)
   return list(map(lambda x: format_output(source, sink, sink_name, depart_time, x), trips))
 
