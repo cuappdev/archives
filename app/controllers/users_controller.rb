@@ -45,6 +45,11 @@ class UsersController < ApplicationController
 
 
   def update
+    sesion_code = params[:session_code]
+    @session = Session.find_by(code: session_code)
+    if (!@session) 
+      render json: { status:401, message: "Invalid session code"} and return
+    end 
     @user = @user.update_attributes(user_params) # update_attributes returns result of #save
     success = @user # #save is truthy if the model is valid and gets committed, falsey otherwise
     status = success ? :ok : :bad_request
@@ -65,18 +70,33 @@ class UsersController < ApplicationController
   end 
 
   def following
+    sesion_code = params[:session_code]
+    @session = Session.find_by(code: session_code)
+    if (!@session) 
+      render json: { status:401, message: "Invalid session code"} and return
+    end 
     @param_user = User.find(params[:id]) unless params[:id].blank?
     render json: {success: !@param_user.blank?, following: @param_user.following_list.map { |u| u.as_json(user_id: @user.id) }}
   end
 
 
   def followers
+    sesion_code = params[:session_code]
+    @session = Session.find_by(code: session_code)
+    if (!@session) 
+      render json: { status:401, message: "Invalid session code"} and return
+    end 
     @param_user = User.find(params[:id]) unless params[:id].blank?
     render json: {success: !@param_user.blank?, followers: @param_user.followers.map { |u| u.as_json(user_id: @user.id) }}
   end
 
 
   def posts
+    sesion_code = params[:session_code]
+    @session = Session.find_by(code: session_code)
+    if (!@session) 
+      render json: { status:401, message: "Invalid session code"} and return
+    end  
     @posts = Post
       .where('user_id = ?', params[:id])
       .order('created_at DESC')
