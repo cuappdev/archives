@@ -26,6 +26,11 @@ class UsersController < ApplicationController
 
 
   def index
+    session_code = params[:session_code]
+    @session = Session.find_by(code: session_code)
+    if (!@session) 
+      render json: { status:401, message: "Invalid session code"} and return
+    end  
     if (params[:q].blank?)
       render json: { users: [] } and return
     end
