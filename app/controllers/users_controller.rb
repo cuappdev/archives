@@ -151,6 +151,11 @@ class UsersController < ApplicationController
 
   # User suggestions
   def user_suggestions
+    session_code = params[:session_code]
+    @session = Session.find_by(code: session_code)
+    if (!@session) 
+      render json: { status:401, message: "Invalid session code"} and return
+    end  
     all_user_ids = (User.all.pluck(:id)-@user.followings_ids)-[(@user.id)]
     page_length = params[:l].blank? ? 5 : (params[:l]).to_i
     page = params[:p].blank? ? 0 : (params[:p]).to_i
