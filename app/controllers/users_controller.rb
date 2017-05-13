@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 
 
   def update
-    sesion_code = params[:session_code]
+    session_code = params[:session_code]
     @session = Session.find_by(code: session_code)
     if (!@session) 
       render json: { status:401, message: "Invalid session code"} and return
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
   end 
 
   def following
-    sesion_code = params[:session_code]
+    session_code = params[:session_code]
     @session = Session.find_by(code: session_code)
     if (!@session) 
       render json: { status:401, message: "Invalid session code"} and return
@@ -81,7 +81,7 @@ class UsersController < ApplicationController
 
 
   def followers
-    sesion_code = params[:session_code]
+    session_code = params[:session_code]
     @session = Session.find_by(code: session_code)
     if (!@session) 
       render json: { status:401, message: "Invalid session code"} and return
@@ -92,7 +92,7 @@ class UsersController < ApplicationController
 
 
   def posts
-    sesion_code = params[:session_code]
+    session_code = params[:session_code]
     @session = Session.find_by(code: session_code)
     if (!@session) 
       render json: { status:401, message: "Invalid session code"} and return
