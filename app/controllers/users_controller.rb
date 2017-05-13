@@ -85,7 +85,12 @@ class UsersController < ApplicationController
 
 
   def likes
+    session_code  = params[:session_code] 
+    @session = Session.find_by(code: session_code) 
     @user = User.find(params[:id])
+    if (!@session || @session.user != @user) 
+      render json: { status:401, message: "Invalid session code"} and return
+    end 
     @likes = @user.likes.includes(:post).order('updated_at DESC')
     @songs = @likes.map{ |like| like.post.songs.first }.uniq
     render json: { songs: @songs }
