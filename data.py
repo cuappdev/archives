@@ -14,6 +14,47 @@ _stops_in_routes = None
 _stops_to_routes = None
 # All kml for the stops
 _all_kml = None
+# Area mappings
+_areas = {
+  'North': [
+      'Risley Hall',
+      'Risley before Waite',
+      'Balch Hall @ Thurston',
+      'Balch Hall @ Credit Farm',
+      'Helen Newman',
+      'Appel Commons',
+      'RPCC @ Jameson',
+      'Jessup @ Pleasant Grove - EB',
+      'Jessup @ Pleasant Grove - WB',
+      'Jessup @ RPCC',
+      'Jessup across from Robert Purcell CC',
+      'Jessup Rd. @ Tennis Courts',
+      'Jessup Rd. @ Jessup Place'
+    ],
+  'Central': [
+      'Goldwin Smith Hall',
+      'Rockefeller Hall',
+      'Uris Hall',
+      'Uris Hall Across Street',
+      'Statler Hall',
+      'Sage Hall',
+      'Carpenter Hall',
+      'Anabel Taylor Hall'
+    ],
+  'West': [
+      'Baker Flagpole',
+      'Baker Flagpole/Slopeside'
+    ],
+  'Collegetown': [
+      'Schwartz Performing Arts',
+      'Collegetown Crossing'
+    ],
+  'Ithaca Commons': [
+      'Seneca @ Commons',
+      'Aurora @ Commons',
+      'Green @ Commons'
+    ]
+}
 
 # Load all the data
 def load():
@@ -55,6 +96,7 @@ def load():
       _all_kml = json.load(kml_file)
       _all_kml = list(map(lambda x: Map(x), _all_kml))
 
+
 def stops():
   load()
   global _stops
@@ -90,3 +132,15 @@ def location_from_stop(stop):
     if s.name == stop:
       return s.location
   return None
+
+def stop_from_location(location):
+  load()
+  global _stops
+  for s in _stops:
+    if s.location == location:
+      return s.name
+  return None
+
+def stops_for_area(area):
+  if area in _areas:
+    return _areas[area]

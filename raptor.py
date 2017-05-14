@@ -8,22 +8,9 @@ from math import radians, cos, sin, asin, sqrt
 
 num_rounds = 1
 
-
-def haversine(lon1, lat1, lon2, lat2):
-
-    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-
-    # haversine formula 
-    dlon = lon2 - lon1 
-    dlat = lat2 - lat1 
-    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    c = 2 * asin(sqrt(a)) 
-    r = 3956 # Radius of earth in kilometers. Use 3956 for miles
-    return c * r
-
 def distance(a, b):
   loc = data.location_from_stop(b)
-  return haversine(a[0], a[1], loc[0], loc[1])
+  return (a[0] -  loc[0])**2 + (a[1] - loc[1])**2
 
 def raptor(start, day, depart_time):
   
