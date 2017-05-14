@@ -14,6 +14,7 @@
 #
 
 class NotificationsController < ApplicationController
+  before_action :authorize, only: [:getNotifications, :seen]
   def getNotifications
     page_length = params[:l].blank? ? 5 : (params[:l]).to_i
     page = params[:p].blank? ? 0 : (params[:p]).to_i 
