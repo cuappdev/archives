@@ -16,7 +16,7 @@ class FollowingsController < ApplicationController
     followed_id = (params[:followed_id])
     # cant follow yourself
     if @user.id == followed_id
-      render json: { success: false, follow: follow_bool}
+      render json: { success: false, follow: false}
     end
     # success value on the follow or unfollow
     success_val = @user.follow(followed_id)
