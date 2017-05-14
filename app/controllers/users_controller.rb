@@ -26,11 +26,6 @@ class UsersController < ApplicationController
 
 
   def index
-    session_code = params[:session_code]
-    @session = Session.find_by(code: session_code)
-    if (!@session) 
-      render json: { status:401, message: "Invalid session code"} and return
-    end  
     if (params[:q].blank?)
       render json: { users: [] } and return
     end
@@ -50,11 +45,6 @@ class UsersController < ApplicationController
 
 
   def update
-    session_code = params[:session_code]
-    @session = Session.find_by(code: session_code)
-    if (!@session) 
-      render json: { status:401, message: "Invalid session code"} and return
-    end 
     @user = @user.update_attributes(user_params) # update_attributes returns result of #save
     success = @user # #save is truthy if the model is valid and gets committed, falsey otherwise
     status = success ? :ok : :bad_request
@@ -75,33 +65,18 @@ class UsersController < ApplicationController
   end 
 
   def following
-    session_code = params[:session_code]
-    @session = Session.find_by(code: session_code)
-    if (!@session) 
-      render json: { status:401, message: "Invalid session code"} and return
-    end 
     @param_user = User.find(params[:id]) unless params[:id].blank?
     render json: {success: !@param_user.blank?, following: @param_user.following_list.map { |u| u.as_json(user_id: @user.id) }}
   end
 
 
   def followers
-    session_code = params[:session_code]
-    @session = Session.find_by(code: session_code)
-    if (!@session) 
-      render json: { status:401, message: "Invalid session code"} and return
-    end 
     @param_user = User.find(params[:id]) unless params[:id].blank?
     render json: {success: !@param_user.blank?, followers: @param_user.followers.map { |u| u.as_json(user_id: @user.id) }}
   end
 
 
   def posts
-    session_code = params[:session_code]
-    @session = Session.find_by(code: session_code)
-    if (!@session) 
-      render json: { status:401, message: "Invalid session code"} and return
-    end  
     @posts = Post
       .where('user_id = ?', params[:id])
       .order('created_at DESC')
@@ -110,12 +85,6 @@ class UsersController < ApplicationController
 
 
   def likes
-    session_code  = params[:session_code] 
-    @session = Session.find_by(code: session_code) 
-    @user = User.find(params[:id])
-    if (!@session || @session.user != @user) 
-      render json: { status:401, message: "Invalid session code"} and return
-    end 
     @likes = @user.likes.includes(:post).order('updated_at DESC')
     @songs = @likes.map{ |like| like.post.songs.first }.uniq
     render json: { songs: @songs }
@@ -151,11 +120,6 @@ class UsersController < ApplicationController
 
   # User suggestions
   def user_suggestions
-    session_code = params[:session_code]
-    @session = Session.find_by(code: session_code)
-    if (!@session) 
-      render json: { status:401, message: "Invalid session code"} and return
-    end  
     all_user_ids = (User.all.pluck(:id)-@user.followings_ids)-[(@user.id)]
     page_length = params[:l].blank? ? 5 : (params[:l]).to_i
     page = params[:p].blank? ? 0 : (params[:p]).to_i
