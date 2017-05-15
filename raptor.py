@@ -190,6 +190,11 @@ def compute_journeys(source, sink, sink_name, day, depart_time):
     sink_closest = list(journeys.keys())
     sink_closest.sort(key=lambda x: distance(sink, x))
     for stop2 in sink_closest[0:7]:
-      trips.append(journeys[stop2])
-  return list(map(lambda x: format_output(source, sink, sink_name, depart_time, x), trips))
+      journey = journeys[stop2]
+      if journey[0].time - depart_time <= 60:
+        trips.append(journey)
+
+  tripsFormatted = list(map(lambda x: format_output(source, sink, sink_name, depart_time, x), trips))
+
+  return tripsFormatted
 
