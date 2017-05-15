@@ -41,7 +41,9 @@ def navigate():
     if sink_location == None:
       (sink_location, sink_name) = google.get_coordinates(sink)
 
-  now = datetime.datetime.now().astimezone(datetime.timezone(datetime.timedelta(hours=-4)))
+  est = datetime.timezone(datetime.timedelta(hours=-4))
+  now = datetime.datetime.now(datetime.timezone.utc)
+  now = now.astimezone(est)
   midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
   time = ((now - midnight).seconds // 60)
   if depart_time != None:
