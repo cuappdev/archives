@@ -1,5 +1,4 @@
 // @flow
-
 import * as http from 'http';
 import API from './API';
 

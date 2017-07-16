@@ -1,7 +1,9 @@
 // @flow
-
 import bodyParser from 'body-parser';
 import express from 'express';
+
+import ClassesRouter from './routes/Classes';
+import IndexRouter from './routes/Index';
 
 class API {
   express: Object;
@@ -18,11 +20,8 @@ class API {
   }
 
   routes (): void {
-    this.express.use((req: Object, res: Object) => {
-      res.json({
-        message: 'Hello, World!'
-      });
-    });
+    this.express.use('/api/v1/', IndexRouter);
+    this.express.use('/api/v1/classes/', ClassesRouter);
   }
 }
 
