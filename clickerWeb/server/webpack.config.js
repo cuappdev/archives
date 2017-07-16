@@ -13,6 +13,11 @@ fs.readdirSync('node_modules')
 
 module.exports = {
   entry: [path.join(__dirname, 'src/server.js')],
+  context: __dirname,
+  node: {
+    __filename: true,
+    __dirname: true
+  },
   target: 'node',
   output: {
     path: path.join(__dirname, './build/'),
