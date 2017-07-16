@@ -29,7 +29,6 @@ class API {
     this.express.use('/api/v1/classes/', ClassesRouter);
 
     // Front-end files
-    console.log(path.join(__dirname, '../public/index.html'));
     this.express.use(express.static(path.join(__dirname, '../public')));
     this.express.get('*', this.site);
   }
