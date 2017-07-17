@@ -2,13 +2,13 @@
 import pool from './pool';
 import Promise from 'bluebird';
 
-const getUsersByCourse = (courseId: number): Promise<Array<Object>> => {
-  return pool(`SELECT * FROM users where course_id = ${courseId}`)
+const getUsers = (): Promise<Array<any>> => {
+  return pool('SELECT * FROM users')
     .then(rows => {
-      return [];
+      return rows;
     });
 };
 
 export default {
-  getUsersByCourse
+  getUsers
 };
