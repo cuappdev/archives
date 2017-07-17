@@ -23,6 +23,8 @@
     "webpack": "^3.3.0"
   },
   "dependencies": {
-    "body-parser": "^1.17.2"
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "mysql": "^2.13.0"
   }
 }

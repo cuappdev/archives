@@ -2,6 +2,8 @@
 import * as http from 'http';
 import API from './API';
 
+import pool from './repos/pool';
+
 type Error = {
   errno?: number;
   code?: string;

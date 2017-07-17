@@ -1,6 +1,6 @@
-build
-.DS_Store
-node_modules
-package-lock.json
+*build*
+*.DS_Store*
+*.env*
+*node_modules*
+*package-lock.json*
 *secret*
-
