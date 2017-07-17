@@ -15,6 +15,11 @@ MYSQL_PASSWORD
 MYSQL_DB
 ````
 
+To migrate:
+````bash
+./src/migrate.sh ./src/schema.sql
+````
+
 ## Client
 
 TODO
