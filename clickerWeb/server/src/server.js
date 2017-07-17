@@ -1,8 +1,9 @@
 // @flow
-import * as http from 'http';
+import http from 'http';
 import API from './API';
 
 import pool from './repos/pool';
+import SocketServer from './SocketServer';
 
 type Error = {
   errno?: number;
@@ -12,8 +13,7 @@ type Error = {
 };
 
 const app: API = new API();
-const PORT: number = 3000;
-const port: string | number = PORT;
+const port: number = 3000;
 const server: http.Server = http.createServer(app.express);
 
 const onError = (error: Error): void => {
@@ -35,7 +35,9 @@ const onListening = (): void => {
   console.log(`Listening on ${addr.port}`);
 };
 
-// Setup server
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+// Configures server
+const socketServer = new SocketServer(server, port);
+socketServer.runServer();
+socketServer.on('error', onError);
+socketServer.on('listening', onListening);
+socketServer.setupSocket();
