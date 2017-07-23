@@ -1,6 +1,6 @@
 # Cornell App Development Website
 
-[Check it out!](http://www.cuappdev.org/)
+[Check it out!](http://www.cornellappdev.com/)
 
 ## How to Contribute
 
