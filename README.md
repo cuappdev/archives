@@ -22,4 +22,7 @@ To migrate:
 
 ## Client
 
-TODO
+To run:
+````bash
+npm start
+````
