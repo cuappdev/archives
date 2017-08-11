@@ -1,6 +1,5 @@
 // @flow
 import mysql from 'mysql';
-import Promise from 'bluebird';
 
 const pool = mysql.createPool({
   connectionLimit: 10,
@@ -11,7 +10,7 @@ const pool = mysql.createPool({
   debug: true
 });
 
-const useDB = (query: string): Promise => {
+const useDB = (query: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err: Object, connection) => {
       if (err) {
