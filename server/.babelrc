@@ -4,5 +4,6 @@
     "flow",
     "stage-2",
   ],
+  "plugins": ["transform-async-to-generator"],
   "retainLines": true
 }

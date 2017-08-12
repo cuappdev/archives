@@ -10,17 +10,13 @@ const pool = mysql.createPool({
   debug: true
 });
 
-const useDB = (query: string): Promise<any> => {
+const useDB = async (query: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err: Object, connection) => {
-      if (err) {
-        reject(err);
-      }
+      if (err) reject(err);
       connection.query(query, (err: Object, rows) => {
-        if (err) {
-          reject(err);
-        }
-        return rows;
+        if (err) reject(err);
+        return resolve(rows);
       });
     });
   });
