@@ -4,8 +4,8 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import serveFavicon from 'serve-favicon';
 
-import ClassesRouter from './routes/Classes';
-import IndexRouter from './routes/Index';
+// All routers
+import GetUsersRouter from './routers/GetUsersRouter';
 
 class API {
   express: Object;
@@ -26,9 +26,13 @@ class API {
     res.sendFile(path.join(__dirname, '../public/index.html'));
   };
 
+  _use (Router: any): void {
+    this.express.use('/api/v1', Router);
+  }
+
   routes (): void {
-    this.express.use('/api/v1/', IndexRouter);
-    this.express.use('/api/v1/classes/', ClassesRouter);
+    // Load all them routers
+    this._use(GetUsersRouter);
 
     // Front-end files
     this.express.use(express.static(path.join(__dirname, '../public')));

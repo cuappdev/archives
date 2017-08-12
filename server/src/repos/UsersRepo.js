@@ -6,8 +6,6 @@ const getUsers = async (): Promise<Array<Object>> => {
   return rows;
 };
 
-
-
 export default {
   getUsers
 };
