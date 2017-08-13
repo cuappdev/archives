@@ -36,8 +36,9 @@ const onListening = (): void => {
 };
 
 // Configures server
-const socketServer = new SocketServer(server, port);
-socketServer.runServer();
-socketServer.on('error', onError);
-socketServer.on('listening', onListening);
-socketServer.setupSocket();
+SocketServer.server = server;
+SocketServer.port = port;
+SocketServer.runServer();
+SocketServer.on('error', onError);
+SocketServer.on('listening', onListening);
+SocketServer.setupSocket();

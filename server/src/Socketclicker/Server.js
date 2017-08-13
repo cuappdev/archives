@@ -7,13 +7,19 @@ class SocketServer {
   port: number;
   io: Object;
 
-  constructor (server: http.Server, port: number) {
-    this.server = server;
-    this.port = port;
+  constructor () {
   }
 
   runServer (): void {
     this.server.listen(this.port);
+  }
+
+  startLecture(id: number) {
+    const nsp = this.io.of('/' + id);
+    nsp.on('connection', sock => {
+      console.log('someone connected');
+      nsp.emit('hi', 'yoyoyo');
+    });
   }
 
   on (action: string, callback: Function) {
@@ -36,4 +42,6 @@ class SocketServer {
   };
 }
 
-export default SocketServer;
+const instance = new SocketServer();
+
+export default instance;

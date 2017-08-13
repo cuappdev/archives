@@ -6,6 +6,7 @@ import serveFavicon from 'serve-favicon';
 
 // All routers
 import GetUsersRouter from './routers/GetUsersRouter';
+import StartLectureRouter from './routers/StartLectureRouter';
 
 class API {
   express: Object;
@@ -33,6 +34,7 @@ class API {
   routes (): void {
     // Load all them routers
     this._use(GetUsersRouter);
+    this._use(StartLectureRouter);
 
     // Front-end files
     this.express.use(express.static(path.join(__dirname, '../public')));
