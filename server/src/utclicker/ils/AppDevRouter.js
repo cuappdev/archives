@@ -1,7 +1,15 @@
 // @flow
+// A REST-API Router parent that handles boilerplate for
+// serving up JSON responses based on HTTP verb
+
 import type {RequestType} from './constants';
 
-import { Router, Request, Response, NextFunction } from 'express';
+import {
+  Router,
+  Request,
+  Response,
+  NextFunction
+} from 'express';
 
 import constants from './constants';
 

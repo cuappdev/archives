@@ -1,5 +1,5 @@
 // @flow
-import {Request} from 'express';
+import { Request } from 'express';
 import AppDevRouter from '../utils/AppDevRouter';
 import UsersRepo from '../repos/UsersRepo';
 
