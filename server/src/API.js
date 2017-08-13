@@ -7,6 +7,7 @@ import serveFavicon from 'serve-favicon';
 // All routers
 import GetUsersRouter from './routers/GetUsersRouter';
 import GoogleSignInRouter from './routers/GoogleSignInRouter';
+import GetMeRouter from './routers/GetMeRouter';
 
 class API {
   express: Object;
@@ -35,6 +36,7 @@ class API {
     // Load all them routers
     this._use(GetUsersRouter);
     this._use(GoogleSignInRouter);
+    this._use(GetMeRouter);
 
     // Front-end files
     this.express.use(express.static(path.join(__dirname, '../public')));

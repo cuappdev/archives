@@ -3,7 +3,6 @@ import { Request } from 'express';
 import AppDevRouter from '../utils/AppDevRouter';
 
 import appDevUtils from '../utils/appDevUtils';
-import axios from 'axios';
 
 class GoogleSignInRouter extends AppDevRouter {
   constructor () {
@@ -16,10 +15,6 @@ class GoogleSignInRouter extends AppDevRouter {
 
   async content (req: Request) {
     // Make driver to talk to Google API
-    const googleAxios = axios.create({
-      baseURL: 'https://www.googleapis.com',
-      timeout: 5000
-    });
 
     // Google OAuth code for token-swap
     const code = req.query.code;
@@ -30,10 +25,10 @@ class GoogleSignInRouter extends AppDevRouter {
       redirect_uri: process.env.GOOGLE_REDIRECT_URI,
       grant_type: 'authorization_code'
     };
-    const url = `/oauth2/v4/token?${appDevUtils.encodeUrlParams(form)}`;
+    const uri = `/oauth2/v4/token?${appDevUtils.encodeUrlParams(form)}`;
 
     // Make request and await on it
-    const googleResponse = await googleAxios.post(url);
+    const googleResponse = await appDevUtils.googleAxios.post(uri);
     // Respond with results
     return googleResponse.data;
   }
