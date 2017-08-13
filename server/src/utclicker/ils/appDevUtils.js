@@ -14,7 +14,30 @@ const googleAxios = axios.create({
   timeout: 5000
 });
 
+const insertIntoMySQLStatement = (
+  tableName: string,
+  fields: Object
+): string => {
+  const columns =
+    `(${Object.keys(fields).join(', ')})`;
+  const valuesStr =
+    Object.keys(fields).map(k => {
+      const value = fields[k];
+      return typeof value === 'string'
+        ? `'${fields[k]}'`
+        : `${fields[k]}`;
+    }).join(', ');
+  const values = `(${valuesStr})`;
+  return `INSERT INTO ${tableName} ${columns} VALUES ${values};`;
+};
+
+const netIdFromEmail = (email: string): string => {
+  return email.substring(0, email.indexOf('@'));
+};
+
 export default {
   encodeUrlParams,
-  googleAxios
+  googleAxios,
+  insertIntoMySQLStatement,
+  netIdFromEmail
 };
