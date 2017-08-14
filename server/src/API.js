@@ -25,7 +25,7 @@ class API {
   }
 
   site = (req: Request, res: Response, next: NextFunction): void => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
+    res.sendFile('index.html', { root: path.join(__dirname, '../public') });
   };
 
   _use (Router: any): void {
