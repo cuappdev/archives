@@ -1,6 +1,7 @@
 /* Colors */
 $appdev-red: #B73D34;
 $appdev-red-muted: rgba(183, 61, 52, 0.7);
+$appdev-red-highlight: #E30000;
 $footer-gray: #3B3D40;
 $white-01: rgba(255, 255, 255, 0.1);
 $white-03: rgba(255, 255, 255, 0.3);
@@ -20,39 +21,49 @@ body {
 }
 
 #right-menu {
-  margin-right: 20px;
+  margin-right: 15px;
+}
+
+.navbar-brand-logo {
+  margin-left: 25px;
+  width: auto;
+  height: 50px;
 }
 
 .button {
   padding: 5px;
   padding-left: 15px;
   padding-right: 15px;
-  border: 2px solid #C30016;
-  border-radius: 10px;
-  color: #C30016;
+  border: 2px solid $appdev-red;
+  border-radius: 6px;
+  color: $appdev-red;
   background: none;
   margin-bottom: 10px;
   text-align: center;
 }
 
 .button:hover {
-  color: #E30000;
-  border-color: #E30000;
+  color: $appdev-red-highlight;
+  border-color: $appdev-red-highlight;
 }
 
 .button:active {
-  color: #C30016;
-  border-color: #C30016;
+  color: $appdev-red;
+  border-color: $appdev-red;
 }
 
-.navelement {
-  margin-top: 8px;
-  color: #C30016 !important;
+.nav-element {
+  margin-top: 12px;
+  color: $appdev-red !important;
 }
 
-.navelement:hover {
+.nav-element:hover {
   text-decoration: none !important;
-  color: #E30000 !important;
+  color: $appdev-red-highlight !important;
+}
+
+.nav-button {
+  margin: 5px 0;
 }
 
 
@@ -88,6 +99,7 @@ body {
 
 .appdev-bio {
   margin: 20px 0 0 0;
+  max-width: 250px;
   color: $white-05;
   font-size: 16px;
   font-weight: normal;
@@ -106,11 +118,19 @@ body {
   margin: 0 10px;
 }
 
-.quick-link, .quick-link:hover, .quick-link:active {
+.quick-link {
   text-decoration: none;
-  color: white;
   font-size: 16px;
   font-weight: bold;
+  color: white;
+
+  &:hover,
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+    color: white;
+  }
 }
 
 .quick-link:hover {
@@ -160,11 +180,19 @@ body {
   font-size: 14px;
 }
 
-.mailing-list, .mailing-list:hover, .mailing-list:active {
+.mailing-list {
   text-decoration: none;
-  color: $appdev-red;
   font-size: 14px;
   font-weight: 500;
+  color: $appdev-red;
+
+  &:hover,
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+    color: $appdev-red;
+  }
 }
 
 .mailing-list:hover {
