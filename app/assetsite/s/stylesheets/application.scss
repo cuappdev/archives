@@ -83,18 +83,22 @@ $appdev-red: #B73D34;
 
 // Red links used on various pages
 .red-link {
+  text-decoration: none;
   color: $red-regular;
+
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+    color: white;
+    color: $red-regular;
+  }
 }
 
 .red-link:hover {
-  color: $red-hover;
   text-decoration: none;
+  color: $red-hover;
 }
-
-.red-link:active {
-  color: $red-regular;
-}
-
 
 // TOP TEXT OF A SECTION
 .text-top {
