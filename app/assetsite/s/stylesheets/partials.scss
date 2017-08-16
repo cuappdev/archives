@@ -1,3 +1,12 @@
+/* Colors */
+$appdev-red: #B73D34;
+$appdev-red-muted: rgba(183, 61, 52, 0.7);
+$footer-gray: #3B3D40;
+$white-01: rgba(255, 255, 255, 0.1);
+$white-03: rgba(255, 255, 255, 0.3);
+$white-05: rgba(255, 255, 255, 0.5);
+
+/* General */
 html {
   font-family: Helvetica, sans-serif;
   font-weight: lighter;
@@ -13,7 +22,6 @@ body {
 #right-menu {
   margin-right: 20px;
 }
-
 
 .button {
   padding: 5px;
@@ -37,8 +45,6 @@ body {
   border-color: #C30016;
 }
 
-
-
 .navelement {
   margin-top: 8px;
   color: #C30016 !important;
@@ -57,120 +63,129 @@ body {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  background-color: rgb(45, 45, 45);
+  background-color: $footer-gray;
 }
 
+.footer-top-section {
+  margin: 40px 0 30px 0;
+}
 
-/* Footer nav */
-.footer-nav {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 26px;
+.footer-divider {
+  height: 1px;
+  width: 100%;
+  background-color: $white-01;
+}
+
+.footer-bottom-section {
+  margin: 30px 0;
+}
+
+/* Footer bio section */
+.appdev-grey-logo {
+  width: 60px;
+  height: auto;
+}
+
+.appdev-bio {
+  margin: 20px 0 0 0;
+  color: $white-05;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+/* Footer quick links */
+.quick-link-section {
+  padding-top: 20px;
+}
+
+.quick-link-section .row {
+  margin-bottom: 10px;
+}
+
+.quick-link {
+  margin: 0 10px;
+}
+
+.quick-link, .quick-link:hover, .quick-link:active {
+  text-decoration: none;
   color: white;
-  text-decoration: none;
-
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.footer-nav:hover {
-  text-decoration: none;
-  color: white;
+.quick-link:hover {
+  color: $white-05;
 }
 
-/* Footer column */
-.footer-column {
-  text-decoration: none;
+/* Footer external sites section */
+.external-site-msg {
+  padding-top: 20px;
+  color: $white-05;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.external-site-buttons {
+  display: flex;
+}
+
+.external-site-button {
+  display: block;
+  margin-right: 10px;
+  position: relative;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 1px solid $white-03;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.external-site-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 15px;
+}
+
+.external-site-button:hover {
+  background-color: $white-01;
+}
+
+/* Footer bottom section */
+.mailing-list-msg {
+  margin: 0;
+  color: $white-05;
   font-size: 14px;
-  margin-top: 8px;
-  color: white;
 }
 
-.footer-column:hover {
+.mailing-list, .mailing-list:hover, .mailing-list:active {
   text-decoration: none;
-  color: white;
+  color: $appdev-red;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.footer-column:active {
-  text-decoration: none;
-  color: white;
+.mailing-list:hover {
+  color: $appdev-red-muted;
 }
 
-
-/* Extra */
-.email-bar {
-  background-color: white;
-  border-radius: 20px;
-  padding: 5px;
-  padding-left: 10px;
-}
-
-
-/* Footer copyright styling */
-.copyright {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  color: white;
+.copyright-msg {
+  margin: 0;
+  float: right;
+  color: $white-05;
+  font-size: 14px;
 }
 
 
-/* Email button on footer */
-.email {
-  border-radius: 20px;
-  background-color: rgb(56, 134, 255);
-  border-color: rgb(56, 134, 255);
-  color: white;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-left: 10px;
-}
-
-
-/* Bottom row of the columns of the footer (added to create space) */
-.bottom-row {
-  margin-bottom: 15px;
-}
-
-/* Form stuff */
-.form-field {
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 25px;
-}
-
-/* Button stuff */
-.button-curved {
-  border-radius: 20px;
-}
-
-
-/* Class to add to form element when there's an error */
-.form_error {
-  border: 1px solid red;
-}
-
-
-@media screen and (max-width: 768px) {
-
-  .footer-column {
-    font-size: 11px;
-  }
-
-  .button {
-    border: none;
-    padding: 0px;
-    margin: 0px;
-    text-align: left;
-  }
-
-}
-
+/* EMAIL STUFF */
 
 .email-result {
   padding-top: 10px;
   clear: left;
 }
 
-
-
-// Email field
 .email-field {
   border-radius: 10px;
   margin-top: 25px;
@@ -185,17 +200,30 @@ body {
 }
 
 
-// Email Bottom Button
-.email-button {
-  color: white;
-  background-color: rgb(197, 0, 13);
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
+/* FORM STUFF */
+
+.form-field {
+  background-color: white;
+  border-radius: 25px;
 }
 
-.footer-form {
-  padding-top: 0px;
-  margin-top: 0px;
+/* Class to add to form element when there's an error */
+.form_error {
+  border: 1px solid red;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
+
+  .footer-column {
+    font-size: 11px;
+  }
+
+  .button {
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+  }
+
 }
