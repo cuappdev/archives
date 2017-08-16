@@ -1,8 +1,28 @@
-.contact-top { 
+$appdev-red: #B73D34;
+$appdev-red-muted: rgba(183, 61, 52, 0.7);
+
+.contact-top {
   background: image-url("contact.jpg") no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   font-weight: bold;
+}
+
+.appdev-email {
+  text-decoration: none;
+  color: $appdev-red;
+
+  &:hover,
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+    color: $appdev-red;
+  }
+}
+
+.appdev-email:hover {
+  color: $appdev-red-muted;
 }
