@@ -245,6 +245,11 @@ body {
 /* Responsiveness */
 @media screen and (max-width: 768px) {
 
+  .navbar-brand-logo {
+    margin-left: 15px;
+    height: 25px;
+  }
+
   .button {
     border: none;
     padding: 0px;
