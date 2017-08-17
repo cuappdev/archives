@@ -107,15 +107,16 @@ body {
 
 /* Footer quick links */
 .quick-link-section {
+  display: block;
+  margin: auto;
   padding-top: 20px;
+  width: 350px;
 }
 
-.quick-link-section .row {
+.quick-link-box {
+  display: inline-block;
   margin-bottom: 10px;
-}
-
-.quick-link {
-  margin: 0 10px;
+  width: 49%;
 }
 
 .quick-link {
@@ -146,12 +147,13 @@ body {
 }
 
 .external-site-buttons {
-  display: flex;
+  display: block;
+  max-width: 190px;
 }
 
 .external-site-button {
-  display: block;
-  margin-right: 10px;
+  display: inline-block;
+  margin-right: 5px;
   position: relative;
   background-color: transparent;
   border-radius: 50%;
@@ -243,15 +245,43 @@ body {
 /* Responsiveness */
 @media screen and (max-width: 768px) {
 
-  .footer-column {
-    font-size: 11px;
-  }
-
   .button {
     border: none;
     padding: 0px;
     margin: 0px;
     text-align: left;
+  }
+
+  .appdev-grey-logo {
+    display: block;
+    margin: auto;
+  }
+
+  .appdev-bio {
+    margin: 20px auto 0 auto;
+    text-align: center;
+  }
+
+  .quick-link-section {
+    width: 100%;
+  }
+
+  .quick-link-box {
+    width: 100%;
+    text-align: center;
+  }
+
+  .external-site-msg {
+    text-align: center;
+  }
+
+  .external-site-buttons {
+    margin: auto;
+  }
+
+  .mailing-list-msg, .copyright-msg {
+    text-align: center;
+    float: none;
   }
 
 }

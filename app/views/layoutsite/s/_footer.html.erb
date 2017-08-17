@@ -4,35 +4,31 @@
     <!-- Top section of footer -->
     <div class="container-fluid footer-top-section">
       <!-- Image with short description -->
-      <div class="col-xs-3">
+      <div class="col-12 col-xs-12 col-sm-3">
         <%= image_tag "appdev_grey_logo.png", class: "appdev-grey-logo" %>
         <p class="appdev-bio">We are empowering the Cornell community through making iOS apps.</p>
       </div>
 
       <!-- Quick links -->
-      <div class="container-fluid col-xs-7">
-        <div class="quick-link-section">
-          <!-- First column row -->
-          <div class="row">
-            <a href="/projects" class="col-xs-offset-3 col-xs-2 col-md-3 quick-link" >Projects</a>
-            <a href="/recruitment" class="col-xs-2 col-md-3 quick-link" >Recruitment</a>
-          </div>
+      <div class="col-12 col-xs-12 col-sm-7">
+        <div class="container-fluid">
+          <div class="quick-link-section">
+            <!-- First column row -->
+            <div class="quick-link-box"><a href="/projects" class="quick-link">Projects</a></div>
+            <div class="quick-link-box"><a href="/recruitment" class="quick-link">Recruitment</a></div>
 
-          <!-- Second column row -->
-          <div class="row">
-            <a href="/team" class="col-xs-offset-3 col-xs-2 col-md-3 quick-link">Team</a>
-            <a href="/contact" class="col-xs-2 col-md-3 quick-link">Contact</a>
-          </div>
+            <!-- Second column row -->
+            <div class="quick-link-box"><a href="/team" class="quick-link">Team</a></div>
+            <div class="quick-link-box"><a href="/contact" class="quick-link">Contact</a></div>
 
-          <!-- Third column row -->
-          <div class="row">
-            <a href="/training" class="col-xs-offset-3 col-xs-2 col-md-3 quick-link">Training</a>
+            <!-- Third column row -->
+            <div class="quick-link-box"><a href="/training" class="quick-link">Training</a></div>
           </div>
         </div>
       </div>
 
       <!-- External sites -->
-      <div class="col-xs-2">
+      <div class="col-12 col-xs-12 col-sm-2">
         <p class="external-site-msg">Follow us:</p>
         <div class="external-site-buttons">
           <a href="https://www.facebook.com/cornellappdev/" class="external-site-button" target="_blank">
@@ -60,7 +56,7 @@
 
     <!-- Bottom section of footer -->
     <div class="container-fluid footer-bottom-section">
-      <div class="col-xs-6">
+      <div class="col-12 col-xs-12 col-sm-6">
         <p class="mailing-list-msg">
           For updates, join
           <a href="https://cuappdev.typeform.com/to/EijMRG" class="mailing-list" target="_blank">
@@ -68,10 +64,9 @@
           </a>
         </p>
       </div>
-      <div class="col-xs-6">
+      <div class="col-12 col-xs-12 col-sm-6">
         <p class="copyright-msg">@ 2017 Cornell App Development All Rights reserved</p>
       </div>
     </div>
-
   </div>
 </footer>
