@@ -21,6 +21,7 @@ $primary-padding: 75px;
 $mobile-padding: 50px;
 $red-regular: #C30016;
 $red-hover: #E30000;
+$appdev-red: #B73D34;
 
 
 // Bolding of certain parts of the page (depending on whether we're currently on it or not)
@@ -32,7 +33,7 @@ $red-hover: #E30000;
 .slogan {
   padding-top: 30px;
   padding-bottom: 30px;
-  color: rgb(193, 0, 0);
+  color: $appdev-red;
   font-size: 40px;
 }
 
@@ -82,18 +83,22 @@ $red-hover: #E30000;
 
 // Red links used on various pages
 .red-link {
+  text-decoration: none;
   color: $red-regular;
+
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+    color: white;
+    color: $red-regular;
+  }
 }
 
 .red-link:hover {
-  color: $red-hover;
   text-decoration: none;
+  color: $red-hover;
 }
-
-.red-link:active {
-  color: $red-regular;
-}
-
 
 // TOP TEXT OF A SECTION
 .text-top {
