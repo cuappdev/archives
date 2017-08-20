@@ -12,8 +12,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 # Import + Register Blueprints
-# from app.kanban import kanban as kanban
-# app.register_blueprint(kanban)
+from app.tempo import tempo as tempo
+app.register_blueprint(tempo)
 
 # HTTP error handling
 @app.errorhandler(404)
