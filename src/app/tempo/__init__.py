@@ -9,9 +9,11 @@ from models._all import *
 
 # Import all controllers
 from controllers.user_authentication_controller import *
+from controllers.get_feed_controller import *
 
 controllers = [
-  UserAuthenticationController()
+  UserAuthenticationController(),
+  GetFeedController(),
 ]
 
 # Setup all controllers

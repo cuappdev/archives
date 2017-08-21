@@ -9,7 +9,7 @@ class UserAuthenticationController(AppDevController):
   def get_methods(self):
     return ['POST']
 
-  def content(self):
+  def content(self, **kwargs):
     user_token = request.json['user']['usertoken']
     uri = 'https://graph.facebook.com/me?fields=id&access_token={}'.format(user_token)
     user_info = requests.get(uri).json()
