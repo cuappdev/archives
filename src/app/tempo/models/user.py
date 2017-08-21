@@ -1,8 +1,9 @@
 from . import *
+import datetime
 
 class User(Base):
   __tablename__ = 'users'
-  
+
   id = db.Column(db.Integer, primary_key = True)
   name = db.Column(db.String)
   hipster_score = db.Column(db.Integer, default = 0)
@@ -26,9 +27,9 @@ class User(Base):
     self.location_id = kwargs.get('location_id', 0)
     self.like_count = kwargs.get('like_count', 0)
     self.fbid = kwargs.get('fbid', 0)
-    self.username = kwargs.get('username', '')
+    self.username = kwargs.get('username', 'temp_username_{}'.format(self.fbid))
     self.email = kwargs.get('email', '')
     self.followings_count = kwargs.get('followings_count', 0)
     self.push_id = kwargs.get('push_id', '')
     self.remote_push_notifications_enabled = kwargs.get('remote_push_notifications_enabled', False)
-    self.last_active = db.Column('last_active')
+    self.last_active = kwargs.get('', datetime.datetime.now())

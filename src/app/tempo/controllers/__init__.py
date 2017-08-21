@@ -7,10 +7,11 @@ import app
 from app.tempo.models._all import *
 
 # DAO
-# TODO
+from app.tempo.dao import users_dao
 
 # Serializers
-# TODO
+user_schema = UserSchema()
+# TODO - more
 
 # Blueprint
 from app.tempo import tempo
