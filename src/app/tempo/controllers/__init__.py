@@ -7,8 +7,7 @@ import app
 from app.tempo.models._all import *
 
 # DAO
-from app.tempo.dao import users_dao
-from app.tempo.dao import sessions_dao
+from app.tempo.dao import users_dao, sessions_dao, posts_dao
 
 # Serializers
 user_schema = UserSchema()

@@ -10,7 +10,6 @@ class GetFeedController(AppDevController):
 
   @authorize
   def content(self, **kwargs):
-    # TODO - grab feed, but we can get user now!
     user = kwargs.get('user')
-    print user
-    return { 'we': 'got it!' }
+    posts = posts_dao.get_feed(user.id)
+    return { 'posts':  posts }
