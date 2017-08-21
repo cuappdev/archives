@@ -10,7 +10,6 @@ class UserAuthenticationController(AppDevController):
     return ['POST']
 
   def content(self):
-    # Grab user info from Facebook, given access_token
     user_token = request.json['user']['usertoken']
     uri = 'https://graph.facebook.com/me?fields=id&access_token={}'.format(user_token)
     user_info = requests.get(uri).json()
@@ -19,13 +18,24 @@ class UserAuthenticationController(AppDevController):
     if fbid is None:
       raise Exception('FBID cannot be null')
 
-    # Grab or create user from FBID
     optional_user = users_dao.get_user_by_fbid(fbid)
-    user = (optional_user
+
+    # User
+    user = (
+      optional_user
       if optional_user is not None
-      else users_dao.create_user_from_fbid(fbid))
+      else users_dao.create_user_from_fbid(fbid)
+    )
 
-    result = user_schema.dump(user).data
-    print result
+    # Session
+    session_pre_activate = sessions_dao.get_or_create_session(user.id)
+    session = sessions_dao.activate_session(session_pre_activate)
 
-    return user_info
+    # Newness
+    is_new_user = optional_user is None
+
+    return {
+      'user': user_schema.dump(user).data,
+      'session': session_schema.dump(session).data,
+      'new_user': is_new_user
+    }

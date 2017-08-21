@@ -7,7 +7,6 @@ def create_user_from_fbid(fbid):
     db.session.commit()
     return user
   except Exception as e:
-    print e
     db.session.rollback()
     raise Exception('Failure creating user from fbid')
 

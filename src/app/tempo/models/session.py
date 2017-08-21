@@ -1,4 +1,6 @@
 from . import *
+import hashlib
+import os
 
 class Session(Base):
   __tablename__ = 'sessions'
@@ -11,7 +13,7 @@ class Session(Base):
   def __init__(self, **kwargs):
     self.user_id = kwargs.get('user_id', 0)
     self.code = kwargs.get('code', self.urlsafe_base_64())
-    self.is_active = kwargs.get('is_active', False)
+    self.is_active = kwargs.get('is_active', True)
 
   def urlsafe_base_64(self):
     return hashlib.sha1(os.urandom(64)).hexdigest()
