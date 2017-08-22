@@ -10,10 +10,12 @@ from models._all import *
 # Import all controllers
 from controllers.user_authentication_controller import *
 from controllers.get_feed_controller import *
+from controllers.get_user_suggestions_controller import *
 
 controllers = [
   UserAuthenticationController(),
   GetFeedController(),
+  GetUserSuggestionsController(),
 ]
 
 # Setup all controllers
