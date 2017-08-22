@@ -11,11 +11,13 @@ from models._all import *
 from controllers.user_authentication_controller import *
 from controllers.get_feed_controller import *
 from controllers.get_user_suggestions_controller import *
+from controllers.update_user_username_controller import *
 
 controllers = [
   UserAuthenticationController(),
   GetFeedController(),
   GetUserSuggestionsController(),
+  UpdateUserUsernameController(),
 ]
 
 # Setup all controllers

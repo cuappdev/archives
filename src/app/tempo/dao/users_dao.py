@@ -41,3 +41,13 @@ def get_suggested_users(user_id, limit):
   top_suggested_ids = [row['id'] for row in db.engine.execute(sql)]
   return [] if len(top_suggested_ids) == 0 \
     else User.query.filter(User.id.in_(top_suggested_ids)).all()
+
+def update_user_username(user, username):
+  user.username = username
+  # db.session.add(user)
+  try:
+    db.session.commit()
+    return user
+  except Exception as e:
+    db.session.rollback()
+    raise Exception('Failure updating user username')

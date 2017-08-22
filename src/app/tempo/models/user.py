@@ -12,7 +12,7 @@ class User(Base):
   location_id = db.Column(db.Integer) # TODO - remove this
   like_count = db.Column(db.Integer, default = 0)
   fbid = db.Column(db.String, unique = True)
-  username = db.Column(db.String)
+  username = db.Column(db.String(256, collation='NOCASE'), unique = True)
   email = db.Column(db.String)
   followings_count = db.Column(db.Integer, default = 0)
   push_id = db.Column(db.String)
