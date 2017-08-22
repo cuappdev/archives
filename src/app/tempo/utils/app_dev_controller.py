@@ -22,9 +22,9 @@ class AppDevController:
   def get_name(self):
     return self.get_path().replace('/', '-')
 
-  def response(self):
+  def response(self, **kwargs):
     try:
-      content = self.content()
+      content = self.content(**kwargs)
       return jsonify({
         'success': True,
         'data': content

@@ -9,8 +9,8 @@ class Session(Base):
   user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete = 'CASCADE'))
   code = db.Column(db.String)
   is_active = db.Column(db.Boolean, default = True)
-  
-  user = db.relationship('User', backref='sessions', cascade='all,delete')
+
+  user = db.relationship('User', cascade='all,delete')
 
   def __init__(self, **kwargs):
     self.user_id = kwargs.get('user_id', 0)

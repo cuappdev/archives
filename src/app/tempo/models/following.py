@@ -11,6 +11,9 @@ class Following(Base):
   follower_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete = 'CASCADE'))
   followed_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete = 'CASCADE'))
 
+  follower = db.relationship('User', cascade='all,delete', foreign_keys=[follower_id])
+  followed = db.relationship('User', cascade='all,delete', foreign_keys=[followed_id])
+
   def __init__(self, **kwargs):
     self.follower_id = kwargs.get('follower_id', 0)
     self.followed_id = kwargs.get('followed_id', 0)

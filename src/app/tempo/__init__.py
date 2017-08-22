@@ -12,12 +12,16 @@ from controllers.user_authentication_controller import *
 from controllers.get_feed_controller import *
 from controllers.get_user_suggestions_controller import *
 from controllers.update_user_username_controller import *
+from controllers.get_user_followers_controller import *
+from controllers.get_user_followings_controller import *
 
 controllers = [
   UserAuthenticationController(),
   GetFeedController(),
   GetUserSuggestionsController(),
   UpdateUserUsernameController(),
+  GetUserFollowersController(),
+  GetUserFollowingsController(),
 ]
 
 # Setup all controllers
