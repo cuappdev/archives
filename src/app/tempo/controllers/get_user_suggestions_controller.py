@@ -11,8 +11,5 @@ class GetUserSuggestionsController(AppDevController):
   @authorize
   def content(self, **kwargs):
     user = kwargs.get('user')
-    # TODO - get suggestions
-    # Approach
-    # - Rank users based on mutual followings
-    # - Anti-join with following existence
-    return dict()
+    suggested_users = users_dao.get_suggested_users(user.id, 20)
+    return { 'users': [user_schema.dump(u).data for u in suggested_users] }
