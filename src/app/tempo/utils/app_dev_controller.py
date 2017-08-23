@@ -22,9 +22,6 @@ class AppDevController(BaseController):
         'data': content
       })
     except Exception as e:
-      # If was redirect
-      if content.status_code == 302:
-        return content
       print e
       return jsonify({
         'success': False,

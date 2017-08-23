@@ -51,3 +51,6 @@ def update_user_username(user, username):
   except Exception as e:
     db.session.rollback()
     raise Exception('Failure updating user username')
+
+def query_users(query):
+  return User.query.filter(User.username.like('%{}%'.format(query))).all()
