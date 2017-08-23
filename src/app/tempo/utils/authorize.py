@@ -9,7 +9,7 @@ def authorize(f):
     if session_code is None:
       raise Exception('Session code not found!')
 
-    user = get_user_from_valid_session(session_code)
+    user = get_user_by_valid_session(session_code)
     if user is None:
       raise Exception('Session invalid!')
 

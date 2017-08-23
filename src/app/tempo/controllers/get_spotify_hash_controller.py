@@ -1,9 +1,4 @@
 from . import *
-from flask import redirect
-import base64
-import json
-import os
-import requests
 
 class GetSpotifyHashController(AppDevController):
 
@@ -14,6 +9,12 @@ class GetSpotifyHashController(AppDevController):
     return ['GET']
 
   def content(self, **kwargs):
+
+    def _make_authorization_headers(client_id, client_secret):
+      auth_header = \
+        base64.b64encode(six.text_type(client_id + ':' + client_secret).encode('ascii'))
+      return {'Authorization': 'Basic %s' % auth_header.decode('ascii')}
+
     # Fields for POST request
     grant_type = 'authorization_code'
     code = request.args['code']
@@ -21,11 +22,6 @@ class GetSpotifyHashController(AppDevController):
 
     # Setup requests
     uri = 'https://accounts.spotify.com/api/token'
-    authorization = base64.b64encode(bytes(
-      'Basic {0}:{1}'.\
-        format(os.environ['SPOTIFY_CLIENT_ID'], os.environ['SPOTIFY_SECRET']),
-      'utf-8'
-    ))
 
     # HTTP JSON body
     payload = {
@@ -34,9 +30,13 @@ class GetSpotifyHashController(AppDevController):
       'redirect_uri': redirect_uri
     }
 
-    # Request result
-    r = requests.post(url, data = json.dumps(payload))
-    r['Authorization'] = authorization
+    # HTTP Headers
+    headers = _make_authorization_headers(
+      os.environ['SPOTIFY_CLIENT_ID'],
+      os.environ['SPOTIFY_SECRET']
+    )
+
+    r = requests.post(uri, data = payload, headers = headers)
     result = r.json()
-    print result
+
     return result

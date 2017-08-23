@@ -19,6 +19,8 @@ class User(Base):
   remote_push_notifications_enabled = db.column(db.Boolean)
   last_active = db.Column(db.DateTime, default = db.func.current_timestamp())
 
+  session = db.relationship('Session', uselist = False)
+
   def __init__(self, **kwargs):
     self.name = kwargs.get('name', '')
     self.hipster_score = kwargs.get('hipster_score', 0)

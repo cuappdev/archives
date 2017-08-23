@@ -13,7 +13,7 @@ def create_user_from_fbid(fbid):
 def get_user_by_fbid(fbid):
   return User.query.filter_by(fbid = fbid).first()
 
-def get_user_from_valid_session(session_code):
+def get_user_by_valid_session(session_code):
   session = Session.query.filter_by(code = session_code).filter_by(is_active = True).first()
   return None if session is None else session.user
 

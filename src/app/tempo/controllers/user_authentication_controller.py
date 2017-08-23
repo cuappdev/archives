@@ -1,5 +1,4 @@
 from . import *
-import requests
 
 class UserAuthenticationController(AppDevController):
 

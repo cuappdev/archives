@@ -14,6 +14,8 @@ from controllers.get_user_suggestions_controller import *
 from controllers.update_user_username_controller import *
 from controllers.get_user_followers_controller import *
 from controllers.get_user_followings_controller import *
+from controllers.get_spotify_sign_in_uri_controller import *
+from controllers.get_spotify_hash_controller import *
 
 controllers = [
   UserAuthenticationController(),
@@ -22,6 +24,8 @@ controllers = [
   UpdateUserUsernameController(),
   GetUserFollowersController(),
   GetUserFollowingsController(),
+  GetSpotifySignInUriController(),
+  GetSpotifyHashController(),
 ]
 
 # Setup all controllers
