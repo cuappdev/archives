@@ -1,6 +1,6 @@
 from . import *
 
-class GetSpotifyHashController(AppDevController):
+class GetSpotifyHashController(AppDevRedirectController):
 
   def get_path(self):
     return '/spotify/get_hash/'
@@ -8,7 +8,7 @@ class GetSpotifyHashController(AppDevController):
   def get_methods(self):
     return ['GET']
 
-  def content(self, **kwargs):
+  def make_uri(self, **kwargs):
 
     def _make_authorization_headers(client_id, client_secret):
       auth_header = \
@@ -19,6 +19,7 @@ class GetSpotifyHashController(AppDevController):
     grant_type = 'authorization_code'
     code = request.args['code']
     redirect_uri = os.environ['SPOTIFY_REDIRECT_URI']
+    session_code = request.args['state']
 
     # Setup requests
     uri = 'https://accounts.spotify.com/api/token'
@@ -37,6 +38,15 @@ class GetSpotifyHashController(AppDevController):
     )
 
     r = requests.post(uri, data = payload, headers = headers)
-    result = r.json()
+    token = r.json()
 
-    return result
+    # Compose redirect uri
+    uri = '{0}callback?access_token={1}&session_code={2}&expires_at={3}'.\
+      format(
+        os.environ['TEMPO_REDIRECT'],
+        token['access_token'],
+        session_code,
+        token['expires_in']
+      )
+
+    return uri

@@ -18,3 +18,6 @@ def get_feed(user_id):
     order_by(desc(Post.created_at))
 
   return feed_query.all()
+
+def get_user_posts(user_id):
+  return Post.query.filter_by(user_id = user_id).all()

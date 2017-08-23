@@ -1,19 +1,11 @@
-from flask import request, jsonify
-from functools import wraps # for decorators
+from base_controller import *
+from flask import jsonify
 import abc
 
 # A REST-API controller that handles boilerplate for
 # serving up JSON responses based on HTTP verbs
-class AppDevController:
+class AppDevController(BaseController):
   __metaclass__ = abc.ABCMeta
-
-  @abc.abstractmethod
-  def get_path(self): # URI-path that begins and ends with a '/'
-    return ''
-
-  @abc.abstractmethod
-  def get_methods(self): # List of different HTTP methods supported
-    return []
 
   @abc.abstractmethod
   def content(self, **kwargs):
@@ -23,13 +15,16 @@ class AppDevController:
     return self.get_path().replace('/', '-')
 
   def response(self, **kwargs):
+    content = self.content(**kwargs)
     try:
-      content = self.content(**kwargs)
       return jsonify({
         'success': True,
         'data': content
       })
     except Exception as e:
+      # If was redirect
+      if content.status_code == 302:
+        return content
       print e
       return jsonify({
         'success': False,
