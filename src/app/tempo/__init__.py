@@ -17,6 +17,7 @@ from controllers.get_user_followings_controller import *
 from controllers.get_spotify_sign_in_uri_controller import *
 from controllers.get_spotify_hash_controller import *
 from controllers.search_users_controller import *
+from controllers.get_is_post_liked_controller import *
 
 controllers = [
   UserAuthenticationController(),
@@ -28,6 +29,7 @@ controllers = [
   GetSpotifySignInUriController(),
   GetSpotifyHashController(),
   SearchUsersController(),
+  GetIsPostLikedController(),
 ]
 
 # Setup all controllers

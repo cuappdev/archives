@@ -20,7 +20,7 @@ from app.tempo.models._all import *
 
 # DAO
 from app.tempo.dao import users_dao, sessions_dao, posts_dao, followings_dao, \
-  spotify_creds_dao
+  spotify_creds_dao, likes_dao
 
 # Serializers
 user_schema = UserSchema()
