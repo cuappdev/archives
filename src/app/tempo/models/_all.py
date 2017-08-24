@@ -23,6 +23,8 @@ class NotificationSchema(ModelSchema):
 class PostSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
     model = Post
+  song = fields.Nested('Song', many=False)
+  user = fields.Nested('User', many=False)
 
 class SessionSchema(ModelSchema):
   class Meta(ModelSchema.Meta):

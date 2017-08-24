@@ -13,4 +13,4 @@ class Song(Base):
     self.spotify_url = kwargs.get('spotify_url')
     self.artist = kwargs.get('artist')
     self.track = kwargs.get('track')
-    self.hipster_score = kwargs.get('hipster_score')
+    self.hipster_score = kwargs.get('hipster_score', 0)
