@@ -6,11 +6,9 @@ from app.tempo.utils import *
 try: from urllib import urlencode
 except ImportError: from urllib.parse import urlencode
 
-import base64
 import json
 import os
 import requests
-import six
 
 # App instance
 import app

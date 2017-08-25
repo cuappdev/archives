@@ -9,12 +9,6 @@ class GetSpotifyHashController(AppDevRedirectController):
     return ['GET']
 
   def make_uri(self, **kwargs):
-
-    def _make_authorization_headers(client_id, client_secret):
-      auth_header = \
-        base64.b64encode(six.text_type(client_id + ':' + client_secret).encode('ascii'))
-      return {'Authorization': 'Basic %s' % auth_header.decode('ascii')}
-
     # Fields for POST request
     grant_type = 'authorization_code'
     code = request.args['code']
@@ -32,7 +26,7 @@ class GetSpotifyHashController(AppDevRedirectController):
     }
 
     # HTTP Headers
-    headers = _make_authorization_headers(
+    headers = make_authorization_headers(
       os.environ['SPOTIFY_CLIENT_ID'],
       os.environ['SPOTIFY_SECRET']
     )
