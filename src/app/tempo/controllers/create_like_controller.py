@@ -12,6 +12,5 @@ class CreateLikeController(AppDevController):
   def content(self, **kwargs):
     user = kwargs.get('user')
     post_id = request.args['post_id']
-
     likes_dao.create_like(post_id, user)
     return dict()

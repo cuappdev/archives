@@ -8,8 +8,10 @@ tempo = Blueprint('tempo', __name__, url_prefix = '')
 from models._all import *
 
 # Import all controllers
+from controllers.create_following_controller import *
 from controllers.create_like_controller import *
 from controllers.create_post_controller import *
+from controllers.delete_following_controller import *
 from controllers.delete_like_controller import *
 from controllers.delete_post_controller import *
 from controllers.get_feed_controller import *
@@ -28,8 +30,10 @@ from controllers.update_user_username_controller import *
 from controllers.user_authentication_controller import *
 
 controllers = [
+  CreateFollowingController(),
   CreateLikeController(),
   CreatePostController(),
+  DeleteFollowingController(),
   DeleteLikeController(),
   DeletePostController(),
   GetFeedController(),
