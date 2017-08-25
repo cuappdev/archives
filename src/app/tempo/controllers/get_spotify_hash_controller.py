@@ -1,4 +1,5 @@
 from . import *
+import time
 
 class GetSpotifyHashController(AppDevRedirectController):
 
@@ -31,8 +32,13 @@ class GetSpotifyHashController(AppDevRedirectController):
       os.environ['SPOTIFY_SECRET']
     )
 
+    # Make request
     r = requests.post(uri, data = payload, headers = headers)
     token = r.json()
+
+    # Create spotify cred on backend
+    user = get_user_by_valid_session(session_code)
+    spotify_creds_dao.create_or_update_spotify_creds(user.id, token)
 
     # Compose redirect uri
     uri = '{0}callback?access_token={1}&session_code={2}&expires_at={3}'.\
@@ -42,5 +48,4 @@ class GetSpotifyHashController(AppDevRedirectController):
         session_code,
         token['expires_in']
       )
-
     return uri
