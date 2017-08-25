@@ -15,5 +15,5 @@ class Following(Base):
   followed = db.relationship('User', cascade='all,delete', foreign_keys=[followed_id])
 
   def __init__(self, **kwargs):
-    self.follower_id = kwargs.get('follower_id', 0)
-    self.followed_id = kwargs.get('followed_id', 0)
+    self.follower_id = kwargs.get('follower_id')
+    self.followed_id = kwargs.get('followed_id')
