@@ -24,7 +24,6 @@ from app.tempo.dao import users_dao, sessions_dao, posts_dao, followings_dao, \
 user_schema = UserSchema()
 session_schema = SessionSchema()
 post_schema = PostSchema()
-# TODO more
 
 # Workhorse function for post serialization
 # b/c there's a lot to serialize
