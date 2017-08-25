@@ -8,6 +8,10 @@ DB_PASSWORD
 DB_HOST
 DB_NAME
 APP_SETTINGS
+SPOTIFY_REDIRECT_URI
+SPOTIFY_CLIENT_ID
+SPOTIFY_SECRET
+TEMPO_REDIRECT
 ````
 
 The following workflow to migrate your database is the following:
