@@ -24,6 +24,8 @@ from controllers.get_user_by_id_controller import *
 from controllers.get_user_liked_posts_controller import *
 from controllers.create_post_controller import *
 from controllers.get_user_posts_controller import *
+from controllers.create_like_controller import *
+from controllers.delete_like_controller import *
 
 controllers = [
   UserAuthenticationController(),
@@ -42,6 +44,8 @@ controllers = [
   GetUserLikedPostsController(),
   CreatePostController(),
   GetUserPostsController(),
+  CreateLikeController(),
+  DeleteLikeController(),
 ]
 
 # Setup all controllers
