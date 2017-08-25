@@ -12,4 +12,4 @@ class GetUserByIdController(AppDevController):
   def content(self, **kwargs):
     user_id = request.view_args['id']
     user = users_dao.get_user_by_id(user_id)
-    return { 'user': user }
+    return { 'user': user_schema.dump(user).data }

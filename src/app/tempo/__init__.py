@@ -21,6 +21,9 @@ from controllers.get_is_post_liked_controller import *
 from controllers.search_spotify_tracks_controller import *
 from controllers.delete_post_controller import *
 from controllers.get_user_by_id_controller import *
+from controllers.get_user_liked_posts_controller import *
+from controllers.create_post_controller import *
+from controllers.get_user_posts_controller import *
 
 controllers = [
   UserAuthenticationController(),
@@ -36,6 +39,9 @@ controllers = [
   SearchSpotifyTracksController(),
   DeletePostController(),
   GetUserByIdController(),
+  GetUserLikedPostsController(),
+  CreatePostController(),
+  GetUserPostsController(),
 ]
 
 # Setup all controllers

@@ -10,3 +10,5 @@ class Like(Base):
   id = db.Column(db.Integer, primary_key = True)
   post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete = 'CASCADE'))
   user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete = 'CASCADE'))
+
+  post = db.relationship('Post', cascade='all,delete')

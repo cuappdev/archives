@@ -23,8 +23,9 @@ class NotificationSchema(ModelSchema):
 class PostSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
     model = Post
-  song = fields.Nested('Song', many=False)
-  user = fields.Nested('User', many=False)
+  song_posts = fields.Nested('SongPostSchema', many = True)
+  likes = fields.Nested('LikeSchema', many = True)
+  user = fields.Nested('UserSchema', many = False)
 
 class SessionSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
@@ -33,6 +34,7 @@ class SessionSchema(ModelSchema):
 class SongPostSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
     model = SongPost
+  song = fields.Nested('SongSchema', many=False)
 
 class SongSchema(ModelSchema):
   class Meta(ModelSchema.Meta):

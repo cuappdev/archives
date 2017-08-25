@@ -22,12 +22,17 @@ def get_feed(user_id):
 def get_user_posts(user_id):
   return Post.query.filter_by(user_id = user_id).all()
 
+def get_user_liked_posts(user_id):
+  likes = Like.query.filter_by(user_id = user_id).all()
+  return [l.post for l in likes]
+
 def create_song_post(user_id, song):
   try:
     post = Post(user_id = user_id)
     db.session.add(post)
     db.session.flush() # to get post.id
     song_post = SongPost(post_id = post.id, song_id = song.id)
+    db.session.add(song_post)
     db.session.commit()
     return post
   except Exception as e:

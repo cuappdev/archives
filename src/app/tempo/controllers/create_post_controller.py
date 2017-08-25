@@ -11,8 +11,11 @@ class CreatePostController(AppDevController):
   @authorize
   def content(self, **kwargs):
     user = kwargs.get('user')
-    song_info = request.args['song']
-
+    song_info = {
+      'spotify_url': request.args['song_info[spotify_url]'],
+      'artist': request.args['song_info[artist]'],
+      'track': request.args['song_info[track]']
+    }
     song = songs_dao.get_or_create_song(song_info)
     post = posts_dao.create_song_post(user.id, song)
 

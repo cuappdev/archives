@@ -34,4 +34,4 @@ class SearchSpotifyTracksController(AppDevController):
       get(search_uri, headers = auth_headers).\
       json()['tracks']['items']
 
-    return results
+    return { 'items': results }

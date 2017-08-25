@@ -26,6 +26,7 @@ def create_or_update_spotify_creds(user_id, token):
     db.session.commit()
     return spotify_cred
   except Exception as e:
+    print e
     db.session.rollback()
     raise Exception('Could not save spotify cred!')
 

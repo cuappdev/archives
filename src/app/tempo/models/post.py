@@ -8,6 +8,10 @@ class Post(Base):
   user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete = 'CASCADE'))
   views = db.Column(db.Integer, default = 0)
 
+  user = db.relationship('User', cascade='all,delete')
+  song_posts = db.relationship('SongPost', cascade='all,delete')
+  likes = db.relationship('Like', cascade='all,delete')
+
   def __init__(self, **kwargs):
     self.like_count = kwargs.get('like_count', 0)
     self.user_id = kwargs.get('user_id', 0)
