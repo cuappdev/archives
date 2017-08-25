@@ -13,5 +13,5 @@ class DeleteLikeController(AppDevController):
     user = kwargs.get('user')
     post_id = request.view_args['post_id']
 
-    likes_dao.delete_like(post_id, user.id)
+    likes_dao.delete_like(post_id, user)
     return dict()
