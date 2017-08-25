@@ -33,3 +33,11 @@ def create_song_post(user_id, song):
   except Exception as e:
     db.session.rollback()
     raise Exception('Could not activate song post')
+
+def delete_song_post(user_id, post_id):
+  try:
+    Post.query.filter(Post.user_id == user_id and Post.id == post_id).delete()
+    db.session.commit()
+  except Exception as e:
+    db.session.rollback()
+    raise Exception('Could not delete post')

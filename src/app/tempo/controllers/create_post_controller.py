@@ -13,7 +13,6 @@ class CreatePostController(AppDevController):
     user = kwargs.get('user')
     song_info = request.args['song']
 
-    # CRUD
     song = songs_dao.get_or_create_song(song_info)
     post = posts_dao.create_song_post(user.id, song)
 

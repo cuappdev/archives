@@ -19,6 +19,7 @@ from controllers.get_spotify_hash_controller import *
 from controllers.search_users_controller import *
 from controllers.get_is_post_liked_controller import *
 from controllers.search_spotify_tracks_controller import *
+from controllers.delete_post_controller import *
 
 controllers = [
   UserAuthenticationController(),
@@ -32,6 +33,7 @@ controllers = [
   SearchUsersController(),
   GetIsPostLikedController(),
   SearchSpotifyTracksController(),
+  DeletePostController(),
 ]
 
 # Setup all controllers
