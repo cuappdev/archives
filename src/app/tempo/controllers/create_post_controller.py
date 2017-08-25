@@ -19,4 +19,4 @@ class CreatePostController(AppDevController):
     song = songs_dao.get_or_create_song(song_info)
     post = posts_dao.create_song_post(user.id, song)
 
-    return { 'post': post_schema.dump(post).data }
+    return { 'post': serialize_post(post, user.id) }
