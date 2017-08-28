@@ -22,6 +22,7 @@ class LectureStudent extends Component {
   }
 
   handlePingSend() {
+    this.props.socket.emit('sm', { message: this.state.pingText })
     this.setState({
       pingText: ''
     });

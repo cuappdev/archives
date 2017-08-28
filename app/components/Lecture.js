@@ -23,7 +23,8 @@ class Lecture extends Component {
   }
 
   componentDidMount() {
-    const socket = io('/', { query: `userType=${this.props.userType}`});
+    const route = process.env.NODE_ENV === 'develop' ? '/' : ':3000';
+    const socket = io(route, { query: `userType=${this.props.userType}`});
 
     this.setState({
       socket: socket
@@ -60,7 +61,9 @@ class Lecture extends Component {
 
     socket.on('rq', (data) => {
       this.setState((prevState, id) => {
-        return { responses: Object.assign({}, prevState.responses, data.responses) }
+        return {
+          responses: Object.assign({}, prevState.responses, data.responses)
+        };
       });
     });
 
@@ -75,6 +78,14 @@ class Lecture extends Component {
         professorCount: data
       });
     });
+
+    socket.on('sm', (data) => {
+      this.setState((prevState, id) => {
+        return {
+          messages: Object.assign({}, prevState.messages, data.messages)
+        };
+      });
+    })
 
   }
 

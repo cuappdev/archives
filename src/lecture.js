@@ -99,7 +99,7 @@ export default (app, port) => {
 
       responses[address] = data.response;
 
-      var response = {};
+      let response = {};
       response[address] = data.response;
       io.to('professors').emit('rq', { responses: response });
     });
@@ -110,7 +110,7 @@ export default (app, port) => {
 
       messages[address] = data.message;
 
-      var message = {};
+      let message = {};
       message[address] = data.message;
       io.to('professors').emit('sm', { messages: message });
     });

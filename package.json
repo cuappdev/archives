@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist && rm -rf public/js && mkdir dist",
-    "webdev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --host 0.0.0.0",
+    "webdev": "NODE_ENV=develop ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --host 0.0.0.0",
     "dev": "nodemon src/index.js --watch src --exec babel-node",
     "build": "npm run clean && babel src -d dist && node_modules/webpack/bin/webpack.js",
     "heroku-postbuild": "npm run build",

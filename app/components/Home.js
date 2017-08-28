@@ -7,7 +7,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h3>Welcome to the CUAppDev Clicker app!</h3>
+        <h3>Welcome to the Cornell AppDev Clicker app!</h3>
         <ListGroup>
           <ListGroupItem><Link to='/lecture'>Student Sign In</Link></ListGroupItem>
           <ListGroupItem><a href='/lecture/professor'>Professor Sign In</a></ListGroupItem>
