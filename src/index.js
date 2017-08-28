@@ -3,6 +3,8 @@ import path from 'path';
 import basicAuth from './basicAuth';
 
 import lecture from './lecture.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 /* Server */
 
