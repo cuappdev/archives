@@ -1,9 +1,8 @@
-from datetime import datetime, timedelta
 from sqlalchemy import desc
 from . import *
 
 def get_feed(user_id):
-  one_day_ago = datetime.today() - timedelta(days=1)
+  one_day_ago = datetime.datetime.today() - datetime.timedelta(days=1)
 
   followers_posts_query = Post.query.\
     join(

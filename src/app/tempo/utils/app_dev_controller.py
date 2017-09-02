@@ -1,6 +1,6 @@
-from base_controller import *
-from flask import jsonify
 import abc
+from app.tempo.utils.base_controller import *
+from flask import jsonify
 
 # A REST-API controller that handles boilerplate for
 # serving up JSON responses based on HTTP verbs
@@ -15,15 +15,14 @@ class AppDevController(BaseController):
     return self.get_path().replace('/', '-')
 
   def response(self, **kwargs):
-    content = self.content(**kwargs)
     try:
+      content = self.content(**kwargs)
       return jsonify({
-        'success': True,
-        'data': content
+          'success': True,
+          'data': content
       })
-    except Exception as e:
-      print e
+    except Exception: # pylint: disable=W0703
       return jsonify({
-        'success': False,
-        'data': { 'errors': [str(e)] }
+          'success': False,
+          'data': {'errors': [str(e)]}
       })
