@@ -1,6 +1,6 @@
-from . import *
 import time
 import requests
+from . import *
 
 def create_or_update_spotify_creds(user_id, token):
   access_token = token['access_token']
@@ -8,13 +8,13 @@ def create_or_update_spotify_creds(user_id, token):
   refresh_token = token['refresh_token']
   expires_at = str(int(time.time()) + expires_in)
 
-  spotify_cred = SpotifyCred.query.filter_by(user_id = user_id).first()
+  spotify_cred = SpotifyCred.query.filter_by(user_id=user_id).first()
   if spotify_cred is None:
     spotify_cred = SpotifyCred(
-      user_id = user_id,
-      access_token = access_token,
-      refresh_token = refresh_token,
-      expires_at = expires_at
+        user_id=user_id,
+        access_token=access_token,
+        refresh_token=refresh_token,
+        expires_at=expires_at
     )
     db.session.add(spotify_cred)
   else:
@@ -31,7 +31,7 @@ def create_or_update_spotify_creds(user_id, token):
     raise Exception('Could not save spotify cred!')
 
 def get_spotify_creds_by_user_id(user_id):
-  spotify_cred = SpotifyCred.query.filter_by(user_id = user_id).first()
+  spotify_cred = SpotifyCred.query.filter_by(user_id=user_id).first()
 
   if spotify_cred is None:
     return spotify_cred
@@ -42,14 +42,14 @@ def get_spotify_creds_by_user_id(user_id):
   if expires_at < current_time:
     uri = 'https://accounts.spotify.com/api/token'
     payload = {
-      'grant_type': 'refresh_token',
-      'refresh_token': spotify_creds.refresh_token
+        'grant_type': 'refresh_token',
+        'refresh_token': spotify_creds.refresh_token
     }
     headers = make_authorization_headers(
-      os.environ['SPOTIFY_CLIENT_ID'],
-      os.environ['SPOTIFY_SECRET']
+        os.environ['SPOTIFY_CLIENT_ID'],
+        os.environ['SPOTIFY_SECRET']
     )
-    r = requests.post(uri, data = payload, headers = headers)
+    r = requests.post(uri, data=payload, headers=headers)
     token = r.json()
     spotify_cred = create_or_update_spotify_creds(spotify_cred.user_id, token)
 

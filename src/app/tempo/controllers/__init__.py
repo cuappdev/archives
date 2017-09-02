@@ -1,17 +1,16 @@
-from flask import request, render_template, jsonify, redirect
-from functools import wraps # for decorators
-from app.tempo.utils import *
-
-# URL-encoding
-try: from urllib import urlencode
-except ImportError: from urllib.parse import urlencode
-
 import json
 import os
 import requests
+from flask import request, render_template, jsonify, redirect
+from app.tempo.utils import *
+
+try:
+  from urllib import urlencode
+except ImportError:
+  from urllib.parse import urlencode
 
 # App instance
-import app
+import app # pylint: disable=C0412
 
 # Models
 from app.tempo.models._all import *
@@ -37,7 +36,7 @@ def serialize_post(post, user_id):
   formatted.pop('likes')
 
   # Information to extract
-  song = song_posts[0]['song'] if len(song_posts) > 0 else None
+  song = song_posts[0]['song'] if song_posts else None
   is_liked = len([l for l in likes if l.user_id == user_id]) > 0
 
   # Fill in fields
@@ -48,4 +47,4 @@ def serialize_post(post, user_id):
   return formatted
 
 # Blueprint
-from app.tempo import tempo
+from app.tempo import tempo # pylint: disable=C0413

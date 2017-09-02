@@ -3,10 +3,10 @@ from . import *
 class Notification(Base):
   __tablename__ = 'notifications'
 
-  id = db.Column(db.Integer, primary_key = True)
-  from_id = db.Column(db.Integer, nullable = False, name = 'from')
-  to_id = db.Column(db.Integer, nullable = False, name = 'to')
-  notification_type = db.Column(db.Integer, nullable = False)
+  id = db.Column(db.Integer, primary_key=True)
+  from_id = db.Column(db.Integer, nullable=False, name='from')
+  to_id = db.Column(db.Integer, nullable=False, name='to')
+  notification_type = db.Column(db.Integer, nullable=False)
   seen = db.Column(db.Boolean)
   post_id = db.Column(db.Integer)
   message = db.Column(db.String)

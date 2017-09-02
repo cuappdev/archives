@@ -12,4 +12,4 @@ class GetFeedController(AppDevController):
   def content(self, **kwargs):
     user = kwargs.get('user')
     posts = posts_dao.get_feed(user.id)
-    return { 'posts':  [serialize_post(p, user.id) for p in posts] }
+    return {'posts':  [serialize_post(p, user.id) for p in posts]}

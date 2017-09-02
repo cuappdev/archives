@@ -14,11 +14,11 @@ class GetSpotifySignInUriController(AppDevController):
 
     # Compose URI
     params = urlencode({
-      'client_id': os.environ['SPOTIFY_CLIENT_ID'],
-      'response_type': 'code',
-      'redirect_uri': os.environ['SPOTIFY_REDIRECT_URI'],
-      'state': user.session.code
+        'client_id': os.environ['SPOTIFY_CLIENT_ID'],
+        'response_type': 'code',
+        'redirect_uri': os.environ['SPOTIFY_REDIRECT_URI'],
+        'state': user.session.code
     })
     uri = 'https://accounts.spotify.com/authorize?{}'.format(params)
 
-    return { 'uri': uri }
+    return {'uri': uri}

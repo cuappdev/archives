@@ -12,5 +12,5 @@ class CreateFollowingController(AppDevController):
   def content(self, **kwargs):
     user = kwargs.get('user')
     followed_id = request.args['followed_id']
-    followings_dao.create_following(user.id, follower_id)
+    followings_dao.create_following(user.id, followed_id)
     return dict()

@@ -10,7 +10,8 @@ class UserAuthenticationController(AppDevController):
 
   def content(self, **kwargs):
     user_token = request.json['user']['usertoken']
-    uri = 'https://graph.facebook.com/me?fields=id&access_token={}'.format(user_token)
+    uri = 'https://graph.facebook.com/me?fields=id&access_token={}'.\
+      format(user_token)
     user_info = requests.get(uri).json()
     fbid = user_info['id']
 
@@ -21,9 +22,9 @@ class UserAuthenticationController(AppDevController):
 
     # User
     user = (
-      optional_user
-      if optional_user is not None
-      else users_dao.create_user_from_fbid(fbid)
+        optional_user
+        if optional_user is not None
+        else users_dao.create_user_from_fbid(fbid)
     )
 
     # Session
@@ -34,7 +35,7 @@ class UserAuthenticationController(AppDevController):
     is_new_user = optional_user is None
 
     return {
-      'user': user_schema.dump(user).data,
-      'session': session_schema.dump(session).data,
-      'new_user': is_new_user
+        'user': user_schema.dump(user).data,
+        'session': session_schema.dump(session).data,
+        'new_user': is_new_user
     }

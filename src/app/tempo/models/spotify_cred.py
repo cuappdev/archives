@@ -3,11 +3,12 @@ from . import *
 class SpotifyCred(Base):
   __tablename__ = 'spotify_creds'
 
-  id = db.Column(db.Integer, primary_key = True)
-  user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete = 'CASCADE'))
-  access_token = db.Column(db.String, nullable = False)
-  refresh_token = db.Column(db.String, nullable = False)
-  expires_at = db.Column(db.String, nullable = False)
+  id = db.Column(db.Integer, primary_key=True)
+  user_id = \
+    db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
+  access_token = db.Column(db.String, nullable=False)
+  refresh_token = db.Column(db.String, nullable=False)
+  expires_at = db.Column(db.String, nullable=False)
   spotify_id = db.Column(db.String)
   playlist_id = db.Column(db.String)
 

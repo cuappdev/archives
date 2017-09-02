@@ -13,4 +13,4 @@ class UpdateUserUsernameController(AppDevController):
     user = kwargs.get('user')
     username = request.args['username']
     updated_user = users_dao.update_user_username(user, username)
-    return { 'user': user_schema.dump(updated_user).data }
+    return {'user': user_schema.dump(updated_user).data}

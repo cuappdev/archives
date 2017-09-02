@@ -1,12 +1,12 @@
-from following import *
-from like import *
-from notification import *
-from post import *
-from session import *
-from song_post import *
-from song import *
-from spotify_cred import *
-from user import *
+from app.tempo.models.following import *
+from app.tempo.models.like import *
+from app.tempo.models.notification import *
+from app.tempo.models.post import *
+from app.tempo.models.session import *
+from app.tempo.models.song_post import *
+from app.tempo.models.song import *
+from app.tempo.models.spotify_cred import *
+from app.tempo.models.user import *
 
 class FollowingSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
@@ -23,9 +23,9 @@ class NotificationSchema(ModelSchema):
 class PostSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
     model = Post
-  song_posts = fields.Nested('SongPostSchema', many = True)
-  likes = fields.Nested('LikeSchema', many = True)
-  user = fields.Nested('UserSchema', many = False)
+  song_posts = fields.Nested('SongPostSchema', many=True)
+  likes = fields.Nested('LikeSchema', many=True)
+  user = fields.Nested('UserSchema', many=False)
 
 class SessionSchema(ModelSchema):
   class Meta(ModelSchema.Meta):

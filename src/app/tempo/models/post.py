@@ -3,10 +3,10 @@ from . import *
 class Post(Base):
   __tablename__ = 'posts'
 
-  id = db.Column(db.Integer, primary_key = True)
-  like_count = db.Column(db.Integer, default = 0)
-  user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete = 'CASCADE'))
-  views = db.Column(db.Integer, default = 0)
+  id = db.Column(db.Integer, primary_key=True)
+  like_count = db.Column(db.Integer, default=0)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
+  views = db.Column(db.Integer, default=0)
 
   user = db.relationship('User', cascade='all,delete')
   song_posts = db.relationship('SongPost', cascade='all,delete')

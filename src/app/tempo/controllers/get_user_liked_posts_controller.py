@@ -12,4 +12,4 @@ class GetUserLikedPostsController(AppDevController):
   def content(self, **kwargs):
     user_id = request.view_args['user_id']
     posts = posts_dao.get_user_liked_posts(user_id)
-    return { 'posts': [serialize_post(p) for p in posts] }
+    return {'posts': [serialize_post(p) for p in posts]}

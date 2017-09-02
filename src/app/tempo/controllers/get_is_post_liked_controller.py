@@ -15,4 +15,4 @@ class GetIsPostLikedController(AppDevController):
 
     is_liked = likes_dao.is_liked_by_user(post_id, user.id)
 
-    return { 'is_liked': is_liked }
+    return {'is_liked': is_liked}

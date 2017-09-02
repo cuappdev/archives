@@ -3,8 +3,8 @@ from . import *
 class Song(Base):
   __tablename__ = 'songs'
 
-  id = db.Column(db.Integer, primary_key = True)
-  spotify_url = db.Column(db.String, nullable = False)
+  id = db.Column(db.Integer, primary_key=True)
+  spotify_url = db.Column(db.String, nullable=False)
   artist = db.Column(db.String)
   track = db.Column(db.String)
   hipster_score = db.Column(db.Integer)

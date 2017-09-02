@@ -12,4 +12,4 @@ class SearchUsersController(AppDevController):
   def content(self, **kwargs):
     query = request.args['q'].lower()
     users = users_dao.query_users(query)
-    return { 'users': [user_schema.dump(u).data for u in users] }
+    return {'users': [user_schema.dump(u).data for u in users]}

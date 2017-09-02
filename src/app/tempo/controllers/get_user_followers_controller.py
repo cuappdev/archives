@@ -12,4 +12,4 @@ class GetUserFollowersController(AppDevController):
   def content(self, **kwargs):
     user_id = request.view_args['user_id']
     followers = followings_dao.get_followers(user_id)
-    return { 'followers': [user_schema.dump(u).data for u in followers] }
+    return {'followers': [user_schema.dump(u).data for u in followers]}

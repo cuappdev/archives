@@ -1,14 +1,14 @@
-from . import *
 import hashlib
 import os
+from . import *
 
 class Session(Base):
   __tablename__ = 'sessions'
 
-  id = db.Column(db.Integer, primary_key = True)
-  user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete = 'CASCADE'))
+  id = db.Column(db.Integer, primary_key=True)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
   code = db.Column(db.String)
-  is_active = db.Column(db.Boolean, default = True)
+  is_active = db.Column(db.Boolean, default=True)
 
   user = db.relationship('User', cascade='all,delete')
 
