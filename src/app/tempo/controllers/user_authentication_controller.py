@@ -34,8 +34,12 @@ class UserAuthenticationController(AppDevController):
     # Newness
     is_new_user = optional_user is None
 
+    # Spotify
+    has_spotify = spotify_creds_dao.has_spotify_creds(user.id)
+
     return {
         'user': user_schema.dump(user).data,
         'session': session_schema.dump(session).data,
-        'new_user': is_new_user
+        'new_user': is_new_user,
+        'has_spotify': has_spotify,
     }

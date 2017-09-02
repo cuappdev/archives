@@ -2,6 +2,9 @@ import time
 import requests
 from . import *
 
+def has_spotify_creds(user_id):
+  return SpotifyCred.query.filter_by(user_id=user_id).first() != None
+
 def create_or_update_spotify_creds(user_id, token):
   access_token = token['access_token']
   expires_in = token['expires_in']
