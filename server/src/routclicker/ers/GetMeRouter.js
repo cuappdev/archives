@@ -15,7 +15,7 @@ class GetMeRouter extends AppDevRouter {
   }
 
   async content (req: Request) {
-    const accessToken = req.query.access_token;
+    const accessToken = req.query.accessToken;
     const params = {
       access_token: accessToken,
       alt: 'json'
