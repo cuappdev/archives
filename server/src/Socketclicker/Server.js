@@ -7,19 +7,17 @@ class SocketServer {
   port: number;
   io: Object;
 
-  constructor () {
-  }
-
   runServer (): void {
     this.server.listen(this.port);
   }
 
-  startLecture(id: number) {
+  startLecture (id: number) {
     const nsp = this.io.of('/' + id);
+    console.log('starting lecture');
     nsp.on('connection', sock => {
-      console.log('someone connected');
-      nsp.emit('hi', 'yoyoyo');
+      console.log('someone connected to socket w id: ' + id);
     });
+    nsp.emit('hi', 'yoyoyo');
   }
 
   on (action: string, callback: Function) {
