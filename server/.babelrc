@@ -4,6 +4,10 @@
     "flow",
     "stage-2",
   ],
-  "plugins": ["transform-async-to-generator"],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-async-to-generator",
+    "transform-class-properties"
+  ],
   "retainLines": true
 }
