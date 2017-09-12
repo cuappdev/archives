@@ -16,6 +16,9 @@
       repository_path: /home/vagrant/tcat.js
       repository_git_path_osrm: https://github.com/Project-OSRM/osrm-backend.git
       repository_path_osrm: /home/vagrant/tcat.js/osrm-backend
+      repository_git_path_appdev: https://github.com/cuappdev/appdev.js.git
+      repository_path_appdev: /home/vagrant/tcat.js/appdev
+
   tasks:    
   - name: install python 2
     raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
@@ -30,6 +33,9 @@
     shell: |
       curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 
+  - name: Copy map.osm
+    template: src=map.osm dest="{{ repository_path }}/osrm/map.osm"
+
   - name: Install necessary packages
     apt: update_cache=yes name={{ item }} state=present 
     remote_user: root
@@ -41,6 +47,10 @@
       - software-properties-common
       - gcc-4.9
       - g++-4.9
+      - nginx
+
+  - name: Install pm2
+    npm: name=pm2 global=yes production=yes
 
   - name: Clone app repository
     git:
@@ -56,39 +66,70 @@
       version: master    
       force: yes
 
+  - name: Clone appdev repository
+    git:
+      repo: "{{ repository_git_path_appdev }}"
+      dest: "{{ repository_path_appdev }}"
+      version: master    
+      force: yes
+
   - name: Ensure that cmake is upgraded
     apt: update_cache=yes name=cmake state=present
 
   - name: make sure the latest npm is installed
     command: npm install -g npm
 
+  - name: Check if build directory exists
+    stat: path='{{ repository_path }}/build'
+    register: built
+
   - name: Creates build directory
     file: path="{{ repository_path_osrm }}/build" state=directory
+    when: built.stat.exists == false
 
   - name: Run npm install
     command: npm install
     args:
       chdir: "{{ repository_path_osrm }}/build"
 
+
   - name: Cmake osrm
     command: cmake -DENABLE_MASON=ON -DENABLE_NODE_BINDINGS=ON -DCMAKE_C_COMPILER=/usr/bin/gcc-4.9 -DCMAKE_CXX_COMPILER=/usr/bin/g++-4.9 ..
     args:
       chdir: "{{ repository_path_osrm }}/build"
+    when: built.stat.exists == false  
 
   - name: Make osrm
     command: make
     args:
       chdir: "{{ repository_path_osrm }}/build"
+    when: built.stat.exists == false  
 
   - name: NPM link
     command: npm link
     args:
       chdir: "{{ repository_path }}"
+    when: built.stat.exists == false  
 
   - name: NPM link osrm
     command: npm link osrm
     args:
       chdir: "{{ repository_path }}"     
+
+  - name: NPM install appdev
+    command: npm install
+    args:
+      chdir: "{{ repository_path_appdev }}"
+
+  - name: NPM build appdev
+    command: npm run build
+    args:
+      chdir: "{{ repository_path_appdev }}"      
+      
+  - name: NPM build appdev
+    command: npm link
+    args:
+      chdir: "{{ repository_path_appdev }}"     
 
   - name: NPM link appdev
     command: npm link appdev
@@ -114,8 +155,20 @@
   - name: Copy Upstart configuration
     template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
 
-  - name: Copy map.osm
-    template: src=map.osm dest="{{ repository_path }}"/data/map.osm
-
   - name: Make sure our server is running
     service: name=upstart state=started
+
+  - name: Copy Nginx site values
+    template: src=tcat.nginx.j2 dest=/etc/nginx/sites-enabled/tcat
+    notify:
+      - restart nginx
+  - name: Remove any default sites
+    file: path=/etc/nginx/sites-enabled/default state=absent
+    notify:
+      - restart nginx
+  - name: Make sure nginx is running
+    service: name=nginx state=started
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted  
+
