@@ -1,0 +1,54 @@
+---
+- name: Deploying TCAT-WIP
+  hosts: all
+  environment: 
+    LC_ALL: en_US.UTF-8
+    LANG: en_US.UTF-8
+    LANGUAGE: en_US.UTF-8
+  vars:
+      repository_git_path: https://github.com/cuappdev/tcat.js.git
+      repository_path: /srv/www/tcat.js
+      repository_git_path_osrm: https://github.com/Project-OSRM/osrm-backend.git
+      repository_path_osrm: osrm-backend
+
+- name: Find existing instance(s)
+  hosts: "tag_Name_ami-build"
+  gather_facts: false
+  tags: find
+  tasks:
+    - name: Add to old-ami-build group
+      group_by:
+        key: old-ami-build
+
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - role: launch
+      name: ami-build
+
+- hosts: ami-build
+  roles:
+    - deploy
+    - nginx
+- hosts: ami-build
+  connection: local
+  gather_facts: no
+  roles:
+    - build-ami
+    - create-launch-configuration
+    - load-balancer
+    - auto-scaling
+
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - delete-old-launch-configurations
+    - delete-old-amis
+
+- hosts: old-ami-build
+  connection: local
+  gather_facts: no
+  roles:
+    - terminate

@@ -1,0 +1,121 @@
+---
+- name: Deploying TCAT-WIP
+  gather_facts: False
+  hosts: all
+  remote_user: root
+  become: true
+  become_method: sudo
+  environment: 
+    LC_ALL: en_US.UTF-8
+    LANG: en_US.UTF-8
+    LANGUAGE: en_US.UTF-8
+    CC: /usr/bin/gcc-4.9
+    CXX: /usr/bin/g++4.9
+  vars:
+      repository_git_path: https://github.com/cuappdev/tcat.js.git
+      repository_path: /home/vagrant/tcat.js
+      repository_git_path_osrm: https://github.com/Project-OSRM/osrm-backend.git
+      repository_path_osrm: /home/vagrant/tcat.js/osrm-backend
+  tasks:    
+  - name: install python 2
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+  - name: Add toolchain repository
+    apt_repository: repo='ppa:ubuntu-toolchain-r/test' state=present
+
+  - name: Add cmake repository
+    apt_repository: repo='ppa:george-edison55/cmake-3.x' state=present
+
+  - name: Run shell script for curling Nodejs
+    shell: |
+      curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+
+  - name: Install necessary packages
+    apt: update_cache=yes name={{ item }} state=present 
+    remote_user: root
+    become: yes
+    with_items:
+      - build-essential
+      - nodejs
+      - lua5.2
+      - software-properties-common
+      - gcc-4.9
+      - g++-4.9
+
+  - name: Clone app repository
+    git:
+      repo: "{{ repository_git_path }}"
+      dest: "{{ repository_path }}"
+      version: master
+      force: yes
+
+  - name: Clone osrm repository
+    git:
+      repo: "{{ repository_git_path_osrm }}"
+      dest: "{{ repository_path_osrm }}"
+      version: master    
+      force: yes
+
+  - name: Ensure that cmake is upgraded
+    apt: update_cache=yes name=cmake state=present
+
+  - name: make sure the latest npm is installed
+    command: npm install -g npm
+
+  - name: Creates build directory
+    file: path="{{ repository_path_osrm }}/build" state=directory
+
+  - name: Run npm install
+    command: npm install
+    args:
+      chdir: "{{ repository_path_osrm }}/build"
+
+  - name: Cmake osrm
+    command: cmake -DENABLE_MASON=ON -DENABLE_NODE_BINDINGS=ON -DCMAKE_C_COMPILER=/usr/bin/gcc-4.9 -DCMAKE_CXX_COMPILER=/usr/bin/g++-4.9 ..
+    args:
+      chdir: "{{ repository_path_osrm }}/build"
+
+  - name: Make osrm
+    command: make
+    args:
+      chdir: "{{ repository_path_osrm }}/build"
+
+  - name: NPM link
+    command: npm link
+    args:
+      chdir: "{{ repository_path }}"
+
+  - name: NPM link osrm
+    command: npm link osrm
+    args:
+      chdir: "{{ repository_path }}"     
+
+  - name: NPM link appdev
+    command: npm link appdev
+    args:
+      chdir: "{{ repository_path }}"    
+  
+  - name: lua Commands
+    command: node_modules/osrm/lib/binding/osrm-extract osrm/map.osm -p node_modules/osrm/profiles/foot.lua
+    args:
+      chdir: "{{ repository_path }}"   
+
+  - name: osrm Commands
+    command: node_modules/osrm/lib/binding/osrm-contract osrm/map.osrm
+    args:
+      chdir: "{{ repository_path }}"  
+
+  - name: moving osrm folder
+    command: mv *.osm* ./osrm; mv *.osrm* ./osrm
+    args:
+      chdir: "{{ repository_path }}"  
+      creates: "{{ repository_path }}/osrm"
+
+  - name: Copy Upstart configuration
+    template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
+
+  - name: Copy map.osm
+    template: src=map.osm dest="{{ repository_path }}"/data/map.osm
+
+  - name: Make sure our server is running
+    service: name=upstart state=started

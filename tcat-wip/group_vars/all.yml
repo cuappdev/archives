@@ -1,0 +1,13 @@
+---
+# group_vars/all.yml
+
+region: us-west-2c
+zone: us-west-2c
+keypair: a3keypair.pem
+security_groups: sg-232bdb5b
+instance_type: m3.medium
+volumes:
+  - device_name: /dev/sda1
+    device_type: gp2
+    volume_size: 100
+    delete_on_termination: true

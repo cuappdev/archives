@@ -1,0 +1,2 @@
+[webservers]
+ _________ ansible_ssh_user=ubuntu
