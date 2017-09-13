@@ -1,13 +1,11 @@
 // @flow
-import {Request} from 'express';
+import { Request } from 'express';
 import AppDevRouter from '../utils/AppDevRouter';
 import UsersRepo from '../repos/UsersRepo';
 
-import constants from '../utils/constants';
-
 class GetUsersRouter extends AppDevRouter {
   constructor () {
-    super(constants.REQUEST_TYPES.GET);
+    super('GET');
   }
 
   getPath (): string {

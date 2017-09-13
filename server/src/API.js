@@ -6,6 +6,8 @@ import serveFavicon from 'serve-favicon';
 
 // All routers
 import GetUsersRouter from './routers/GetUsersRouter';
+import GoogleSignInRouter from './routers/GoogleSignInRouter';
+import GetMeRouter from './routers/GetMeRouter';
 import StartLectureRouter from './routers/StartLectureRouter';
 
 class API {
@@ -24,7 +26,7 @@ class API {
   }
 
   site = (req: Request, res: Response, next: NextFunction): void => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
+    res.sendFile('index.html', { root: path.join(__dirname, '../public') });
   };
 
   _use (Router: any): void {
@@ -34,6 +36,8 @@ class API {
   routes (): void {
     // Load all them routers
     this._use(GetUsersRouter);
+    this._use(GoogleSignInRouter);
+    this._use(GetMeRouter);
     this._use(StartLectureRouter);
 
     // Front-end files

@@ -1,11 +1,11 @@
 // flow
 
-export type RequestType = 'post' | 'get' | 'delete';
+export type RequestType = 'POST' | 'GET' | 'DELETE';
 
 const REQUEST_TYPES = {
-  POST: 'post',
-  GET: 'get',
-  DELETE: 'delete'
+  POST: 'POST',
+  GET: 'GET',
+  DELETE: 'DELETE'
 };
 
 export default {

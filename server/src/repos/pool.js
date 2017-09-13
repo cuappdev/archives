@@ -15,6 +15,7 @@ const useDB = async (query: string): Promise<any> => {
     pool.getConnection((err: Object, connection) => {
       if (err) reject(err);
       connection.query(query, (err: Object, rows) => {
+        connection.release();
         if (err) reject(err);
         return resolve(rows);
       });
