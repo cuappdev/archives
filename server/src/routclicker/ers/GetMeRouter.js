@@ -1,6 +1,7 @@
 // @flow
 import { Request } from 'express';
 import AppDevRouter from '../utils/AppDevRouter';
+import SessionsRepo from '../repos/SessionsRepo';
 import UsersRepo from '../repos/UsersRepo';
 
 import appDevUtils from '../utils/appDevUtils';
@@ -11,7 +12,7 @@ class GetMeRouter extends AppDevRouter {
   }
 
   getPath (): string {
-    return '/users/me/';
+    return '/users/google_sign_in/';
   }
 
   async content (req: Request) {
@@ -38,7 +39,13 @@ class GetMeRouter extends AppDevRouter {
       });
     }
 
-    return user;
+    // Create or update the session associated w/this user
+    const session = await SessionsRepo.createOrUpdateSession(user);
+
+    return {
+      user: user,
+      session: session
+    };
   }
 }
 

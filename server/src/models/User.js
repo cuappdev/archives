@@ -1,11 +1,11 @@
 // @flow
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import {Base} from './Base';
 
 @Entity('users')
 export class User extends Base {
-  @PrimaryColumn('int', { generated: true })
-  id: ?number = null;
+  @PrimaryGeneratedColumn()
+  id: any = null; // hacky b/c https://github.com/babel/babel/issues/5519
 
   @Column('string')
   googleId: string = '';
