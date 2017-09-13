@@ -35,6 +35,7 @@ const getUserByGoogleId = async (googleId: string): Promise<?User> => {
       .getOne();
     return user;
   } catch (e) {
+    console.log(e);
     throw new Error('Problem getting user by google ID!');
   }
 };
