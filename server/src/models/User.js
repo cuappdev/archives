@@ -23,12 +23,12 @@ export class User extends Base {
   email: string = '';
 
   static fromGoogleCreds (creds: Object): User {
-    const u = new User();
-    u.googleId = creds.googleId;
-    u.netId = creds.netId;
-    u.firstName = creds.firstName;
-    u.lastName = creds.lastName;
-    u.email = creds.email;
-    return u;
+    const user = new User();
+    user.googleId = creds.googleId;
+    user.netId = creds.netId;
+    user.firstName = creds.firstName;
+    user.lastName = creds.lastName;
+    user.email = creds.email;
+    return user;
   }
 }
