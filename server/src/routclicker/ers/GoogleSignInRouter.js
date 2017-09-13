@@ -14,8 +14,6 @@ class GoogleSignInRouter extends AppDevRouter {
   }
 
   async content (req: Request) {
-    // Make driver to talk to Google API
-
     // Google OAuth code for token-swap
     const code = req.query.code;
     const form = {
