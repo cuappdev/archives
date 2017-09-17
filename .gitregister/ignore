@@ -1,0 +1,13 @@
+venv
+*.pyc
+*.env
+node_modules
+*.DS_Store
+npm-debug.log
+results
+secret
+*.rdb
+*.p
+static
+src/migrations
+package-lock.json
