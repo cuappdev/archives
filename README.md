@@ -1,4 +1,4 @@
-# React-Flask BoilerPlate
+# Register
 
 Technologies involved include:
 1. Flask
