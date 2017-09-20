@@ -9,6 +9,7 @@ import GetUsersRouter from './routers/GetUsersRouter';
 import GoogleSignInRouter from './routers/GoogleSignInRouter';
 import GetMeRouter from './routers/GetMeRouter';
 import StartLectureRouter from './routers/StartLectureRouter';
+import EndLectureRouter from './routers/EndLectureRouter';
 
 class API {
   express: Object;
@@ -39,6 +40,7 @@ class API {
     this._use(GoogleSignInRouter);
     this._use(GetMeRouter);
     this._use(StartLectureRouter);
+    this._use(EndLectureRouter);
 
     // Front-end files
     this.express.use(express.static(path.join(__dirname, '../public')));

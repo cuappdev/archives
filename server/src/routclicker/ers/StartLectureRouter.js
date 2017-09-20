@@ -14,10 +14,19 @@ class StartLectureRouter extends AppDevRouter {
     return '/start-lecture/';
   }
 
+  _generateLectureId (courseId: string, date: string): string {
+    // TODO - Generate unique lecture ID given the course ID and the date
+    // Date format is as follows: "Fri Sep 15 2017"
+    return courseId.replace(/\s/g, '') + date.replace(/\s/g, '');
+  }
+
   async content (req: Request) {
-    // Start socket with namespace of id. (example: 4999) Statis for now.
-    SocketServer.startLecture(4999);
-    return 4999;
+    // Start socket with namespace of lecture id
+    const courseId = req.query.courseId;
+    const date = req.query.date;
+    const lectureId = this._generateLectureId(courseId, date);
+    SocketServer.startLecture(lectureId);
+    return lectureId;
   }
 }
 
