@@ -8,7 +8,7 @@ DB_USERNAME = os.environ['DB_USERNAME']
 DB_PASSWORD = os.environ['DB_PASSWORD']
 DB_HOST = os.environ['DB_HOST']
 DB_NAME = os.environ['DB_NAME']
-DB_URL = 'postgres://{}:{}@{}/{}?charset=utf8mb4'.format(
+DB_URL = 'postgres://{}:{}@{}/{}'.format(
     DB_USERNAME,
     DB_PASSWORD,
     DB_HOST,
