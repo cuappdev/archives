@@ -102,6 +102,6 @@ class SocketServer {
   }
 }
 
-const instance = new SocketServer();
+const socketServer = new SocketServer();
 
-export default instance;
+export default socketServer;
