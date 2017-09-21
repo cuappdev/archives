@@ -4,17 +4,17 @@ Technologies involved include:
 1. Flask
 2. SQLAlchemy
 3. Marshmallow
-4. MySQL
+4. PostgreSQL
 5. React
 6. React-Router
 7. Redux
 
 ## Setting Up Database
-Ensure you have `mysql` plus command line tools setup:
+Ensure you have `psql` plus command line tools setup:
 ````bash
-mysql
-mysql> CREATE DATABASE my_db_name;
-mysql> \q
+psql
+psql> CREATE DATABASE my_db_name;
+psql> \q
 cd src
 python manage.py db init  
 python manage.py db migrate
