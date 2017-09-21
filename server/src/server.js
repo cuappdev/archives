@@ -1,8 +1,8 @@
 // @flow
-import http from 'http';
 import API from './API';
 
-import pool from './repos/pool';
+import dbConnection from './db/DbConnection';
+import http from 'http';
 import SocketServer from './SocketServer';
 
 type Error = {
@@ -35,6 +35,7 @@ const onListening = (): void => {
   console.log(`Listening on ${addr.port}`);
 };
 
+<<<<<<< HEAD
 // Configures server
 SocketServer.server = server;
 SocketServer.port = port;
@@ -42,3 +43,19 @@ SocketServer.runServer();
 SocketServer.on('error', onError);
 SocketServer.on('listening', onListening);
 SocketServer.setupSocket();
+=======
+const mountApp = (): void => {
+  const socketServer = new SocketServer(server, port);
+  socketServer.runServer();
+  socketServer.on('error', onError);
+  socketServer.on('listening', onListening);
+  socketServer.setupSocket();
+};
+
+// Bootstrap everything
+dbConnection().then(_ => {
+  mountApp();
+}).catch(err => {
+  console.log(err);
+});
+>>>>>>> origin/master

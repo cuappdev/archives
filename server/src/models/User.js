@@ -1,19 +1,34 @@
 // @flow
-import Model from './Model';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {Base} from './Base';
 
-export type UserFields = {
-  id?: string;
-  googleId: string;
-  netId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-};
+@Entity('users')
+export class User extends Base {
+  @PrimaryGeneratedColumn()
+  id: any = null; // hacky b/c https://github.com/babel/babel/issues/5519
 
-class User extends Model {
-  fields: UserFields;
+  @Column('string')
+  googleId: string = '';
+
+  @Column('string')
+  netId: string = '';
+
+  @Column('string')
+  firstName: string = '';
+
+  @Column('string')
+  lastName: string = '';
+
+  @Column('string')
+  email: string = '';
+
+  static fromGoogleCreds (creds: Object): User {
+    const user = new User();
+    user.googleId = creds.googleId;
+    user.netId = creds.netId;
+    user.firstName = creds.firstName;
+    user.lastName = creds.lastName;
+    user.email = creds.email;
+    return user;
+  }
 }
-
-export default User;
