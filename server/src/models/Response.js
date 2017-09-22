@@ -24,8 +24,8 @@ export class Response extends Base {
   response: json = {};
 
   @ManyToOne(type => Question, question => question.responses)
-  question: Question;
+  question: ?Question = null;
 
   @ManyToOne(type => User, user => user.responses)
-  user: User;
+  user: ?User = null;
 }

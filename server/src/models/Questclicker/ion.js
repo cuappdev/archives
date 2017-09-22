@@ -29,7 +29,7 @@ export class Question extends Base {
   data: json = {};
 
   @ManyToOne(type => Lecture, lecture => lecture.questions)
-  lecture: Lecture;
+  lecture: ?Lecture = null;
 
   @OneToMany(type => Response, response => response.question)
   responses: Response[];
