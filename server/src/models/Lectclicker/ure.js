@@ -19,7 +19,7 @@ export class Lecture extends Base {
   dateTime: number = -1; //Date & time of lecture
 
   @ManyToOne(type => Course, course => course.lectures)
-  course: Course;
+  course: ?Course = null;
 
   @OneToMany(type => Question, question => question.lecture)
   questions: Question[];

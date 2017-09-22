@@ -22,7 +22,7 @@ export class Course extends Base {
   subject: string = '';
 
   @Column('number')
-  catalogNum: number;
+  catalogNum: number = 0;
 
   @Column('string')
   name: string = '';
@@ -31,7 +31,7 @@ export class Course extends Base {
   term: string = '';
 
   @ManyToOne(type => Organization, organization => organization.courses)
-  organization: Organization;
+  organization: ?Organization = null;
 
   @OneToMany(type => Lecture, lecture => lecture.course)
   lectures: Lecture[];
