@@ -1,6 +1,16 @@
 // @flow
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
+  ManyToOne
+} from 'typeorm';
 import {Base} from './Base';
+import {Course} from './Course';
+import {Response} from './Response';
 
 @Entity('users')
 export class User extends Base {
@@ -21,6 +31,17 @@ export class User extends Base {
 
   @Column('string')
   email: string = '';
+
+  @ManyToMany(type => Course, course => course.students)
+  @JoinTable()
+  enrolledCourses: Course[];
+
+  @ManyToMany(type => Course, course => course.admins)
+  @JoinTable()
+  adminCourses: Course[]; // Courses user is an admin of
+
+  @OneToMany(type => Response, response => response.user)
+  responses: Response[];
 
   static fromGoogleCreds (creds: Object): User {
     const user = new User();
