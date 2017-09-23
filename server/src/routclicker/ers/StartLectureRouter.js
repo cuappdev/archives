@@ -7,7 +7,7 @@ import constants from '../utils/constants';
 
 class StartLectureRouter extends AppDevRouter {
   constructor () {
-    super(constants.REQUEST_TYPES.GET);
+    super(constants.REQUEST_TYPES.POST);
   }
 
   getPath (): string {
@@ -22,8 +22,8 @@ class StartLectureRouter extends AppDevRouter {
 
   async content (req: Request) {
     // Start socket with namespace of lecture id
-    const courseId = req.query.courseId;
-    const date = req.query.date;
+    const courseId = req.body.courseId;
+    const date = req.body.date;
     const lectureId = this._generateLectureId(courseId, date);
     SocketServer.startLecture(lectureId);
     return lectureId;

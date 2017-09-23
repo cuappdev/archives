@@ -7,7 +7,7 @@ import constants from '../utils/constants';
 
 class EndLectureRouter extends AppDevRouter {
   constructor () {
-    super(constants.REQUEST_TYPES.GET);
+    super(constants.REQUEST_TYPES.POST);
   }
 
   getPath (): string {
@@ -16,7 +16,7 @@ class EndLectureRouter extends AppDevRouter {
 
   async content (req: Request) {
     // Close socket with namespace of lectureId
-    const lectureId = req.query.lectureId;
+    const lectureId = req.body.lectureId;
     const success = SocketServer.endLecture(lectureId);
     return success;
   }
