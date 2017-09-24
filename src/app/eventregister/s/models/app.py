@@ -6,7 +6,7 @@ class App(Base):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     secret_key = db.Column(db.String(255), unique=True, nullable=False)
-    addresses = db.relationship('Event_Type', backref='app')
+    event_types = db.relationship('EventType', backref='app')
 
     def __init__(self, **kwargs):
         self.name = kwargs.get('name')
