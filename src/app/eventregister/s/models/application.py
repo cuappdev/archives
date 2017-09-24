@@ -1,7 +1,7 @@
 from . import *
 
-class App(Base):
-  __tablename__ = 'apps'
+class Application(Base):
+  __tablename__ = 'applications'
 
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(255), nullable=False)

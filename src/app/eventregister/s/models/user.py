@@ -1,6 +1,16 @@
 import bcrypt
 from . import *
 
+# define many-to-many relationship
+users_to_applications = db.Table('user_to_applications',
+                                 db.Column('user_id',
+                                           db.Integer,
+                                           db.ForeignKey('users.id')),
+                                 db.Column('application_id',
+                                           db.Integer,
+                                           db.ForeignKey('applications.id'))
+                                )
+
 class User(Base):
   __tablename__ = 'users'
 
@@ -9,8 +19,9 @@ class User(Base):
   password_digest = db.Column(db.Text, nullable=False)
   first_name = db.Column(db.String(255))
   last_name = db.Column(db.String(255))
-  apps = db.relationship('App', secondary=users_to_apps,
-                         backref=db.backref('users'))
+  applications = db.relationship('Application',
+                                 secondary=users_to_applications,
+                                 backref=db.backref('users'))
 
   def __init__(self, **kwargs):
     self.email = kwargs.get('email')
@@ -21,13 +32,3 @@ class User(Base):
   def verify_password(self, password):
     pwhash = bcrypt.hashpw(password, self.password)
     return self.password == pwhash
-
-# define many-to-many relationship
-users_to_apps = db.Table('user_to_apps',
-                         db.Column('user_id',
-                                   db.Integer,
-                                   db.ForeignKey('user.id')),
-                         db.Column('app_id',
-                                   db.Integer,
-                                   db.ForeignKey('app.id'))
-                        )
