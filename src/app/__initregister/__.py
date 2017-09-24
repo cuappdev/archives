@@ -12,6 +12,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 # Import + Register Blueprints
+from app.events import *
 # from app.events import events as events # pylint: disable=C0413
 # app.register_blueprint(events)
 
