@@ -1,0 +1,22 @@
+PODS:
+  - Alamofire (4.5.0)
+  - SwiftRegister (1.0):
+    - Alamofire
+    - SwiftyJSON
+  - SwiftyJSON (3.1.4)
+
+DEPENDENCIES:
+  - SwiftRegister (from `../`)
+
+EXTERNAL SOURCES:
+  SwiftRegister:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  SwiftRegister: c303b458774cffe8a22f62718b69d33e7776ac15
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+
+PODFILE CHECKSUM: 8ba52a5da62f05c45ff3ddf47f87714aba5c0572
+
+COCOAPODS: 1.4.0.beta.1
