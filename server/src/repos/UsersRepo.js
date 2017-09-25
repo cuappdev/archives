@@ -1,6 +1,7 @@
 // @flow
 import { getConnectionManager, Repository } from 'typeorm';
 import { User } from '../models/User';
+import {Course} from '../models/Course';
 
 const db = (): Repository<User> => {
   return getConnectionManager().get().getRepository(User);
@@ -51,9 +52,40 @@ const getUsers = async (): Promise<Array<User>> => {
   }
 };
 
+
+// Get courses user is enrolled in
+const getEnrolledCoursesByUserId = async (userId: number): Promise<Array<Course>> => {
+  try {
+    const user = await db().createQueryBuilder('users')
+      .where("users.id=:userId")
+      .leftJoinAndSelect("users.enrolledCourses", "courses")
+      .setParameters({userId: userId})
+      .getOne();
+    return user.enrolledCourses;
+  } catch (e) {
+    throw new Error('Problem getting courses!');
+  }
+};
+
+// Get courses user is admin of
+const getAdminCoursesByUserId = async (userId: number): Promise<Array<Course>> => {
+  try {
+    const user = await db().createQueryBuilder('users')
+      .where("users.id=:userId")
+      .leftJoinAndSelect("users.adminCourses", "courses")
+      .setParameters({userId: userId})
+      .getOne();
+    return user.adminCourses;
+  } catch (e) {
+    throw new Error('Problem getting courses!');
+  }
+};
+
 export default {
   getUsers,
   createUser,
   getUserById,
-  getUserByGoogleId
+  getUserByGoogleId,
+  getEnrolledCoursesByUserId,
+  getAdminCoursesByUserId
 };

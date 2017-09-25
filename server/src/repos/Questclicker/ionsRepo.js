@@ -50,8 +50,23 @@ const getQuestions = async (): Promise<Array<Question>> => {
   }
 };
 
+// Get questions by lecture id
+const getQuestionsByLectureId = async (lectureId: number): Promise<Array<Question>> => {
+  try {
+    const questions = await db().createQueryBuilder('questions')
+      .innerJoinAndSelect("questions.lecture", "lecture")
+      .where("lecture.id=:lectureId")
+      .setParameters({ lectureId: lectureId })
+      .getMany();
+    return questions;
+  } catch (e) {
+    throw new Error('Problem getting questions!');
+  }
+};
+
 export default {
   createQuestion,
   getQuestionById,
-  getQuestions
+  getQuestions,
+  getQuestionsByLectureId
 };

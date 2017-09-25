@@ -14,12 +14,12 @@ const db = (): Repository<Response> => {
 };
 
 // Create a response
-const createResponse = async (type: QUESTION_TYPE, response: json,
+const createResponse = async (type: QUESTION_TYPE, data: json,
   questionId: number, userId: number): Promise<Response> => {
   try {
     const response = new Response();
     response.type = type;
-    response.response = response;
+    response.response = data;
     response.question = await QuestionsRepo.getQuestionById(questionId);
     response.user = await UsersRepo.getUserById(userId);
     await db().persist(response);
@@ -51,8 +51,36 @@ const getResponses = async (): Promise<Array<Response>> => {
   }
 };
 
+// Get responses by question id
+const getResponsesByQuestionId = async (questionId: number): Promise<Array<Response>> => {
+  try {
+    const responses = await db().createQueryBuilder('responses')
+      .innerJoinAndSelect("responses.question", "question")
+      .where("question.id=:questionId")
+      .setParameters({ questionId: questionId })
+      .getMany();
+    return responses;
+  } catch (e) {
+    throw new Error('Problem getting responses!');
+  }
+};
+
+//Update a response
+const updateResponse = async (responseId: number, newReponse: json) : Promise<?Response> => {
+  try {
+    const response = await db().findOneById(responseId);
+    response.response = newReponse;
+    await db().persist(response);
+    return response;
+  } catch(e) {
+    throw new Error('Error updating response');
+  }
+}
+
 export default {
   createResponse,
   getResponseById,
-  getResponses
+  getResponses,
+  getResponsesByQuestionId,
+  updateResponse
 };

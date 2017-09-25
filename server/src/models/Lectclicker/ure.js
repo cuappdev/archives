@@ -22,5 +22,5 @@ export class Lecture extends Base {
   course: ?Course = null;
 
   @OneToMany(type => Question, question => question.lecture)
-  questions: Question[];
+  questions: ?Question[] = [];
 }

@@ -34,13 +34,15 @@ export class Course extends Base {
   organization: ?Organization = null;
 
   @OneToMany(type => Lecture, lecture => lecture.course)
-  lectures: Lecture[];
+  lectures: ?Lecture[] = [];
 
-  @ManyToMany(type => User, user => user.adminCourses)
-  admins: User[];
+  @ManyToMany(type => User, user => user.adminCourses, {
+    cascadeAdd: true
+  })
+  admins: ?User[] = [];
 
   @ManyToMany(type => User, user => user.enrolledCourses, {
-    cascadeAll: true
-  }) //Deals with if students add/drop course
-  students: User[];
+    cascadeAdd: true
+  })
+  students: ?User[] = [];
 }

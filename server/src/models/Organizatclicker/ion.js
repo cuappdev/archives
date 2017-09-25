@@ -17,5 +17,5 @@ export class Organization extends Base {
   name: string = '';
 
   @OneToMany(type => Course, course => course.organization)
-  courses: Course[];
+  courses: ?Course[] = [];
 }
