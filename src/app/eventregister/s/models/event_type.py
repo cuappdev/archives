@@ -1,7 +1,11 @@
+from sqlalchemy import UniqueConstraint
 from . import *
 
 class EventType(Base):
   __tablename__ = 'event_types'
+  __table_args__ = (
+    UniqueConstraint('name', 'application_id'),
+  )
 
   id = db.Column(db.Integer, primary_key=True)
   # TODO: Integrate user model
