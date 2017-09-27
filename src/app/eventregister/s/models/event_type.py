@@ -5,10 +5,12 @@ class EventType(Base):
 
   id = db.Column(db.Integer, primary_key=True)
   # TODO: Integrate user model
-  name = db.Column(db.String(50))
-  creator = db.Column(db.String(50))
-  app_id = db.Column(db.Integer, db.ForeignKey('app.id'))
+  name = db.Column(db.String(255), nullable=False)
+  creator = db.Column(db.String(255), nullable=False)
+  application_id = db.Column(db.Integer, db.ForeignKey('applications.id'))
   fields_info = db.Column(db.JSON)
+
+  application = db.relationship('Application', backref='event_types')
 
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
