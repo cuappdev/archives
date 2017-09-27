@@ -16,8 +16,9 @@ class EndLectureRouter extends AppDevRouter {
 
   async content (req: Request) {
     // Close socket with namespace of lectureId
+    const profId = req.body.profId;
     const lectureId = req.body.lectureId;
-    const success = SocketServer.endLecture(lectureId);
+    const success = SocketServer.endLecture(profId, lectureId);
     return success;
   }
 }
