@@ -16,4 +16,3 @@ class EventType(Base):
     self.name = kwargs.get('name')
     self.creator = kwargs.get('creator')
     self.fields_info = kwargs.get('fields_info')
-    
