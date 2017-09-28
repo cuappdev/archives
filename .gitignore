@@ -1,2 +1,5 @@
-tcat-wip/venv/*
-tcat/.vagrant/*
+venv/*
+*/.vagrant/*
+*.pyc
+*.DS_Store
+*.env
