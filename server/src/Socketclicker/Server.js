@@ -7,6 +7,7 @@ class SocketServer {
   port: number;
   io: Object;
   lectures: Object;
+  rooms: Object;
 
   constructor() {
     this.lectures = {};
@@ -60,7 +61,11 @@ class SocketServer {
     const netId = client.handshake.query.netid;
   }
 
-  // Start lecture with namespace of lecture id
+  /*
+   * Lecture methods [start, end, join]
+   */
+
+  // Start a lecture - create a room given the lecture id
   startLecture(profId: string, lectureId: string): boolean {
     if (this.lectures[lectureId]) {
       console.log('This lecture is already in session');
@@ -76,9 +81,9 @@ class SocketServer {
 
     nsp.on('connection', (client) => {
       var success = this.joinLecture(client, lectureId);
-      if (success) {
-        socket.emit('welcome', `Welcome to lecture ${lectureId}!`)
-      };
+      client.emit('welcome', {
+        success: success
+      });
     });
 
     return true;
@@ -116,6 +121,8 @@ class SocketServer {
       client.disconnect();
     } else {
       console.log(`Student ${client.id} joined lecture ${lectureId}`);
+      this.lectures[lectureId].students[client.id] = true;
+      console.log(this.lectures);
       client.on('disconnect', () => this.leaveLecture(client, lectureId));
     }
     return isValid;
@@ -135,6 +142,31 @@ class SocketServer {
     // TODO - Validate this user
     return true;
   }
+
+  /*
+   * Room functions [create, message, delete]
+   */
+
+  // Creates and returns a new room
+  _createRoom = (name: string): void => {
+    // TODO
+    this.rooms[name] = true;
+  }
+
+  // Messages the clients in the specified room
+  _messageRoom = (room: string, msg: string, data: Object): void => {
+    this.io.to(room).emit(msg, data);
+  }
+
+  // Removes the clients from a room and delete the room
+  _deleteRoom = (room: string) => {
+    // TODO
+    delete this.rooms[room];
+  }
+
+  /*
+   * Namespace functions [create, get, delete]
+   */
 
   // Creates and returns a namespace object
   _createNamespace = (name: string): Object => {
