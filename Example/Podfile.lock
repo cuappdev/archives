@@ -1,7 +1,22 @@
 PODS:
-  - Alamofire (4.5.0)
+  - Alamofire (4.5.1)
+  - PromiseKit (4.4.0):
+    - PromiseKit/Foundation (= 4.4.0)
+    - PromiseKit/QuartzCore (= 4.4.0)
+    - PromiseKit/UIKit (= 4.4.0)
+  - PromiseKit/Alamofire (4.4.0):
+    - Alamofire (~> 4.0)
+    - PromiseKit/CorePromise
+  - PromiseKit/CorePromise (4.4.0)
+  - PromiseKit/Foundation (4.4.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.4.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.4.0):
+    - PromiseKit/CorePromise
   - SwiftRegister (1.0):
-    - Alamofire
+    - PromiseKit (~> 4.4)
+    - PromiseKit/Alamofire
     - SwiftyJSON
   - SwiftyJSON (3.1.4)
 
@@ -13,8 +28,9 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
-  SwiftRegister: c303b458774cffe8a22f62718b69d33e7776ac15
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
+  SwiftRegister: c5037000cbaee57affd171594b3077deea5639a2
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
 PODFILE CHECKSUM: 8ba52a5da62f05c45ff3ddf47f87714aba5c0572

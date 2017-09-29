@@ -2,6 +2,11 @@ import UIKit
 import XCTest
 import SwiftRegister
 
+struct AlphaEvent: Loggable {
+    let eventName: String = "alpha"
+    let payload: String
+}
+
 class Tests: XCTestCase {
     
     override func setUp() {
@@ -15,12 +20,12 @@ class Tests: XCTestCase {
     }
     
     func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-        let hello = sayHi()
-        XCTAssert(hello == "Hello, World!")
-        let json = helloJson()
-        XCTAssert(json["hello"].string == "world!")
+    }
+    
+    func testEncode() {
+        let alpha = AlphaEvent(payload: "ok")
+        let data = alpha.toEncodedEvent()
+        print(String(data: data, encoding: .utf8))
     }
     
 }
