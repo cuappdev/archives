@@ -47,10 +47,14 @@
       when: configured.stat.exists == false
     # - name: Copy in elasticsearch.yml
     #   template: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml
+    # Run Elasticsearch
     - name: Copy Upstart configuration
       template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
     - name: Make sure our server is running
       service: name=upstart state=started
+    # All Nginx configuation
+    - name: Make Nginx directory
+      command: mkdir -p /etc/nginx/sites-enabled/
     - name: Copy Nginx site values
       template: src=podcasts-search.nginx.j2 dest=/etc/nginx/sites-enabled/podcasts-search
       notify:
