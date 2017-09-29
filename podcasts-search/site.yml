@@ -11,37 +11,48 @@
   vars:
       repository_path: /home/vagrant/podcasts-search
   tasks:
-    - name: Add repositories
-      apt_repository: repo='ppa:webupd8team/java' state=present
     - name: Install necessary packages
-      apt: update_cache=yes name={{ item }} state=present
+      apt: update_cache=yes state=present force=yes install_recommends=yes name={{ item }}
       with_items:
         - openjdk-7-jre
-        - oracle-java8-installer
     - name: Check if directory exists
       stat: path='{{ repository_path }}'
+      register: startup
+    - name: Make home directory
+      command: sudo mkdir -p {{ repository_path }}
+      when: startup.stat.exists == false
+    - name: Check elasticsearch install
+      stat: path='{{ repository_path }}/elasticsearch-1.7.2.deb'
+      register: setup
     - name: Download Elasticsearch
       command: wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.2.deb
-      register: setup
-      when: setup.stat.exists == false
       args:
         chdir: '{{ repository_path }}'
+      when: setup.stat.exists == false
     - name: Install Elasticsearch
       command: sudo dpkg -i elasticsearch-1.7.2.deb
-      when: setup.stat.exists == false
       args:
         chdir: '{{ repository_path }}'
+      when: setup.stat.exists == false
     - name: Add init-script to runlevels
       command: sudo update-rc.d elasticsearch defaults
-      when: setup.stat.exists == false
       args:
         chdir: '{{ repository_path }}'
+      when: setup.stat.exists == false
+    - name: Check if elasticsearch configuration file exists
+      stat: path='/etc/elasticsearch'
+      register: configured
+    - name: Make configuration directory
+      command: sudo mkdir -p /etc/elasticsearch
+      when: configured.stat.exists == false
+    # - name: Copy in elasticsearch.yml
+    #   template: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml
     - name: Copy Upstart configuration
       template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
     - name: Make sure our server is running
       service: name=upstart state=started
     - name: Copy Nginx site values
-      template: src=a3.nginx.j2 dest=/etc/nginx/sites-enabled/a3
+      template: src=podcasts-search.nginx.j2 dest=/etc/nginx/sites-enabled/podcasts-search
       notify:
         - restart nginx
     - name: Remove any default sites

@@ -1,0 +1,8 @@
+node.name: "Podcast Search Node 1"
+cluster.name: podcasts-search
+node.master: false
+node.data: true
+index.number_of_shards: 1
+index.number_of_replicas: 0
+network.host: 127.0.0.1
+discovery.zen.ping.multicast.enabled: false
