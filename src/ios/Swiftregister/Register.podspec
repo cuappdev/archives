@@ -19,7 +19,8 @@ Pod::Spec.new do |s|
 
   s.source_files = 'SwiftRegister/Classes/**/*'
 
-  s.dependency 'Alamofire'
+  s.dependency 'PromiseKit', '~> 4.4'
+  s.dependency 'PromiseKit/Alamofire'
   s.dependency 'SwiftyJSON'
   
 end
