@@ -6,10 +6,15 @@ class SocketServer {
   server: http.Server;
   port: number;
   io: Object;
-  lectures: Object;
   rooms: Object;
+  professors: Object;
+  students: Object;
+  lectures: Object;
 
   constructor() {
+    this.rooms = {};
+    this.professors = {};
+    this.students = {};
     this.lectures = {};
   }
 
@@ -29,14 +34,13 @@ class SocketServer {
 
   // Handle client socket connection
   _onConnect = (client: Object): void => {
-    const clientId = client.id;
     const userType = client.handshake.query.userType;
 
     if (userType === 'professor') {
-      console.log(`Professor with id ${clientId} connected to socket`);
+      console.log(`Professor with id ${client.id} connected to socket`);
       this._setupProfessorEvents(client);
     } else {
-      console.log(`Student with id ${clientId} connected to socket`);
+      console.log(`Student with id ${client.id} connected to socket`);
       const netId = client.handshake.query.netId;
       this._setupStudentEvents(client);
     }
@@ -53,12 +57,13 @@ class SocketServer {
 
   _setupProfessorEvents = (client: Object): void => {
     const address = client.handshake.address;
-
+    this.professors[client.id] = client;
   }
 
   _setupStudentEvents = (client: Object): void => {
     const address = client.handshake.address;
-    const netId = client.handshake.query.netid;
+    const netId = client.handshake.query.netId;
+    this.students[client.id] = client;
   }
 
   /*
@@ -71,21 +76,13 @@ class SocketServer {
       console.log('This lecture is already in session');
       return false;
     }
-    console.log('STARTING lecture with namespace: /' + lectureId);
-    const nsp = this._createNamespace(lectureId);
+    console.log(`STARTING lecture (room \'${lectureId}\')`);
+    this._createRoom(lectureId);
     this.lectures[lectureId] = {
       professor: profId,
       students: {}
     };
     console.log(this.lectures);
-
-    nsp.on('connection', (client) => {
-      var success = this.joinLecture(client, lectureId);
-      client.emit('welcome', {
-        success: success
-      });
-    });
-
     return true;
   }
 
@@ -99,12 +96,11 @@ class SocketServer {
       if (lecture.professor !== profId) {
         throw new Error('Professor lacks permission to end lecture /' + lectureId);
       }
-      const nsp = this._getNamespace(lectureId);
-      console.log('ENDING lecture with namespace: /' + lectureId);
-      Object.values(nsp.connected).forEach((socket) => {
-        socket.close();
+      console.log(`ENDING lecture (room \'${lectureId}\')`);
+      lecture.students.map((id: string) => {
+        this.students[id].disconnect();
       });
-      this._deleteNamespace(lectureId);
+      this._deleteRoom(lectureId);
       delete this.lectures[lectureId];
     } catch (error) {
       console.log(error.message);
@@ -113,15 +109,15 @@ class SocketServer {
     return true;
   }
 
-  // Client socket joins the specified lecture if validated,
-  // disconnects otherwise
-  joinLecture = (client: Object, lectureId: string): boolean => {
-    var isValid = this._validateUser(client);
-    if (!isValid) {
-      client.disconnect();
-    } else {
+  // Have the client socket join a lecture if allowed
+  joinLecture = (clientId: string, lectureId: string): boolean => {
+    const client = this.students[clientId];
+    var isValid = this._validateStudent(client, lectureId);
+    if (isValid) {
+      if (this.lectures[lectureId].students[clientId]) return false;
       console.log(`Student ${client.id} joined lecture ${lectureId}`);
-      this.lectures[lectureId].students[client.id] = true;
+      this.lectures[lectureId].students[clientId] = true;
+      client.join(lectureId);
       console.log(this.lectures);
       client.on('disconnect', () => this.leaveLecture(client, lectureId));
     }
@@ -138,7 +134,8 @@ class SocketServer {
     console.log(`Student ${client.id} left lecture ${lectureId}`);
   }
 
-  _validateUser = (user: Object): boolean => {
+  // Validate that this student is allowed to join this lecture
+  _validateStudent = (client: Object, lectureId: string): boolean => {
     // TODO - Validate this user
     return true;
   }

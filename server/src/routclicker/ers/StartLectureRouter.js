@@ -22,7 +22,7 @@ class StartLectureRouter extends AppDevRouter {
 
   async content (req: Request) {
     // Start socket with namespace of lecture id
-    const profId = req.body.profId;
+    const profId = req.body.socketId;
     const courseId = req.body.courseId;
     const date = req.body.date;
     const lectureId = this._generateLectureId(courseId, date);
