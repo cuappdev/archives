@@ -15,6 +15,7 @@
       apt: update_cache=yes state=present force=yes install_recommends=yes name={{ item }}
       with_items:
         - openjdk-7-jre
+        - nginx
     - name: Check if directory exists
       stat: path='{{ repository_path }}'
       register: startup
@@ -52,6 +53,10 @@
       template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
     - name: Make sure our server is running
       service: name=upstart state=started
+    - name: Wait for Elasticsearch to start (up to 300 seconds, delay of 10)
+      wait_for:
+        port: 9200
+        delay: 10
     # All Nginx configuation
     - name: Make Nginx directory
       command: mkdir -p /etc/nginx/sites-enabled/
