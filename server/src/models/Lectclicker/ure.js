@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  OneToMany,
+  OneToMany
 } from 'typeorm';
 import {Base} from './Base';
 import {Course} from './Course';
@@ -16,7 +16,7 @@ export class Lecture extends Base {
   id: any = null;
 
   @Column('bigint')
-  dateTime: number = -1; //Date & time of lecture
+  dateTime: number = -1; // Date & time of lecture
 
   @ManyToOne(type => Course, course => course.lectures)
   course: ?Course = null;

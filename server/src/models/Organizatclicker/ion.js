@@ -3,7 +3,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToMany,
+  OneToMany
 } from 'typeorm';
 import {Base} from './Base';
 import {Course} from './Course';

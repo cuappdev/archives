@@ -47,8 +47,7 @@ const getLectures = async (): Promise<Array<Lecture>> => {
 const getLecturesByCourseId = async (courseId: number): Promise<Array<Lecture>> => {
   try {
     const lectures = await db().createQueryBuilder('lectures')
-      .innerJoinAndSelect("lectures.course", "course")
-      .where("course.id=:courseId")
+      .innerJoin("lectures.course", "course", "course.id=:courseId")
       .setParameters({ courseId: courseId })
       .getMany();
     return lectures;
@@ -57,9 +56,29 @@ const getLecturesByCourseId = async (courseId: number): Promise<Array<Lecture>> 
   }
 };
 
+//Returns lectures in reverse chronological order starting at the cursor
+//pageIndex must be > 0
+const paginateLectureByCourseId = async(courseId: number, cursor: number, items: number,
+  pageIndex: number): Promise<Array<Lecture>> => {
+  try {
+    const lectures = await db().createQueryBuilder('lectures')
+      .innerJoin("lectures.course", "course", "course.id = :courseId")
+      .where("lectures.createdAt <= :c")
+      .setParameters( {courseId: courseId, c: cursor} )
+      .orderBy("lectures.createdAt", "DESC")
+      .setFirstResult((pageIndex-1) * items)
+      .setMaxResults(items)
+      .getMany();
+    return lectures;
+  } catch(e) {
+    throw new Error('Problem getting lectures!');
+  }
+}
+
 export default {
   createLecture,
   getLectureById,
   getLectures,
-  getLecturesByCourseId
+  getLecturesByCourseId,
+  paginateLectureByCourseId
 };

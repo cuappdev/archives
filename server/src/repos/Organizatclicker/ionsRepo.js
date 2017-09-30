@@ -40,8 +40,26 @@ const getOrganizations = async (): Promise<Array<Organization>> => {
   }
 };
 
+//Returns organizations in reverse chronological order starting at the cursor
+//pageIndex must be > 0
+const paginateOrganization = async(cursor: number, items: number, pageIndex: number): Promise<Array<Organization>> => {
+  try {
+    const organizations = await db().createQueryBuilder('organizations')
+      .where("organizations.createdAt <= :c")
+      .setParameters( {c: cursor} )
+      .orderBy("organizations.createdAt", "DESC")
+      .setFirstResult((pageIndex-1) * items)
+      .setMaxResults(items)
+      .getMany();
+    return organizations;
+  } catch(e) {
+    throw new Error('Problem getting organizations!');
+  }
+}
+
 export default {
   createOrganization,
   getOrgById,
-  getOrganizations
+  getOrganizations,
+  paginateOrganization
 };

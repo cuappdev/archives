@@ -5,8 +5,7 @@ import {
   Column,
   ManyToMany,
   JoinTable,
-  OneToMany,
-  ManyToOne
+  OneToMany
 } from 'typeorm';
 import {Base} from './Base';
 import {Course} from './Course';

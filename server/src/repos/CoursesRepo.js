@@ -58,8 +58,7 @@ const getCourses = async (): Promise<Array<Course>> => {
 const getCoursesByOrgId = async (orgId: number): Promise<Array<Course>> => {
   try {
     const courses = await db().createQueryBuilder('courses')
-      .innerJoinAndSelect("courses.organization", "organization")
-      .where("organization.id=:orgId")
+      .innerJoin("courses.organization", "organization", "organization = :orgId")
       .setParameters({ orgId: orgId })
       .getMany();
     return courses;
@@ -132,6 +131,25 @@ const getAdmins = async (courseId: number): Promise<Array<User>> => {
   }
 };
 
+//Returns courses in reverse chronological order starting at the cursor
+//pageIndex must be > 0
+const paginateCourseByOrgId = async(orgId: number, cursor: number, items: number,
+  pageIndex: number): Promise<Array<Course>> => {
+  try {
+    const courses = await db().createQueryBuilder('courses')
+      .innerJoin("courses.organization", "organization", "organization.id = :orgId")
+      .where("courses.createdAt <= :c")
+      .setParameters( {orgId: orgId, c: cursor} )
+      .orderBy("courses.createdAt", "DESC")
+      .setFirstResult((pageIndex-1) * items)
+      .setMaxResults(items)
+      .getMany();
+    return courses;
+  } catch(e) {
+    throw new Error('Problem getting courses!');
+  }
+}
+
 export default {
   createCourse,
   getCourseById,
@@ -140,5 +158,6 @@ export default {
   addStudents,
   addAdmins,
   getStudents,
-  getAdmins
+  getAdmins,
+  paginateCourseByOrgId
 };

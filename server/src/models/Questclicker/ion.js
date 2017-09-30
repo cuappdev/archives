@@ -25,7 +25,7 @@ export class Question extends Base {
 
   // contains choices, correct answer, etc.
   // ex. For a checkbox question {"choices": ["A","B","C","D"], "answer": ["A", "D"]}
-  @Column('json', { nullable : true }) // null if question is open ended
+  @Column('json', { nullable: true }) // null if question is open ended
   data: json = {};
 
   @ManyToOne(type => Lecture, lecture => lecture.questions)
