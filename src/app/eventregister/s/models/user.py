@@ -25,7 +25,8 @@ class User(Base):
 
   def __init__(self, **kwargs):
     self.email = kwargs.get('email')
-    self.password = bcrypt.hashpw(kwargs.get('password'), bcrypt.gensalt())
+    self.password_digest = bcrypt.hashpw(kwargs.get('password'),
+                                         bcrypt.gensalt())
     self.first_name = kwargs.get('first_name')
     self.last_name = kwargs.get('last_name')
 
