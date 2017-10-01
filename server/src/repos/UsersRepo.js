@@ -42,7 +42,7 @@ const getUserByGoogleId = async (googleId: string): Promise<?User> => {
 };
 
 // Get users
-const getUsers = async (): Promise<Array<User>> => {
+const getUsers = async (): Promise<Array<?User>> => {
   try {
     const users = await db().createQueryBuilder('users')
       .getMany();
@@ -52,30 +52,23 @@ const getUsers = async (): Promise<Array<User>> => {
   }
 };
 
-
-// Get courses user is enrolled in
-const getEnrolledCoursesByUserId = async (userId: number): Promise<Array<Course>> => {
+// Get courses user is associated with
+const getAssocCoursesByUserId = async (userId: number, role: ?string):
+Promise<Array<?Course>> => {
   try {
     const user = await db().createQueryBuilder('users')
-      .where("users.id=:userId")
-      .leftJoinAndSelect("users.enrolledCourses", "courses")
+      .where('users.id=:userId')
+      .leftJoinAndSelect('users.enrolledCourses', 'eCourses')
+      .leftJoinAndSelect('users.adminCourses', 'aCourses')
       .setParameters({userId: userId})
       .getOne();
-    return user.enrolledCourses;
-  } catch (e) {
-    throw new Error('Problem getting courses!');
-  }
-};
-
-// Get courses user is admin of
-const getAdminCoursesByUserId = async (userId: number): Promise<Array<Course>> => {
-  try {
-    const user = await db().createQueryBuilder('users')
-      .where("users.id=:userId")
-      .leftJoinAndSelect("users.adminCourses", "courses")
-      .setParameters({userId: userId})
-      .getOne();
-    return user.adminCourses;
+    if (role === 'admin') {
+      return user.adminCourses;
+    } else if (role === 'student') {
+      return user.enrolledCourses;
+    } else {
+      return user.adminCourses.concat(user.enrolledCourses);
+    }
   } catch (e) {
     throw new Error('Problem getting courses!');
   }
@@ -86,6 +79,5 @@ export default {
   createUser,
   getUserById,
   getUserByGoogleId,
-  getEnrolledCoursesByUserId,
-  getAdminCoursesByUserId
+  getAssocCoursesByUserId
 };

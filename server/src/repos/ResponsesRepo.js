@@ -40,22 +40,12 @@ const getResponseById = async (id: number): Promise<?Response> => {
   }
 };
 
-// Get responses
-const getResponses = async (): Promise<Array<Response>> => {
-  try {
-    const responses = await db().createQueryBuilder('responses')
-      .getMany();
-    return responses;
-  } catch (e) {
-    throw new Error('Problem getting questions!');
-  }
-};
-
 // Get responses by question id
-const getResponsesByQuestionId = async (questionId: number): Promise<Array<Response>> => {
+const getResponsesByQuestionId = async (questionId: number):
+Promise<Array<?Response>> => {
   try {
     const responses = await db().createQueryBuilder('responses')
-      .innerJoin("responses.question", "question", "question.id=:questionId")
+      .innerJoin('responses.question', 'question', 'question.id=:questionId')
       .setParameters({ questionId: questionId })
       .getMany();
     return responses;
@@ -64,41 +54,43 @@ const getResponsesByQuestionId = async (questionId: number): Promise<Array<Respo
   }
 };
 
-//Update a response
-const updateResponse = async (responseId: number, newReponse: json) : Promise<?Response> => {
+// Update a response
+const updateResponse = async (id: number, newReponse: json):
+Promise<?Response> => {
   try {
-    const response = await db().findOneById(responseId);
-    response.response = newReponse;
-    await db().persist(response);
-    return response;
-  } catch(e) {
+    await db().createQueryBuilder('responses')
+      .where('responses.id = :id')
+      .setParameters({ id: id })
+      .update({
+        response: newReponse
+      })
+      .execute();
+    return await db().findOneById(id);
+  } catch (e) {
     throw new Error('Error updating response');
   }
-}
+};
 
-//Returns responses in reverse chronological order starting at the cursor
-//pageIndex must be > 0
-const paginateResponseByQuestionId = async(questionId: number, cursor: number, items: number,
-  pageIndex: number): Promise<Array<Response>> => {
+// Returns responses in reverse chronological order starting at the cursor
+const paginateResponseByQuestionId = async (questionId: number, cursor: number,
+  items: number): Promise<Array<?Response>> => {
   try {
     const responses = await db().createQueryBuilder('responses')
-      .innerJoin("responses.question", "question", "question.id=:questionId")
-      .where("responses.createdAt <= :c")
-      .setParameters( {questionId: questionId, c: cursor} )
-      .orderBy("responses.createdAt", "DESC")
-      .setFirstResult((pageIndex-1) * items)
+      .innerJoin('responses.question', 'question', 'question.id=:questionId')
+      .where('responses.createdAt <= :c')
+      .setParameters({questionId: questionId, c: cursor})
+      .orderBy('responses.createdAt', 'DESC')
       .setMaxResults(items)
       .getMany();
     return responses;
-  } catch(e) {
+  } catch (e) {
     throw new Error('Problem getting responses!');
   }
-}
+};
 
 export default {
   createResponse,
   getResponseById,
-  getResponses,
   getResponsesByQuestionId,
   updateResponse,
   paginateResponseByQuestionId

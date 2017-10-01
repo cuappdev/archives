@@ -39,22 +39,40 @@ const getQuestionById = async (id: number): Promise<?Question> => {
   }
 };
 
-// Get questions
-const getQuestions = async (): Promise<Array<Question>> => {
+// Update a question
+const updateQuestionById = async (id: number, text: string, data: json):
+Promise<?Question> => {
   try {
-    const questions = await db().createQueryBuilder('questions')
-      .getMany();
-    return questions;
+    await db().createQueryBuilder('questions')
+      .where('questions.id = :id')
+      .setParameters({ id: id })
+      .update({
+        text: text,
+        data: data
+      })
+      .execute();
+    return await db().findOneById(id);
   } catch (e) {
-    throw new Error('Problem getting questions!');
+    throw new Error('Error updating response');
+  }
+};
+
+// Delete a question by Id
+const deleteQuestionById = async (id: number) => {
+  try {
+    const q = await db().findOneById(id);
+    await db().remove(q);
+  } catch (e) {
+    throw new Error(`Problem deleting question by id: ${id}!`);
   }
 };
 
 // Get questions by lecture id
-const getQuestionsByLectureId = async (lectureId: number): Promise<Array<Question>> => {
+const getQuestionsByLectureId = async (lectureId: number):
+Promise<Array<?Question>> => {
   try {
     const questions = await db().createQueryBuilder('questions')
-      .innerJoin("questions.lecture", "lecture", "lecture.id=:lectureId")
+      .innerJoin('questions.lecture', 'lecture', 'lecture.id=:lectureId')
       .setParameters({ lectureId: lectureId })
       .getMany();
     return questions;
@@ -63,29 +81,28 @@ const getQuestionsByLectureId = async (lectureId: number): Promise<Array<Questio
   }
 };
 
-//Returns questions in reverse chronological order starting at the cursor
-//pageIndex must be > 0
-const paginateQuestionByLectureId = async(lectureId: number, cursor: number, items: number,
-  pageIndex: number): Promise<Array<Question>> => {
+// Returns questions in reverse chronological order starting at the cursor
+const paginateQuestionByLectureId = async (lectureId: number, cursor: number,
+  items: number): Promise<Array<?Question>> => {
   try {
     const questions = await db().createQueryBuilder('questions')
-      .innerJoin("questions.lecture", "lecture", "lecture.id=:lectureId")
-      .where("questions.createdAt <= :c")
-      .setParameters( {lectureId: lectureId, c: cursor} )
-      .orderBy("questions.createdAt", "DESC")
-      .setFirstResult((pageIndex-1) * items)
+      .innerJoin('questions.lecture', 'lecture', 'lecture.id=:lectureId')
+      .where('questions.createdAt <= :c')
+      .setParameters({lectureId: lectureId, c: cursor})
+      .orderBy('questions.createdAt', 'DESC')
       .setMaxResults(items)
       .getMany();
     return questions;
-  } catch(e) {
+  } catch (e) {
     throw new Error('Problem getting questions!');
   }
-}
+};
 
 export default {
   createQuestion,
   getQuestionById,
-  getQuestions,
+  updateQuestionById,
+  deleteQuestionById,
   getQuestionsByLectureId,
   paginateQuestionByLectureId
 };

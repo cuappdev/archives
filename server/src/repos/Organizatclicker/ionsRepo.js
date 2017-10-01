@@ -1,6 +1,6 @@
 // @flow
 import { getConnectionManager, Repository } from 'typeorm';
-import {Organization} from '../models/Organization'
+import {Organization} from '../models/Organization';
 
 const db = (): Repository<Organization> => {
   return getConnectionManager().get().getRepository(Organization);
@@ -30,7 +30,7 @@ const getOrgById = async (id: number): Promise<?Organization> => {
 };
 
 // Get organizations
-const getOrganizations = async (): Promise<Array<Organization>> => {
+const getOrganizations = async (): Promise<Array<?Organization>> => {
   try {
     const org = await db().createQueryBuilder('organizations')
       .getMany();
@@ -40,26 +40,54 @@ const getOrganizations = async (): Promise<Array<Organization>> => {
   }
 };
 
-//Returns organizations in reverse chronological order starting at the cursor
-//pageIndex must be > 0
-const paginateOrganization = async(cursor: number, items: number, pageIndex: number): Promise<Array<Organization>> => {
+// Update an organization by Id
+const updateOrgById = async (id: number, name: string):
+Promise<?Organization> => {
+  try {
+    await db().createQueryBuilder('organizations')
+      .where('organizations.id = :orgId')
+      .setParameters({ orgId: id })
+      .update({
+        name: name
+      })
+      .execute();
+    return await db().findOneById(id);
+  } catch (e) {
+    throw new Error(`Problem updating organization by id: ${id}!`);
+  }
+};
+
+// Delete an organization by Id
+const deleteOrgById = async (id: number) => {
+  try {
+    const org = await db().findOneById(id);
+    await db().remove(org);
+  } catch (e) {
+    throw new Error(`Problem deleting organization by id: ${id}!`);
+  }
+};
+
+// Returns organizations in reverse chronological order starting at the cursor
+const paginateOrganization = async (cursor: number, items: number):
+Promise<Array<?Organization>> => {
   try {
     const organizations = await db().createQueryBuilder('organizations')
-      .where("organizations.createdAt <= :c")
-      .setParameters( {c: cursor} )
-      .orderBy("organizations.createdAt", "DESC")
-      .setFirstResult((pageIndex-1) * items)
+      .where('organizations.createdAt <= :c')
+      .setParameters({c: cursor})
+      .orderBy('organizations.createdAt', 'DESC')
       .setMaxResults(items)
       .getMany();
     return organizations;
-  } catch(e) {
+  } catch (e) {
     throw new Error('Problem getting organizations!');
   }
-}
+};
 
 export default {
   createOrganization,
   getOrgById,
   getOrganizations,
+  updateOrgById,
+  deleteOrgById,
   paginateOrganization
 };

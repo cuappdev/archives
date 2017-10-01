@@ -1,7 +1,6 @@
 // @flow
 import { getConnectionManager, Repository } from 'typeorm';
 import {Lecture} from '../models/Lecture';
-import {Course} from '../models/Course';
 import CoursesRepo from './CoursesRepo';
 
 const db = (): Repository<Lecture> => {
@@ -9,7 +8,8 @@ const db = (): Repository<Lecture> => {
 };
 
 // Create a lecture
-const createLecture = async (datetime: number, courseId: number): Promise<Lecture> => {
+const createLecture = async (datetime: number, courseId: number):
+Promise<Lecture> => {
   try {
     const lecture = new Lecture();
     lecture.dateTime = datetime;
@@ -32,22 +32,39 @@ const getLectureById = async (id: number): Promise<?Lecture> => {
   }
 };
 
-// Get lectures
-const getLectures = async (): Promise<Array<Lecture>> => {
+// Delete a lecture by Id
+const deleteLectureById = async (id: number) => {
   try {
-    const lectures = await db().createQueryBuilder('lectures')
-      .getMany();
-    return lectures;
+    const lecture = await db().findOneById(id);
+    await db().remove(lecture);
   } catch (e) {
-    throw new Error('Problem getting lectures!');
+    throw new Error(`Problem deleting lecture by id: ${id}!`);
+  }
+};
+
+// Update a lecture by Id
+const updateLectureById = async (id: number, dateTime: number):
+Promise<?Lecture> => {
+  try {
+    await db().createQueryBuilder('lectures')
+      .where('lectures.id = :id')
+      .setParameters({ id: id })
+      .update({
+        dateTime: dateTime
+      })
+      .execute();
+    return await db().findOneById(id);
+  } catch (e) {
+    throw new Error(`Problem updating lecture by id: ${id}!`);
   }
 };
 
 // Get lectures by course id
-const getLecturesByCourseId = async (courseId: number): Promise<Array<Lecture>> => {
+const getLecturesByCourseId = async (courseId: number):
+Promise<Array<?Lecture>> => {
   try {
     const lectures = await db().createQueryBuilder('lectures')
-      .innerJoin("lectures.course", "course", "course.id=:courseId")
+      .innerJoin('lectures.course', 'course', 'course.id=:courseId')
       .setParameters({ courseId: courseId })
       .getMany();
     return lectures;
@@ -56,29 +73,28 @@ const getLecturesByCourseId = async (courseId: number): Promise<Array<Lecture>> 
   }
 };
 
-//Returns lectures in reverse chronological order starting at the cursor
-//pageIndex must be > 0
-const paginateLectureByCourseId = async(courseId: number, cursor: number, items: number,
-  pageIndex: number): Promise<Array<Lecture>> => {
+// Returns lectures in reverse chronological order starting at the cursor
+const paginateLectureByCourseId = async (courseId: number, cursor: number,
+  items: number): Promise<Array<?Lecture>> => {
   try {
     const lectures = await db().createQueryBuilder('lectures')
-      .innerJoin("lectures.course", "course", "course.id = :courseId")
-      .where("lectures.createdAt <= :c")
-      .setParameters( {courseId: courseId, c: cursor} )
-      .orderBy("lectures.createdAt", "DESC")
-      .setFirstResult((pageIndex-1) * items)
+      .innerJoin('lectures.course', 'course', 'course.id = :courseId')
+      .where('lectures.createdAt <= :c')
+      .setParameters({courseId: courseId, c: cursor})
+      .orderBy('lectures.createdAt', 'DESC')
       .setMaxResults(items)
       .getMany();
     return lectures;
-  } catch(e) {
+  } catch (e) {
     throw new Error('Problem getting lectures!');
   }
-}
+};
 
 export default {
   createLecture,
   getLectureById,
-  getLectures,
+  deleteLectureById,
+  updateLectureById,
   getLecturesByCourseId,
   paginateLectureByCourseId
 };
