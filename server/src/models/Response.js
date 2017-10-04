@@ -17,15 +17,15 @@ export class Response extends Base {
   id: any = null;
 
   @Column('string')
-  type: QUESTION_TYPE;
+  type: QUESTION_TYPE = '';
 
   // ex. For a ranking question {"answer": [3,1,4,2]}
   @Column('json')
-  response: json;
+  response: json = {};
 
   @ManyToOne(type => Question, question => question.responses)
-  question: Question;
+  question: ?Question = null;
 
   @ManyToOne(type => User, user => user.responses)
-  user: User;
+  user: ?User = null;
 }

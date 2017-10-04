@@ -5,8 +5,7 @@ import {
   Column,
   ManyToMany,
   OneToMany,
-  ManyToOne,
-  JoinTable
+  ManyToOne
 } from 'typeorm';
 import {Base} from './Base';
 import {User} from './User';
@@ -22,7 +21,7 @@ export class Course extends Base {
   subject: string = '';
 
   @Column('number')
-  catalogNum: number;
+  catalogNum: number = 0;
 
   @Column('string')
   name: string = '';
@@ -31,16 +30,18 @@ export class Course extends Base {
   term: string = '';
 
   @ManyToOne(type => Organization, organization => organization.courses)
-  organization: Organization;
+  organization: ?Organization = null;
 
   @OneToMany(type => Lecture, lecture => lecture.course)
-  lectures: Lecture[];
+  lectures: ?Lecture[] = [];
 
-  @ManyToMany(type => User, user => user.adminCourses)
-  admins: User[];
+  @ManyToMany(type => User, user => user.adminCourses, {
+    cascadeAdd: true
+  })
+  admins: ?User[] = [];
 
   @ManyToMany(type => User, user => user.enrolledCourses, {
-    cascadeAll: true
-  }) //Deals with if students add/drop course
-  students: User[];
+    cascadeAdd: true
+  })
+  students: ?User[] = [];
 }

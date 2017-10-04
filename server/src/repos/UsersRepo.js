@@ -1,6 +1,7 @@
 // @flow
 import { getConnectionManager, Repository } from 'typeorm';
 import { User } from '../models/User';
+import {Course} from '../models/Course';
 
 const db = (): Repository<User> => {
   return getConnectionManager().get().getRepository(User);
@@ -41,7 +42,7 @@ const getUserByGoogleId = async (googleId: string): Promise<?User> => {
 };
 
 // Get users
-const getUsers = async (): Promise<Array<User>> => {
+const getUsers = async (): Promise<Array<?User>> => {
   try {
     const users = await db().createQueryBuilder('users')
       .getMany();
@@ -51,9 +52,32 @@ const getUsers = async (): Promise<Array<User>> => {
   }
 };
 
+// Get courses user is associated with
+const getAssocCoursesByUserId = async (userId: number, role: ?string):
+Promise<Array<?Course>> => {
+  try {
+    const user = await db().createQueryBuilder('users')
+      .where('users.id=:userId')
+      .leftJoinAndSelect('users.enrolledCourses', 'eCourses')
+      .leftJoinAndSelect('users.adminCourses', 'aCourses')
+      .setParameters({userId: userId})
+      .getOne();
+    if (role === 'admin') {
+      return user.adminCourses;
+    } else if (role === 'student') {
+      return user.enrolledCourses;
+    } else {
+      return user.adminCourses.concat(user.enrolledCourses);
+    }
+  } catch (e) {
+    throw new Error('Problem getting courses!');
+  }
+};
+
 export default {
   getUsers,
   createUser,
   getUserById,
-  getUserByGoogleId
+  getUserByGoogleId,
+  getAssocCoursesByUserId
 };
