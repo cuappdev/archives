@@ -19,4 +19,5 @@ class EventType(Base):
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
     self.creator = kwargs.get('creator')
+    self.application_id = kwargs.get('application_id')
     self.fields_info = kwargs.get('fields_info')

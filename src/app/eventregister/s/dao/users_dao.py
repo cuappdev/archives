@@ -1,43 +1,36 @@
 from . import *
 
+def get_user_by_id(user_id):
+  return User.query.filter(User.id == user_id).first()
+
+def get_user_by_email(email):
+  return User.query.filter(User.email == email).first()
+
 def is_registered(email):
-  optional_user = User.query.filter(User.email == user_info['email']).first()
-  return optional_user is not None
+  return get_user_by_email(email) is not None
 
 def verify_credentials(email, password):
-  optional_user = User.query.filter(User.email == user_info['email']).first()
+  optional_user = get_user_by_email(email)
 
-  if optional_user is not None:
+  if optional_user is None:
     return False
-  return optional_user.password_digest == \
-         optional_user.verify_password(password)
+  
+  return optional_user.verify_password(password)
 
-def get_or_create_user(user_info):
-  if 'email' not in user_info:
-    raise Exception('Correct parameters not supplied.')
-  optional_user = User.query.filter(User.email == user_info['email']).first()
+def create_user(email, password, first_name='', last_name=''):
+  optional_user = get_user_by_email(email)
+  
   if optional_user is not None:
     return False, optional_user
 
   # user does not exist
-  if 'password' not in user_info:
-    raise Exception('Correct parameters not supplied.')
-  if 'first_name' not in user_info: # init params if missing
-    user_info['first_name'] = ''
-  if 'last_name' not in user_info:
-    user_info['last_name'] = ''
-
-  user = User(
-      email=user_info['email'],
-      password=user_info['password'],
-      first_name=user_info['first_name'],
-      last_name=user_info['last_name']
-  )
+  user = User(email=email, password=password,
+              first_name=first_name, last_name=last_name)
   db_utils.commit_model(user)
   return True, user
 
-def get_apps(email):
-  optional_user = User.query.filter(User.email == email).first()
+def get_apps(user_id):
+  optional_user = get_user_by_id(user_id)
   if optional_user is None:
-    raise Exception("User does not exist.")
+    raise Exception('User does not exist.')
   return [app.id for app in optional_user.applications] # return app ids
