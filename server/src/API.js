@@ -31,7 +31,7 @@ class API {
   }
 
   routes (): void {
-    // Connect all routers in ./routers
+    // Connect all routers
     fs.readdirSync(path.join(__dirname, "routers")).forEach(file => {
       if (file.indexOf('Router.js') === -1) return;
       const router = require("./routers/" + file);
