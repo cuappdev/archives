@@ -38,10 +38,17 @@ class SocketServer {
 
     if (userType === 'professor') {
       console.log(`Professor with id ${client.id} connected to socket`);
+      this.professors[client.id] = {
+        socket: client,
+        lectureId: null,
+        questions: {}
+      };
       this._setupProfessorEvents(client);
     } else {
       console.log(`Student with id ${client.id} connected to socket`);
-      const netId = client.handshake.query.netId;
+      this.students[client.id] = {
+        socket: client
+      };
       this._setupStudentEvents(client);
     }
 
@@ -57,13 +64,40 @@ class SocketServer {
 
   _setupProfessorEvents = (client: Object): void => {
     const address = client.handshake.address;
-    this.professors[client.id] = client;
+
+    // Start question
+    client.on('question-start', (question: Object) => {
+      const room = this._getLectureId(client.id);
+      const questionId = Object.keys(this.professors[client.id].questions).length + 1;
+      this.professors[client.id].questions = Object.assign({}, {
+        ...this.professors[client.id].questions,
+        [questionId]: question
+      });
+      if (room) {
+        this._messageRoom(room, 'question-start', {
+          ...question,
+          id: questionId
+        });
+      }
+    });
+
+    // End question which causes students to submit responses
+    client.on('question-end', () => {
+      const room = this._getLectureId(client.id);
+      if (room) {
+        this._messageRoom(room, 'question-end');
+      }
+    });
   }
 
   _setupStudentEvents = (client: Object): void => {
     const address = client.handshake.address;
     const netId = client.handshake.query.netId;
-    this.students[client.id] = client;
+
+    client.on('question-response', (data: Object) => {
+      console.log(`Student ${client.id} response index: ${data.response}`);
+      this.lectures[data.lectureId].students[client.id].responses[data.questionId] = data.response;
+    });
   }
 
   /*
@@ -78,6 +112,10 @@ class SocketServer {
     }
     console.log(`STARTING lecture (room \'${lectureId}\')`);
     this._createRoom(lectureId);
+    this.professors[profId] = Object.assign({}, {
+      ...this.professors[profId],
+      lectureId: lectureId
+    })
     this.lectures[lectureId] = {
       professor: profId,
       students: {}
@@ -93,11 +131,14 @@ class SocketServer {
       if (!lecture) {
         throw new Error('No lecture with id /' + lectureId);
       }
+      if (this._getLectureId(profId) !== lectureId) {
+        throw new Error('Invalid access to this lectureId')
+      }
       if (lecture.professor !== profId) {
         throw new Error('Professor lacks permission to end lecture /' + lectureId);
       }
       console.log(`ENDING lecture (room \'${lectureId}\')`);
-      lecture.students.map((id: string) => {
+      Object.keys(lecture.students).map((id: string) => {
         this.students[id].disconnect();
       });
       this._deleteRoom(lectureId);
@@ -111,13 +152,13 @@ class SocketServer {
 
   // Have the client socket join a lecture if allowed
   joinLecture = (clientId: string, lectureId: string): boolean => {
-    const client = this.students[clientId];
+    const client = this.students[clientId].socket;
     var isValid = this._validateStudent(client, lectureId);
     if (isValid) {
       if (this.lectures[lectureId].students[clientId]) return false;
       console.log(`Student ${client.id} joined lecture ${lectureId}`);
-      this.lectures[lectureId].students[clientId] = true;
       client.join(lectureId);
+      this.lectures[lectureId].students[clientId] = { responses: {} };
       console.log(this.lectures);
       client.on('disconnect', () => this.leaveLecture(client, lectureId));
     }
@@ -125,6 +166,7 @@ class SocketServer {
   }
 
   leaveLecture = (client: Object, lectureId: string): void => {
+    client.leave(lectureId);
     const students = this.lectures[lectureId].students;
     delete students[client.id];
     this.lectures[lectureId] = {
@@ -140,6 +182,11 @@ class SocketServer {
     return true;
   }
 
+  // Returns the current lecture id for the professor
+  _getLectureId = (profId: string): string => {
+    return this.professors[profId].lectureId;
+  }
+
   /*
    * Room functions [create, message, delete]
    */
@@ -151,7 +198,7 @@ class SocketServer {
   }
 
   // Messages the clients in the specified room
-  _messageRoom = (room: string, msg: string, data: Object): void => {
+  _messageRoom = (room: string, msg: string, data?: Object): void => {
     this.io.to(room).emit(msg, data);
   }
 
@@ -159,31 +206,6 @@ class SocketServer {
   _deleteRoom = (room: string) => {
     // TODO
     delete this.rooms[room];
-  }
-
-  /*
-   * Namespace functions [create, get, delete]
-   */
-
-  // Creates and returns a namespace object
-  _createNamespace = (name: string): Object => {
-    const nsp = this.io.of('/' + name);
-    return nsp;
-  }
-
-  // Returns a namespace object if it exists, otherwise throws and error
-  _getNamespace = (name: string): Object => {
-    const nsp = this.io.nsps['/' + name];
-    if (!nsp) {
-      throw new Error('Namespace /' + name + ' not found.');
-    }
-    return nsp;
-  }
-
-  // Deletes a namespace if it exists
-  _deleteNamespace = (name: string): boolean => {
-    var success = delete this.io.nsps['/' + name];
-    return success;
   }
 }
 
