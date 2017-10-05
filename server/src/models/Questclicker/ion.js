@@ -21,16 +21,16 @@ export class Question extends Base {
   text: string = '';
 
   @Column('string')
-  type: QUESTION_TYPE;
+  type: QUESTION_TYPE = '';
 
   // contains choices, correct answer, etc.
   // ex. For a checkbox question {"choices": ["A","B","C","D"], "answer": ["A", "D"]}
-  @Column('json', { nullable : true }) // null if question is open ended
-  data: json;
+  @Column('json', { nullable: true }) // null if question is open ended
+  data: json = {};
 
   @ManyToOne(type => Lecture, lecture => lecture.questions)
-  lecture: Lecture;
+  lecture: ?Lecture = null;
 
   @OneToMany(type => Response, response => response.question)
-  responses: Response[];
+  responses: ?Response[] = [];
 }

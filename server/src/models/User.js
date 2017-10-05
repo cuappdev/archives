@@ -5,8 +5,7 @@ import {
   Column,
   ManyToMany,
   JoinTable,
-  OneToMany,
-  ManyToOne
+  OneToMany
 } from 'typeorm';
 import {Base} from './Base';
 import {Course} from './Course';
@@ -34,14 +33,14 @@ export class User extends Base {
 
   @ManyToMany(type => Course, course => course.students)
   @JoinTable()
-  enrolledCourses: Course[];
+  enrolledCourses: ?Course[] = [];
 
   @ManyToMany(type => Course, course => course.admins)
   @JoinTable()
-  adminCourses: Course[]; // Courses user is an admin of
+  adminCourses: ?Course[] = []; // Courses user is an admin of
 
   @OneToMany(type => Response, response => response.user)
-  responses: Response[];
+  responses: ?Response[] = [];
 
   static fromGoogleCreds (creds: Object): User {
     const user = new User();
