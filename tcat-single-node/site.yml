@@ -14,21 +14,16 @@
   vars:
     repository_git_path: https://github.com/cuappdev/tcat.js.git
     repository_path: /home/vagrant/tcat.js
-
   tasks:
   - name: Install python 2
     raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-
   - name: Add toolchain repository
     apt_repository: repo='ppa:ubuntu-toolchain-r/test' state=present
-
   - name: Add cmake repository
     apt_repository: repo='ppa:george-edison55/cmake-3.x' state=present
-
   - name: Run shell script for curling Nodejs
     shell: |
       curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-
   - name: Install necessary packages
     apt: update_cache=yes name={{ item }} state=present
     remote_user: root
@@ -41,60 +36,42 @@
       - gcc-4.9
       - g++-4.9
       - nginx
-
+      - git
+  - name: Set server timezone
+    command: timedatectl set-timezone America/New_York
   - name: Install necessary npm packages
     npm: global=yes name={{ item }} production=yes state=latest
     remote_user: root
     become: yes
+    become_method: sudo
     with_items:
       - pm2
       - babel-cli
       - babel-jest
       - babel-preset-flow
       - flow-bin
-      - osrm
-      - appdev
-
   - name: Clone app repository
     git:
-      repo: "{{ repository_git_path }}"
-      dest: "{{ repository_path }}"
+      repo: '{{ repository_git_path }}'
+      dest: '{{ repository_path }}'
       version: master
       force: yes
-
   - name: Ensure that cmake is upgraded
     apt: update_cache=yes name=cmake state=present
-
   - name: Make sure the latest npm is installed
     command: npm install -g npm
-
   - name: Run npm install
     command: npm install
     args:
-      chdir: "{{ repository_path }}"
-
-  - name: LUA Commands
-    command: node_modules/osrm/lib/binding/osrm-extract osrm/map.osm -p node_modules/osrm/profiles/foot.lua
-    args:
-      chdir: "{{ repository_path }}"
-
+      chdir: '{{ repository_path }}'
   - name: OSRM Commands
-    command: node_modules/osrm/lib/binding/osrm-contract osrm/map.osrm
+    command: ./setup.sh
     args:
-      chdir: "{{ repository_path }}"
-
-  - name: Moving osrm folder
-    command: mv *.osm* ./osrm; mv *.osrm* ./osrm
-    args:
-      chdir: "{{ repository_path }}"
-      creates: "{{ repository_path }}/osrm"
-
+      chdir: '{{ repository_path }}'
   - name: Copy Upstart configuration
     template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
-
   - name: Make sure our server is running
     service: name=upstart state=started
-
   - name: Copy Nginx site values
     template: src=tcat.nginx.j2 dest=/etc/nginx/sites-enabled/tcat
     notify:
@@ -104,7 +81,7 @@
     notify:
       - restart nginx
   - name: Make sure nginx is running
-    service: name=nginx state=started
+    service: name=nginx state=restarted
   handlers:
     - name: restart nginx
       service: name=nginx state=restarted
