@@ -71,7 +71,7 @@
   - name: Copy Upstart configuration
     template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
   - name: Make sure our server is running
-    service: name=upstart state=started
+    service: name=upstart state=restarted
   - name: Copy Nginx site values
     template: src=tcat.nginx.j2 dest=/etc/nginx/sites-enabled/tcat
     notify:
