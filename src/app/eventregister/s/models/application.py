@@ -1,4 +1,6 @@
 from . import *
+import hashlib
+import os
 
 class Application(Base):
   __tablename__ = 'applications'
