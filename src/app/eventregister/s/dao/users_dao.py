@@ -14,22 +14,26 @@ def verify_credentials(email, password):
 
   if optional_user is None:
     return False
-  
+
   return optional_user.verify_password(password)
 
 def create_user(email, password, first_name='', last_name=''):
   optional_user = get_user_by_email(email)
-  
+
   if optional_user is not None:
     return False, optional_user
 
   # user does not exist
-  user = User(email=email, password=password,
-              first_name=first_name, last_name=last_name)
+  user = User(
+      email=email,
+      password=password,
+      first_name=first_name,
+      last_name=last_name
+  )
   db_utils.commit_model(user)
   return True, user
 
-def get_apps(user_id):
+def get_users_apps(user_id):
   optional_user = get_user_by_id(user_id)
   if optional_user is None:
     raise Exception('User does not exist.')
