@@ -7,6 +7,10 @@ class DBEventItem : Object {
     @objc dynamic var eventName: String = ""
 }
 
+enum DBLoggingError: Error {
+    case realmFailedToCreate(reason: String)
+}
+
 class DBLoggingBackend {
     
     private var sendTimer: Timer?
@@ -16,12 +20,15 @@ class DBLoggingBackend {
         self.eventSender = eventSender
     }
     
-    func makeRealm() -> Realm {
+    func makeRealm() throws -> Realm {
         let realmConfig = Realm.Configuration(
             fileURL: URL.init(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("register.realm")
         )
-        let realm = try! Realm(configuration: realmConfig)
-        return realm
+        do {
+            return try Realm(configuration: realmConfig)
+        } catch let e {
+            throw DBLoggingError.realmFailedToCreate(reason: e.localizedDescription)
+        }
     }
     
     func logEvent<T: Loggable>(event: T) -> Promise<()> {
@@ -30,8 +37,9 @@ class DBLoggingBackend {
             dbEvent.serializedLog = try event.serializeJson()
             dbEvent.eventName = event.eventName
             
-            let realm = self.makeRealm()
-            try! realm.write {
+            let realm = try self.makeRealm()
+            
+            try realm.write {
                 realm.add(dbEvent)
             }
             

@@ -23,3 +23,4 @@ extension Loggable {
         return try JSONEncoder().encode(self)
     }
 }
+
