@@ -51,7 +51,7 @@ class TestLoggingDb: SessionTestCase {
             ]).next { _ in
                 let realm = self.session.dbBackend.makeRealm()
                 let dataArray = Array(realm.objects(DBEventItem.self).map {$0.serializedLog})
-                let jsonData = combineArrayOfEvents(data: dataArray)
+                let jsonData = try! combineArrayOfEvents(data: dataArray)
                 let json = JSON(jsonData)
                 
                 guard let jsonArr = json.array else {
