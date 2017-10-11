@@ -8,12 +8,16 @@ protocol EventSender: class {
     func sendEventsToServer(data: [JSONData]) -> Promise<()>
 }
 
-//TODO move this to somewhere more appropriate
-//TODO make json Data safely typed
-func combineArrayOfEvents(data: [JSONData]) -> JSONData {
-    //in the future, this function should accept a JSONData type, which means this force unwrap will be safe
-    let strings = data.map({String.init(data: $0, encoding: .utf8)!})
-    return "[\(strings.joined(separator: ","))]".data(using: .utf8)!
+enum RegisterSessionError: Error {
+    case failedToCombineJsonData
+}
+
+func combineArrayOfEvents(data: [JSONData]) throws -> JSONData {
+    let strings = data.flatMap {String.init(data: $0, encoding: .utf8)}
+    guard let result = "[\(strings.joined(separator: ","))]".data(using: .utf8) else {
+        throw RegisterSessionError.failedToCombineJsonData
+    }
+    return result
 }
 
 /**
@@ -58,8 +62,14 @@ public class RegisterSession: EventSender {
     
     /**Tries to send events to the server*/
     public func sendEventsToServer(data: [JSONData]) -> Promise<()> {
-        let data = combineArrayOfEvents(data: data)
-        return Alamofire.upload(data, to: apiUrl.appendingPathComponent("multiple"), method: .post)
+        let combinedData: JSONData
+        do {
+            combinedData = try combineArrayOfEvents(data: data)
+        } catch let e {
+            return Promise(error: e)
+        }
+        
+        return Alamofire.upload(combinedData, to: apiUrl.appendingPathComponent("multiple"), method: .post)
             .validate()
             .responseJSON()
             .then { response in
