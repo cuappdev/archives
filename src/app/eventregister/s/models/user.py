@@ -25,10 +25,11 @@ class User(Base):
 
   def __init__(self, **kwargs):
     self.email = kwargs.get('email')
-    self.password = bcrypt.hashpw(kwargs.get('password'), bcrypt.gensalt())
+    self.password_digest = bcrypt.hashpw(kwargs.get('password').encode('utf8'),
+                                         bcrypt.gensalt(log_rounds=13))
     self.first_name = kwargs.get('first_name')
     self.last_name = kwargs.get('last_name')
 
   def verify_password(self, password):
-    pwhash = bcrypt.hashpw(password, self.password)
-    return self.password == pwhash
+    return bcrypt.checkpw(password.encode('utf8'),
+                          self.password_digest.encode('utf8'))
