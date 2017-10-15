@@ -1,6 +1,6 @@
 import threading
-import requests as r
 import time
+import requests as r
 
 # From https://goo.gl/YzypOI
 def singleton(cls):
@@ -12,7 +12,9 @@ def singleton(cls):
   return getinstance
 
 class API(object):
-  """iTunes API requestor singleton"""
+  """
+  iTunes API requestor singleton
+  """
 
   def __init__(self):
     self.lock = threading.Lock()

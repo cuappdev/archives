@@ -1,65 +1,74 @@
 import json
-from entity import Entity
+from podcasts.models.entity import Entity
 
 class Series(Entity):
+  # Static (class variable, access via Series.fields)
+  fields = [
+      'id',
+      'title',
+      'country',
+      'author',
+      'image_url_sm',
+      'image_url_lg',
+      'feed_url',
+      'genres',
+      'description'
+  ]
 
-  # Static (class variable, access via
-  # Series.fields)
-  fields = ['id', 'title', 'country', 'author', 'imageUrlSm',
-            'imageUrlLg', 'feedUrl', 'genres']
-
-  def __init__(self, s_id, title, country, author, image_url_sm, image_url_lg, feed_url, genres):
-    """
-    Constructor -
-    NOTE: `genres` is ';'-delimitted list of genres as a string
-    """
-    self.type         = 'series'
-    self.id           = s_id
-    self.title        = title.encode('utf-8')
-    self.country      = country.encode('utf-8')
-    self.author       = author.encode('utf-8')
-    self.imageUrlSm   = image_url_sm.encode('utf-8')
-    self.imageUrlLg   = image_url_lg.encode('utf-8')
-    self.feedUrl      = feed_url.encode('utf-8')
-    self.genres       = genres.encode('utf-8')
+  def __init__(self, **kwargs):
+    self.type = 'series'
+    self.id = kwargs.get('s_id')
+    self.title = kwargs.get('title').encode('utf-8')
+    self.country = kwargs.get('country').encode('utf-8')
+    self.author = kwargs.get('author').encode('utf-8')
+    self.image_url_sm = kwargs.get('image_url_sm').encode('utf-8')
+    self.image_url_lg = kwargs.get('image_url_lg').encode('utf-8')
+    self.feed_url = kwargs.get('feed_url').encode('utf-8')
+    self.genres = kwargs.get('genres').encode('utf-8')
+    self.description = None # TODO fill this
 
   def __hash__(self):
-    """
-    Series ID defines uniqueness
-    """
-    return self.id
+    return self.id # unique per series
 
   @classmethod
   def from_itunes_json(cls, J):
-    """
-    Series from iTunes JSON `J`
-    """
-    return cls(J['collectionId'], J['collectionName'], J['country'],
-               J['artistName'], J['artworkUrl60'], J['artworkUrl600'],
-               J['feedUrl'], ';'.join(J['genres']))
+    return cls(
+        s_id=J['collectionId'],
+        title=J['collectionName'],
+        country=J['country'],
+        author=J['artistName'],
+        image_url_sm=J['artworkUrl60'],
+        image_url_lg=J['artworkUrl600'],
+        feed_url=J['feedUrl'],
+        genres=';'.join(J['genres'])
+    )
 
   @classmethod
   def from_db_json(cls, J):
-    """
-    Series from DB JSON `J`
-    """
-    return cls(J['id'], J['title'], J['country'],
-               J['author'], J['imageUrlSm'], J['imageUrlLg'],
-               J['feedUrl'], ';'.join(J['genres']))
+    return cls(
+        s_id=J['id'],
+        title=J['title'],
+        country=J['country'],
+        author=J['author'],
+        image_url_sm=J['image_url_sm'],
+        image_url_lg=J['image_url_lg'],
+        feed_url=J['feed_url'],
+        genres=';'.join(J['genres'])
+    )
 
   @classmethod
-  def from_line(cls, L):
-    """
-    Series from CSV line `L`
-    """
-    return cls(int(L['id'].decode('utf-8')), L['title'].decode('utf-8'),
-                   L['country'].decode('utf-8'), L['author'].decode('utf-8'),
-                   L['imageUrlSm'].decode('utf-8'), L['imageUrlLg'].decode('utf-8'),
-                   L['feedUrl'].decode('utf-8'), L['genres'].decode('utf-8'))
+  def from_line(cls, L): # CSV line
+    return cls(
+        s_id=int(L['id'].decode('utf-8')),
+        title=L['title'].decode('utf-8'),
+        country=L['country'].decode('utf-8'),
+        author=L['author'].decode('utf-8'),
+        image_url_sm=L['image_url_sm'].decode('utf-8'),
+        image_url_lg=L['image_url_lg'].decode('utf-8'),
+        feed_url=L['feed_url'].decode('utf-8'),
+        genres=L['genres'].decode('utf-8')
+    )
 
-  def to_line(self):
-    """
-    To 'line' (a.k.a. array we can write with csv module)
-    """
+  def to_line(self): # Array in the shape of CSV line
     my_dict = self.__dict__
     return [my_dict[f] for f in Series.fields]

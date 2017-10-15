@@ -1,9 +1,9 @@
-from episode_worker import EpisodeWorker
-from models.series import Series
-from models.episode import Episode
-from storers.json_storer import JsonStorer
 import csv
 import os
+from podcasts.episode_worker import EpisodeWorker
+from podcasts.models.series import Series
+from podcasts.models.episode import Episode
+from podcasts.storers.json_storer import JsonStorer
 
 class EpisodesDriver(object):
   """
@@ -13,9 +13,8 @@ class EpisodesDriver(object):
   """
 
   def __init__(self, directory, storer, num_threads=20):
-    """Constructor"""
-    self.directory   = directory
-    self.storer      = storer
+    self.directory = directory
+    self.storer = storer
     self.num_threads = num_threads
 
   def eps_from_series(self):
