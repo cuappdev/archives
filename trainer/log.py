@@ -1,6 +1,6 @@
 from __future__ import print_function
-from constants import *
 import logging
+from constants import *
 import sys
 # Logger to use everywhere
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
