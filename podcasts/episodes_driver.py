@@ -1,5 +1,6 @@
 import csv
 import os
+from Queue import Queue
 from podcasts.episode_worker import EpisodeWorker
 from podcasts.models.series import Series
 from podcasts.models.episode import Episode
@@ -19,15 +20,13 @@ class EpisodesDriver(object):
 
   def eps_from_series(self):
     """
-    Workhorse function that handles grabbing
-    series data from csvs and
+    Workhorse function that handles grabbing series data from csvs and
+    requesting episodal information from RSS feeds
     """
-    # Grab the CSV files
     csvs = []
     for _, _, filenames in os.walk('./{}'.format(self.directory)):
       csvs.extend(filenames)
 
-    # Build series set
     series_set = set()
     for c in csvs:
       file_name = './{}/{}'.format(self.directory, c)
@@ -35,16 +34,13 @@ class EpisodesDriver(object):
       for line in reader:
         series_set.add(Series.from_line(line))
 
-    # Series list to be handled by threads
     series = [s for s in series_set]
+    series_q = Queue(len(series))
+    for s in series:
+      series_q.put(s)
 
-    # Threads dispatched
-    threads = []
-    for i in xrange(0, self.num_threads):
-      t = EpisodeWorker(self.storer, series, i)
-      threads.append(t)
-      t.start()
+    for _ in xrange(0, self.num_threads):
+      t = EpisodeWorker(self.storer, series_q)
+      t.run()
 
-    # Get them threads together
-    for t in threads:
-      t.join()
+    series_q.join()

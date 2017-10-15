@@ -30,18 +30,19 @@ Below indicates ways you can use the various drivers and workers of this package
   # Storers
   from podcasts.storers.json_storer import JsonStorer
 
-  # Constants
-  DIRECTORY = 'csv'
-  JSON_DIR  = 'jsons'
+  if __name__ == '__main__':
+    # Constants
+    DIRECTORY = 'csv'
+    JSON_DIR = 'jsons'
+    # logging.getLogger('py-podcast').disabled = True
 
-  logging.getLogger('py-podcast').disabled = False # Change to `True` if you don't want logging
+    # Series
+    genre_urls = \
+      ['https://itunes.apple.com/us/genre/podcasts-business/id1321?mt=2']
+    SeriesDriver(DIRECTORY).get_series_from_urls(genre_urls)
 
-  # Series
-  genre_urls = ['https://itunes.apple.com/us/genre/podcasts-business/id1321?mt=2']
-  SeriesDriver(DIRECTORY).get_series_from_urls(genre_urls)
-
-  # Episodes
-  EpisodesDriver(DIRECTORY, JsonStorer(JSON_DIR)).eps_from_series()
+    # Episodes
+    EpisodesDriver(DIRECTORY, JsonStorer(JSON_DIR)).eps_from_series()
 
 
 Tests

@@ -1,3 +1,4 @@
+from Queue import Queue
 from podcasts.site_crawler import SiteCrawler
 from podcasts.series_worker import SeriesWorker
 
@@ -12,12 +13,12 @@ class SeriesDriver(object):
     self.num_threads = num_threads
 
   def get_series_from_urls(self, urls):
-    # Threads dispatched
-    threads = []
-    for i in xrange(0, self.num_threads):
-      t = SeriesWorker(self.directory, urls, i)
-      threads.append(t)
+    genre_urls = Queue(len(urls))
+    for u in urls:
+      genre_urls.put(u)
+
+    for _ in xrange(0, self.num_threads):
+      t = SeriesWorker(self.directory, genre_urls)
       t.start()
-    # Get them threads together
-    for t in threads:
-      t.join()
+
+    genre_urls.join()

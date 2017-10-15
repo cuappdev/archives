@@ -7,7 +7,7 @@ import podcasts.log as log
 from podcasts.models.episode import Episode
 
 class EpisodeWorker(threading.Thread):
-  def __init__(self, storer, series, i):
+  def __init__(self, storer, series):
     """
     Constructor for thread that will request the RSS of a
     particular podcast series, parse the series details
@@ -18,41 +18,37 @@ class EpisodeWorker(threading.Thread):
     self.logger = log.logger
     self.storer = storer
     self.series = series # All series
-    self.i = i
 
   def request_rss(self, url):
-    """
-    Uses information in `line` to request and return the
-    RSS feed
-    """
     return feedparser.parse(url)
 
   def run(self):
     """
     Run the task - compose full series + add to our results
     """
-    while self.i < len(self.series):
-      # Grab line + RSS
-      s = self.series[self.i]
-      rss = self.request_rss(s.feed_url)
-      # Compose Episodes
-      ep_dicts = []
-      for entry in rss['entries']:
-        ep_dicts.append(Episode(s, entry).__dict__)
-      # Build result dict
-      result_dict = dict()
-      result_dict['series'] = deepcopy(s.__dict__)
-      result_dict['series']['genres'] = \
-        result_dict['series']['genres'].split(';')
-      result_dict['series']['type'] = 'series'
-      result_dict['episodes'] = ep_dicts
-      # Store podcast
-      self.storer.store(result_dict)
-      # Move onto the next one
-      self.i += 20
-      self.logger.info('Retrieved and stored %s', str(s.id))
+    empty = False
+    while not empty:
+      try:
+        s = self.series.get()
+        rss = self.request_rss(s.feed_url)
+        ep_dicts = []
+        for entry in rss['entries']:
+          ep_dicts.append(Episode(s, entry).__dict__)
+        result_dict = dict()
+        result_dict['series'] = deepcopy(s.__dict__)
+        result_dict['series']['genres'] = \
+          result_dict['series']['genres'].split(';')
+        result_dict['series']['type'] = 'series'
+        result_dict['episodes'] = ep_dicts
+        self.storer.store(result_dict)
+        self.logger.info('Retrieved and stored %s', str(s.id))
+      except Exception as e: # pylint: disable=W0703
+        print e
+      finally:
+        self.series.task_done()
+        empty = self.series.empty()
 
-if __name__== '__main__':
-  worker = EpisodeWorker(None, None, 0)
+if __name__ == '__main__':
+  worker = EpisodeWorker(None, None)
   rss = worker.request_rss('http://feeds.soundcloud.com/users/soundcloud:users:154009125/sounds.rss')
   pdb.set_trace()
