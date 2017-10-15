@@ -47,8 +47,3 @@ class EpisodeWorker(threading.Thread):
       finally:
         self.series.task_done()
         empty = self.series.empty()
-
-if __name__ == '__main__':
-  worker = EpisodeWorker(None, None)
-  rss = worker.request_rss('http://feeds.soundcloud.com/users/soundcloud:users:154009125/sounds.rss')
-  pdb.set_trace()
