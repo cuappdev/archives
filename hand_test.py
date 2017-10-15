@@ -11,7 +11,10 @@ from podcasts.episodes_driver import EpisodesDriver
 # Storers
 from podcasts.storers.json_storer import JsonStorer
 
-if __name__ == '__main__':
+# iTunes
+import podcasts.itunes as itunes
+
+def grab_from_link():
   # Constants
   DIRECTORY = 'csv'
   JSON_DIR = 'jsons'
@@ -22,3 +25,11 @@ if __name__ == '__main__':
   SeriesDriver(DIRECTORY).get_series_from_urls(genre_urls)
   # Episodes
   EpisodesDriver(DIRECTORY, JsonStorer(JSON_DIR)).eps_from_series()
+
+def search():
+  series = itunes.search_podcast_series('Programming')
+  for s in series:
+    print s.title
+
+if __name__ == '__main__':
+  search()

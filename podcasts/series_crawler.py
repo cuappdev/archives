@@ -1,9 +1,6 @@
-import urllib
-import requests as r
+import requests
 from lxml import html
-from podcasts.constants import ITUNES_LOOKUP_URL
-from podcasts.api import API
-from podcasts.models.series import Series
+from podcasts.itunes import get_series_by_ids
 
 # SeriesCrawler, to get series from a particular webpage
 class SeriesCrawler(object):
@@ -11,7 +8,6 @@ class SeriesCrawler(object):
   def __init__(self, url=''):
     self.url = url
     self.ids = []
-    self.series = []
 
   def set_url(self, url):
     self.url = url
@@ -22,7 +18,7 @@ class SeriesCrawler(object):
       replace('?mt=2', '')
 
   def get_ids(self):
-    page = r.get(self.url)
+    page = requests.get(self.url)
     tree = html.fromstring(page.content)
     ids_elements = tree.xpath("//div[@id='selectedcontent']/div/ul/li/a")
     return [self._e_to_id(e) for e in ids_elements]
@@ -31,19 +27,12 @@ class SeriesCrawler(object):
     ids = self.get_ids()
     i = 0
     j = 100
+    series = []
     while i < len(ids):
       curr_ids = ids[i:j]
-      ids_with_coms = ','.join(curr_ids)
-      id_param = {'id': ids_with_coms}
-      results = API().\
-        req_itunes(ITUNES_LOOKUP_URL + urllib.urlencode(id_param)).\
-        json()['results']
-      self.series.extend(results)
+      results = get_series_by_ids(curr_ids)
+      series.extend(results)
       i += 100
       j += 100
 
-    return [
-        Series.from_itunes_json(j)
-        for j in self.series
-        if j.get('feedUrl') is not None
-    ]
+    return series
