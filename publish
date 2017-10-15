@@ -1,0 +1,9 @@
+#!/bin/bash
+
+python setup.py bdist_wheel
+twine register dist/*.whl
+twine upload dist/*
+
+rm -r dist
+rm -r build
+rm -r *.egg*
