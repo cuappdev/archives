@@ -1,13 +1,14 @@
 import os
 import sys
 
+from app import app
+from app import constants
+from app.events.models._all import *
+from app.events.utils.db_utils import *
+from app.events.dao import users_dao as ud
+
 src_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/src'
 sys.path.append(src_path)
-
-from app import app # pylint: disable=C0413
-from app import constants # pylint: disable=C0413
-from app.events.models._all import * # pylint: disable=C0413
-from app.events.utils.db_utils import * # pylint: disable=C0413
 
 def load_users():
   default_users = [
@@ -19,6 +20,7 @@ def load_users():
       ),
   ]
 
+  ud.clear_all_apps()
   User.query.delete()
   db_session_commit()
   commit_models(default_users)
