@@ -18,6 +18,6 @@ class EventType(Base):
 
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
-    self.creator = kwargs.get('creator')
+    self.user_id = kwargs.get('user_id')
     self.application_id = kwargs.get('application_id')
     self.fields_info = kwargs.get('fields_info')

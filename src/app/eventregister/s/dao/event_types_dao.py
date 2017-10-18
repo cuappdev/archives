@@ -2,7 +2,7 @@ from . import *
 
 TYPES = ['str', 'int', 'float']
 
-def create_event_type(app_id, name, creator, fields_info):
+def create_event_type(app_id, name, user_id, fields_info):
   event_type = get_event_type_by_name(app_id, name)
 
   if event_type is not None:
@@ -17,7 +17,7 @@ def create_event_type(app_id, name, creator, fields_info):
 
   event_type = EventType(
       name=name,
-      creator=creator,
+      user_id=user_id,
       application_id=app_id,
       fields_info=fields_info
   )

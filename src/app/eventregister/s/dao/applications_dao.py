@@ -21,6 +21,9 @@ def get_app_by_id(app_id):
 def get_app_by_name(app_name):
   return Application.query.filter(Application.name == app_name).first()
 
+def get_app_by_secret_key(secret_key):
+  return Application.query.filter(Application.secret_key == secret_key).first()
+
 def get_secret_key(app_id):
   optional_app = get_app_by_id(app_id)
   if optional_app is None:

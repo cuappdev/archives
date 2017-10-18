@@ -13,3 +13,6 @@ def create_event(event_type_id, payload):
     return True, event
   except Exception as e:
     return False, e
+
+def get_event_by_id(event_id):
+  return Event.query.filter(Event.id == event_id).first()
