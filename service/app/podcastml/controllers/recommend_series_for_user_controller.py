@@ -3,13 +3,13 @@ from . import *
 class RecommendSeriesForUserController(AppDevController):
 
   def get_path(self):
-    return '/recommend/series/'
+    return '/series/user/<user_id>/'
 
   def get_methods(self):
     return ['GET']
 
   @authorize
   def content(self, **kwargs):
-    user = kwargs.get('user')
+    topic_name = request.view_args['user_id']
     # TODO: retrieve recommended series for this user
-    return {'message': 'recommend series'}
+    return {'message': 'recommend series for user'}
