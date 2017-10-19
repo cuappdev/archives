@@ -2,17 +2,13 @@ import UIKit
 import XCTest
 import SwiftRegister
 
-struct AlphaEvent: Loggable {
-    let eventName: String = "alpha"
-    let payload: String
+struct AlphaPayload: Payload {
+    static let eventName: String = "alpha"
+    let value: String
 }
 
-struct BravoEvent: Loggable {
-    let eventName: String = "bravo"
-    let payload: BravoPayload
-}
-
-struct BravoPayload: Codable {
+struct BravoPayload: Payload {
+    static let eventName: String = "bravo"
     let kind: String
     let magnitude: Float
 }
