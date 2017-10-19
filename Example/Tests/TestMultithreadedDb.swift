@@ -32,11 +32,11 @@ class DBMultithreadedLoggingTestCase: XCTestCase {
     
     static let numberOfEvents = 100
     var events = (0..<numberOfEvents).map {
-        AlphaEvent(payload: "payload_\($0)")
+        Event(payload: AlphaPayload(value: "payload_\($0)"))
     }
     let syncQueue = DispatchQueue(label: "register_test.db_multithreading_logging")
     
-    func getEvent() -> AlphaEvent? {
+    func getEvent() -> Event<AlphaPayload>? {
         return syncQueue.sync { events.popLast() }
     }
     
@@ -66,15 +66,20 @@ class DBMultithreadedLoggingTestCase: XCTestCase {
         XCTAssert(eventSender.sentEvents.count == DBMultithreadedLoggingTestCase.numberOfEvents)
         
         //make sure all events were sent
+        var eventNilFlag = false
         syncQueue.sync {
             for event in events {
                 let foundEvent = eventSender.sentEvents.first { json in
                     json["eventName"].string == event.eventName &&
-                    json["payload"].string == event.payload
+                    json["payload"].string == event.payload.value
                 }
-                XCTAssert(foundEvent != nil)
+                if foundEvent == nil {
+                    eventNilFlag = true
+                    break
+                }
             }
         }
+        XCTAssert(eventNilFlag == false)
         
         //make sure db has no more events
         let realm = try! DBLoggingBackend.makeRealm()
