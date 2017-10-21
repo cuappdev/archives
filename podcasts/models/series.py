@@ -25,7 +25,10 @@ class Series(Entity):
     self.image_url_lg = kwargs.get('image_url_lg').encode('utf-8')
     self.feed_url = kwargs.get('feed_url').encode('utf-8')
     self.genres = kwargs.get('genres').encode('utf-8')
-    self.description = None # TODO fill this
+    self.description = None
+
+  def set_description(self, description):
+    self.description = description
 
   def __hash__(self):
     return self.id # unique per series

@@ -41,6 +41,7 @@ class EpisodesDriver(object):
 
     for _ in xrange(0, self.num_threads):
       t = EpisodeWorker(self.storer, series_q)
-      t.run()
+      t.daemon = True
+      t.start()
 
     series_q.join()

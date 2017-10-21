@@ -17,33 +17,37 @@ To install ``py-podcast`` ::
 Usage
 -----
 
-Below indicates ways you can use the various drivers and workers of this package ::
+Below indicates ways you can use the various drivers and modules of this package ::
 
-  # General imports
   import sys
   import logging
+  import feedparser
 
-  # Drivers and crawlers
+  # py-podcast imports
   from podcasts.series_driver import SeriesDriver
   from podcasts.episodes_driver import EpisodesDriver
-
-  # Storers
   from podcasts.storers.json_storer import JsonStorer
+  from podcasts.models.series import Series
+  import podcasts.itunes as itunes
 
-  if __name__ == '__main__':
+  def grab_from_link():
     # Constants
     DIRECTORY = 'csv'
     JSON_DIR = 'jsons'
     # logging.getLogger('py-podcast').disabled = True
-
     # Series
     genre_urls = \
       ['https://itunes.apple.com/us/genre/podcasts-business/id1321?mt=2']
     SeriesDriver(DIRECTORY).get_series_from_urls(genre_urls)
-
     # Episodes
     EpisodesDriver(DIRECTORY, JsonStorer(JSON_DIR)).eps_from_series()
 
+  def search():
+    many_series = itunes.search_podcast_series('Programming')
+    return itunes.get_feeds_from_many_series(many_series)
+
+  grab_from_link()
+  search()
 
 Tests
 -----

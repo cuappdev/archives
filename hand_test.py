@@ -1,17 +1,13 @@
 #!/usr/bin/python
-
-# General imports
 import sys
 import logging
+import feedparser
 
-# Drivers and crawlers
+# py-podcast imports
 from podcasts.series_driver import SeriesDriver
 from podcasts.episodes_driver import EpisodesDriver
-
-# Storers
 from podcasts.storers.json_storer import JsonStorer
-
-# iTunes
+from podcasts.models.series import Series
 import podcasts.itunes as itunes
 
 def grab_from_link():
@@ -27,9 +23,9 @@ def grab_from_link():
   EpisodesDriver(DIRECTORY, JsonStorer(JSON_DIR)).eps_from_series()
 
 def search():
-  series = itunes.search_podcast_series('Programming')
-  for s in series:
-    print s.title
+  many_series = itunes.search_podcast_series('Programming')
+  return itunes.get_feeds_from_many_series(many_series)
 
 if __name__ == '__main__':
-  search()
+  grab_from_link()
+  print search()

@@ -19,6 +19,7 @@ class SeriesDriver(object):
 
     for _ in xrange(0, self.num_threads):
       t = SeriesWorker(self.directory, genre_urls)
+      t.daemon = True
       t.start()
 
     genre_urls.join()
