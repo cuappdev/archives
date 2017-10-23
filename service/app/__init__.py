@@ -1,30 +1,14 @@
-# Gevent needed for sockets
-from gevent import monkey
-monkey.patch_all()
-
-# Imports
 import os
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
-from flask_socketio import SocketIO
+from flask import Flask, render_template, jsonify, make_response
 
-# Configure app
-socketio = SocketIO()
-app = Flask(__name__)
-app.config.from_object(os.environ["APP_SETTINGS"])
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+# Configure Flask app
+app = Flask(__name__, static_url_path='/templates')
 
-# DB
-db = SQLAlchemy(app)
-
-# Import the module / component using blueprint var
-from app.podcastml import podcastml 
+# Import + Register Blueprints
+from app.podcastml import podcastml as podcastml # pylint: disable=C0413
 app.register_blueprint(podcastml)
-
-# Initialize app w/SocketIO
-socketio.init_app(app)
 
 # HTTP error handling
 @app.errorhandler(404)
 def not_found(error):
-  return render_template("404.html"), 404
+  return render_template('404.html'), 404
