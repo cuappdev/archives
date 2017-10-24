@@ -9,7 +9,8 @@ class EventType(Base):
 
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(255), nullable=False)
-  application_id = db.Column(db.Integer, db.ForeignKey('applications.id'))
+  application_id = db.Column(db.Integer, db.ForeignKey('applications.id',
+                                                       ondelete='CASCADE'))
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   fields_info = db.Column(db.JSON)
 
