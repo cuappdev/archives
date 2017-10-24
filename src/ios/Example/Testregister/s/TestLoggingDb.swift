@@ -1,11 +1,3 @@
-//
-//  TestLoggingDb.swift
-//  SwiftRegister_Tests
-//
-//  Created by Serge-Olivier Amega on 10/5/17.
-//  Copyright © 2017 CocoaPods. All rights reserved.
-//
-
 import Foundation
 import XCTest
 import PromiseKit
@@ -16,7 +8,7 @@ class SessionTestCase: XCTestCase {
     let session: RegisterSession = RegisterSession(apiUrl: URL(string: "localhost")!)
     
     override func setUp() {
-        let realm = session.dbBackend.makeRealm()
+        let realm = try! DBLoggingBackend.makeRealm()
         try! realm.write {
             realm.deleteAll()
         }
@@ -29,7 +21,7 @@ class TestLoggingDb: SessionTestCase {
         let alpha = AlphaEvent(payload: "ok")
         let serialized = try! alpha.serializeJson()
         let promise = session.logEvent(event: alpha).next {
-            let realm = self.session.dbBackend.makeRealm()
+            let realm = try! DBLoggingBackend.makeRealm()
             let objs = realm.objects(DBEventItem.self)
             XCTAssertTrue(objs.contains {
                 $0.eventName == alpha.eventName && $0.serializedLog == serialized
@@ -49,7 +41,7 @@ class TestLoggingDb: SessionTestCase {
             session.logEvent(event: bravo1),
             session.logEvent(event: bravo2)
             ]).next { _ in
-                let realm = self.session.dbBackend.makeRealm()
+                let realm = try! DBLoggingBackend.makeRealm()
                 let dataArray = Array(realm.objects(DBEventItem.self).map {$0.serializedLog})
                 let jsonData = try! combineArrayOfEvents(data: dataArray)
                 let json = JSON(jsonData)
