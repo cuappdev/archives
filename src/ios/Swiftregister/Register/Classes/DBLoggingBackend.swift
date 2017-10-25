@@ -82,7 +82,7 @@ class DBLoggingBackend {
     
     @discardableResult
     func sendAllEvents() -> Promise<()> {
-        return Promise<[JSONData]> { fulfill, reject in
+        let sendingPromise = Promise<[JSONData]> { fulfill, reject in
             let realm = try DBLoggingBackend.makeRealm()
             let logs = Array(realm.objects(DBEventItem.self))
             let data = logs.map {$0.serializedLog}
@@ -97,12 +97,19 @@ class DBLoggingBackend {
                 }
                 
                 return result
-            }.next { //on success, delete logs from db
-                let realm = try DBLoggingBackend.makeRealm()
-                try realm.write {
-                    realm.delete(realm.objects(DBEventItem.self))
-                }
-                return ()
+            }.catch { _ in
+                registerLogger.warning("Failed to send events to server")
+        }
+        
+        return when(fulfilled: sendingPromise).next { (_:()) -> () in //on success, delete logs from db
+            let realm = try DBLoggingBackend.makeRealm()
+            
+            try realm.write {
+                realm.delete(realm.objects(DBEventItem.self))
+            }
+            return ()
+        }.catch { _ in
+            registerLogger.warning("Failed to delete events from database")
         }
     }
 }
