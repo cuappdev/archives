@@ -13,6 +13,7 @@ class CreateUserController(AppDevController):
     first_name = kwargs.get('first_name')
     last_name = kwargs.get('last_name')
 
+    # include first/last names as dao argument only if not none
     names = {}
 
     if first_name is not None:
@@ -23,4 +24,7 @@ class CreateUserController(AppDevController):
 
     created, user = users_dao.create_user(email, password, **names)
 
-    return {'created': created, 'user': user}
+    if not created:
+      raise Exception('User already exists.')
+    
+    return {'user': user}

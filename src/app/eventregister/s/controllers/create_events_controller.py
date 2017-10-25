@@ -11,17 +11,5 @@ class CreateEventsController(AppDevController):
   def content(self, **kwargs):
     app = kwargs.get('app')
     events = kwargs.get('events')
-    succeeded = []
-    failed = []
-
-    for event in events:
-      event_type = event_types_dao.get_event_type_by_name(app.id,
-                                                          event['event_type'])
-      created, event = events_dao.create_event(event_type.id, event['payload'])
-
-      if created:
-        succeeded.append(event_schema.dump(event).data)
-      else:
-        failed.append({'message': event, 'event': event})
-
+    succeeded, failed = events_dao.create_events(app.id, events)
     return {'succeeded': succeeded, 'failed': failed}

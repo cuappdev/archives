@@ -37,4 +37,4 @@ def get_users_apps(user_id):
   optional_user = get_user_by_id(user_id)
   if optional_user is None:
     raise Exception('User does not exist.')
-  return [app.id for app in optional_user.applications] # return app ids
+  return optional_user.applications

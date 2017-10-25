@@ -11,11 +11,9 @@ def authorize_user(f):
       raise Exception('Invalid user id.')
 
     user = users_dao.get_user_by_id(user_id)
-
     return f(user=user, *args, **kwargs)
 
   return inner
-
 
 def authorize_app(f):
   @wraps
@@ -26,7 +24,6 @@ def authorize_app(f):
       raise Exception('Invalid secret key.')
 
     app = applications_dao.get_app_by_secret_key(secret_key)
-
     return f(app=app, *args, **kwargs)
 
   return inner

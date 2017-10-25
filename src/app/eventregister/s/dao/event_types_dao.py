@@ -77,4 +77,4 @@ def get_events(event_type_id):
   if event_type is None:
     raise Exception('Event type does not exist.')
 
-  return [event.id for event in event_type.events]
+  return event_type.events
