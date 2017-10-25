@@ -11,8 +11,7 @@ public enum EventError: Error {
     case wrongEventName
 }
 
-public class Event<T: Payload>: Codable {
-    public typealias TPayload = T
+public class Event<TPayload: Payload>: Codable {
     public let timestamp: Date
     public let payload: TPayload
     public var eventName: String {return TPayload.eventName}
