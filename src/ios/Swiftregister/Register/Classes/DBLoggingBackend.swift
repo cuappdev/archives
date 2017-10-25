@@ -43,7 +43,7 @@ class DBLoggingBackend {
     }
     
     @discardableResult
-    func logEvent<T: Loggable>(event: T) -> Promise<()> {
+    func logEvent<T>(event: Event<T>) -> Promise<()> {
         return Promise { fulfill, reject in
             let dbEvent = DBEventItem()
             dbEvent.serializedLog = try event.serializeJson()

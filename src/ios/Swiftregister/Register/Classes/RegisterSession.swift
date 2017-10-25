@@ -38,7 +38,7 @@ public class RegisterSession: EventSender {
         self.apiUrl = apiUrl
     }
     
-    func logEventToServer<T: Loggable>(event: T) -> Promise<()> {
+    func logEventToServer<T>(event: Event<T>) -> Promise<()> {
         let serializedEvent: Data
         do {
             serializedEvent = try event.serializeJson()
@@ -56,7 +56,7 @@ public class RegisterSession: EventSender {
             }
     }
     
-    public func logEvent<T: Loggable>(event: T) -> Promise<()> {
+    public func logEvent<T>(event: Event<T>) -> Promise<()> {
         return dbBackend.logEvent(event: event)
     }
     
