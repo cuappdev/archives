@@ -22,14 +22,15 @@ class TestLoggingDb: SessionTestCase {
     
     func testLogToDb() {
         let alpha = Event(payload: AlphaPayload(value: "ok"))
-        let serialized = try! alpha.serializeJson()
         let done = expectation(description: "finished promise")
         var realmContainsEvents = false
         let _ = session.logEvent(event: alpha).next { () in
             let realm = try! DBLoggingBackend.makeRealm()
             let objs = realm.objects(DBEventItem.self)
             realmContainsEvents = objs.contains {
-                $0.eventName == alpha.eventName && $0.serializedLog == serialized
+                let timestampedTestEvent = TimestampedEvent(event: alpha, timestamp: $0.timestamp)
+                let serialized = try! timestampedTestEvent.serializeJson()
+                return $0.eventName == alpha.eventName && $0.serializedLog == serialized
             }
             done.fulfill()
         }
