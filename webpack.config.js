@@ -6,15 +6,12 @@ module.exports = {
   devtool: 'eval',
   entry: [path.join(__dirname, 'src/browser.js')],
   output: {
-    path: path.join(__dirname, '../server/public/'),
-    publicPath: '/',
+    path: path.join(__dirname, './public/'),
+    publicPath: '/public',
     filename: 'js/bundle.js'
   },
   devServer: {
     historyApiFallback: true,
-    proxy: {
-      '*': 'http://localhost:3000'
-    }
   },
   module: {
     rules: [
