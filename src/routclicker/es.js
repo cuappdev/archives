@@ -8,6 +8,7 @@ import SignIn from './components/SignIn';
 import Profile from './components/Profile';
 import LectureProfessor from './components/lecture/LectureProfessor';
 import LectureStudent from './components/lecture/LectureStudent';
+import Page404 from './components/Page404'
 
 const routes: React.Element<any> = (
   <Route path='/' component={App}>
@@ -17,6 +18,7 @@ const routes: React.Element<any> = (
     <Route path='/professor' component={LectureProfessor} />
     <Route path='/student' component={LectureStudent} />
     <Redirect from='/lecture' to='/student' />
+    <Route path='*' exact={true} component={Page404} />
   </Route>
 );
 
