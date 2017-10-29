@@ -1,0 +1,66 @@
+---
+- name: Deploying a Redis Server
+  hosts: all
+  remote_user: root
+  become: true
+  become_method: sudo
+  environment:
+    LC_ALL: en_US.UTF-8
+    LANG: en_US.UTF-8
+    LANGUAGE: en_US.UTF-8
+  vars:
+      repository_path: /home/vagrant/redis
+      redis_ml_dir: '{{ repository_path }}/redis-ml'
+      redis_ml_github: https://github.com/RedisLabsModules/redis-ml.git
+      redis_dir: '{{ repository_path }}/redis-source'
+      redis_github: https://github.com/antirez/redis.git
+
+  tasks:
+    - name: Install necessary packages
+      apt: update_cache=yes state=present force=yes install_recommends=yes name={{ item }}
+      with_items:
+        - git
+        - libatlas-base-dev
+        - nginx
+    - name: Pull RedisML from Github
+      git: repo='{{ redis_ml_github }}'
+           dest='{{ redis_ml_dir }}'
+           update=yes
+           clone=yes
+           force=yes
+    - name: Make RedisML
+      command: make
+      args:
+          chdir: '{{ redis_ml_dir }}/src'
+    - name: Pull Redis Source from Github
+      git: repo='{{ redis_github }}'
+           dest='{{ redis_dir }}'
+           update=yes
+           clone=yes
+           force=yes
+    - name: Make Redis Source
+      make: chdir='{{ redis_dir }}'
+    - lineinfile:
+        path: '{{ redis_dir }}/redis.conf'
+        regexp: '^bind 127.0.0.1'
+        line: 'bind 0.0.0.0'
+    - lineinfile:
+        path: '{{ redis_dir }}/redis.conf'
+        regexp: '^supervised no'
+        line: 'supervised systemd'
+    - lineinfile:
+        path: '{{ redis_dir }}/redis.conf'
+        regexp: '^dir ./'
+        line: 'dir /var/lib/redis'
+    - lineinfile:
+        path: '{{ redis_dir }}/redis.conf'
+        regexp: '^# loadmodule /path/to/other_module.so'
+        line: 'loadmodule /home/vagrant/redis/redis-ml/src/redis-ml.so'        
+    # Init.d upstarts
+    - name: Copy Upstart configuration
+      template: src=redis.sh dest=/etc/init.d/redis-server mode=a+x
+      notify:
+        - restartredis
+  handlers:
+    - name: restartredis
+      command: service redis-server restart
