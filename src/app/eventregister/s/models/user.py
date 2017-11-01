@@ -1,4 +1,6 @@
 import bcrypt
+import hashlib
+from datetime import datetime
 from . import *
 
 # define many-to-many relationship
@@ -19,6 +21,8 @@ class User(Base):
   password_digest = db.Column(db.Text, nullable=False)
   first_name = db.Column(db.String(255))
   last_name = db.Column(db.String(255))
+  session_token = db.Column(db.String(255), nullable=False, unique=True)
+  session_expiration = db.Column(db.DateTime, nullable=False)
   applications = db.relationship('Application',
                                  secondary=users_to_applications,
                                  backref=db.backref('users'))
@@ -29,7 +33,19 @@ class User(Base):
                                          bcrypt.gensalt(log_rounds=13))
     self.first_name = kwargs.get('first_name')
     self.last_name = kwargs.get('last_name')
+    renew_session(self)
 
   def verify_password(self, password):
     return bcrypt.checkpw(password.encode('utf8'),
                           self.password_digest.encode('utf8'))
+
+  def _urlsafe_base_64(self):
+    return hashlib.sha1(os.urandom(64)).hexdigest()
+
+  def renew_session(self):
+    self.session_token = self._urlsafe_base_64
+    self.session_expiration = datetime.now() + datetime.timedelta(days=1)
+
+  def verify_session_token(self, session_token):
+    return session_token == self.session_token and \
+       datetime.now() < self.session_expiration

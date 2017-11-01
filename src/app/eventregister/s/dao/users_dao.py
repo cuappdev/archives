@@ -6,6 +6,9 @@ def get_user_by_id(user_id):
 def get_user_by_email(email):
   return User.query.filter(User.email == email).first()
 
+def get_user_by_session_token(session_token):
+  return User.query.filter(User.session_token == session_token).first()
+
 def is_registered(email):
   return get_user_by_email(email) is not None
 
