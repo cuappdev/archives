@@ -16,9 +16,9 @@ def verify_credentials(email, password):
   optional_user = get_user_by_email(email)
 
   if optional_user is None:
-    return False
+    return False, None
 
-  return optional_user.verify_password(password)
+  return optional_user.verify_password(password), optional_user
 
 def create_user(email, password, first_name='', last_name=''):
   optional_user = get_user_by_email(email)

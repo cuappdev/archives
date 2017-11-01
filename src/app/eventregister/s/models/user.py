@@ -33,7 +33,7 @@ class User(Base):
                                          bcrypt.gensalt(log_rounds=13))
     self.first_name = kwargs.get('first_name')
     self.last_name = kwargs.get('last_name')
-    renew_session(self)
+    self.renew_session()
 
   def verify_password(self, password):
     return bcrypt.checkpw(password.encode('utf8'),
@@ -43,7 +43,7 @@ class User(Base):
     return hashlib.sha1(os.urandom(64)).hexdigest()
 
   def renew_session(self):
-    self.session_token = self._urlsafe_base_64
+    self.session_token = self._urlsafe_base_64()
     self.session_expiration = datetime.now() + datetime.timedelta(days=1)
 
   def verify_session_token(self, session_token):

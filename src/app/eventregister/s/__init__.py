@@ -5,6 +5,7 @@ events = Blueprint('events', __name__, url_prefix='/api/')
 
 from app.events.models._all import * # pylint: disable=C0413
 
+from app.events.controllers.authenticate_user_controller import * # pylint: disable=C0413
 from app.events.controllers.create_events_controller import * # pylint: disable=C0413
 from app.events.controllers.create_event_type_controller import * # pylint: disable=C0413
 from app.events.controllers.create_user_controller import * # pylint: disable=C0413
@@ -13,6 +14,7 @@ from app.events.controllers.get_events_controller import * # pylint: disable=C04
 from app.events.controllers.get_event_types_controller import * # pylint: disable=C0413
 
 controllers = [
+    AuthenticateUserController(),
     CreateEventsController(),
     CreateEventTypeController(),
     CreateUserController(),

@@ -2,7 +2,7 @@ from . import *
 
 class CreateUserController(AppDevController):
   def get_path(self):
-    return '/users/'
+    return '/register/'
 
   def get_methods(self):
     return ['POST']
@@ -27,4 +27,5 @@ class CreateUserController(AppDevController):
     if not created:
       raise Exception('User already exists.')
     
-    return {'user': user}
+    return {'session_token': user.session_token, \
+            'session_expiration': user.session_expiration}
