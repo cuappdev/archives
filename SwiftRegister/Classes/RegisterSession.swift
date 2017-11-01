@@ -30,13 +30,7 @@ public class RegisterSession: EventSender {
     }
     
     let apiUrl: URL
-    var _dbBackend: DBLoggingBackend?
-    var dbBackend: DBLoggingBackend {
-        if _dbBackend == nil {
-            _dbBackend = DBLoggingBackend(eventSender: self)
-        }
-        return _dbBackend!
-    }
+    lazy var dbBackend: DBLoggingBackend = DBLoggingBackend(eventSender: self)
     
     public init(apiUrl: URL, logMode: LogMode = .regular) {
         self.apiUrl = apiUrl
