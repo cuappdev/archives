@@ -14,6 +14,11 @@ class EventTypesTestCase(TestCase):
     db_session_commit()
     commit_model(test_app)
 
+  def tearDown(self):
+    super(EventTypesTestCase, self).setUp()
+    Application.query.delete()
+    db_session_commit()
+
   def test_event_type_creation(self):
     test_user = ud.get_user_by_email(constants.TEST_USER_EMAIL)
     test_app = ad.get_app_by_name("app1")

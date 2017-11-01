@@ -26,6 +26,11 @@ class EventsTestCase(TestCase):
     commit_model(test_app)
     commit_model(test_event_type)
 
+  def tearDown(self):
+    super(EventsTestCase, self).setUp()
+    Application.query.delete()
+    db_session_commit()
+
   def test_event_creation(self):
     test_app = ad.get_app_by_name("app1")
     test_event_type = etd.get_event_type_by_name(test_app.id, "test_event_type")

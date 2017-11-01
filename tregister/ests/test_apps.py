@@ -10,6 +10,11 @@ class AppsTestCase(TestCase):
     Application.query.delete()
     db_session_commit()
 
+  def tearDown(self):
+    super(AppsTestCase, self).tearDown()
+    Application.query.delete()
+    db_session_commit()
+
   def test_app_methods(self):
     user1 = ud.get_user_by_email(constants.TEST_USER_EMAIL)
     test_app = ad.create_app("test1", user1.id)[1]
