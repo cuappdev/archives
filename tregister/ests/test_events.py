@@ -27,7 +27,7 @@ class EventsTestCase(TestCase):
     commit_model(test_event_type)
 
   def tearDown(self):
-    super(EventsTestCase, self).setUp()
+    super(EventsTestCase, self).tearDown()
     Application.query.delete()
     db_session_commit()
 
