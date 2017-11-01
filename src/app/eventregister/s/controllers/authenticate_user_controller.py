@@ -16,5 +16,6 @@ class AuthenticateUserController(AppDevController):
     if not success:
       raise Exception('Incorrect email or password.')
 
-    return {'session_token': user.session_token, \
-            'session_expiration': user.session_expiration}
+    return {'session_token': user.session_token,
+            'session_expiration': user.session_expiration,
+            'update_token': user.update_token}

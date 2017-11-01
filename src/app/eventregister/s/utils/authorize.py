@@ -2,17 +2,26 @@ from functools import wraps
 from flask import request
 from app.events.dao import users_dao, applications_dao
 
-def authorize_user(f):
+def auth_bearer(f):
   @wraps
   def inner(*args, **kwargs):
     auth_header = request.headers.get('Authorization')
     if auth_header is None:
       raise Exception('Missing authorization header.')
 
-    session_token = auth_header.replace('Bearer ', '').strip()
-    if session_token is None or not session_token:
+    bearer_token = auth_header.replace('Bearer ', '').strip()
+    if bearer_token is None or not bearer_token:
       raise Exception('Invalid authorization header.')
 
+    return f(bearer_token=bearer_token, *args, **kwargs)
+
+  return inner
+
+def authorize_user(f):
+  @wraps
+  @auth_bearer
+  def inner(*args, **kwargs):
+    session_token = kwargs.get('bearer_token')
     user = users_dao.get_user_by_session_token(session_token)
     if not user or not user.verify_session_token(session_token):
       raise Exception('Invalid session token.')
@@ -23,15 +32,9 @@ def authorize_user(f):
 
 def authorize_app(f):
   @wraps
+  @auth_bearer
   def inner(*args, **kwargs):
-    auth_header = request.headers.get('Authorization')
-    if auth_header is None:
-      raise Exception('Missing authorization header.')
-
-    secret_key = auth_header.replace('Bearer ', '').strip()
-    if secret_key is None or not secret_key:
-      raise Exception('Invalid authorization header.')
-
+    secret_key = kwargs.get('bearer_token')
     app = applications_dao.get_app_by_secret_key(secret_key)
     if app is None or app.secret_key != secret_key:
       raise Exception('Invalid secret key.')

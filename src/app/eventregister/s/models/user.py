@@ -23,6 +23,7 @@ class User(Base):
   last_name = db.Column(db.String(255))
   session_token = db.Column(db.String(255), nullable=False, unique=True)
   session_expiration = db.Column(db.DateTime, nullable=False)
+  update_token = db.Column(db.String(255), nullable=False, unique=True)
   applications = db.relationship('Application',
                                  secondary=users_to_applications,
                                  backref=db.backref('users'))
@@ -45,7 +46,11 @@ class User(Base):
   def renew_session(self):
     self.session_token = self._urlsafe_base_64()
     self.session_expiration = datetime.now() + datetime.timedelta(days=1)
+    self.update_token = self._urlsafe_base_6
 
   def verify_session_token(self, session_token):
     return session_token == self.session_token and \
        datetime.now() < self.session_expiration
+
+  def verify_update_token(self, update_token):
+    return update_token == self.update_token

@@ -26,6 +26,7 @@ class CreateUserController(AppDevController):
 
     if not created:
       raise Exception('User already exists.')
-    
-    return {'session_token': user.session_token, \
-            'session_expiration': user.session_expiration}
+
+    return {'session_token': user.session_token,
+            'session_expiration': user.session_expiration,
+            'update_token': user.update_token}

@@ -9,6 +9,9 @@ def get_user_by_email(email):
 def get_user_by_session_token(session_token):
   return User.query.filter(User.session_token == session_token).first()
 
+def get_user_by_update_token(update_token):
+  return User.query.filter(User.update_token == update_token).first()
+
 def is_registered(email):
   return get_user_by_email(email) is not None
 
