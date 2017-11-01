@@ -23,4 +23,5 @@ Pod::Spec.new do |s|
   s.dependency 'PromiseKit/Alamofire'
   s.dependency 'SwiftyJSON'
   s.dependency 'RealmSwift'
+  s.dependency 'Log'
 end
