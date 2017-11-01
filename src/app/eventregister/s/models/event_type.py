@@ -9,7 +9,8 @@ class EventType(Base):
 
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(255), nullable=False)
-  application_id = db.Column(db.Integer, db.ForeignKey('applications.id'))
+  application_id = db.Column(db.Integer, db.ForeignKey('applications.id',
+                                                       ondelete='CASCADE'))
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   fields_info = db.Column(db.JSON)
 
@@ -18,6 +19,6 @@ class EventType(Base):
 
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
-    self.creator = kwargs.get('creator')
     self.application_id = kwargs.get('application_id')
+    self.user_id = kwargs.get('user_id')
     self.fields_info = kwargs.get('fields_info')
