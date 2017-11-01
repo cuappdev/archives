@@ -19,14 +19,23 @@
         - {username: abc, password: abc}
       stat_port: 1936
   tasks:
-      - name: update apt cache
-        apt: update_cache=yes cache_valid_time=3600
+      - name: install spc
+        apt: name=software-properties-common state=present
+      - name: add haproxy repo
+        apt_repository:
+            repo: "ppa:vbernat/haproxy-1.5"
+            state: present
+            update_cache: yes
       - name: install haproxy
         apt: name=haproxy state=present
       - name: Enable init script
         replace: dest='/etc/default/haproxy'
             regexp='ENABLED=0'
             replace='ENABLED=1'
+      - name: Enable pem
+        template: src=templates/server_cert.pem
+            dest=/etc/haproxy/server_cert.pem
+            backup=yes
       - name: Update HAProxy config
         template: src=templates/haproxy.cfg
             dest=/etc/haproxy/haproxy.cfg
