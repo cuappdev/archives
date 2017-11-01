@@ -4,4 +4,5 @@ venv/*
 *.DS_Store
 *.env
 *.pem
+*.vagrant
 site.retry
