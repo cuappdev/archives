@@ -37,56 +37,56 @@ class LectureStudent extends React.Component<Props, State> {
 
   // Open socket and setup events on component mount
   componentDidMount(): void {
-    const socket = io('/', {
-      query: {
-        userType: 'student',
-        netId: '_TODO_'
-      }
-    });
-
-    this.setState({
-      socket: socket
-    });
-
-    socket.on('connect', () => {
-      console.log('Student connected to socket');
-      this.setState({
-        connected: true
-      });
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Student disconnected from socket');
-      this.setState({
-        connected: false,
-        lectureId: '',
-        currentLecture: '',
-        question: {},
-        selection: -1
-      });
-    });
-
-    socket.on('question-start', (data: Object) => {
-      console.log('Question:');
-      console.log(data);
-      this.setState({
-        question: data,
-        selection: -1
-      });
-    });
-
-    socket.on('question-end', () => {
-      console.log(`Submitting response: ${this.state.question.choices[this.state.selection]}`);
-      socket.emit('question-response', {
-        lectureId: this.state.lectureId,
-        questionId: this.state.question.id,
-        response: this.state.selection
-      });
-      this.setState({
-        question: {},
-        selection: -1
-      });
-    });
+    // const socket = io('/', {
+    //   query: {
+    //     userType: 'student',
+    //     netId: '_TODO_'
+    //   }
+    // });
+    //
+    // this.setState({
+    //   socket: socket
+    // });
+    //
+    // socket.on('connect', () => {
+    //   console.log('Student connected to socket');
+    //   this.setState({
+    //     connected: true
+    //   });
+    // });
+    //
+    // socket.on('disconnect', () => {
+    //   console.log('Student disconnected from socket');
+    //   this.setState({
+    //     connected: false,
+    //     lectureId: '',
+    //     currentLecture: '',
+    //     question: {},
+    //     selection: -1
+    //   });
+    // });
+    //
+    // socket.on('question-start', (data: Object) => {
+    //   console.log('Question:');
+    //   console.log(data);
+    //   this.setState({
+    //     question: data,
+    //     selection: -1
+    //   });
+    // });
+    //
+    // socket.on('question-end', () => {
+    //   console.log(`Submitting response: ${this.state.question.choices[this.state.selection]}`);
+    //   socket.emit('question-response', {
+    //     lectureId: this.state.lectureId,
+    //     questionId: this.state.question.id,
+    //     response: this.state.selection
+    //   });
+    //   this.setState({
+    //     question: {},
+    //     selection: -1
+    //   });
+    // });
   }
 
   // Close socket on component dismount

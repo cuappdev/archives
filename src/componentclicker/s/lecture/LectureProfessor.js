@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import io, {Socket} from 'socket.io-client';
 
+import LectureDashboard from './LectureDashboard';
 import ClickerPage from '../common/ClickerPage';
 import ClickerTextInput from '../common/ClickerTextInput';
 import ClickerButton from '../common/ClickerButton';
@@ -32,29 +33,29 @@ class LectureProfessor extends React.Component<Props, State> {
 
   // Open socket and setup events on component mount
   componentDidMount(): void {
-    const socket = io('/', {
-      query: {
-        userType: 'professor'
-      }
-    });
-
-    this.setState({
-      socket: socket
-    });
-
-    socket.on('connect', () => {
-      console.log('Admin connected to socket');
-      this.setState({
-        connected: true
-      });
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Admin disconnected from socket');
-      this.setState({
-        connected: false
-      });
-    });
+    // const socket = io('/', {
+    //   query: {
+    //     userType: 'professor'
+    //   }
+    // });
+    //
+    // this.setState({
+    //   socket: socket
+    // });
+    //
+    // socket.on('connect', () => {
+    //   console.log('Admin connected to socket');
+    //   this.setState({
+    //     connected: true
+    //   });
+    // });
+    //
+    // socket.on('disconnect', () => {
+    //   console.log('Admin disconnected from socket');
+    //   this.setState({
+    //     connected: false
+    //   });
+    // });
   }
 
   // Close socket on component dismount
@@ -147,7 +148,10 @@ class LectureProfessor extends React.Component<Props, State> {
   render(): React.Element<any> {
     return (
       <ClickerPage>
-        <ClickerTextInput
+        <LectureDashboard
+          courseId={0}
+        />
+        {/* <ClickerTextInput
           placeholder='Enter course id'
           value={this.state.courseId}
           onChange={this._onCourseIdChange}
@@ -173,7 +177,7 @@ class LectureProfessor extends React.Component<Props, State> {
           onClick={this._endQuestion}
           inverse={true} >
           End Question
-        </ClickerButton>
+        </ClickerButton> */}
       </ClickerPage>
     );
   }

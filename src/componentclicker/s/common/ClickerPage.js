@@ -23,7 +23,8 @@ class ClickerPage extends React.Component<Props, void> {
 
 const styles = {
   content: {
-    minHeight: '70vh'
+    minHeight: '70vh',
+    padding: '20px'
   }
 };
 
