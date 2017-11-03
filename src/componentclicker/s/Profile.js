@@ -1,7 +1,7 @@
 // @flow
 import Cookies from 'universal-cookie';
 import ClickerPage from './common/ClickerPage';
-import React from 'react';
+import React from 'React';
 
 import axios from 'axios';
 import constants from './common/constants';

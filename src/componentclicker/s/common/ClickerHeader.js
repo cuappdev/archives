@@ -1,6 +1,6 @@
 // @flow
 import { Link } from 'react-router';
-import React from 'react';
+import React from 'React';
 
 import constants from './constants';
 

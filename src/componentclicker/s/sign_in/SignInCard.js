@@ -1,11 +1,12 @@
 // @flow
 import ClickerCard from '../common/Clickercard';
 import ClickerGoogleSignInButton from '../common/ClickerGoogleSignInButton';
-import React from 'react';
-
+import React from 'React';
 import constants from '../common/constants';
 
-class SignInCard extends React.Component {
+type Props = {};
+
+class SignInCard extends React.Component<Props, void> {
   componentDidMount (): void {
   }
 

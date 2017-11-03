@@ -6,16 +6,13 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
-
     <!-- Title -->
-    <title>Clicker | CUAppDev</title>
-
+    <title>Clicker | Cornell AppDev</title>
     <!-- Font Awesome! -->
     <script src="https://use.fontawesome.com/395029e605.js"></script>
-
     <!-- Global styling -->
     <style>
-      html, body { margin: 0;}
+      html, body { margin: 0; }
     </style>
   </head>
   <body>

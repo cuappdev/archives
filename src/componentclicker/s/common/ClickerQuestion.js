@@ -1,7 +1,5 @@
 // @flow
-import React from 'react';
-import constants from './constants';
-
+import React from 'React';
 import ClickerButton from './ClickerButton';
 
 type Props = {
@@ -19,7 +17,7 @@ class ClickerQuestion extends React.Component<Props, State> {
   props: Props;
   state: State;
 
-  constructor(props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -28,12 +26,12 @@ class ClickerQuestion extends React.Component<Props, State> {
     };
   }
 
-  render(): void {
+  render (): React.Element<any> {
     const choices = this.state.choices.map((el, i) => (
       <ClickerButton
         key={i}
         onClick={ () => this.props.onClick(i) }
-        inverse={(i == this.props.selection)} >
+        inverse={(i === this.props.selection)} >
         {el}
       </ClickerButton>
     ));
@@ -44,9 +42,6 @@ class ClickerQuestion extends React.Component<Props, State> {
       </div>
     );
   }
-}
-
-const styles = {
 }
 
 export default ClickerQuestion;

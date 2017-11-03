@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React from 'React';
 import constants from './constants';
 
 type Props = {

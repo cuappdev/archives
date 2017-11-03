@@ -1,7 +1,7 @@
 // @flow
 import Cookies from 'universal-cookie';
 import Playground from './Playground';
-import React from 'react';
+import React from 'React';
 
 import { connect } from 'react-redux';
 import actions from './actions';

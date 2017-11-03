@@ -1,7 +1,7 @@
 // @flow
 import ClickerFooter from './ClickerFooter';
 import ClickerHeader from './ClickerHeader';
-import React from 'react';
+import React from 'React';
 
 type Props = {
   children?: any

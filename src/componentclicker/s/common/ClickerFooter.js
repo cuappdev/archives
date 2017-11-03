@@ -1,9 +1,12 @@
 // @flow
-import React from 'react';
+import React from 'React';
 
 import constants from './constants';
 
-class ClickerFooter extends React.Component {
+type Props = {
+};
+
+class ClickerFooter extends React.Component<Props, void> {
   render (): React.Element<any> {
     return (
       <div style={styles.root}>

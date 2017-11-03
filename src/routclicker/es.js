@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React from 'React';
 import { Route, IndexRoute, Redirect } from 'react-router';
 
 import App from './components/App';

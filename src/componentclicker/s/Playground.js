@@ -1,12 +1,14 @@
 // @flow
-import React from 'react';
+import React from 'React';
 import ClickerPage from './common/ClickerPage';
 import LectureStudent from './lecture/LectureStudent';
 import SignInCard from './sign_in/SignInCard';
 
 import io from 'socket.io-client';
 
-class Playground extends React.Component {
+type Props = {};
+
+class Playground extends React.Component<Props, void> {
   socket: Object;
 
   componentDidMount (): void {
