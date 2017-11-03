@@ -22,9 +22,6 @@ class Page404 extends React.Component<Props, State> {
         <h1>
           404
         </h1>
-        <p>
-          We need to fix this before release.
-        </p>
       </ClickerPage>
     );
   }
