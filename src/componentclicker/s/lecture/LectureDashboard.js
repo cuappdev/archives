@@ -7,7 +7,8 @@ import {
   Tab,
   Grid,
   Segment,
-  Button
+  Button,
+  Breadcrumb
 } from 'semantic-ui-react';
 
 import ClickerPage from '../common/ClickerPage';
@@ -108,8 +109,13 @@ class LectureDashboard extends React.Component<Props, State> {
     ];
     return (
       <div>
+        <Breadcrumb size='tiny'>
+          <Breadcrumb.Section link>Dashboard</Breadcrumb.Section>
+          <Breadcrumb.Divider icon='right chevron'/>
+          <Breadcrumb.Section active>Course</Breadcrumb.Section>
+        </Breadcrumb>
         <Header color='grey' size='medium'>
-          {this.state.courseTitle} <Icon name='settings'/>
+          {this.state.courseTitle}
         </Header>
         <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
       </div>
