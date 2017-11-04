@@ -1,0 +1,3 @@
+name: redis-ml pv
+description: Helm chart for deploying the redis-ml module
+version: 1.0

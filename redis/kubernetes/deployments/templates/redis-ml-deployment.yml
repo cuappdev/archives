@@ -8,20 +8,21 @@ spec:
     name: redis
   template:
     metadata:
+      annotations:
+        pod.beta.kubernetes.io/hostname: redis
       labels:
+        redisService: redis
         name: redis
     spec:
       containers:
       - name: redis
         image: shaynativ/redis-ml
-        ports:
-        - containerPort: 6379
-        resources:
-          limits:
-            cpu: "0.1"
+        imagePullPolicy: IfNotPresent
         volumeMounts:
         - mountPath: /redis-master-data
-          name: data
+          name: redis-master-data
+      restartPolicy: Always
       volumes:
-        - name: data
-          emptyDir: {}
+      - name: redis-master-data
+        persistentVolumeClaim:
+          claimName: redis-data
