@@ -1,0 +1,50 @@
+---
+- name: Deploying a HAProxy L7LB
+  hosts: all
+  remote_user: root
+  become: true
+  become_method: sudo
+  environment:
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
+      LANGUAGE: en_US.UTF-8
+  vars:
+      mode: http
+      enable_stats: enable
+      algorithm: roundrobin
+      backend_servers:
+        - {name: server_a, ip: 192.168.33.15, port: 8080, params: check }
+        - {name: server_b, ip: 192.168.33.14, port: 8081, params: check }
+      stats_users:
+        - {username: abc, password: abc}
+      stat_port: 1936
+  tasks:
+      - name: install spc
+        apt: name=software-properties-common state=present
+      - name: add haproxy repo
+        apt_repository:
+            repo: "ppa:vbernat/haproxy-1.5"
+            state: present
+            update_cache: yes
+      - name: install haproxy
+        apt: name=haproxy state=present
+      - name: Enable init script
+        replace: dest='/etc/default/haproxy'
+            regexp='ENABLED=0'
+            replace='ENABLED=1'
+      - name: Enable pem
+        template: src=templates/server_cert.pem
+            dest=/etc/haproxy/server_cert.pem
+            backup=yes
+      - name: Update HAProxy config
+        template: src=templates/haproxy.cfg
+            dest=/etc/haproxy/haproxy.cfg
+            backup=yes
+        notify:
+           - restart haproxy
+      - name: Make sure HAProxy is running
+        service: name=haproxy state=started enabled=yes
+  handlers:
+      - name: restart haproxy
+        service: name=haproxy state=restarted  
+ 
