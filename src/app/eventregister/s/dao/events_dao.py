@@ -18,10 +18,10 @@ def create_events(app_id, events):
   succeeded = []
   failed = []
 
-  event_type_names = [event['event_type'] for event in events]
+  event_type_names = {event['event_type'] for event in events}
   event_types = {event_type.name: event_type for event_type in \
                  event_types_dao.get_event_types_by_names(event_type_names)}
-  
+
   for event in events:
     event_type = event_types[event['event_type']]
 

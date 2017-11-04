@@ -46,7 +46,7 @@ class User(Base):
   def renew_session(self):
     self.session_token = self._urlsafe_base_64()
     self.session_expiration = datetime.now() + datetime.timedelta(days=1)
-    self.update_token = self._urlsafe_base_6
+    self.update_token = self._urlsafe_base_64()
 
   def verify_session_token(self, session_token):
     return session_token == self.session_token and \
