@@ -1,5 +1,5 @@
 // @flow
-import React from 'React';
+import React from 'react';
 import constants from './constants';
 
 type ButtonSize = 'small' | 'medium' | 'large';
@@ -17,7 +17,7 @@ type State = {
 };
 
 // TODO - Make this component nice with designs
-class ClickerButton extends React.Component<Props, State> {
+class ClickerButton extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 

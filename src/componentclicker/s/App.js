@@ -1,7 +1,7 @@
 // @flow
 import Cookies from 'universal-cookie';
 import Playground from './Playground';
-import React from 'React';
+import React from 'react';
 
 import { connect } from 'react-redux';
 import actions from './actions';
@@ -15,7 +15,7 @@ type Props = {
   children: any
 };
 
-class App extends React.Component<Props, void> {
+class App extends React.Component<void, Props, void> {
   props: Props;
 
   componentDidMount (): void {

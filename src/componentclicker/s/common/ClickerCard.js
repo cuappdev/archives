@@ -1,5 +1,5 @@
 // @flow
-import React from 'React';
+import React from 'react';
 
 import constants from './constants';
 
@@ -9,7 +9,7 @@ type Props = {
   title?: string,
 };
 
-class ClickerCard extends React.Component<Props, void> {
+class ClickerCard extends React.Component<void, Props, void> {
   props: Props;
 
   render (): React.Element<any> {

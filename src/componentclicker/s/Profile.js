@@ -1,7 +1,7 @@
 // @flow
 import Cookies from 'universal-cookie';
 import ClickerPage from './common/ClickerPage';
-import React from 'React';
+import React from 'react';
 
 import axios from 'axios';
 import constants from './common/constants';
@@ -13,7 +13,7 @@ type State = {
 
 const cookies = new Cookies();
 
-class Profile extends React.Component<Props, State> {
+class Profile extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 

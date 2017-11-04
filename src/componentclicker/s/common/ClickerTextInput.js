@@ -1,5 +1,5 @@
 // @flow
-import React from 'React';
+import React from 'react';
 import constants from './constants';
 
 type Props = {
@@ -13,7 +13,7 @@ type State = {
 };
 
 // TODO - Make this conform to designs
-class ClickerTextInput extends React.Component<Props, State> {
+class ClickerTextInput extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 

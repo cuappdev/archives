@@ -1,7 +1,7 @@
 // @flow
 import Cookies from 'universal-cookie';
 import GoogleLogin from 'react-google-login';
-import React from 'React';
+import React from 'react';
 
 import { browserHistory } from 'react-router';
 import axios from 'axios';
@@ -18,7 +18,7 @@ const cookies = new Cookies();
 const CLIENT_ID =
   '27973282433-mjc2roekjmcq517o0vaiuqsoctf0e30o.apps.googleusercontent.com';
 
-class SignInCard extends React.Component<Props, void> {
+class SignInCard extends React.Component<void, Props, void> {
   props: Props;
 
   _onFailure = (result: Object) => {

@@ -1,5 +1,5 @@
 // @flow
-import React from 'React';
+import React from 'react';
 import axios from 'axios';
 import io, {Socket} from 'socket.io-client';
 
@@ -15,7 +15,7 @@ type State = {
   lectureId: string
 };
 
-class LectureProfessor extends React.Component<Props, State> {
+class LectureProfessor extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 

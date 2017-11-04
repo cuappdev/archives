@@ -1,13 +1,13 @@
 // @flow
 import { Link } from 'react-router';
-import React from 'React';
+import React from 'react';
 
 import constants from './constants';
 
 type Props = {};
 type State = {};
 
-class ClickerHeader extends React.Component<Props, State> {
+class ClickerHeader extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 

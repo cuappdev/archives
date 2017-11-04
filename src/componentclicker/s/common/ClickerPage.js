@@ -1,13 +1,13 @@
 // @flow
 import ClickerFooter from './ClickerFooter';
 import ClickerHeader from './ClickerHeader';
-import React from 'React';
+import React from 'react';
 
 type Props = {
   children?: any
 }
 
-class ClickerPage extends React.Component<Props, void> {
+class ClickerPage extends React.Component<void, Props, void> {
   props: Props;
 
   render (): React.Element<any> {

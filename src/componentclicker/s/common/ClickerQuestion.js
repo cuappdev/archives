@@ -1,5 +1,5 @@
 // @flow
-import React from 'React';
+import React from 'react';
 import ClickerButton from './ClickerButton';
 
 type Props = {
@@ -13,7 +13,7 @@ type State = {
 }
 
 // TODO - Make this nice with designs
-class ClickerQuestion extends React.Component<Props, State> {
+class ClickerQuestion extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 
