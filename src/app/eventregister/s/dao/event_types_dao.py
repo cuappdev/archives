@@ -28,6 +28,10 @@ def get_event_type_by_name(app_id, name):
   return EventType.query.filter(EventType.application_id == app_id,
                                 EventType.name == name).first()
 
+def get_event_types_by_names(app_id, names):
+  return EventType.query.filter(EventType.application_id == app_id,
+                                EventType.name._in(names)).all()
+
 def get_event_type_by_id(event_type_id):
   return EventType.query.filter(EventType.id == event_type_id).first()
 
@@ -77,4 +81,4 @@ def get_events(event_type_id):
   if event_type is None:
     raise Exception('Event type does not exist.')
 
-  return [event.id for event in event_type.events]
+  return event_type.events
