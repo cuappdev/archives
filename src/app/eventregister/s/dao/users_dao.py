@@ -44,3 +44,10 @@ def get_users_apps(user_id):
   if optional_user is None:
     raise Exception('User does not exist.')
   return optional_user.applications
+
+def clear_all_apps():
+  users = User.query.all()
+  for user in users:
+    user.applications = []
+  db_utils.db_session_commit()
+

@@ -1,6 +1,6 @@
-from . import *
 import hashlib
 import os
+from . import *
 
 class Application(Base):
   __tablename__ = 'applications'

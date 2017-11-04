@@ -17,8 +17,8 @@ def create_event_type(app_id, name, user_id, fields_info):
 
   event_type = EventType(
       name=name,
-      user_id=user_id,
       application_id=app_id,
+      user_id=user_id,
       fields_info=fields_info
   )
   db_utils.commit_model(event_type)

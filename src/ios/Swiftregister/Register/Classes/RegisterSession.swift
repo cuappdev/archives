@@ -25,20 +25,18 @@ func combineArrayOfEvents(data: [JSONData]) throws -> JSONData {
  * loggingUrl and log events by calling logEvent
  */
 public class RegisterSession: EventSender {
-    let apiUrl: URL
-    var _dbBackend: DBLoggingBackend?
-    var dbBackend: DBLoggingBackend {
-        if _dbBackend == nil {
-            _dbBackend = DBLoggingBackend(eventSender: self)
-        }
-        return _dbBackend!
+    public enum LogMode {
+        case debug, regular, errorOnly
     }
     
-    public init(apiUrl: URL) {
+    let apiUrl: URL
+    lazy var dbBackend: DBLoggingBackend = DBLoggingBackend(eventSender: self)
+    
+    public init(apiUrl: URL, logMode: LogMode = .regular) {
         self.apiUrl = apiUrl
     }
     
-    func logEventToServer<T: Loggable>(event: T) -> Promise<()> {
+    func logEventToServer<T>(event: Event<T>) -> Promise<()> {
         let serializedEvent: Data
         do {
             serializedEvent = try event.serializeJson()
@@ -56,7 +54,7 @@ public class RegisterSession: EventSender {
             }
     }
     
-    public func logEvent<T: Loggable>(event: T) -> Promise<()> {
+    public func logEvent<T>(event: Event<T>) -> Promise<()> {
         return dbBackend.logEvent(event: event)
     }
     

@@ -14,6 +14,8 @@ def create_app(app_name, user_id):
   app = Application(name=app_name)
   user.applications.append(app)
   db_utils.commit_model(app)
+  db_utils.commit_model(user)
+  return True, app
 
 def get_app_by_id(app_id):
   return Application.query.filter(Application.id == app_id).first()

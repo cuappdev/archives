@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		CC0A3A431F86A95C007ABFB1 /* TestLoggingDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0A3A421F86A95C007ABFB1 /* TestLoggingDb.swift */; };
+		CC0A3A471F903BF9007ABFB1 /* TestMultithreadedDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0A3A461F903BF9007ABFB1 /* TestMultithreadedDb.swift */; };
 		CE2603AAFDDACC80F9D3BCCE /* Pods_SwiftRegister_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94F9C3DCFD45C981244171B /* Pods_SwiftRegister_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -20,6 +21,7 @@
 		89CECEDF16BC9AF60C04951F /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		91D06A81FD385D822C575E29 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		CC0A3A421F86A95C007ABFB1 /* TestLoggingDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLoggingDb.swift; sourceTree = "<group>"; };
+		CC0A3A461F903BF9007ABFB1 /* TestMultithreadedDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMultithreadedDb.swift; sourceTree = "<group>"; };
 		D4EE942CD3B2F578C8D173F4 /* SwiftRegister.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftRegister.podspec; path = ../SwiftRegister.podspec; sourceTree = "<group>"; };
 		D94F9C3DCFD45C981244171B /* Pods_SwiftRegister_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftRegister_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF3916B9C460D0CE725B4CEC /* Pods-SwiftRegister_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftRegister_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftRegister_Tests/Pods-SwiftRegister_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			children = (
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				CC0A3A421F86A95C007ABFB1 /* TestLoggingDb.swift */,
+				CC0A3A461F903BF9007ABFB1 /* TestMultithreadedDb.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -211,6 +214,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SwiftRegister_Tests/Pods-SwiftRegister_Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Log/Log.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
@@ -220,6 +224,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Log.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
@@ -238,6 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC0A3A471F903BF9007ABFB1 /* TestMultithreadedDb.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				CC0A3A431F86A95C007ABFB1 /* TestLoggingDb.swift in Sources */,
 			);
