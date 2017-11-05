@@ -3,61 +3,6 @@
   <div class="slogan text-center">Our Team</div>
 </div>
 
-
-<!-- Team Info -->
-<div class="white-barz">
-
-  <% @groupings.keys.each do |k| %>
-
-    <!-- Top of a section of team members -->
-    <div class="col-sm-4 text-center">
-      <div class="slogan" style="padding-top:0px;">
-        <%= k %>
-      </div>
-    </div>
-
-    <!-- Members within this category -->
-    <div class="team-container">
-
-      <% @groupings[k].each do |mem| %>
-        <div class="col-sm-4 team-member fadein">
-          <div class="col-xs-12" style="padding-bottom: 20px;">
-            <%= image_tag "team/#{mem.photo}",
-                class: "center-block",
-                style: "width:150px;height:150px" %>
-          </div>
-          <p class="text-medium col-xs-12 text-center"
-             style="margin-bottom:0px;">
-            <%= mem.name %>
-          </p>
-          <p class="text-small col-xs-12 text-center">
-            <%= mem.role %>
-          </p>
-
-          <div class="col-xs-12 bullet">
-            <% for i in 0...(mem.prof_links.size) %>
-              <div class="
-              <% if i == 0 %>
-                col-xs-offset-<%= mem.prof_links.size == 3 ? 3 : (mem.prof_links.size == 1 ? 5 : 4) %>
-              <% end %> col-xs-2">
-                <a href="<%= mem.prof_links[i][:link] %>" target="_blank">
-                  <%= image_tag "team/#{mem.prof_links[i][:link_type]}.png",
-                    class: "center-block media-logo #{mem.prof_links[i][:link_type]}",
-                    style: "width:20px;height:auto;" %>
-                </a>
-              </div>
-            <% end %>
-          </div>
-
-        </div>
-      <% end %>
-
-    </div>
-
-  <% end %>
-
-  <%= render partial: 'components/where_we_have_been' %>
-
-</div>
-
+<%= render partial: 'components/core_team' %>
+<%= render partial: 'components/where_we_have_been' %>
 <%= render partial: 'components/interested_in_joining' %>

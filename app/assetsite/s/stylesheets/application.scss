@@ -66,15 +66,19 @@ a:hover, a:focus {
 }
 
 .action-component {
-    width: 100%;
-    position: relative;
-    padding: $primary-padding 0;
-    background-color: $off-white;
+  width: 100%;
+  position: relative;
+  padding: $primary-padding 0;
+  background-color: $off-white;
+}
+
+.component-padding {
+  padding: $primary-padding 0;
 }
 
 .component-width {
-    margin: auto;
-    max-width: 400px;
+  margin: auto;
+  max-width: 400px;
 }
 
 .red-header {

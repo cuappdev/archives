@@ -1,0 +1,59 @@
+<script type="text/javascript">
+  $(function() {
+    $('.team-navbar li a').click(function() {
+      $('.team-navbar li.selected-role').removeClass('selected-role');
+      $(this).closest('li').addClass('selected-role');
+
+      var role = "." + $(".selected-role a").text();
+      $(".team-container").hide();
+      $(role).show();
+    });
+  });
+</script>
+
+<!-- Navbar for selecting team role -->
+<ul class="team-navbar">
+<!--   <li class="selected-role"><a class="role-button" href="#Everyone">Everyone</a></li> -->
+  <% @groupings.keys.each do |k| %>
+    <li><a class="role-button" href="#<%= k %>"><%= k %></a></li>
+  <% end %>
+</ul>
+
+<!-- Members within selected team role -->
+<% @groupings.keys.each do |k| %>
+  <div class="team-container <%= k %> fadein">
+    <% @groupings[k].each do |mem| %>
+      <div class="col-sm-3 team-member">
+        <div>
+          <div class="col-xs-12" style="padding-bottom: 20px;">
+            <%= image_tag "team/#{mem.photo}",
+                class: "center-block",
+                style: "width:150px;height:150px" %>
+          </div>
+          <p class="text-medium col-xs-12 text-center"
+             style="margin-bottom:0px;">
+            <%= mem.name %>
+          </p>
+          <p class="text-small col-xs-12 text-center">
+            <%= mem.role %>
+          </p>
+
+          <div class="col-xs-12 bullet">
+            <% for i in 0...(mem.prof_links.size) %>
+              <div class="
+              <% if i == 0 %>
+                col-xs-offset-<%= mem.prof_links.size == 3 ? 3 : (mem.prof_links.size == 1 ? 5 : 4) %>
+              <% end %> col-xs-2">
+                <a href="<%= mem.prof_links[i][:link] %>" target="_blank">
+                  <%= image_tag "team/#{mem.prof_links[i][:link_type]}.png",
+                    class: "center-block media-logo #{mem.prof_links[i][:link_type]}",
+                    style: "width:20px;height:auto;" %>
+                </a>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
