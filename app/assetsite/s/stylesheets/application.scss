@@ -16,18 +16,16 @@
  *= require_self
  */
 
-
+// Padding
 $primary-padding: 75px;
 $mobile-padding: 50px;
+$small-padding: 20px;
+
+// Colors
 $red-regular: #C30016;
 $red-hover: #E30000;
 $appdev-red: #B73D34;
-
-
-// Bolding of certain parts of the page (depending on whether we're currently on it or not)
-.bold {
-  font-weight: bold;
-}
+$off-white: #F9F9F9;
 
 // Red text, title or otherwise
 .slogan {
@@ -42,6 +40,19 @@ $appdev-red: #B73D34;
   padding-top: 0px;
 }
 
+// Global Styles
+a:hover, a:focus {
+    text-decoration: none;
+}
+
+// Components
+.action-component {
+    width: 100%;
+    position: relative;
+    padding: $primary-padding 0;
+    background-color: $off-white;
+}
+
 
 // BARS - For various sections
 .white-barz, .black-barz, .offwhite-barz, .gray-barz, .darkgray-barz {
@@ -53,7 +64,7 @@ $appdev-red: #B73D34;
 
 .white-barz { background-color: rgb(255, 255, 255); }
 .black-barz { background-color: rgb(45, 45, 45); }
-.offwhite-barz { background-color: rgb(242, 242, 242); }
+.offwhite-barz { background-color: #F9F9F9; }
 .gray-barz { background-color: rgb(149, 149, 149); }
 .darkgray-barz { background-color: rgb(66, 66, 66); }
 
@@ -67,6 +78,15 @@ $appdev-red: #B73D34;
   margin-left: 100px;
 }
 
+// Alignment
+
+.text-center {
+    text-align: center;
+}
+
+.center {
+    margin: auto;
+}
 
 // Used to style black paragraph text on various pages
 .text-black  {
@@ -122,8 +142,34 @@ $appdev-red: #B73D34;
   margin-bottom: 0px; // B/c of some bootstrap issue
 }
 
+// Font Weights
+.bold {
+    font-weight: bold;
+}
 
-// TO AUGMENT TEXT MAKE IT LARGER
+.semibold {
+    font-weight: 500;
+}
+
+
+// Font Sizes
+
+.size-24 {
+    font-size: 24px;
+}
+
+.size-18 {
+    font-size: 18px;
+}
+
+.size-14 {
+    font-size: 14px;
+}
+
+.size-12 {
+    font-size: 12px;
+}
+
 .text-large {
   font-size: 50px;
 }
@@ -133,9 +179,30 @@ $appdev-red: #B73D34;
 }
 
 .text-small {
-  font-size: 16px;
+  font-size: 14px;
 }
 
+// Buttons
+.red-button {
+    display: inline-block;
+    min-width: 120px;
+    padding: 5px 20px;
+    border: 1.5px solid $appdev-red;
+    border-radius: 4px;
+    color: $appdev-red;
+    font-weight: bold;
+
+    &:hover,
+    &:focus {
+        color: $red-hover;
+        border-color: $red-hover;
+    }
+}
+
+// Padding
+.vpad-20 {
+    padding: 20px 0;
+}
 
 // Padding for massive screens
 @media screen and (min-width: 1601px) {
