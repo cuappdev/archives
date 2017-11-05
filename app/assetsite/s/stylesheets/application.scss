@@ -27,6 +27,16 @@ $red-hover: #E30000;
 $appdev-red: #B73D34;
 $off-white: #F9F9F9;
 
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+// For navbar
+.active-page {
+  color: $appdev-red !important;
+}
+
 // Red text, title or otherwise
 .slogan {
   padding-top: 30px;

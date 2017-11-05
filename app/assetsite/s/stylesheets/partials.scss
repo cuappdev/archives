@@ -16,8 +16,8 @@ html {
 
 /* NAVBAR STUFF */
 
-body {
-  margin-top: 70px !important;
+.navbar-shadow {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3)
 }
 
 #right-menu {
@@ -25,7 +25,7 @@ body {
 }
 
 .navbar-brand-logo {
-  margin-left: 25px;
+  margin-left: 15px;
   width: auto;
   height: 50px;
 }
@@ -54,12 +54,14 @@ body {
 
 .nav-element {
   margin-top: 12px;
-  color: $appdev-red !important;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
 }
 
 .nav-element:hover {
   text-decoration: none !important;
-  color: $appdev-red-highlight !important;
+  color: $appdev-red !important;
 }
 
 .nav-button {

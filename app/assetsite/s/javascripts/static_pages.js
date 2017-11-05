@@ -2,7 +2,26 @@ $(document).ready(function () {
 
   // Conditionally add a bolding to links of page we're currently on
   var pageURL = window.location.href;
-  $('a').each(function () { if (this.href == pageURL) { $(this).addClass('bold'); }  });
+  $('a').each(function () { if (this.href == pageURL) { $(this).addClass('active-page'); }  });
+
+
+  var scroll_start = 0;
+  var startchange = $('.navbar-change');
+  var offset = startchange.offset();
+  if (startchange.length){
+    $(document).scroll(function() {
+      scroll_start = $(this).scrollTop() + 88; // Navbar height: 88px
+      if(scroll_start > offset.top) {
+        $(".pages-navbar").css('background-color', 'white');
+        $(".pages-navbar").addClass('navbar-shadow');
+        $(".nav-element").css('color', '#B9B9B9');
+      } else {
+        $('.pages-navbar').css('background-color', 'transparent');
+        $(".pages-navbar").removeClass('navbar-shadow');
+        $(".nav-element").css('color', 'white');
+      }
+    });
+  }
 
 
   // To animate in appropriate parts of the page
