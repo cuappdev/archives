@@ -77,6 +77,19 @@ a:hover, a:focus {
     max-width: 400px;
 }
 
+.red-header {
+  color: $appdev-red;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.center-underline {
+  margin: 15px auto;
+  width: 60px;
+  height: 1px;
+  background-color: $appdev-red;
+}
+
 // BARS - For various sections
 .white-barz, .black-barz, .offwhite-barz, .gray-barz, .darkgray-barz {
   width: 100%;
