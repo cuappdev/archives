@@ -53,6 +53,10 @@ a:hover, a:focus {
     background-color: $off-white;
 }
 
+.component-width {
+    margin: auto;
+    max-width: 400px;
+}
 
 // BARS - For various sections
 .white-barz, .black-barz, .offwhite-barz, .gray-barz, .darkgray-barz {
@@ -98,26 +102,6 @@ a:hover, a:focus {
 .text-paragraph {
   margin-right: 100px;
   margin-left: 100px;
-}
-
-
-// Red links used on various pages
-.red-link {
-  text-decoration: none;
-  color: $red-regular;
-
-  &:active,
-  &:visited,
-  &:focus {
-    text-decoration: none;
-    color: white;
-    color: $red-regular;
-  }
-}
-
-.red-link:hover {
-  text-decoration: none;
-  color: $red-hover;
 }
 
 // TOP TEXT OF A SECTION
@@ -182,6 +166,21 @@ a:hover, a:focus {
   font-size: 14px;
 }
 
+// Red links used on various pages
+.red-link {
+  color: $appdev-red;
+  font-weight: bold;
+
+  &:hover,
+  &:focus {
+    color: $red-hover;
+  }
+
+  &:visited {
+    color: $appdev-red;
+  }
+}
+
 // Buttons
 .red-button {
     display: inline-block;
@@ -196,6 +195,11 @@ a:hover, a:focus {
     &:focus {
         color: $red-hover;
         border-color: $red-hover;
+    }
+
+    &:visited {
+      color: $appdev-red;
+      border-color: $appdev-red;
     }
 }
 
