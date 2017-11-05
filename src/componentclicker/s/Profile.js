@@ -13,7 +13,7 @@ type State = {
 
 const cookies = new Cookies();
 
-class Profile extends React.Component<Props, State> {
+class Profile extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 

@@ -15,7 +15,7 @@ type Props = {
   children: any
 };
 
-class App extends React.Component<Props, void> {
+class App extends React.Component<void, Props, void> {
   props: Props;
 
   componentDidMount (): void {

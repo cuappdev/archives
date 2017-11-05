@@ -3,7 +3,10 @@ import React from 'react';
 
 import constants from './constants';
 
-class ClickerFooter extends React.Component {
+type Props = {
+};
+
+class ClickerFooter extends React.Component<void, Props, void> {
   render (): React.Element<any> {
     return (
       <div style={styles.root}>

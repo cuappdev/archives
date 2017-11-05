@@ -16,11 +16,11 @@ type State = {
   lectureId: string
 };
 
-class LectureProfessor extends React.Component<Props, State> {
+class LectureProfessor extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 
-  constructor(props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -32,24 +32,24 @@ class LectureProfessor extends React.Component<Props, State> {
   }
 
   // Open socket and setup events on component mount
-  componentDidMount(): void {
+  componentDidMount (): void {
     // const socket = io('/', {
     //   query: {
     //     userType: 'professor'
     //   }
     // });
-    //
+
     // this.setState({
     //   socket: socket
     // });
-    //
+
     // socket.on('connect', () => {
     //   console.log('Admin connected to socket');
     //   this.setState({
     //     connected: true
     //   });
     // });
-    //
+
     // socket.on('disconnect', () => {
     //   console.log('Admin disconnected from socket');
     //   this.setState({
@@ -59,7 +59,7 @@ class LectureProfessor extends React.Component<Props, State> {
   }
 
   // Close socket on component dismount
-  componentWillUnmount(): void {
+  componentWillUnmount (): void {
     this.state.socket && this.state.socket.close();
   }
 
@@ -82,22 +82,22 @@ class LectureProfessor extends React.Component<Props, State> {
       return;
     }
     if (!this.state.socket) return;
-    axios.post('../api/v1/start-lecture', {
+    axios.post('/api/v1/start-lecture', {
       socketId: this.state.socket.id,
       courseId: courseId,
       date: (new Date()).toDateString()
-    })
-    .then((response: Object) => {
+    }).then((response: Object) => {
       if (response.data.data.success) {
-        console.log(`Lecture started! Use lecture id \'${response.data.data.lectureId}\' to join`);
+        console.log(`Lecture started!
+          Use lecture id '${response.data.data.lectureId}' to join`);
         this.setState({
           lectureId: response.data.data.lectureId
         });
       } else {
         console.log('Could not start lecture');
       }
-    })
-    .catch((error: Object) => {
+    }).catch((error: Object) => {
+      console.log('There was an error');
       console.log(error);
     });
   }
@@ -110,21 +110,19 @@ class LectureProfessor extends React.Component<Props, State> {
     }
     if (!this.state.socket) return;
     const lectureId = this.state.lectureId;
-    axios.post('../api/v1/end-lecture', {
+    axios.post('/api/v1/end-lecture', {
       profId: this.state.socket.id,
       lectureId: lectureId
-    })
-    .then((response: Object) => {
+    }).then((response: Object) => {
       if (response.data.data) {
-        console.log(`Lecture id \"${lectureId}\" was ended`);
+        console.log(`Lecture id '${lectureId}' was ended`);
         this.setState({
           lectureId: ''
         });
       } else {
-        alert('Failed to end lecture with id \"' + lectureId + '\"');
+        alert('Failed to end lecture with id "' + lectureId + '"');
       }
-    })
-    .catch((error: Object) => {
+    }).catch((error: Object) => {
       console.log(error);
     });
   }
@@ -145,7 +143,7 @@ class LectureProfessor extends React.Component<Props, State> {
     this.state.socket && this.state.socket.emit('question-end');
   }
 
-  render(): React.Element<any> {
+  render (): React.Element<any> {
     return (
       <ClickerPage>
         <LectureDashboard
@@ -181,9 +179,6 @@ class LectureProfessor extends React.Component<Props, State> {
       </ClickerPage>
     );
   }
-}
-
-const styles = {
 }
 
 export default LectureProfessor;

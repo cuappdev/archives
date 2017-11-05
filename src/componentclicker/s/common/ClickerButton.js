@@ -17,7 +17,7 @@ type State = {
 };
 
 // TODO - Make this component nice with designs
-class ClickerButton extends React.Component<Props, State> {
+class ClickerButton extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 

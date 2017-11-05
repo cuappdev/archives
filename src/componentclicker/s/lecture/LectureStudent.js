@@ -18,11 +18,11 @@ type State = {
   selection: number
 };
 
-class LectureStudent extends React.Component<Props, State> {
+class LectureStudent extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 
-  constructor(props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -36,25 +36,25 @@ class LectureStudent extends React.Component<Props, State> {
   }
 
   // Open socket and setup events on component mount
-  componentDidMount(): void {
+  componentDidMount (): void {
     // const socket = io('/', {
     //   query: {
     //     userType: 'student',
-    //     netId: '_TODO_'
+    //     netId: 'NET_ID_HERE'
     //   }
     // });
-    //
+
     // this.setState({
     //   socket: socket
     // });
-    //
+
     // socket.on('connect', () => {
     //   console.log('Student connected to socket');
     //   this.setState({
     //     connected: true
     //   });
     // });
-    //
+
     // socket.on('disconnect', () => {
     //   console.log('Student disconnected from socket');
     //   this.setState({
@@ -65,7 +65,7 @@ class LectureStudent extends React.Component<Props, State> {
     //     selection: -1
     //   });
     // });
-    //
+
     // socket.on('question-start', (data: Object) => {
     //   console.log('Question:');
     //   console.log(data);
@@ -74,9 +74,10 @@ class LectureStudent extends React.Component<Props, State> {
     //     selection: -1
     //   });
     // });
-    //
+
     // socket.on('question-end', () => {
-    //   console.log(`Submitting response: ${this.state.question.choices[this.state.selection]}`);
+    //   console.log(`Submitting response:
+    //     ${this.state.question.choices[this.state.selection]}`);
     //   socket.emit('question-response', {
     //     lectureId: this.state.lectureId,
     //     questionId: this.state.question.id,
@@ -90,7 +91,7 @@ class LectureStudent extends React.Component<Props, State> {
   }
 
   // Close socket on component dismount
-  componentWillUnmount(): void {
+  componentWillUnmount (): void {
     this.state.socket && this.state.socket.close();
   }
 
@@ -105,11 +106,10 @@ class LectureStudent extends React.Component<Props, State> {
   _onJoinLecture = (lectureId: string): void => {
     if (this.state.currentLecture) return;
     if (!this.state.socket) return;
-    axios.post('../api/v1/join-lecture', {
+    axios.post('/api/v1/join-lecture', {
       socketId: this.state.socket.id,
       lectureId: lectureId
-    })
-    .then((response: Object) => {
+    }).then((response: Object) => {
       if (response.data.data.success) {
         console.log('Successfully joined lecture ' + lectureId);
         this.setState({
@@ -118,8 +118,7 @@ class LectureStudent extends React.Component<Props, State> {
       } else {
         alert(response.data.data.error);
       }
-    })
-    .catch((error: Object) => {
+    }).catch((error: Object) => {
       console.log(error.message);
     });
   }
@@ -130,11 +129,13 @@ class LectureStudent extends React.Component<Props, State> {
     });
   }
 
-  render(): React.Element<any> {
+  render (): React.Element<any> {
     return (
       <ClickerPage>
         {this.state.currentLecture && (
-          <h4>{`Currently participating in lecture \'${this.state.currentLecture}\'`}</h4>
+          <h4>
+            {`In lecture: '${this.state.currentLecture}'`}
+          </h4>
         )}
         <ClickerTextInput
           placeholder='Enter lecture id'
@@ -147,19 +148,17 @@ class LectureStudent extends React.Component<Props, State> {
           disabled={!this.state.lectureId} >
           Join Lecture
         </ClickerButton>
-        {this.state.currentLecture && (Object.keys(this.state.question).length !== 0) && (
-          <ClickerQuestion
-            data={this.state.question}
-            onClick={this._onQuestionSelect}
-            selection={this.state.selection}
-          />
-        )}
+        {this.state.currentLecture &&
+          (Object.keys(this.state.question).length !== 0) && (
+            <ClickerQuestion
+              data={this.state.question}
+              onClick={this._onQuestionSelect}
+              selection={this.state.selection}
+            />
+          )}
       </ClickerPage>
     );
   }
-}
-
-const styles = {
 }
 
 export default LectureStudent;

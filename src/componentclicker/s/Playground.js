@@ -6,7 +6,9 @@ import SignInCard from './sign_in/SignInCard';
 
 import io from 'socket.io-client';
 
-class Playground extends React.Component {
+type Props = {};
+
+class Playground extends React.Component<void, Props, void> {
   socket: Object;
 
   componentDidMount (): void {
