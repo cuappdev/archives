@@ -22,13 +22,11 @@ enum DBLoggingError: Error {
     case failedToSendEventsToServer
 }
 
-//TODO print errors if logging fails (in case user doesn't catch promises)
 //TODO need to revamp the scheduled uploading system
 // - background uploading
 // - possibly use something besides NSTimer to reduce energy consumption (like gcd maybe)
 // - If we use NSTimer, should we use a run loop besides RunLoop.main?
 //TODO need delegate functions to notify when events are sent to the server
-//TODO timestamp ids for logs to avoid doubles
 class DBLoggingBackend {
     
     private var sendTimer: Timer?
@@ -75,6 +73,9 @@ class DBLoggingBackend {
             scheduleTimer(interval: timerInterval)
 
             fulfill(())
+        }.catch { err in
+            registerLogger.error("Failed to log an event with name \(event.eventName)")
+            registerLogger.error(err)
         }
     }
     
@@ -118,16 +119,10 @@ class DBLoggingBackend {
                 throw DBLoggingError.noEventSender
             }
             
-            sendingEvents.catch {
-                registerLogger.warning("Failed to send events to server")
-            }
-            
-            sendingEvents.recover { err -> Promise<()> in
+            return sendingEvents.recover { err -> Promise<()> in
                 registerLogger.warning("Failed to send events to server")
                 return Promise<()>(error: DBLoggingError.failedToSendEventsToServer)
             }
-            
-            return sendingEvents
         }.next { //on success, delete logs from db
             let realm = try DBLoggingBackend.makeRealm()
             let objects = realm.objects(DBEventItem.self).filter("isSending = true")
