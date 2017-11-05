@@ -24,7 +24,7 @@ class App extends React.Component<void, Props, void> {
   }
 
   render (): React.Element<any> {
-    console.log(this.props.sessionToken);
+    console.log('Session token: ' + (this.props.sessionToken || 'null'));
     // TODO - to test, replace this function with `Playground`
     return (
       <div style={styles.app}>

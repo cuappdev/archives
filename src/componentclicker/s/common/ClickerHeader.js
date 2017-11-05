@@ -20,7 +20,7 @@ class ClickerHeader extends React.Component<void, Props, State> {
     return (
       <div>
         <Link to='/signin' style={styles.link}>Sign In</Link>
-        <Link to='/lecture' style={styles.link}>Lecture</Link>
+        <Link to='/dashboard' style={styles.link}>Dashboard</Link>
       </div>
     );
   }

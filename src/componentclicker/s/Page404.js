@@ -5,7 +5,7 @@ import React from 'react';
 type Props = {};
 type State = {};
 
-class Page404 extends React.Component<Props, State> {
+class Page404 extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 

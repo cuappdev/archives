@@ -1,6 +1,6 @@
 //@flow
 import React from 'react';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import {
   Header,
   Icon,
@@ -21,7 +21,7 @@ type State = {
   lectures: Array<Object>
 };
 
-class LectureDashboard extends React.Component<Props, State> {
+class LectureDashboard extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 
@@ -46,19 +46,32 @@ class LectureDashboard extends React.Component<Props, State> {
     };
   }
 
+  // Push to create lecture page
   onCreateLecture = (): void => {
     console.log('Create lecture clicked');
-    browserHistory.push('/createLecture');
+    browserHistory.push({
+      pathname: '/lecture/create',
+      state: {
+        courseTitle: this.state.courseTitle
+      }
+    });
   }
 
   onSelectLecture = (id: number): void => {
     console.log(`Clicked lecture with id: ${id}`);
+    browserHistory.push({
+      pathname: '/lecture',
+      search: `&id=${id}`,
+      state: {
+        courseTitle: this.state.courseTitle
+      }
+    })
   }
 
   _buildLecturePane = (): Grid => {
     const lectures = this.state.lectures.map((lecture: Object) => {
       return (
-        <Segment onClick={ () => this.onSelectLecture(lecture.id) }>
+        <Segment key={lecture.id} onClick={ () => this.onSelectLecture(lecture.id) }>
           <Header size='small'>{`${lecture.date}: ${lecture.title}`}</Header>
           <Header size='tiny' color='grey'>{`${lecture.questions.length} Questions`}</Header>
         </Segment>
@@ -66,10 +79,7 @@ class LectureDashboard extends React.Component<Props, State> {
     });
     const rhs = (
       <Segment raised textAlign='center' height='200px'>
-        <Button
-          onClick={this.onCreateLecture}
-          centered
-          inverse>
+        <Button fluid onClick={this.onCreateLecture}>
           Create Lecture
         </Button>
       </Segment>
@@ -84,6 +94,20 @@ class LectureDashboard extends React.Component<Props, State> {
           {rhs}
         </Grid.Column>
       </Grid>
+    );
+  }
+
+  _buildBreadcrumbs (): Breadcrumb {
+    return (
+      <Breadcrumb size='tiny'>
+        <Breadcrumb.Section href='/' >
+          Home
+        </Breadcrumb.Section>
+        <Breadcrumb.Divider icon='right chevron'/>
+        <Breadcrumb.Section active>
+          {this.state.courseTitle}
+        </Breadcrumb.Section>
+      </Breadcrumb>
     );
   }
 
@@ -107,13 +131,10 @@ class LectureDashboard extends React.Component<Props, State> {
         )
       }
     ];
+
     return (
       <div>
-        <Breadcrumb size='tiny'>
-          <Breadcrumb.Section link>Dashboard</Breadcrumb.Section>
-          <Breadcrumb.Divider icon='right chevron'/>
-          <Breadcrumb.Section active>Course</Breadcrumb.Section>
-        </Breadcrumb>
+        {this._buildBreadcrumbs()}
         <Header color='grey' size='medium'>
           {this.state.courseTitle}
         </Header>

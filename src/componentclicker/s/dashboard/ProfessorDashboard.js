@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import io, {Socket} from 'socket.io-client';
 
-import LectureDashboard from './LectureDashboard';
+import LectureDashboard from '../lecture/LectureDashboard';
 import ClickerPage from '../common/ClickerPage';
 import ClickerTextInput from '../common/ClickerTextInput';
 import ClickerButton from '../common/ClickerButton';
@@ -16,7 +16,7 @@ type State = {
   lectureId: string
 };
 
-class LectureProfessor extends React.Component<void, Props, State> {
+class ProfessorDashboard extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 
@@ -181,4 +181,4 @@ class LectureProfessor extends React.Component<void, Props, State> {
   }
 }
 
-export default LectureProfessor;
+export default ProfessorDashboard;
