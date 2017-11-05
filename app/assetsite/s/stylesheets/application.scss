@@ -46,6 +46,25 @@ a:hover, a:focus {
 }
 
 // Components
+
+.high-action-component {
+    display: inline-flex;
+    width: 100%;
+    height: 100px;
+    background-color: $appdev-red;
+}
+
+.high-action-text {
+    margin: auto auto auto 50px;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
+
+.high-action-button {
+  margin: auto 50px auto auto;
+}
+
 .action-component {
     width: 100%;
     position: relative;
@@ -73,29 +92,24 @@ a:hover, a:focus {
 .darkgray-barz { background-color: rgb(66, 66, 66); }
 
 
-// Used to style white text in various boxes
-.text-white {
-  font-size: 24px;
-  color: white;
-  text-align: center;
-  margin-right: 100px;
-  margin-left: 100px;
-}
-
 // Alignment
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .center {
-    margin: auto;
+  margin: auto;
 }
 
-// Used to style black paragraph text on various pages
+// Text colors
+
 .text-black  {
-  font-size: 24px;
   color: black;
+}
+
+.text-white {
+  color: white;
 }
 
 // Modifies text-white and text-black
@@ -178,19 +192,35 @@ a:hover, a:focus {
 }
 
 // Buttons
+.white-button, .red-button {
+  display: inline-block;
+  max-height: 40px;
+  min-width: 120px;
+  padding: 5px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .red-button {
-    display: inline-block;
-    min-width: 120px;
-    padding: 5px 20px;
     border: 1.5px solid $appdev-red;
-    border-radius: 4px;
     color: $appdev-red;
-    font-weight: bold;
 
     &:hover,
     &:focus {
         color: $red-hover;
         border-color: $red-hover;
+    }
+}
+
+.white-button {
+    border: 1.5px solid white;
+    color: white;
+
+    &:hover,
+    &:focus {
+        color: $off-white;
+        border-color: $off-white;
     }
 }
 
