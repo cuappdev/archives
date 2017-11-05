@@ -7,7 +7,7 @@ import constants from './constants';
 type Props = {};
 type State = {};
 
-class ClickerHeader extends React.Component<Props, State> {
+class ClickerHeader extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 

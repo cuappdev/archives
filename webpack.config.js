@@ -3,15 +3,28 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractSass = new ExtractTextPlugin('css/styles.css');
 
 module.exports = {
+  // For showing line-numbers
   devtool: 'eval',
-  entry: [path.join(__dirname, 'src/browser.js')],
+  // I/O of webpack
+  entry: [path.join(__dirname, '/src/browser.js')],
   output: {
-    path: path.join(__dirname, './public/'),
-    publicPath: '/public',
+    path: path.join(__dirname, 'public'),
+    publicPath: '/',
     filename: 'js/bundle.js'
   },
+  // webpack-dev-server configuration for both
+  // REST-API calls and Socket.io calls
   devServer: {
     historyApiFallback: true,
+    proxy: {
+      '/api/**': {
+        target: 'http://localhost:3000'
+      },
+      '/socket.io/**': {
+        target: 'http://localhost:3000',
+        ws: true
+      }
+    }
   },
   module: {
     rules: [
