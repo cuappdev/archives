@@ -175,10 +175,6 @@ a:hover, a:focus {
   &:focus {
     color: $red-hover;
   }
-
-  &:visited {
-    color: $appdev-red;
-  }
 }
 
 // Buttons
@@ -195,11 +191,6 @@ a:hover, a:focus {
     &:focus {
         color: $red-hover;
         border-color: $red-hover;
-    }
-
-    &:visited {
-      color: $appdev-red;
-      border-color: $appdev-red;
     }
 }
 
