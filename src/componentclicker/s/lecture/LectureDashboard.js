@@ -52,7 +52,9 @@ class LectureDashboard extends React.Component<void, Props, State> {
     browserHistory.push({
       pathname: '/lecture/create',
       state: {
-        courseTitle: this.state.courseTitle
+        courseTitle: this.state.courseTitle,
+        lectureTitle: 'Lecture Title',
+        questions: []
       }
     });
   }

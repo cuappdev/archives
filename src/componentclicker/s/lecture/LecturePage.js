@@ -9,7 +9,8 @@ import {
   Segment,
   Button,
   List,
-  Modal
+  Modal,
+  Input
 } from 'semantic-ui-react';
 
 import ClickerPage from '../common/ClickerPage';
@@ -19,7 +20,11 @@ type Props = {
 };
 type State = {
   courseTitle: string,
-  questions: Array<Object>
+  lectureTitle: string,
+  lectureDate: number,
+  questions: Array<Object>,
+  editLectureModalOpen: boolean,
+  editLectureTitle: string
 };
 
 class LecturePage extends React.Component<void, Props, State> {
@@ -30,7 +35,8 @@ class LecturePage extends React.Component<void, Props, State> {
     super(props);
     this.state = {
       ...props.location.state,
-      questions: []
+      editLectureModalOpen: false,
+      editLectureTitle: ''
     };
     console.log(this.state);
   }
@@ -57,6 +63,27 @@ class LecturePage extends React.Component<void, Props, State> {
     console.log('Creating question...');
   }
 
+  handleEditLectureModal = (show: boolean): void => {
+    this.setState(prevState => ({
+      editLectureModalOpen: show,
+      editLectureTitle: prevState.lectureTitle
+    }));
+  }
+
+  onEditLectureSave = (): void => {
+    console.log('Saving edits');
+    this.setState(prevState => ({
+      editLectureModalOpen: false,
+      lectureTitle: prevState.editLectureTitle
+    }));
+  }
+
+  onEditLectureTitleChange = (value: string): void => {
+    this.setState({
+      editLectureTitle: value
+    });
+  }
+
   _buildQuestions (): List {
     return (
       <List></List>
@@ -66,12 +93,54 @@ class LecturePage extends React.Component<void, Props, State> {
   _buildSideBar (): Segment {
     return (
       <Segment raised>
-        <Button fluid onClick={this.onCreateQuestion}>
-          Create Question
-        </Button>
+        <Modal
+          trigger={
+            <Button fluid onClick={this.onCreateQuestion}>
+              Create Question
+            </Button>
+          }
+          dimmer='inverted'
+        >
+        </Modal>
         <br></br>
         <Button.Group basic compact vertical icon labeled>
-          <Button compact content='Edit' icon='edit' />
+          <Modal
+            trigger={
+              <Button
+                onClick={ () => this.handleEditLectureModal(true) }
+                compact
+                content='Edit'
+                icon='edit'
+              />
+            }
+            open={this.state.editLectureModalOpen}
+            onClose={ () => this.handleEditLectureModal(false) }
+            dimmer='inverted'
+            closeIcon
+          >
+            <Modal.Header>Edit Lecture</Modal.Header>
+            <Modal.Content>
+              <Input
+                label='Lecture Name'
+                placeholder='KMeans Clustering'
+                value={this.state.editLectureTitle}
+                onChange={ (e) => this.onEditLectureTitleChange(e.target.value) }
+              />
+            </Modal.Content>
+            <Modal.Actions>
+              <Button onClick={ () => this.handleEditLectureModal(false) }>
+                Cancel
+              </Button>
+              <Button
+                positive
+                icon='save'
+                labelPosition='right'
+                content='Save'
+                onClick={ () => this.onEditLectureSave() }
+              />
+            </Modal.Actions>
+          </Modal>
+          <Button compact content='Save' icon='save' />
           <Button compact content='Delete' icon='archive' />
         </Button.Group>
       </Segment>
@@ -88,10 +157,13 @@ class LecturePage extends React.Component<void, Props, State> {
         <Header color='grey' size='medium'>
           {this.state.courseTitle}
         </Header>
-        <Header size='medium'>
-          Lecture Name Here
+        <Header size='medium' floated='left'>
+          {this.state.lectureTitle}
         </Header>
-        <Divider />
+        <Header size='medium' floated='right'>
+          {this.state.lectureDate}
+        </Header>
+        <Divider clearing />
         <Grid centered columns={2}>
           <Grid.Column width={12}>
             {questions}
