@@ -14,6 +14,7 @@ import {
 } from 'semantic-ui-react';
 
 import ClickerPage from '../common/ClickerPage';
+import LectureQuestionCreator from './LectureQuestionCreator';
 
 type Props = {
   location: Object
@@ -24,7 +25,9 @@ type State = {
   lectureDate: number,
   questions: Array<Object>,
   editLectureModalOpen: boolean,
-  editLectureTitle: string
+  editLectureTitle: string,
+  questionModalOpen: boolean,
+  selectedQuestionId?: number
 };
 
 class LecturePage extends React.Component<void, Props, State> {
@@ -36,7 +39,8 @@ class LecturePage extends React.Component<void, Props, State> {
     this.state = {
       ...props.location.state,
       editLectureModalOpen: false,
-      editLectureTitle: ''
+      editLectureTitle: '',
+      questionModalOpen: false
     };
     console.log(this.state);
   }
@@ -60,7 +64,22 @@ class LecturePage extends React.Component<void, Props, State> {
   }
 
   onCreateQuestion = (): void => {
-    console.log('Creating question...');
+    this.setState({
+      questionModalOpen: true
+    });
+  }
+
+  onQuestionModalClose = (): void => {
+    this.setState({
+      questionModalOpen: false
+    });
+  }
+
+  onSelectQuestion = (index: number): void => {
+    this.setState({
+      questionModalOpen: true,
+      selectedQuestionId: index
+    });
   }
 
   handleEditLectureModal = (show: boolean): void => {
@@ -93,15 +112,9 @@ class LecturePage extends React.Component<void, Props, State> {
   _buildSideBar (): Segment {
     return (
       <Segment raised>
-        <Modal
-          trigger={
-            <Button fluid onClick={this.onCreateQuestion}>
-              Create Question
-            </Button>
-          }
-          dimmer='inverted'
-        >
-        </Modal>
+        <Button fluid onClick={this.onCreateQuestion}>
+          Create Question
+        </Button>
         <br></br>
         <Button.Group basic compact vertical icon labeled>
           <Modal
@@ -115,7 +128,7 @@ class LecturePage extends React.Component<void, Props, State> {
             }
             open={this.state.editLectureModalOpen}
             onClose={ () => this.handleEditLectureModal(false) }
-            dimmer='inverted'
+            dimmer='blurring'
             closeIcon
           >
             <Modal.Header>Edit Lecture</Modal.Header>
@@ -166,6 +179,11 @@ class LecturePage extends React.Component<void, Props, State> {
         <Divider clearing />
         <Grid centered columns={2}>
           <Grid.Column width={12}>
+            <LectureQuestionCreator
+              open={this.state.questionModalOpen}
+              lectureTitle={this.state.lectureTitle}
+              onClose={this.onQuestionModalClose}
+            />
             {questions}
           </Grid.Column>
           <Grid.Column width={4}>
