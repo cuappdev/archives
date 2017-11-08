@@ -15,10 +15,10 @@ class UsersTestCase(TestCase):
   def test_user_verify_credentials(self):
     self.assertEquals(
         ud.verify_credentials(constants.TEST_USER_EMAIL,
-                              constants.TEST_USER_PASSWORD),
+                              constants.TEST_USER_PASSWORD)[0],
         True
     )
     self.assertEquals(
-        ud.verify_credentials(constants.TEST_USER_EMAIL, "invalid_pass"),
+        ud.verify_credentials(constants.TEST_USER_EMAIL, "invalid_pass")[0],
         False
     )
