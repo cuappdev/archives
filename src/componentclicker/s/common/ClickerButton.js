@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import constants from './constants';
+import { COLORS } from './constants';
 
 type ButtonSize = 'small' | 'medium' | 'large';
 
@@ -54,16 +54,16 @@ const styles = {
     cursor: 'pointer'
   },
   normal: {
-    backgroundColor: constants.WHITE,
-    color: constants.DARK_GRAY,
-    border: `2px solid ${constants.LIGHT_GRAY}`,
-    fontFamily: constants.FONT_FAMILY
+    backgroundColor: COLORS.WHITE,
+    color: COLORS.DARK_GRAY,
+    border: `2px solid ${COLORS.LIGHT_GRAY}`,
+    fontFamily: COLORS.FONT_FAMILY
   },
   inverse: {
-    backgroundColor: constants.LIGHT_GRAY,
-    color: constants.WHITE,
-    border: `2px solid ${constants.LIGHT_GRAY}`,
-    fontFamily: constants.FONT_FAMILY
+    backgroundColor: COLORS.LIGHT_GRAY,
+    color: COLORS.WHITE,
+    border: `2px solid ${COLORS.LIGHT_GRAY}`,
+    fontFamily: COLORS.FONT_FAMILY
   },
   small: {
     fontSize: '11px',

@@ -5,7 +5,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import actions from './actions';
-import constants from './common/constants';
+import { COLORS } from './common/constants';
 
 const cookies = new Cookies();
 
@@ -38,7 +38,7 @@ class App extends React.Component<void, Props, void> {
 // in the application
 const styles = {
   app: {
-    fontFamily: constants.FONT_FAMILY,
+    fontFamily: COLORS.FONT_FAMILY,
     width: '100%'
   }
 };

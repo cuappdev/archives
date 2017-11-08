@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import constants from './constants';
+import { COLORS } from './constants';
 
 type Props = {
 };
@@ -18,7 +18,7 @@ class ClickerFooter extends React.Component<void, Props, void> {
 
 const styles = {
   root: {
-    borderTop: `1px solid ${constants.OFF_WHITE}`,
+    borderTop: `1px solid ${COLORS.OFF_WHITE}`,
     display: 'flex',
     flexDirection: 'row',
     margin: '0px auto',
@@ -26,7 +26,7 @@ const styles = {
     width: '90%'
   },
   text: {
-    color: constants.DARK_GRAY
+    color: COLORS.DARK_GRAY
   }
 };
 

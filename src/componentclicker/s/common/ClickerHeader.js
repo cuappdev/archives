@@ -2,7 +2,7 @@
 import { Link } from 'react-router';
 import React from 'react';
 
-import constants from './constants';
+import { COLORS } from './constants';
 
 type Props = {};
 type State = {};
@@ -37,21 +37,21 @@ class ClickerHeader extends React.Component<void, Props, State> {
 
 const styles = {
   root: {
-    borderBottom: `2px solid ${constants.OFF_WHITE}`,
+    borderBottom: `2px solid ${COLORS.OFF_WHITE}`,
     display: 'flex',
     flexDirection: 'row',
     padding: '24px 0px',
     width: '100%'
   },
   title: {
-    color: constants.DARK_GRAY,
+    color: COLORS.DARK_GRAY,
     fontSize: '18px',
     marginLeft: '24px',
     marginRight: 'auto',
     textDecoration: 'none'
   },
   link: {
-    color: constants.DARK_GRAY,
+    color: COLORS.DARK_GRAY,
     fontSize: '14px',
     marginRight: '20px',
     textDecoration: 'none'

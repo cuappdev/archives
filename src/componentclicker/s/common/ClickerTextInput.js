@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import constants from './constants';
+import { COLORS } from './constants';
 
 type Props = {
   placeholder?: string,
@@ -44,11 +44,11 @@ const styles = {
     width: 'calc(100% - 42px)',
     margin: '10px',
     padding: '5px 10px',
-    backgroundColor: constants.WHITE,
-    color: constants.DARK_GRAY,
-    border: `1px solid ${constants.GRAY}`,
+    backgroundColor: COLORS.WHITE,
+    color: COLORS.DARK_GRAY,
+    border: `1px solid ${COLORS.GRAY}`,
     fontSize: '12px',
-    fontFamily: constants.FONT_FAMILY,
+    fontFamily: COLORS.FONT_FAMILY,
     display: 'block'
   }
 }

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import constants from './constants';
+import { COLORS } from './constants';
 
 type Props = {
   children?: any,
@@ -32,16 +32,16 @@ class ClickerCard extends React.Component<void, Props, void> {
 
 const styles = {
   root: {
-    border: `1px solid ${constants.GRAY}`,
+    border: `1px solid ${COLORS.GRAY}`,
     borderRadius: '4px',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden'
   },
   title: {
-    backgroundColor: constants.OFF_WHITE,
-    borderBottom: `1px solid ${constants.GRAY}`,
-    color: constants.GRAY,
+    backgroundColor: COLORS.OFF_WHITE,
+    borderBottom: `1px solid ${COLORS.GRAY}`,
+    color: COLORS.GRAY,
     fontSize: '12px',
     padding: '4px 12px'
   }

@@ -1,6 +1,6 @@
 // @flow
 
-export default {
+const COLORS = {
   OFF_WHITE: '#F5F5F5',
   WHITE: '#FFFFFF',
   LIGHT_GRAY: '#D3D3D3D3',
@@ -8,3 +8,18 @@ export default {
   DARK_GRAY: '#696969',
   FONT_FAMILY: '"Trebuchet MS", Helvetica, sans-serif'
 };
+
+export type QuestionType = 'MULTIPLE_CHOICE' | 'FREE_RESPONSE' |
+  'MULTIPLE_ANSWER' | 'RANKING'
+
+const QUESTION_TYPES = {
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  FREE_RESPONSE: 'FREE_RESPONSE',
+  MULTIPLE_ANSWER: 'MULTIPLE_ANSWER',
+  RANKING: 'RANKING'
+};
+
+export {
+  QUESTION_TYPES,
+  COLORS
+}

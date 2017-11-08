@@ -4,7 +4,7 @@ import ClickerPage from './common/ClickerPage';
 import React from 'react';
 
 import axios from 'axios';
-import constants from './common/constants';
+import { COLORS } from './common/constants';
 
 type Props = {};
 type State = {
@@ -61,7 +61,7 @@ class Profile extends React.Component<void, Props, State> {
 
 const styles = {
   root: {
-    color: constants.DARK_GRAY,
+    color: COLORS.DARK_GRAY,
     margin: '100px auto',
     width: '150px'
   }

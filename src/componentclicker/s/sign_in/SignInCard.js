@@ -2,7 +2,7 @@
 import ClickerCard from '../common/Clickercard';
 import ClickerGoogleSignInButton from '../common/ClickerGoogleSignInButton';
 import React from 'react';
-import constants from '../common/constants';
+import { COLORS } from '../common/constants';
 
 type Props = {};
 
@@ -33,7 +33,7 @@ const styles = {
     maxWidth: '600px'
   },
   description: {
-    color: constants.DARK_GRAY,
+    color: COLORS.DARK_GRAY,
     fontSize: '12px',
     marginBottom: '12px',
     textAlign: 'center'

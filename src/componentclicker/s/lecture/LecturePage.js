@@ -1,6 +1,6 @@
 //@flow
 import React from 'react';
-import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import {
   Breadcrumb,
   Header,
@@ -12,22 +12,28 @@ import {
   Modal,
   Input
 } from 'semantic-ui-react';
+import actions from '../actions';
 
 import ClickerPage from '../common/ClickerPage';
+import EditLectureModal from './EditLectureModal';
 import LectureQuestionCreator from './LectureQuestionCreator';
 
 type Props = {
-  location: Object
+  location: Object,
+  courseTitle: string,
+  lectureTitle: string,
+  lectureDate?: string,
+  editLectureModalOpen: boolean,
+  questionModalOpen: boolean,
+  questions: Array<Object>,
+  onToggleEditLectureModal: (boolean) => void,
+  onEditLectureSave: (Object) => void,
+  onToggleQuestionModal: (boolean) => void,
+  onQuestionSave: (Object) => void
 };
 type State = {
   courseTitle: string,
-  lectureTitle: string,
-  lectureDate: number,
-  questions: Array<Object>,
-  editLectureModalOpen: boolean,
-  editLectureTitle: string,
-  questionModalOpen: boolean,
-  selectedQuestionId?: number
+  lectureId?: number
 };
 
 class LecturePage extends React.Component<void, Props, State> {
@@ -37,15 +43,11 @@ class LecturePage extends React.Component<void, Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      ...props.location.state,
-      editLectureModalOpen: false,
-      editLectureTitle: '',
-      questionModalOpen: false
+      ...props.location.state
     };
-    console.log(this.state);
   }
 
-  _buildBreadcrumbs (): Breadcrumb {
+  _breadcrumbs (): Breadcrumb {
     return (
       <Breadcrumb size='tiny'>
         <Breadcrumb.Section href='/'>
@@ -57,50 +59,14 @@ class LecturePage extends React.Component<void, Props, State> {
         </Breadcrumb.Section>
         <Breadcrumb.Divider icon='right chevron' />
         <Breadcrumb.Section active>
-          New Lecture
+          {this.state.lectureId ? 'Lecture' : 'New Lecture'}
         </Breadcrumb.Section>
       </Breadcrumb>
     );
   }
 
-  onCreateQuestion = (): void => {
-    this.setState({
-      questionModalOpen: true
-    });
-  }
-
-  onQuestionModalClose = (): void => {
-    this.setState({
-      questionModalOpen: false
-    });
-  }
-
   onSelectQuestion = (index: number): void => {
-    this.setState({
-      questionModalOpen: true,
-      selectedQuestionId: index
-    });
-  }
-
-  handleEditLectureModal = (show: boolean): void => {
-    this.setState(prevState => ({
-      editLectureModalOpen: show,
-      editLectureTitle: prevState.lectureTitle
-    }));
-  }
-
-  onEditLectureSave = (): void => {
-    console.log('Saving edits');
-    this.setState(prevState => ({
-      editLectureModalOpen: false,
-      lectureTitle: prevState.editLectureTitle
-    }));
-  }
-
-  onEditLectureTitleChange = (value: string): void => {
-    this.setState({
-      editLectureTitle: value
-    });
+    // TODO: open question modal for specific question
   }
 
   _buildQuestions (): List {
@@ -109,85 +75,64 @@ class LecturePage extends React.Component<void, Props, State> {
     );
   }
 
-  _buildSideBar (): Segment {
-    return (
-      <Segment raised>
-        <Button fluid onClick={this.onCreateQuestion}>
-          Create Question
-        </Button>
-        <br></br>
-        <Button.Group basic compact vertical icon labeled>
-          <Modal
-            trigger={
-              <Button
-                onClick={ () => this.handleEditLectureModal(true) }
-                compact
-                content='Edit'
-                icon='edit'
-              />
-            }
-            open={this.state.editLectureModalOpen}
-            onClose={ () => this.handleEditLectureModal(false) }
-            dimmer='blurring'
-            closeIcon
-          >
-            <Modal.Header>Edit Lecture</Modal.Header>
-            <Modal.Content>
-              <Input
-                label='Lecture Name'
-                placeholder='KMeans Clustering'
-                value={this.state.editLectureTitle}
-                onChange={ (e) => this.onEditLectureTitleChange(e.target.value) }
-              />
-            </Modal.Content>
-            <Modal.Actions>
-              <Button onClick={ () => this.handleEditLectureModal(false) }>
-                Cancel
-              </Button>
-              <Button
-                positive
-                icon='save'
-                labelPosition='right'
-                content='Save'
-                onClick={ () => this.onEditLectureSave() }
-              />
-            </Modal.Actions>
-          </Modal>
-          <Button compact content='Save' icon='save' />
-          <Button compact content='Delete' icon='archive' />
-        </Button.Group>
-      </Segment>
-    );
-  }
+  _sideBar = (): Segment => (
+    <Segment raised>
+      <Button
+        onClick={ () => this.props.onToggleQuestionModal(true) }
+        content='Create Question'
+        fluid
+      />
+      {this.props.questionModalOpen &&
+        <LectureQuestionCreator
+          open={this.props.questionModalOpen}
+          lectureTitle={this.props.lectureTitle}
+          onClose={ () => this.props.onToggleQuestionModal(false) }
+          onSave={this.props.onQuestionSave}
+        />
+      }
+      <br></br>
+      <Button.Group basic compact vertical icon labeled>
+        <Button
+          onClick={ () => this.props.onToggleEditLectureModal(true) }
+          compact
+          content='Edit'
+          icon='edit'
+        />
+        <EditLectureModal
+          open={this.props.editLectureModalOpen}
+          onClose={ () => this.props.onToggleEditLectureModal(false) }
+          onSave={this.props.onEditLectureSave}
+          lectureTitle={this.props.lectureTitle}
+        />
+        <Button compact content='Save' icon='save' />
+        <Button compact content='Delete' icon='archive' />
+      </Button.Group>
+    </Segment>
+  );
 
   render(): React.Element<any> {
-    const sideBar = this._buildSideBar();
+    console.log('Rendering lecture page...');
     const questions = this._buildQuestions();
 
     return (
       <ClickerPage>
-        {this._buildBreadcrumbs()}
+        {this._breadcrumbs()}
         <Header color='grey' size='medium'>
           {this.state.courseTitle}
         </Header>
         <Header size='medium' floated='left'>
-          {this.state.lectureTitle}
+          {this.props.lectureTitle}
         </Header>
         <Header size='medium' floated='right'>
-          {this.state.lectureDate}
+          {this.props.lectureDate}
         </Header>
         <Divider clearing />
         <Grid centered columns={2}>
           <Grid.Column width={12}>
-            <LectureQuestionCreator
-              open={this.state.questionModalOpen}
-              lectureTitle={this.state.lectureTitle}
-              onClose={this.onQuestionModalClose}
-            />
             {questions}
           </Grid.Column>
           <Grid.Column width={4}>
-            {sideBar}
+            {this._sideBar()}
           </Grid.Column>
         </Grid>
       </ClickerPage>
@@ -195,4 +140,35 @@ class LecturePage extends React.Component<void, Props, State> {
   }
 }
 
-export default LecturePage;
+// Map store to props
+const stateProps = (store: Object) => {
+  console.log('Lecture page store', store);
+  return {
+    ...store.lecture
+  };
+};
+
+// Map dispatch actions to props
+const dispatchProps = (dispatch: Function) => {
+  const onToggleEditLectureModal = (show: boolean) => {
+    dispatch(actions.toggleEditLectureModal(show));
+  };
+  const onEditLectureSave = (data: Object) => {
+    dispatch(actions.editLectureSave(data));
+  };
+  const onToggleQuestionModal = (show: boolean) => {
+    dispatch(actions.toggleQuestionModal(show));
+  };
+  const onQuestionSave = (data: Object) => {
+    dispatch(actions.lectureQuestionSave(data));
+  };
+
+  return {
+    onToggleEditLectureModal,
+    onEditLectureSave,
+    onToggleQuestionModal,
+    onQuestionSave
+  };
+};
+
+export default connect(stateProps, dispatchProps)(LecturePage);
