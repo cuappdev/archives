@@ -7,10 +7,14 @@ podcastml = Blueprint('podcastml', __name__, url_prefix='/api/v1')
 # Import all controllers
 from app.podcastml.controllers.recommend_episodes_for_user_controller import *
 from app.podcastml.controllers.recommend_series_for_user_controller import *
+from app.podcastml.controllers.recommend_series_for_topic_controller import *
+from app.podcastml.controllers.recommend_episodes_for_topic_controller import *
 
 controllers = [
     RecommendSeriesForUserController(),
-    RecommendEpisodesForUserController()
+    RecommendEpisodesForUserController(),
+    RecommendSeriesForTopicController(),
+    RecommendEpisodesForTopicController()
 ]
 
 # Setup all controllers
