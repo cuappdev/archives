@@ -11,7 +11,8 @@ class EventType(Base):
   name = db.Column(db.String(255), nullable=False)
   application_id = db.Column(db.Integer, db.ForeignKey('applications.id',
                                                        ondelete='CASCADE'))
-  user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id',
+                                                ondelete='CASCADE'))
   fields_info = db.Column(db.JSON)
 
   application = db.relationship('Application', backref='event_types')

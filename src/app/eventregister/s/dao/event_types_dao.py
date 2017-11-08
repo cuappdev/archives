@@ -49,7 +49,7 @@ def verify_fields_info(fields_info): #TODO: change logic later
     elif not metadata['required']:
       if 'default' not in metadata:
         raise Exception('Default value missing for field %s' % field)
-      elif not isinstance(metadata['default'], metadata['type']):
+      elif not isinstance(metadata['default'], type(metadata['type'])):
         raise Exception('Default value invalid for field %s' % field)
 
   return True

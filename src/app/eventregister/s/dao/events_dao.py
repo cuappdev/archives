@@ -1,6 +1,6 @@
 from . import *
 
-def create_event(event_type_id, payload):
+def create_event(event_type_id, payload, timestamp):
   event_type = event_types_dao.get_event_type_by_id(event_type_id)
 
   if event_type is None:
