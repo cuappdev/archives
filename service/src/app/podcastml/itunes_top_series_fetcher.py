@@ -26,7 +26,7 @@ def fetch_top_series(genre=None):
   data = read_url(url)
   series_ids = [int(entry['id']['attributes']['im:id'])
                 for entry in data['feed']['entry']]
-  return series_ids
+  return genre, series_ids
 
 def fetch_series_all_genres(num_threads=10):
   genre_tuples = fetch_genres()

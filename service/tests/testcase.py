@@ -6,6 +6,8 @@ src_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/src'
 sys.path.append(src_path)
 
 from app import app # pylint: disable=C0413
+from app.podcastml.models._all import * # pylint: disable=C0413
+from app.podcastml.utils.db_utils import * # pylint: disable=C0413
 
 class TestCase(unittest.TestCase):
 

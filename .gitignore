@@ -2,5 +2,6 @@ podcastenv/
 ml.ipynb
 .ipynb_checkpoints/*
 dump.rdb
-.env
+*.env
 *.pyc
+service/src/migrations
