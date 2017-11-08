@@ -1,0 +1,99 @@
+---
+- name: Deploying Clicker
+  gather_facts: False
+  hosts: all
+  remote_user: root
+  become: true
+  become_method: sudo
+  environment:
+    LC_ALL: en_US.UTF-8
+    LANG: en_US.UTF-8
+    LANGUAGE: en_US.UTF-8
+    CC: /usr/bin/gcc-4.9
+    CXX: /usr/bin/g++4.9
+  vars:
+    repository_git_path: https://github.com/cuappdev/clicker-backend.git
+    repository_path: /home/vagrant/clicker-backend
+    MYSQL_HOST: "{{ lookup('env', 'MYSQL_HOST') }}"
+    MYSQL_USER: "{{ lookup('env', 'MYSQL_USER') }}"
+    MYSQL_PASSWORD: "{{ lookup('env', 'MYSQL_PASSWORD') }}"
+    MYSQL_DB: "{{ lookup('env', 'MYSQL_DB') }}"
+  tasks:
+  # Tool-chains / C / C++ utilities
+  - name: Add toolchain repository
+    apt_repository: repo='ppa:ubuntu-toolchain-r/test' state=present
+  - name: Add cmake repository
+    apt_repository: repo='ppa:george-edison55/cmake-3.x' state=present
+  # Node.js pre-setup
+  - name: Run shell script for curling Nodejs
+    shell: |
+      curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  # sudo apt-get the world
+  - name: Install necessary packages
+    apt: update_cache=yes name={{ item }} state=present
+    remote_user: root
+    become: yes
+    with_items:
+      - build-essential
+      - nodejs
+      - software-properties-common
+      - gcc-4.9
+      - g++-4.9
+      - nginx
+      - git
+      - htop # sick process visualization from the command line
+  # Important for timestamp-sensitive stuff
+  - name: Set server timezone
+    command: timedatectl set-timezone America/New_York
+  # Global NPM stuff
+  - name: Install necessary npm packages
+    npm: global=yes name={{ item }} production=yes state=latest
+    remote_user: root
+    become: yes
+    become_method: sudo
+    with_items:
+      - pm2
+      - babel-cli
+      - babel-jest
+      - babel-preset-flow
+      - flow-bin
+  # Clone the actual app
+  - name: Clone app repository
+    git:
+      repo: '{{ repository_git_path }}'
+      dest: '{{ repository_path }}'
+      version: master
+      force: yes
+  # CMake + NPM
+  - name: Ensure that cmake is upgraded
+    apt: update_cache=yes name=cmake state=present
+  - name: Run npm install
+    command: npm install
+    args:
+      chdir: '{{ repository_path }}'
+  # Start-up specifics
+  - name: Copy Upstart configuration
+    template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
+  # Kill old server running + node-related stuff
+  - name: Force kill old node processes
+    shell: "sudo killall {{ item }}"
+    remote_user: root
+    become: yes
+    with_items:
+      - node
+      - npm
+  - name: Make sure our server is running
+    service: name=upstart state=restarted
+  - name: Copy Nginx site values
+    template: src=clicker.nginx.j2 dest=/etc/nginx/sites-enabled/clicker
+    notify:
+      - restart nginx
+  - name: Remove any default sites
+    file: path=/etc/nginx/sites-enabled/default state=absent
+    notify:
+      - restart nginx
+  - name: Make sure nginx is running
+    service: name=nginx state=restarted
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
