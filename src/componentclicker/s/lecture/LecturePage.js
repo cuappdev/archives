@@ -10,7 +10,8 @@ import {
   Button,
   List,
   Modal,
-  Input
+  Input,
+  Card
 } from 'semantic-ui-react';
 import actions from '../actions';
 
@@ -28,8 +29,9 @@ type Props = {
   questions: Array<Object>,
   onToggleEditLectureModal: (boolean) => void,
   onEditLectureSave: (Object) => void,
-  onToggleQuestionModal: (boolean) => void,
-  onQuestionSave: (Object) => void
+  onEditQuestion: (Object) => void,
+  onCancelEditQuestion: () => void,
+  onSaveQuestion: (Object) => void
 };
 type State = {
   courseTitle: string,
@@ -42,6 +44,7 @@ class LecturePage extends React.Component<void, Props, State> {
 
   constructor(props: Props) {
     super(props);
+    console.log(actions);
     this.state = {
       ...props.location.state
     };
@@ -65,20 +68,37 @@ class LecturePage extends React.Component<void, Props, State> {
     );
   }
 
-  onSelectQuestion = (index: number): void => {
-    // TODO: open question modal for specific question
-  }
+  _questionCards (): Card.Group {
+    const questionCards = this.props.questions.map((question) => {
+      return (
+        <Card key={question.questionId}>
+          <Card.Content>
+            <Button
+              onClick={ () => this.props.onEditQuestion(question) }
+              icon='edit'
+              circular
+              floated='right'
+            />
+            <Card.Header>{question.questionType}</Card.Header>
+            <Card.Description>
+              {question.questionTitle}
+            </Card.Description>
+          </Card.Content>
+        </Card>
+      );
+    });
 
-  _buildQuestions (): List {
     return (
-      <List></List>
+      <Card.Group>
+        {questionCards}
+      </Card.Group>
     );
   }
 
   _sideBar = (): Segment => (
     <Segment raised>
       <Button
-        onClick={ () => this.props.onToggleQuestionModal(true) }
+        onClick={ () => this.props.onEditQuestion({}) }
         content='Create Question'
         fluid
       />
@@ -86,8 +106,8 @@ class LecturePage extends React.Component<void, Props, State> {
         <LectureQuestionCreator
           open={this.props.questionModalOpen}
           lectureTitle={this.props.lectureTitle}
-          onClose={ () => this.props.onToggleQuestionModal(false) }
-          onSave={this.props.onQuestionSave}
+          onCancel={this.props.onCancelEditQuestion}
+          onSave={this.props.onSaveQuestion}
         />
       }
       <br></br>
@@ -112,8 +132,6 @@ class LecturePage extends React.Component<void, Props, State> {
 
   render(): React.Element<any> {
     console.log('Rendering lecture page...');
-    const questions = this._buildQuestions();
-
     return (
       <ClickerPage>
         {this._breadcrumbs()}
@@ -129,7 +147,7 @@ class LecturePage extends React.Component<void, Props, State> {
         <Divider clearing />
         <Grid centered columns={2}>
           <Grid.Column width={12}>
-            {questions}
+            {this._questionCards()}
           </Grid.Column>
           <Grid.Column width={4}>
             {this._sideBar()}
@@ -151,23 +169,27 @@ const stateProps = (store: Object) => {
 // Map dispatch actions to props
 const dispatchProps = (dispatch: Function) => {
   const onToggleEditLectureModal = (show: boolean) => {
-    dispatch(actions.toggleEditLectureModal(show));
+    dispatch(actions.LectureActions.toggleEditModal(show));
   };
   const onEditLectureSave = (data: Object) => {
-    dispatch(actions.editLectureSave(data));
+    dispatch(actions.LectureActions.saveLecture(data));
   };
-  const onToggleQuestionModal = (show: boolean) => {
-    dispatch(actions.toggleQuestionModal(show));
+  const onEditQuestion = (data: Object) => {
+    dispatch(actions.LectureActions.editQuestion(data));
   };
-  const onQuestionSave = (data: Object) => {
-    dispatch(actions.lectureQuestionSave(data));
+  const onCancelEditQuestion = () => {
+    dispatch(actions.LectureActions.cancelEditQuestion());
+  };
+  const onSaveQuestion = (data: Object) => {
+    dispatch(actions.LectureActions.saveQuestion(data));
   };
 
   return {
     onToggleEditLectureModal,
     onEditLectureSave,
-    onToggleQuestionModal,
-    onQuestionSave
+    onEditQuestion,
+    onCancelEditQuestion,
+    onSaveQuestion
   };
 };
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import {
   Modal,
-  Tab,
+  Menu,
   Button,
   Header,
   Form,
@@ -10,37 +10,54 @@ import {
 } from 'semantic-ui-react';
 import type { QuestionType } from '../common/constants';
 import { QUESTION_TYPES } from '../common/constants';
+import actions from '../actions';
 
 import LectureQuestionCreatorItem from './LectureQuestionCreatorItem';
 
 type Props = {
   open: boolean,
   lectureTitle: string,
-  onClose: () => void,
-  onSave: (data: Object) => void,
-  data?: Object
+  questionId?: number,
+  questionTitle?: string,
+  questionType?: QuestionType,
+  questionData?: Object,
+  onCancel: () => void,
+  onSave: (data: Object) => void
 };
 type State = {
   questionTitle: string,
   questionType: QuestionType,
-  activeQuestionTypeIndex: number
+  activeQuestionTypeIndex: number,
+  questionData: Object
 };
 
 class LectureQuestionCreator extends React.Component<void, Props, State> {
   props: Props;
   state: State;
+  questionItemRef: Object;
 
   constructor (props: Props) {
     super(props);
-    console.log(props);
     var state = {
-      questionTitle: '',
-      questionType: QUESTION_TYPES.MULTIPLE_CHOICE,
-      ...(props.data || {})
+      questionTitle: props.questionTitle || '',
+      questionType: props.questionType || QUESTION_TYPES.MULTIPLE_CHOICE,
+      activeQuestionTypeIndex: 0,
+      questionData: this._initializeQuestionData(props.questionType, props.questionData)
     };
-    state.activeQuestionTypeIndex = this._mapQuestionTypeToTabIndex(state.questionType);
+    state.activeQuestionTypeIndex = this._mapQuestionTypeToMenuIndex(state.questionType);
     this.state = state;
     console.log('Question creator state:', this.state);
+  }
+
+  _initializeQuestionData (questionType?: QuestionType, data?: Object): Object {
+    const questionData = {};
+    Object.keys(QUESTION_TYPES).forEach((questionType) => {
+      questionData[questionType] = {};
+    });
+    if (questionType && data) {
+      questionData[questionType] = { ...data };
+    }
+    return questionData;
   }
 
   _makeQuestionTypeReadable (questionType: QuestionType): string {
@@ -51,26 +68,11 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
     return updatedElements.join(' ');
   }
 
-  _mapTabIndexToQuestionType (index: number): QuestionType {
-    Object.values(QUESTION_TYPES).forEach((qt, idx) => {
-      if (idx === index) return qt;
-    });
-    return QUESTION_TYPES.MULTIPLE_CHOICE;
-  }
-
-  _mapQuestionTypeToTabIndex (questionType: QuestionType): number {
+  _mapQuestionTypeToMenuIndex (questionType: QuestionType): number {
     Object.values(QUESTION_TYPES).forEach((qt, idx) => {
       if (qt === questionType) return idx;
     });
     return 0;
-  }
-
-  handleTabChange = (activeIndex: number): void => {
-    const questionType = this._mapTabIndexToQuestionType(activeIndex);
-    this.setState({
-      questionType: questionType,
-      activeQuestionTypeIndex: activeIndex
-    });
   }
 
   onQuestionTitleChange = (event: Object): void => {
@@ -79,39 +81,75 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
     });
   }
 
-  _buildQuestionPanes = (): Tab => {
-    const panes = Object.keys(QUESTION_TYPES).map((questionType) => {
-      return {
-        menuItem: this._makeQuestionTypeReadable(questionType),
-        render: () => (
-          <Tab.Pane attached={false}>
-            <LectureQuestionCreatorItem
-              questionTitle={this.state.questionTitle}
-              questionType={questionType}
-              data={this.props.data}
-            />
-          </Tab.Pane>
-        )
-      };
+  onQuestionTypeChange = (questionType: QuestionType, index: number): void => {
+    if (index !== this.state.activeQuestionTypeIndex) {
+      this.setState({
+        questionType: questionType,
+        activeQuestionTypeIndex: index
+      });
+    }
+  }
+
+  _questionTypeMenu = (): Menu => {
+    const menuItems = Object.keys(QUESTION_TYPES).map((questionType, idx) => {
+      const itemName = this._makeQuestionTypeReadable(questionType);
+      return (
+        <Menu.Item
+          key={idx}
+          name={itemName}
+          active={this.state.activeQuestionTypeIndex === idx}
+          onClick={ () => this.onQuestionTypeChange(questionType, idx) }
+        />
+      );
     });
-    return panes;
+    return (
+      <Menu defaultActiveIndex={0} secondary color='blue'>
+        {menuItems}
+      </Menu>
+    );
+  }
+
+  _validateQuestion = (): boolean => {
+    // TODO: Validate question on save
+    if (!this.state.questionTitle) {
+      console.log('Missing question title');
+      return false;
+    }
+    return true;
   }
 
   onSave = (): void => {
+    console.log('Question Item Ref', this.questionItemRef);
+    if (!this._validateQuestion()) {
+      // TODO: Show error/missing fields message
+      return;
+    }
+    const data = function(self) {
+      switch (self.state.questionType) {
+        case QUESTION_TYPES.MULTIPLE_CHOICE:
+        case QUESTION_TYPES.MULTIPLE_ANSWER:
+          return self.questionItemRef.state.multipleChoiceOptions;
+        case QUESTION_TYPES.FREE_RESPONSE:
+          return self.questionItemRef.state.freeResponseAnswer;
+        case QUESTION_TYPES.RANKING:
+          return self.questionItemRef.state.rankingOptions;
+        default: return null;
+      }
+    }(this);
     this.props.onSave({
+      questionId: this.props.questionId,
       questionTitle: this.state.questionTitle,
-      questionType: this.state.questionType
+      questionType: this.state.questionType,
+      data: data
     });
   }
 
   render (): React.Element<any> {
     console.log('Rendering question creator...');
-    const questionPanes = this._buildQuestionPanes();
-
     return (
       <Modal
         open={this.props.open}
-        onClose={this.props.onClose}
+        onClose={this.props.onCancel}
         size='large'
         dimmer='blurring'
       >
@@ -125,23 +163,23 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
               placeholder='What is the question?'
               value={this.state.questionTitle}
               onChange={this.onQuestionTitleChange}
-              autoHeight
               rows={2}
+              style={{ resize: 'none' }}
             />
           </Form>
           <Header size='small' color='grey'>
             Question Type:
           </Header>
-          <Tab
-            menu={{ color: 'blue', secondary: true, attached: false, tabular: false }}
-            panes={questionPanes}
-            onTabChange={ (_, data) => this.handleTabChange(data.activeIndex) }
-            activeIndex={this.state.activeQuestionTypeIndex}
+          {this._questionTypeMenu()}
+          <LectureQuestionCreatorItem
+            questionType={this.state.questionType}
+            data={this.state.questionData[this.state.questionType]}
+            ref={ (item) => { this.questionItemRef = item; } }
           />
         </Modal.Content>
         <Modal.Actions>
           <Button
-            onClick={this.props.onClose}
+            onClick={this.props.onCancel}
             content='Cancel'
           />
           <Button

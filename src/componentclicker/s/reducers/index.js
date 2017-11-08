@@ -1,6 +1,6 @@
 // @flow
 import AuthReducer from './AuthReducer';
-import LectureReducer from './LectureReducer'
+import LectureReducer from './LectureReducer';
 
 export default {
   auth: AuthReducer,

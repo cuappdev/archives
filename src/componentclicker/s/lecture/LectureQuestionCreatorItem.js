@@ -10,12 +10,12 @@ import {
   Label,
   Icon
 } from 'semantic-ui-react';
-import DragSortableList from 'react-drag-sortable';
-import { QUESTION_TYPES } from '../common/constants';
+import { QUESTION_TYPES, COLORS } from '../common/constants';
 
 type Props = {
   questionType: string,
-  data?: Object
+  data?: Object,
+  ref: (Object) => void
 };
 type State = {
   freeResponseAnswer: string,
@@ -55,7 +55,7 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
 
   onRemoveMultipleChoiceOption = (index: number): void => {
     const options = this.state.multipleChoiceOptions;
-    options.slice(index, 1);
+    options.splice(index, 1);
     this.setState({
       multipleChoiceOptions: options
     });
@@ -84,29 +84,32 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
   _buildMultipleChoiceOptions = (): Array<Object> => {
     const options = this.state.multipleChoiceOptions.map((option, idx) => {
       var letter = this._mapIndexToLetter(idx);
-      return {
-        content: (
-          <Segment basic>
-            <Label basic size='large' style={{ border: 'none' }}>
-              <Icon name='content' />{letter}
-            </Label>
-            <Input
-              placeholder={`Option ${idx}...`}
-              value={option.value}
-              onChange={ (e) => this.onUpdateMultipleChoiceOptionValue(e, idx) }
-            />
-            <Button
-              icon='trash'
-            />
-          </Segment>
-        )
-      };
+      return (
+        <Segment basic key={idx} style={styles.multipleChoiceSegment}>
+          <Label basic size='large' style={{ border: 'none' }}>
+            {`${letter}.`}
+          </Label>
+          <div style={styles.multipleChoiceItem}>
+            <Input iconPosition='left' placeholder={`Option ${idx}...`} fluid>
+              <Icon name='content' />
+              <input
+                value={option.value}
+                onChange={ (e) => this.onUpdateMultipleChoiceOptionValue(e, idx) }
+              />
+            </Input>
+          </div>
+          <Button
+            icon='trash'
+            onClick={ () => this.onRemoveMultipleChoiceOption(idx) }
+            style={{ marginLeft: '15px' }}
+          />
+        </Segment>
+      );
     });
     return options;
   }
 
   _renderMultipleChoiceQuestion = () => {
-    console.log('MC Question rendering');
     const options = this._buildMultipleChoiceOptions();
 
     return (
@@ -114,20 +117,14 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
         <Header size='small' color='grey'>
           Answers:
         </Header>
-        <DragSortableList
-          items={options}
-          // placeholder={placeholder}
-          onSort={this.onSortMultipleChoiceOptions}
-          moveTransitionDuration={0.3}
-          dropBackTransitionDuration={0.3}
-          type="vertical"
-        />
+        {options}
         <Button
           onClick={this.onAddMultipleChoiceOption}
           content='Add Option'
           icon='plus'
           compact
           basic
+          style={{ marginTop: '10px' }}
         />
       </div>
     );
@@ -155,7 +152,7 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
     return (
       <div>
         <Header size='small' color='grey'>
-          Answer (optional):
+          Answer:
         </Header>
         <Form>
           <TextArea
@@ -190,6 +187,27 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
         {this._renderQuestionItem()}
       </div>
     );
+  }
+}
+
+const styles = {
+  multipleChoiceSegment: {
+    margin: '0px',
+    padding: '5px'
+  },
+  multipleChoiceItem: {
+    padding: '10px',
+    width: '80%',
+    display: 'inline-block',
+    borderRadius: '4px',
+    backgroundColor: COLORS.WHITE
+  },
+  multipleChoiceItemCorrect: {
+    padding: '10px',
+    width: '80%',
+    display: 'inline-block',
+    borderRadius: '4px',
+    backgroundColor: COLORS.GREEN
   }
 }
 

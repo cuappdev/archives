@@ -21,7 +21,6 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "flow-bin": "^0.49.1",
-    "react-drag-sortable": "^1.0.5",
     "webpack": "^3.3.0",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "^2.5.1"

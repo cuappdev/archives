@@ -3,8 +3,10 @@ import LectureActionTypes from '../actions/LectureActionTypes';
 
 export type LectureState = {
   id?: number,
-  title?: string,
-  date?: string,
+  lectureTitle: string,
+  lectureDate?: string,
+  editLectureModalOpen: boolean,
+  questionModalOpen: boolean,
   questions: Array<Object>
 };
 
@@ -20,27 +22,36 @@ let lectureReducer = (
   action: Object
 ): LectureState => {
   switch (action.type) {
-    case LectureActionTypes.TOGGLE_EDIT_LECTURE_MODAL:
+    case LectureActionTypes.TOGGLE_EDIT_MODAL:
       return {
         ...state,
         editLectureModalOpen: action.show
-      }
-    case LectureActionTypes.EDIT_LECTURE_SAVE:
+      };
+    case LectureActionTypes.SAVE_LECTURE:
       console.log('Edit lecture save', action);
       return {
         ...state,
         ...action.data,
         editLectureModalOpen: false
-      }
-    case LectureActionTypes.TOGGLE_QUESTION_MODAL:
+      };
+    case LectureActionTypes.EDIT_QUESTION:
       return {
         ...state,
-        questionModalOpen: action.show
-      }
-    case LectureActionTypes.LECTURE_QUESTION_SAVE:
+        ...action.data,
+        questionModalOpen: true
+      };
+    case LectureActionTypes.CANCEL_EDIT_QUESTION:
       return {
-        ...state
+        ...state,
+        questionModalOpen: false
       }
+    case LectureActionTypes.SAVE_QUESTION:
+      // TODO: Fix
+      console.log('SAVE_QUESTION', action);
+      return {
+        ...state,
+        questionModalOpen: false
+      };
     default: return state;
   }
 };

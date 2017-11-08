@@ -9,7 +9,7 @@ const initialState: AuthState = {
   sessionToken: null
 };
 
-let auth = (
+let authReducer = (
   state: AuthState = initialState,
   action: Object
 ): AuthState => {
@@ -23,4 +23,4 @@ let auth = (
   }
 };
 
-export default auth;
+export default authReducer;

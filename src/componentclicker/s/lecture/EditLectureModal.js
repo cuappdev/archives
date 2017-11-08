@@ -44,7 +44,7 @@ class EditLectureModal extends React.Component<void, Props, State> {
       <Modal
         open={this.props.open}
         onClose={this.props.onClose}
-        size='small'
+        size='tiny'
         dimmer='blurring'
       >
         <Modal.Header>Lecture Settings</Modal.Header>

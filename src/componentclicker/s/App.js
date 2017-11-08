@@ -51,7 +51,7 @@ const select = (store: Object) => {
 
 const acts = (dispatch: Function) => {
   const setSessionToken = (token: string) => {
-    dispatch(actions.setSessionToken(token));
+    dispatch(actions.AuthActions.setSessionToken(token));
   };
 
   return {
