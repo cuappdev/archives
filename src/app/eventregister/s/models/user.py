@@ -1,6 +1,7 @@
-import bcrypt
+import datetime
 import hashlib
-from datetime import datetime
+import os
+import bcrypt
 from . import *
 
 # define many-to-many relationship
@@ -45,12 +46,12 @@ class User(Base):
 
   def renew_session(self):
     self.session_token = self._urlsafe_base_64()
-    self.session_expiration = datetime.now() + datetime.timedelta(days=1)
+    self.session_expiration = datetime.datetime.now() + datetime.timedelta(days=1)
     self.update_token = self._urlsafe_base_64()
 
   def verify_session_token(self, session_token):
     return session_token == self.session_token and \
-       datetime.now() < self.session_expiration
+      datetime.datetime.now() < self.session_expiration
 
   def verify_update_token(self, update_token):
     return update_token == self.update_token
