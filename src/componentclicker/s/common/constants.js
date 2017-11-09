@@ -7,6 +7,7 @@ const COLORS = {
   LIGHT_GRAY: '#D3D3D3D3',
   GRAY: '#A9A9A9',
   DARK_GRAY: '#696969',
+  BLACK: '#000000',
   GREEN: '#55C94C',
   FONT_FAMILY: '"Trebuchet MS", Helvetica, sans-serif'
 };

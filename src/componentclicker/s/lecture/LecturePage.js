@@ -14,6 +14,7 @@ import {
   Card
 } from 'semantic-ui-react';
 import actions from '../actions';
+import type { QuestionType } from '../common/constants';
 
 import ClickerPage from '../common/ClickerPage';
 import EditLectureModal from './EditLectureModal';
@@ -32,7 +33,8 @@ type Props = {
   onEditLectureSave: (Object) => void,
   onEditQuestion: (?Object) => void,
   onCancelEditQuestion: () => void,
-  onSaveQuestion: (Object) => void
+  onSaveQuestion: (Object) => void,
+  onDeleteQuestion: (number) => void
 };
 type State = {
   courseTitle: string,
@@ -68,18 +70,30 @@ class LecturePage extends React.Component<void, Props, State> {
     );
   }
 
+  _abbreviateQuestionType = (questionType: QuestionType): string => {
+    return questionType.split('_').map((el) => el.charAt(0)).join('');
+  };
+
   _questionCards (): Card.Group {
     const questionCards = this.props.questions.map((question) => {
       return (
-        <Card key={question.id}>
+        <Card key={question.id} fluid>
           <Card.Content>
+            <Button
+              onClick={ () => this.props.onDeleteQuestion(question.id) }
+              icon='trash'
+              circular
+              floated='right'
+            />
             <Button
               onClick={ () => this.props.onEditQuestion(question) }
               icon='edit'
               circular
               floated='right'
             />
-            <Card.Header>{question.type}</Card.Header>
+            <Card.Header>
+              {this._abbreviateQuestionType(question.type)}
+            </Card.Header>
             <Card.Description>
               {question.text}
             </Card.Description>
@@ -184,13 +198,17 @@ const dispatchProps = (dispatch: Function) => {
   const onSaveQuestion = (data: Object) => {
     dispatch(actions.LectureActions.saveQuestion(data));
   };
+  const onDeleteQuestion = (id: number) => {
+    dispatch(actions.LectureActions.deleteQuestion(id));
+  }
 
   return {
     onToggleEditLectureModal,
     onEditLectureSave,
     onEditQuestion,
     onCancelEditQuestion,
-    onSaveQuestion
+    onSaveQuestion,
+    onDeleteQuestion
   };
 };
 

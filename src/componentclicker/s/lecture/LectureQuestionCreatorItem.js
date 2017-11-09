@@ -8,18 +8,23 @@ import {
   Button,
   Segment,
   Label,
-  Icon
+  Icon,
+  Modal
 } from 'semantic-ui-react';
 import { QUESTION_TYPES, COLORS } from '../common/constants';
 
+import SetCorrectAnswerModal from './SetCorrectAnswerModal';
+
 type Props = {
   questionType: string,
-  data?: Object,
+  data: Object,
   multipleChoiceHandlers: Object,
   freeResponseHandlers: Object,
   mapIndexToLetter: (number) => string
 };
-type State = {};
+type State = {
+  setCorrectAnswerModalOpen: boolean
+};
 
 class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
   props: Props;
@@ -27,18 +32,35 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
 
   constructor (props: Props) {
     super(props);
-    this.state = {};
+    this.state = {
+      setCorrectAnswerModalOpen: false
+    };
+  }
+
+  onShowSetCorrectAnswerModal = (show: boolean): void => {
+    this.setState({
+      setCorrectAnswerModalOpen: show
+    });
+  }
+
+  onSetCorrectAnswerSave = (letter: string): void => {
+    this.props.multipleChoiceHandlers.onSelectAnswer(letter);
+    this.onShowSetCorrectAnswerModal(false);
   }
 
   _multipleChoiceOptions = (): Array<Object> => {
-    if (!this.props.data) return [];
     const options = this.props.data.options.map((option, idx) => {
       return (
         <Segment basic key={idx} style={styles.multipleChoiceSegment}>
           <Label basic size='large' style={{ border: 'none' }}>
             {`${option.id}.`}
           </Label>
-          <div style={styles.multipleChoiceItem}>
+          <div
+            style={{
+              ...styles.multipleChoiceItem,
+              ...(this.props.data.answer === option.id ? styles.correctItem : {})
+            }}
+          >
             <Input iconPosition='left' placeholder={`Option ${idx}...`} fluid>
               <Icon name='content' />
               <input
@@ -63,6 +85,7 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
   }
 
   _renderMultipleChoiceQuestion = () => {
+    console.log(this.state.setCorrectAnswerModalOpen);
     return (
       <div>
         <Header size='small' color='grey'>
@@ -77,6 +100,22 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
           basic
           style={{ marginTop: '10px' }}
         />
+        <Button
+          onClick={ () => this.onShowSetCorrectAnswerModal(true) }
+          content='Set Correct Answer'
+          icon='checkmark'
+          disabled={this.props.data.options.length == 0}
+          compact
+          basic
+          style={{ marginTop: '10px' }}
+        />
+        {this.state.setCorrectAnswerModalOpen &&
+          <SetCorrectAnswerModal
+            data={this.props.data}
+            onSave={this.onSetCorrectAnswerSave}
+            onClose={ () => this.onShowSetCorrectAnswerModal(false) }
+          />
+        }
       </div>
     );
   };
@@ -102,10 +141,10 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
         <Form>
           <TextArea
             placeholder='What is the answer?'
-            value={this.props.data ? this.props.data.optionalAnswer : ''}
+            value={this.props.data.optionalAnswer}
             onChange={ (_,d) => this.props.freeResponseHandlers.onChangeAnswer(d) }
-            autoHeight
             rows={2}
+            style={{ resize: 'none' }}
           />
         </Form>
       </div>
@@ -140,11 +179,7 @@ const styles = {
     borderRadius: '4px',
     backgroundColor: COLORS.WHITE
   },
-  multipleChoiceItemCorrect: {
-    padding: '10px',
-    width: '80%',
-    display: 'inline-block',
-    borderRadius: '4px',
+  correctItem: {
     backgroundColor: COLORS.GREEN
   }
 }

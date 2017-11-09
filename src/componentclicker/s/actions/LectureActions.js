@@ -88,11 +88,18 @@ const saveQuestion = (data: Object) =>
   }
 };
 
+const deleteQuestion = (id: number) =>
+(dispatch: Function, getState: Function) => {
+  // TODO: Delete this question and dispatch actions appropriately
+  console.log('Deleting question with id ' + id);
+}
+
 export default {
   toggleEditModal,
   saveLecture,
   toggleQuestionModal,
   editQuestion,
   cancelEditQuestion,
-  saveQuestion
+  saveQuestion,
+  deleteQuestion
 };
