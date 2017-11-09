@@ -19,7 +19,7 @@ type State = {
   correctAnswer: string
 };
 
-class SetCorrectAnswerModal extends React.Component<void, Props, State> {
+class MultipleChoiceCorrectAnswerModal extends React.Component<void, Props, State> {
   props: Props;
   state: State;
 
@@ -114,4 +114,4 @@ const styles = {
   }
 }
 
-export default SetCorrectAnswerModal;
+export default MultipleChoiceCorrectAnswerModal;

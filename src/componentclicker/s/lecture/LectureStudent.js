@@ -14,10 +14,11 @@ type State = {
   connected: boolean,
   lectureId: string,
   currentLecture: string,
-  question: Object, // TODO - Create question type
+  question: Object, // TODO - Replace with QuestionType
   selection: number
 };
 
+// TODO: Redo this whole component and workflow
 class LectureStudent extends React.Component<void, Props, State> {
   props: Props;
   state: State;

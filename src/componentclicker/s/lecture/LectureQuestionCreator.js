@@ -41,7 +41,7 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
         questionId: props.questionData.id,
         questionText: props.questionData.text,
         questionType: props.questionData.type,
-        activeQuestionTypeIndex: this._mapQuestionTypeToMenuIndex(props.questionData.type)
+        activeQuestionTypeIndex: this.mapQuestionTypeToMenuIndex(props.questionData.type)
       }
     } else {
       state = {
@@ -53,12 +53,12 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
     }
     this.state = {
       ...state,
-      questionData: this._initializeQuestionData(props.questionData)
+      questionData: this.initializeQuestionData(props.questionData)
     };
     console.log('Question creator state:', this.state);
   }
 
-  _initializeQuestionData (data?: Object): Object {
+  initializeQuestionData (data?: Object): Object {
     const questionData = {
       [QUESTION_TYPES.MULTIPLE_CHOICE]: { options: [], answer: '' },
       [QUESTION_TYPES.FREE_RESPONSE]: { optionalAnswer: '' },
@@ -72,11 +72,10 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
       delete updatedData.type;
       questionData[data.type] = { ...updatedData };
     }
-    console.log('Question data', questionData);
     return questionData;
   }
 
-  _makeQuestionTypeReadable (questionType: QuestionType): string {
+  makeQuestionTypeReadable (questionType: QuestionType): string {
     const elements = questionType.split('_');
     const updatedElements = elements.map((el) => {
       return el.charAt(0) + el.slice(1).toLowerCase();
@@ -84,19 +83,19 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
     return updatedElements.join(' ');
   }
 
-  _mapQuestionTypeToMenuIndex (questionType: QuestionType): number {
+  mapQuestionTypeToMenuIndex (questionType: QuestionType): number {
     Object.values(QUESTION_TYPES).forEach((qt, idx) => {
       if (qt === questionType) return idx;
     });
     return 0;
   }
 
-  _mapIndexToLetter = (index: number): string => {
+  mapIndexToLetter = (index: number): string => {
     const letterA = 65;
     return String.fromCharCode(letterA + index);
   }
 
-  _mapLetterToIndex = (letter: string): number => {
+  mapLetterToIndex = (letter: string): number => {
     return letter.charCodeAt(0) - 65;
   }
 
@@ -117,7 +116,7 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
 
   _questionTypeMenu = (): Menu => {
     const menuItems = Object.keys(QUESTION_TYPES).map((questionType, idx) => {
-      const itemName = this._makeQuestionTypeReadable(questionType);
+      const itemName = this.makeQuestionTypeReadable(questionType);
       return (
         <Menu.Item
           key={idx}
@@ -134,7 +133,7 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
     );
   }
 
-  _validateQuestion = (): boolean => {
+  validateQuestion = (): boolean => {
     // TODO: Validate question on save
     if (!this.state.questionText) {
       console.log('Missing question title');
@@ -144,7 +143,7 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
   }
 
   onSave = (): void => {
-    if (!this._validateQuestion()) {
+    if (!this.validateQuestion()) {
       // TODO: Show error/missing fields message
       return;
     }
@@ -173,7 +172,7 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
   onAddMultipleChoiceOption = (): void => {
     const data = this.state.questionData[QUESTION_TYPES.MULTIPLE_CHOICE];
     data.options.push({
-      id: this._mapIndexToLetter(data.options.length),
+      id: this.mapIndexToLetter(data.options.length),
       description: ''
     });
     this.setMultipleChoiceState(data);
@@ -185,14 +184,14 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
     if (data.answer === data.options[index].id) {
       data.answer = '';
     } else if (data.answer > data.options[index].id) {
-      const answerIndex = this._mapLetterToIndex(data.answer);
-      data.answer = this._mapIndexToLetter(answerIndex-1);
+      const answerIndex = this.mapLetterToIndex(data.answer);
+      data.answer = this.mapIndexToLetter(answerIndex-1);
     }
     // Update question options
     data.options.splice(index, 1);
     data.options = data.options.map((option, idx) => ({
       ...option,
-      id: this._mapIndexToLetter(idx)
+      id: this.mapIndexToLetter(idx)
     }));
     this.setMultipleChoiceState(data);
   }
@@ -244,7 +243,7 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
         data={this.state.questionData[this.state.questionType]}
         multipleChoiceHandlers={multipleChoiceHandlers}
         freeResponseHandlers={freeResponseHandlers}
-        mapIndexToLetter={this._mapIndexToLetter}
+        mapIndexToLetter={this.mapIndexToLetter}
       />
     );
   };

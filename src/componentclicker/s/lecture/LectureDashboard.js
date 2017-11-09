@@ -28,8 +28,8 @@ class LectureDashboard extends React.Component<void, Props, State> {
   constructor(props: Props) {
     super(props);
     console.log(props);
-    // TODO: Fetch course information given the courseId
-    // Placeholder values...
+    // TODO: This component needs to be hooked up with redux
+    // and fully implement, these should be props
     const courseTitle = 'CS 4700: Introduction to Artificial Intelligence';
     const lectures = [
       {
@@ -39,16 +39,13 @@ class LectureDashboard extends React.Component<void, Props, State> {
         questions: [1,2,3]
       }
     ];
-
     this.state = {
       courseTitle: courseTitle,
       lectures: lectures
     };
   }
 
-  // Push to create lecture page
   onCreateLecture = (): void => {
-    console.log('Create lecture clicked');
     browserHistory.push({
       pathname: '/lecture/create',
       state: {
@@ -58,17 +55,22 @@ class LectureDashboard extends React.Component<void, Props, State> {
   }
 
   onSelectLecture = (id: number): void => {
-    console.log(`Clicked lecture with id: ${id}`);
-    browserHistory.push({
-      pathname: '/lecture',
-      search: `&id=${id}`,
-      state: {
-        courseTitle: this.state.courseTitle
-      }
-    })
+    // TODO: Push to lecture page for specified lectureId
   }
 
-  _buildLecturePane = (): Grid => {
+  _breadCrumbs = (): Breadcrumb => (
+    <Breadcrumb size='tiny'>
+      <Breadcrumb.Section href='/' >
+        Home
+      </Breadcrumb.Section>
+      <Breadcrumb.Divider icon='right chevron'/>
+      <Breadcrumb.Section active>
+        {this.state.courseTitle}
+      </Breadcrumb.Section>
+    </Breadcrumb>
+  );
+
+  _lecturePane = (): Grid => {
     const lectures = this.state.lectures.map((lecture: Object) => {
       return (
         <Segment key={lecture.id} onClick={ () => this.onSelectLecture(lecture.id) }>
@@ -77,7 +79,7 @@ class LectureDashboard extends React.Component<void, Props, State> {
         </Segment>
       );
     });
-    const rhs = (
+    const sideBar = (
       <Segment raised textAlign='center' height='200px'>
         <Button fluid onClick={this.onCreateLecture}>
           Create Lecture
@@ -91,34 +93,19 @@ class LectureDashboard extends React.Component<void, Props, State> {
           {lectures}
         </Grid.Column>
         <Grid.Column width={4}>
-          {rhs}
+          {sideBar}
         </Grid.Column>
       </Grid>
     );
   }
 
-  _buildBreadcrumbs (): Breadcrumb {
-    return (
-      <Breadcrumb size='tiny'>
-        <Breadcrumb.Section href='/' >
-          Home
-        </Breadcrumb.Section>
-        <Breadcrumb.Divider icon='right chevron'/>
-        <Breadcrumb.Section active>
-          {this.state.courseTitle}
-        </Breadcrumb.Section>
-      </Breadcrumb>
-    );
-  }
-
-  render(): React.Element<any> {
-    const lecturePane = this._buildLecturePane();
-    const panes = [
+  _tabPanes = (): Array<Object> => {
+    return [
       {
         menuItem: 'Lectures',
         render: () => (
           <Tab.Pane attached={false}>
-            {lecturePane}
+            {this._lecturePane()}
           </Tab.Pane>
         )
       },
@@ -131,14 +118,19 @@ class LectureDashboard extends React.Component<void, Props, State> {
         )
       }
     ];
+  }
 
+  render(): React.Element<any> {
     return (
       <div>
-        {this._buildBreadcrumbs()}
+        {this._breadCrumbs()}
         <Header color='grey' size='medium'>
           {this.state.courseTitle}
         </Header>
-        <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+        <Tab
+          menu={{ secondary: true, pointing: true }}
+          panes={this._tabPanes()}
+        />
       </div>
     );
   }

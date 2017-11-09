@@ -70,7 +70,7 @@ class LecturePage extends React.Component<void, Props, State> {
     );
   }
 
-  _abbreviateQuestionType = (questionType: QuestionType): string => {
+  abbreviateQuestionType = (questionType: QuestionType): string => {
     return questionType.split('_').map((el) => el.charAt(0)).join('');
   };
 
@@ -92,7 +92,7 @@ class LecturePage extends React.Component<void, Props, State> {
               floated='right'
             />
             <Card.Header>
-              {this._abbreviateQuestionType(question.type)}
+              {this.abbreviateQuestionType(question.type)}
             </Card.Header>
             <Card.Description>
               {question.text}
@@ -145,8 +145,7 @@ class LecturePage extends React.Component<void, Props, State> {
     </Segment>
   );
 
-  render(): React.Element<any> {
-    console.log('Rendering lecture page...');
+  render (): React.Element<any> {
     return (
       <ClickerPage>
         {this._breadcrumbs()}
@@ -175,7 +174,6 @@ class LecturePage extends React.Component<void, Props, State> {
 
 // Map store to props
 const stateProps = (store: Object) => {
-  console.log('Lecture page store', store);
   return {
     ...store.lecture
   };

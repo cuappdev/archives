@@ -13,7 +13,7 @@ import {
 } from 'semantic-ui-react';
 import { QUESTION_TYPES, COLORS } from '../common/constants';
 
-import SetCorrectAnswerModal from './SetCorrectAnswerModal';
+import MultipleChoiceCorrectAnswerModal from './MultipleChoiceCorrectAnswerModal';
 
 type Props = {
   questionType: string,
@@ -84,8 +84,7 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
     return options;
   }
 
-  _renderMultipleChoiceQuestion = () => {
-    console.log(this.state.setCorrectAnswerModalOpen);
+  _multipleChoiceQuestionItem = () => {
     return (
       <div>
         <Header size='small' color='grey'>
@@ -110,7 +109,7 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
           style={{ marginTop: '10px' }}
         />
         {this.state.setCorrectAnswerModalOpen &&
-          <SetCorrectAnswerModal
+          <MultipleChoiceCorrectAnswerModal
             data={this.props.data}
             onSave={this.onSetCorrectAnswerSave}
             onClose={ () => this.onShowSetCorrectAnswerModal(false) }
@@ -120,19 +119,19 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
     );
   };
 
-  _renderMultipleAnswerQuestion = () => {
+  _multipleAnswerQuestionItem = () => {
     return (
       <Header>Multiple Answer</Header>
     );
   };
 
-  _renderRankingQuestion = () => {
+  _rankingQuestionItem = () => {
     return (
       <Header>Ranking</Header>
     );
   };
 
-  _renderFreeResponseQuestion = () => {
+  _freeResponseQuestionItem = () => {
     return (
       <div>
         <Header size='small' color='grey'>
@@ -152,17 +151,17 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
   };
 
   render (): React.Element<any> {
-    console.log('Data for question item', this.props.data);
+    // console.log('Data for question item', this.props.data);
     switch (this.props.questionType) {
       case QUESTION_TYPES.MULTIPLE_CHOICE:
-        return this._renderMultipleChoiceQuestion();
+        return this._multipleChoiceQuestionItem();
       case QUESTION_TYPES.MULTIPLE_ANSWER:
-        return this._renderMultipleAnswerQuestion();
+        return this._multipleAnswerQuestionItem();
       case QUESTION_TYPES.RANKING:
-        return this._renderRankingQuestion();
+        return this._rankingQuestionItem();
       case QUESTION_TYPES.FREE_RESPONSE:
       default:
-        return this._renderFreeResponseQuestion();
+        return this._freeResponseQuestionItem();
     }
   }
 }

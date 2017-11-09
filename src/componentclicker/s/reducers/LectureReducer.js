@@ -30,7 +30,6 @@ let lectureReducer = (
         editLectureModalOpen: action.show
       };
     case LectureActionTypes.SAVE_LECTURE:
-      console.log('Edit lecture save', action);
       return {
         ...state,
         ...action.data,
@@ -43,21 +42,22 @@ let lectureReducer = (
         questionModalData: action.data
       }
     case LectureActionTypes.CANCEL_EDIT_QUESTION:
-      console.log('Canceling edit');
       return {
         ...state,
         questionModalOpen: false,
         questionModalData: null
       }
     case LectureActionTypes.SAVE_QUESTION:
-      // TODO: Fix
-      console.log('SAVE_QUESTION', action);
       if (action.status === 'success') {
         return {
           ...state,
           questions: action.questions,
           questionModalOpen: false
         };
+      } else if (action.status === 'error') {
+        // TODO: Possibly display error message
+        console.log('Error on save question', action.error);
+        return state;
       }
     default: return state;
   }

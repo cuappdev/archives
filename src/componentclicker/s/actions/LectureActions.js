@@ -25,7 +25,6 @@ const toggleQuestionModal = (show: boolean) => {
 }
 
 const editQuestion = (data?: Object) => {
-  console.log('Edit question', data);
   return {
     type: LectureActionTypes.EDIT_QUESTION,
     data: data
@@ -46,11 +45,11 @@ const saveQuestionSuccess = (questions: Array<Object>) => {
   };
 };
 
-const saveQuestionFailure = (error: string) => {
+const saveQuestionFailure = (error: Object) => {
   return {
     type: LectureActionTypes.SAVE_QUESTION,
     status: 'error',
-    error: error
+    error: Object
   }
 }
 
@@ -68,22 +67,23 @@ const saveQuestion = (data: Object) =>
     // TODO
   } else {
     // Create new question
-    axios.post('/api/v1/lectures/1/questions', {
+    // TODO: Include lecture id as parameter
+    const lectureId = 1;
+    axios.post(`/api/v1/lectures/${lectureId}/questions`, {
       type: data.questionType,
       text: data.questionText,
       data: JSON.stringify({ ...data.data })
     }).then(response => {
-      console.log(response);
       if (response.data.success) {
+        // TODO: Fetch updated questions for lectureId & update store
         const questions = getState().lecture.questions;
-        console.log('Questions', questions);
         questions.push(response.data.data.node);
         dispatch(saveQuestionSuccess(questions));
       } else {
-        console.log(response.data.data);
+        dispatch(saveQuestionFailure(response.data.data));
       }
     }).catch(error => {
-      console.log(error);
+      console.log('Server Error', error);
     });
   }
 };
