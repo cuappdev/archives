@@ -26,10 +26,11 @@ type Props = {
   lectureDate?: string,
   editLectureModalOpen: boolean,
   questionModalOpen: boolean,
+  questionModalData?: Object,
   questions: Array<Object>,
   onToggleEditLectureModal: (boolean) => void,
   onEditLectureSave: (Object) => void,
-  onEditQuestion: (Object) => void,
+  onEditQuestion: (?Object) => void,
   onCancelEditQuestion: () => void,
   onSaveQuestion: (Object) => void
 };
@@ -44,7 +45,6 @@ class LecturePage extends React.Component<void, Props, State> {
 
   constructor(props: Props) {
     super(props);
-    console.log(actions);
     this.state = {
       ...props.location.state
     };
@@ -71,7 +71,7 @@ class LecturePage extends React.Component<void, Props, State> {
   _questionCards (): Card.Group {
     const questionCards = this.props.questions.map((question) => {
       return (
-        <Card key={question.questionId}>
+        <Card key={question.id}>
           <Card.Content>
             <Button
               onClick={ () => this.props.onEditQuestion(question) }
@@ -79,9 +79,9 @@ class LecturePage extends React.Component<void, Props, State> {
               circular
               floated='right'
             />
-            <Card.Header>{question.questionType}</Card.Header>
+            <Card.Header>{question.type}</Card.Header>
             <Card.Description>
-              {question.questionTitle}
+              {question.text}
             </Card.Description>
           </Card.Content>
         </Card>
@@ -98,7 +98,7 @@ class LecturePage extends React.Component<void, Props, State> {
   _sideBar = (): Segment => (
     <Segment raised>
       <Button
-        onClick={ () => this.props.onEditQuestion({}) }
+        onClick={ () => this.props.onEditQuestion(null) }
         content='Create Question'
         fluid
       />
@@ -106,6 +106,7 @@ class LecturePage extends React.Component<void, Props, State> {
         <LectureQuestionCreator
           open={this.props.questionModalOpen}
           lectureTitle={this.props.lectureTitle}
+          questionData={this.props.questionModalData}
           onCancel={this.props.onCancelEditQuestion}
           onSave={this.props.onSaveQuestion}
         />
@@ -174,7 +175,7 @@ const dispatchProps = (dispatch: Function) => {
   const onEditLectureSave = (data: Object) => {
     dispatch(actions.LectureActions.saveLecture(data));
   };
-  const onEditQuestion = (data: Object) => {
+  const onEditQuestion = (data?: Object) => {
     dispatch(actions.LectureActions.editQuestion(data));
   };
   const onCancelEditQuestion = () => {

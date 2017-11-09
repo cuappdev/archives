@@ -17,15 +17,13 @@ import LectureQuestionCreatorItem from './LectureQuestionCreatorItem';
 type Props = {
   open: boolean,
   lectureTitle: string,
-  questionId?: number,
-  questionTitle?: string,
-  questionType?: QuestionType,
   questionData?: Object,
   onCancel: () => void,
   onSave: (data: Object) => void
 };
 type State = {
-  questionTitle: string,
+  questionId?: number,
+  questionText: string,
   questionType: QuestionType,
   activeQuestionTypeIndex: number,
   questionData: Object
@@ -34,29 +32,49 @@ type State = {
 class LectureQuestionCreator extends React.Component<void, Props, State> {
   props: Props;
   state: State;
-  questionItemRef: Object;
 
   constructor (props: Props) {
     super(props);
-    var state = {
-      questionTitle: props.questionTitle || '',
-      questionType: props.questionType || QUESTION_TYPES.MULTIPLE_CHOICE,
-      activeQuestionTypeIndex: 0,
-      questionData: this._initializeQuestionData(props.questionType, props.questionData)
+    console.log('\nHERE\n');
+    var state = {};
+    if (props.questionData) {
+      state = {
+        questionId: props.questionData.id,
+        questionText: props.questionData.text,
+        questionType: props.questionData.type,
+        activeQuestionTypeIndex: this._mapQuestionTypeToMenuIndex(props.questionData.type)
+      }
+    } else {
+      state = {
+        questionId: null,
+        questionText: '',
+        questionType: QUESTION_TYPES.MULTIPLE_CHOICE,
+        activeQuestionTypeIndex: 0
+      }
+    }
+    this.state = {
+      ...state,
+      questionData: this._initializeQuestionData(props.questionData)
     };
-    state.activeQuestionTypeIndex = this._mapQuestionTypeToMenuIndex(state.questionType);
-    this.state = state;
     console.log('Question creator state:', this.state);
   }
 
-  _initializeQuestionData (questionType?: QuestionType, data?: Object): Object {
-    const questionData = {};
-    Object.keys(QUESTION_TYPES).forEach((questionType) => {
-      questionData[questionType] = {};
-    });
-    if (questionType && data) {
-      questionData[questionType] = { ...data };
+  _initializeQuestionData (data?: Object): Object {
+    console.log('Question data', data);
+    const questionData = {
+      [QUESTION_TYPES.MULTIPLE_CHOICE]: { options: [], answer: '' },
+      [QUESTION_TYPES.FREE_RESPONSE]: { optionalAnswer: '' },
+      [QUESTION_TYPES.MULTIPLE_ANSWER]: { options: [], answer: [] },
+      [QUESTION_TYPES.RANKING]: { options: [], answer: [] }
+    };
+    if (data) {
+      var updatedData = Object.assign({}, data);
+      delete updatedData.id;
+      delete updatedData.text;
+      delete updatedData.type;
+      questionData[data.type] = { ...updatedData };
     }
+    console.log(questionData);
     return questionData;
   }
 
@@ -75,9 +93,14 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
     return 0;
   }
 
-  onQuestionTitleChange = (event: Object): void => {
+  _mapIndexToLetter = (index: number): string => {
+    const letterA = 65;
+    return String.fromCharCode(letterA + index);
+  }
+
+  onQuestionTextChange = (event: Object): void => {
     this.setState({
-      questionTitle: event.target.value
+      questionText: event.target.value
     });
   }
 
@@ -111,7 +134,7 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
 
   _validateQuestion = (): boolean => {
     // TODO: Validate question on save
-    if (!this.state.questionTitle) {
+    if (!this.state.questionText) {
       console.log('Missing question title');
       return false;
     }
@@ -119,30 +142,98 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
   }
 
   onSave = (): void => {
-    console.log('Question Item Ref', this.questionItemRef);
     if (!this._validateQuestion()) {
       // TODO: Show error/missing fields message
       return;
     }
-    const data = function(self) {
-      switch (self.state.questionType) {
-        case QUESTION_TYPES.MULTIPLE_CHOICE:
-        case QUESTION_TYPES.MULTIPLE_ANSWER:
-          return self.questionItemRef.state.multipleChoiceOptions;
-        case QUESTION_TYPES.FREE_RESPONSE:
-          return self.questionItemRef.state.freeResponseAnswer;
-        case QUESTION_TYPES.RANKING:
-          return self.questionItemRef.state.rankingOptions;
-        default: return null;
-      }
-    }(this);
     this.props.onSave({
-      questionId: this.props.questionId,
-      questionTitle: this.state.questionTitle,
+      questionId: this.state.questionId,
+      questionText: this.state.questionText,
       questionType: this.state.questionType,
-      data: data
+      data: this.state.questionData[this.state.questionType]
     });
   }
+
+  /*
+   * Functional props for LectureQuestionCreatorItem
+   */
+  setMultipleChoiceState = (data: Object): void => {
+    this.setState(prevState => {
+      return {
+        questionData: {
+          ...prevState.questionData,
+          [QUESTION_TYPES.MULTIPLE_CHOICE]: data
+        }
+      };
+    });
+  }
+
+  onAddMultipleChoiceOption = (): void => {
+    const data = this.state.questionData[QUESTION_TYPES.MULTIPLE_CHOICE];
+    data.options.push({
+      id: this._mapIndexToLetter(data.options.length),
+      description: ''
+    });
+    this.setMultipleChoiceState(data);
+  }
+
+  onRemoveMultipleChoiceOption = (index: number): void => {
+    var data = this.state.questionData[QUESTION_TYPES.MULTIPLE_CHOICE];
+    data.options.splice(index, 1);
+    data = data.map((option, idx) => ({
+      ...option,
+      id: this._mapIndexToLetter(idx)
+    }));
+    this.setMultipleChoiceState(data);
+  }
+
+  onUpdateMultipleChoiceOption = (event: Object, index: number): void => {
+    const data = this.state.questionData[QUESTION_TYPES.MULTIPLE_CHOICE];
+    data.options[index].description = event.target.value;
+    this.setMultipleChoiceState(data);
+  }
+
+  onSelectMultipleChoiceAnswer = (index: number): void => {
+    const data = this.state.questionData[QUESTION_TYPES.MULTIPLE_CHOICE];
+    data.answer = index;
+    this.setMultipleChoiceState(data);
+  }
+
+  onChangeFreeResponseAnswer = (input: Object): void => {
+    const data = this.state.questionData[QUESTION_TYPES.FREE_RESPONSE];
+    this.setState(prevState => {
+      return {
+        questionData: {
+          ...prevState.questionData,
+          [QUESTION_TYPES.FREE_RESPONSE]: {
+            ...data,
+            optionalAnswer: input.value
+          }
+        }
+      };
+    });
+  }
+
+  _lectureQuestionCreatorItem = () => {
+    const multipleChoiceHandlers = {
+      onAddOption: this.onAddMultipleChoiceOption,
+      onRemoveOption: this.onRemoveMultipleChoiceOption,
+      onUpdateOption: this.onUpdateMultipleChoiceOption,
+      onSelectAnswer: this.onSelectMultipleChoiceAnswer
+    };
+    const freeResponseHandlers = {
+      onChangeAnswer: this.onChangeFreeResponseAnswer
+    };
+    return (
+      <LectureQuestionCreatorItem
+        questionType={this.state.questionType}
+        data={this.state.questionData[this.state.questionType]}
+        multipleChoiceHandlers={multipleChoiceHandlers}
+        freeResponseHandlers={freeResponseHandlers}
+        mapIndexToLetter={this._mapIndexToLetter}
+      />
+    );
+  };
 
   render (): React.Element<any> {
     console.log('Rendering question creator...');
@@ -161,8 +252,8 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
           <Form>
             <TextArea
               placeholder='What is the question?'
-              value={this.state.questionTitle}
-              onChange={this.onQuestionTitleChange}
+              value={this.state.questionText}
+              onChange={this.onQuestionTextChange}
               rows={2}
               style={{ resize: 'none' }}
             />
@@ -171,11 +262,7 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
             Question Type:
           </Header>
           {this._questionTypeMenu()}
-          <LectureQuestionCreatorItem
-            questionType={this.state.questionType}
-            data={this.state.questionData[this.state.questionType]}
-            ref={ (item) => { this.questionItemRef = item; } }
-          />
+          {this._lectureQuestionCreatorItem()}
         </Modal.Content>
         <Modal.Actions>
           <Button

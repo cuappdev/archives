@@ -15,13 +15,11 @@ import { QUESTION_TYPES, COLORS } from '../common/constants';
 type Props = {
   questionType: string,
   data?: Object,
-  ref: (Object) => void
+  multipleChoiceHandlers: Object,
+  freeResponseHandlers: Object,
+  mapIndexToLetter: (number) => string
 };
-type State = {
-  freeResponseAnswer: string,
-  multipleChoiceOptions: Array<Object>,
-  rankingOptions: Array<Object>,
-};
+type State = {};
 
 class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
   props: Props;
@@ -29,78 +27,33 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
 
   constructor (props: Props) {
     super(props);
-    this.state = {
-      freeResponseAnswer: '',
-      multipleChoiceOptions: [],
-      rankingOptions: [],
-      ...(props.data || {})
-    };
+    this.state = {};
   }
 
-  _mapIndexToLetter = (index: number): string => {
-    const letterA = 65;
-    return String.fromCharCode(letterA + index);
-  }
-
-  onAddMultipleChoiceOption = (): void => {
-    const options = this.state.multipleChoiceOptions;
-    options.push({
-      value: '',
-      isAnswer: false
-    });
-    this.setState({
-      multipleChoiceOptions: options
-    });
-  }
-
-  onRemoveMultipleChoiceOption = (index: number): void => {
-    const options = this.state.multipleChoiceOptions;
-    options.splice(index, 1);
-    this.setState({
-      multipleChoiceOptions: options
-    });
-  }
-
-  onUpdateMultipleChoiceOptionValue = (event: Object, index: number): void => {
-    const options = this.state.multipleChoiceOptions;
-    options[index].value = event.target.value;
-    this.setState({
-      multipleChoiceOptions: options
-    });
-  }
-
-  onToggleMultipleChoiceOptionAnswer = (index: number): void => {
-    const options = this.state.multipleChoiceOptions;
-    options[index].isAnswer = !options[index].isAnswer;
-    this.setState({
-      multipleChoiceOptions: options
-    });
-  }
-
-  onSortMultipleChoiceOptions = (sortedOptions: Array<Object>, dropEvent: Object): void => {
-    console.log('On sort', sortedOptions, dropEvent);
-  }
-
-  _buildMultipleChoiceOptions = (): Array<Object> => {
-    const options = this.state.multipleChoiceOptions.map((option, idx) => {
-      var letter = this._mapIndexToLetter(idx);
+  _multipleChoiceOptions = (): Array<Object> => {
+    if (!this.props.data) return [];
+    const options = this.props.data.options.map((option, idx) => {
       return (
         <Segment basic key={idx} style={styles.multipleChoiceSegment}>
           <Label basic size='large' style={{ border: 'none' }}>
-            {`${letter}.`}
+            {`${option.id}.`}
           </Label>
           <div style={styles.multipleChoiceItem}>
             <Input iconPosition='left' placeholder={`Option ${idx}...`} fluid>
               <Icon name='content' />
               <input
-                value={option.value}
-                onChange={ (e) => this.onUpdateMultipleChoiceOptionValue(e, idx) }
+                value={option.description}
+                onChange={ (e) =>
+                  this.props.multipleChoiceHandlers.onUpdateOption(e, idx)
+                }
               />
             </Input>
           </div>
           <Button
             icon='trash'
-            onClick={ () => this.onRemoveMultipleChoiceOption(idx) }
+            onClick={ () =>
+              this.props.multipleChoiceHandlers.onRemoveOption(idx)
+            }
             style={{ marginLeft: '15px' }}
           />
         </Segment>
@@ -110,16 +63,14 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
   }
 
   _renderMultipleChoiceQuestion = () => {
-    const options = this._buildMultipleChoiceOptions();
-
     return (
       <div>
         <Header size='small' color='grey'>
           Answers:
         </Header>
-        {options}
+        {this._multipleChoiceOptions()}
         <Button
-          onClick={this.onAddMultipleChoiceOption}
+          onClick={this.props.multipleChoiceHandlers.onAddOption}
           content='Add Option'
           icon='plus'
           compact
@@ -142,12 +93,6 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
     );
   };
 
-  onFreeResponseAnswerChange = (event: Object): void => {
-    this.setState({
-      freeResponseAnswer: event.target.value
-    });
-  }
-
   _renderFreeResponseQuestion = () => {
     return (
       <div>
@@ -157,8 +102,8 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
         <Form>
           <TextArea
             placeholder='What is the answer?'
-            value={this.state.freeResponseAnswer}
-            onChange={this.onFreeResponseAnswerChange}
+            value={this.props.data ? this.props.data.optionalAnswer : ''}
+            onChange={ (_,d) => this.props.freeResponseHandlers.onChangeAnswer(d) }
             autoHeight
             rows={2}
           />
@@ -167,7 +112,8 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
     );
   };
 
-  _renderQuestionItem = () => {
+  render (): React.Element<any> {
+    console.log('Data for question item', this.props.data);
     switch (this.props.questionType) {
       case QUESTION_TYPES.MULTIPLE_CHOICE:
         return this._renderMultipleChoiceQuestion();
@@ -179,14 +125,6 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
       default:
         return this._renderFreeResponseQuestion();
     }
-  }
-
-  render (): React.Element<any> {
-    return (
-      <div>
-        {this._renderQuestionItem()}
-      </div>
-    );
   }
 }
 

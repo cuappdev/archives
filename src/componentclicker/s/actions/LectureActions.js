@@ -1,5 +1,6 @@
 // @flow
 import LectureActionTypes from './LectureActionTypes';
+import axios from 'axios';
 
 const toggleEditModal = (show: boolean) => {
   return {
@@ -23,7 +24,7 @@ const toggleQuestionModal = (show: boolean) => {
   }
 }
 
-const editQuestion = (data: Object) => {
+const editQuestion = (data?: Object) => {
   console.log('Edit question', data);
   return {
     type: LectureActionTypes.EDIT_QUESTION,
@@ -37,11 +38,11 @@ const cancelEditQuestion = () => {
   };
 };
 
-const saveQuestionSuccess = (response: Object) => {
+const saveQuestionSuccess = (questions: Array<Object>) => {
   return {
     type: LectureActionTypes.SAVE_QUESTION,
     status: 'success',
-    response: response
+    questions: questions
   };
 };
 
@@ -55,18 +56,36 @@ const saveQuestionFailure = (error: string) => {
 
 const saveQuestion = (data: Object) =>
 (dispatch: Function, getState: Function) => {
-  // TODO: Save question and return success or not
-  // for now, update lecture state with new question
-  const questions = getState().lecture.questions;
-  if (data.questionId) {
+  const formattedData = {
+    type: data.questionType,
+    text: data.questionText,
+    data: { ...data.data }
+  };
+  console.log(formattedData);
 
+  if (data.questionId) {
+    // Update question
+    // TODO
   } else {
-    questions.push({
-      ...data,
-      questionId: questions.length
+    // Create new question
+    axios.post('/api/v1/lectures/1/questions', {
+      type: data.questionType,
+      text: data.questionText,
+      data: JSON.stringify({ ...data.data })
+    }).then(response => {
+      console.log(response);
+      if (response.data.success) {
+        const questions = getState().lecture.questions;
+        console.log('Questions', questions);
+        questions.push(response.data.data.node);
+        dispatch(saveQuestionSuccess(questions));
+      } else {
+        console.log(response.data.data);
+      }
+    }).catch(error => {
+      console.log(error);
     });
   }
-  dispatch(saveQuestionSuccess(questions))
 };
 
 export default {
