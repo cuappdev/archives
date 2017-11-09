@@ -90,6 +90,7 @@ class MultipleChoiceCorrectAnswerModal extends React.Component<void, Props, Stat
             icon='checkmark'
             labelPosition='right'
             onClick={ () => this.props.onSave(this.state.correctAnswer) }
+            disabled={this.state.correctAnswer === ''}
           />
         </Modal.Actions>
       </Modal>

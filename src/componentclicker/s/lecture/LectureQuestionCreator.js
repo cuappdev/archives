@@ -147,6 +147,7 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
       // TODO: Show error/missing fields message
       return;
     }
+    // TODO: Filter out empty options for MC, RANKING, and MA
     this.props.onSave({
       questionId: this.state.questionId,
       questionText: this.state.questionText,

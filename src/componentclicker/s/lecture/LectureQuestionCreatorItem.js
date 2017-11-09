@@ -38,6 +38,7 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
   }
 
   onShowSetCorrectAnswerModal = (show: boolean): void => {
+    // TODO: Filter out options with no value
     this.setState({
       setCorrectAnswerModalOpen: show
     });
