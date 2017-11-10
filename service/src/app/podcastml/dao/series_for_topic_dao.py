@@ -5,7 +5,7 @@ def format_series_list(series_list):
   return ','.join(map(str, series_list))
 
 def generate_series_for_topics():
-  topics_to_series = dict(fetch_top_series_all_genres())
+  topics_to_series = dict(fetch_series_all_genres())
   nonexisting_topics = set(topics_to_series.keys())
   current_entries = SeriesForTopic.query.all()
   for entry in current_entries:

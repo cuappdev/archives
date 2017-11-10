@@ -10,14 +10,6 @@ class SeriesForTopicTestCase(TestCase):
     SeriesForTopic.query.delete()
     db_session_commit()
 
-  def test_endpoint(self):
-    response = self.app.get('/api/v1/series/topic/hi/',
-                            headers=self.api_key_header)
-    data = json.loads(response.data)
-    self.assertTrue(data['success'])
-
   def test_model_creation(self):
     series_for_topic_dao.generate_series_for_topics()
-    results = SeriesForTopic.query.all()
-    import pprint
-    pprint.pprint(results)
+    self.assertTrue(SeriesForTopic.query.count() > 0)
