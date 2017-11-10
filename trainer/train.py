@@ -3,7 +3,9 @@ import os
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from pyspark.mllib.linalg.distributed import CoordinateMatrix
-from appdev.connectors import MySQLConnector
+from appdev.connectors import MySQLConnector, RedisConnector
+
+entry_redis_key = 'training_entries'
 
 weights = {
     'recommendations': 0.5,
@@ -18,14 +20,19 @@ def get_matrix_entries():
                         os.environ['DB_HOST'],
                         os.environ['DB_NAME'])
 
-  db_tables = ['recommendations', 'bookmarks', 'listening_histories']
+  # table name -> (user_id index, episode_id index)
+  db_tables = {
+      'recommendations': (3, 4),
+      'bookmarks': (3, 4),
+      'listening_histories': (4, 5)
+  }
 
   matrix_entries = {}  # (user_id, episode_id) -> score
 
-  for table in db_tables:
+  for table, (user_index, episode_index) in db_tables.iteritems():
     rows = conn.read_batch(table)
     for row in rows:
-      user_id, episode_id = row[3], row[4]
+      user_id, episode_id = row[user_index], row[episode_index]
       if (user_id, episode_id) in matrix_entries:
         matrix_entries[(user_id, episode_id)] += weights[table]
       else:
@@ -68,5 +75,10 @@ def get_matrix_entries():
 if __name__ == "__main__":
   sc = SparkContext()
   spark = SparkSession(sc)
-  entries = sc.parallelize(get_matrix_entries())
-  mat = CoordinateMatrix(entries)
+  redis = RedisConnector('entry_checkpoint')
+  connection = redis._single_connect()
+  entries = redis.get_dictionary(connection, entry_redis_key)
+  if entries is None:
+    entries = get_matrix_entries()
+    redis.dump_dictionary(connection, {entry_redis_key: entries})
+  mat = CoordinateMatrix(sc.parallelize(entries))
