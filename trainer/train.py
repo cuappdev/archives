@@ -1,4 +1,7 @@
+# Created for PySpark 2.2.0
+
 import os
+from collections import defaultdict
 
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
@@ -27,7 +30,7 @@ def get_matrix_entries():
       'listening_histories': (4, 5)
   }
 
-  matrix_entries = {}  # (user_id, episode_id) -> score
+  matrix_entries = defaultdict(float)  # (user_id, episode_id) -> score
 
   for table, (user_index, episode_index) in db_tables.iteritems():
     rows = conn.read_batch(table)
@@ -55,9 +58,9 @@ def get_matrix_entries():
                                 os.environ['PODCAST_DB_NAME'])
 
   episode_query = 'SELECT id FROM episodes WHERE series_id={}'
-  queries = [episode_query.format(series_id) for series_id in series_to_users]
 
-  rows = conn_podcast.execute_batch(queries)
+  rows = conn_podcast.execute_batch(
+      [episode_query.format(series_id) for series_id in series_to_users])
   for (series_id, episode_list) in zip(series_to_users, rows):
     for row in episode_list:
       episode_id = row[0]
