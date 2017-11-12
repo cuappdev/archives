@@ -37,7 +37,3 @@ def fetch_series_all_genres(num_threads=10):
   pool.close()
   pool.join()
   return results
-
-if __name__ == '__main__':
-  import pprint
-  pprint.pprint(fetch_series_all_genres())
