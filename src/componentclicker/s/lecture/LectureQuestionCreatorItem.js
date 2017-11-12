@@ -39,6 +39,9 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
 
   onShowSetCorrectAnswerModal = (show: boolean): void => {
     // TODO: Filter out options with no value
+    if (show) {
+      this.props.multipleChoiceHandlers.onFilterOptions();
+    }
     this.setState({
       setCorrectAnswerModalOpen: show
     });
@@ -47,6 +50,14 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
   onSetCorrectAnswerSave = (letter: string): void => {
     this.props.multipleChoiceHandlers.onSelectAnswer(letter);
     this.onShowSetCorrectAnswerModal(false);
+  }
+
+  setCorrectAnswerButtonDisabled = (): boolean => {
+    const enabled = this.props.data.options.reduce((acc, option) => {
+      console.log(acc, option.description);
+      return acc || option.description !== '';
+    }, false);
+    return !enabled;
   }
 
   _multipleChoiceOptions = (): Array<Object> => {
@@ -62,7 +73,7 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
               ...(this.props.data.answer === option.id ? styles.correctItem : {})
             }}
           >
-            <Input iconPosition='left' placeholder={`Option ${idx}...`} fluid>
+            <Input iconPosition='left' placeholder={`Option ${idx+1}...`} fluid>
               <Icon name='content' />
               <input
                 value={option.description}
@@ -104,7 +115,7 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
           onClick={ () => this.onShowSetCorrectAnswerModal(true) }
           content='Set Correct Answer'
           icon='checkmark'
-          disabled={this.props.data.options.length == 0}
+          disabled={this.setCorrectAnswerButtonDisabled()}
           compact
           basic
           style={{ marginTop: '10px' }}
