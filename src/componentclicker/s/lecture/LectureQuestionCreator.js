@@ -45,7 +45,6 @@ class LectureQuestionCreator extends React.Component<void, Props, State> {
       }
     } else {
       state = {
-        questionId: null,
         questionText: '',
         questionType: QUESTION_TYPES.MULTIPLE_CHOICE,
         activeQuestionTypeIndex: 0
