@@ -1,7 +1,7 @@
 from flask import Blueprint
 from app import *
 
-events = Blueprint('events', __name__, url_prefix='/api/')
+events = Blueprint('events', __name__, url_prefix='/api')
 
 from app.events.models._all import * # pylint: disable=C0413
 
