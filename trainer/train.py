@@ -36,19 +36,13 @@ def get_matrix_entries():
     rows = conn.read_batch(table)
     for row in rows:
       user_id, episode_id = row[user_index], row[episode_index]
-      if (user_id, episode_id) in matrix_entries:
-        matrix_entries[(user_id, episode_id)] += weights[table]
-      else:
-        matrix_entries[(user_id, episode_id)] = weights[table]
+      matrix_entries[(user_id, episode_id)] += weights[table]
 
   rows = conn.read_batch('subscriptions')
-  series_to_users = {}
+  series_to_users = defaultdict(list)
   for row in rows:
     user_id, series_id = row[3], row[4]
-    if series_id in series_to_users:
-      series_to_users[series_id].append(user_id)
-    else:
-      series_to_users[series_id] = [user_id]
+    series_to_users[series_id].append(user_id)
 
   conn.close()
 
@@ -65,10 +59,7 @@ def get_matrix_entries():
     for row in episode_list:
       episode_id = row[0]
       for user_id in series_to_users[series_id]:
-        if (user_id, episode_id) in matrix_entries:
-          matrix_entries[(user_id, episode_id)] += 0.2
-        else:
-          matrix_entries[(user_id, episode_id)] = 0.2
+        matrix_entries[(user_id, episode_id)] += 0.2
 
   conn_podcast.close()
 
