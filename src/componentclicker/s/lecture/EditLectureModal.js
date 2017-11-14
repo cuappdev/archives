@@ -7,11 +7,12 @@ import {
 } from 'semantic-ui-react';
 
 type Props = {
-  open: boolean,
+  isOpen: boolean,
+  lectureTitle: string,
   onClose: () => void,
-  onSave: (Object) => void,
-  lectureTitle: string
+  onSave: (Object) => void
 };
+
 type State = {
   lectureTitle: string
 };
@@ -27,9 +28,16 @@ class EditLectureModal extends React.Component<void, Props, State> {
     };
   }
 
-  onLectureTitleChange = (event: Object): void => {
+  componentWillReceiveProps (nextProps: Props) {
     this.setState({
-      lectureTitle: event.target.value
+      lectureTitle: nextProps.lectureTitle
+    });
+  }
+
+  onLectureTitleChange = (event: SyntheticInputEvent<>): void => {
+    if (!(event.currentTarget instanceof HTMLInputElement)) return;
+    this.setState({
+      lectureTitle: event.currentTarget.value
     });
   }
 
@@ -42,7 +50,7 @@ class EditLectureModal extends React.Component<void, Props, State> {
   render (): React.Element<any> {
     return (
       <Modal
-        open={this.props.open}
+        open={this.props.isOpen}
         onClose={this.props.onClose}
         size='tiny'
         dimmer='blurring'

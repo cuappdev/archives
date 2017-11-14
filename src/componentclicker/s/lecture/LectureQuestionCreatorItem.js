@@ -54,7 +54,6 @@ class LectureQuestionCreatorItem extends React.Component<void, Props, State> {
 
   setCorrectAnswerButtonDisabled = (): boolean => {
     const enabled = this.props.data.options.reduce((acc, option) => {
-      console.log(acc, option.description);
       return acc || option.description !== '';
     }, false);
     return !enabled;

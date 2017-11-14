@@ -29,12 +29,8 @@ type Props = {
   questionModalOpen: boolean,
   questionModalData?: Object,
   questions: Array<Object>,
-  onToggleEditLectureModal: (boolean) => void,
-  onEditLectureSave: (Object) => void,
-  onEditQuestion: (?Object) => void,
-  onCancelEditQuestion: () => void,
-  onSaveQuestion: (Object) => void,
-  onDeleteQuestion: (number) => void
+  editLectureHandlers: Object,
+  editQuestionHandlers: Object
 };
 type State = {
   courseTitle: string,
@@ -74,19 +70,35 @@ class LecturePage extends React.Component<void, Props, State> {
     return questionType.split('_').map((el) => el.charAt(0)).join('');
   };
 
+  handleOpenEditLectureModal = (): void => {
+    this.props.editLectureHandlers.onToggleEditLectureModal(true);
+  }
+
+  handleCloseEditLectureModal = (): void => {
+    this.props.editLectureHandlers.onToggleEditLectureModal(false);
+  }
+
+  handleCreateQuestionClick = (): void => {
+    this.props.editQuestionHandlers.onEditQuestion();
+  }
+
   _questionCards (): Card.Group {
     const questionCards = this.props.questions.map((question) => {
       return (
         <Card key={question.id} fluid>
           <Card.Content>
             <Button
-              onClick={ () => this.props.onDeleteQuestion(question.id) }
+              onClick={ () =>
+                this.props.editQuestionHandlers.onDeleteQuestion(question.id)
+              }
               icon='trash'
               circular
               floated='right'
             />
             <Button
-              onClick={ () => this.props.onEditQuestion(question) }
+              onClick={ () =>
+                this.props.editQuestionHandlers.onEditQuestion(question)
+              }
               icon='edit'
               circular
               floated='right'
@@ -112,7 +124,7 @@ class LecturePage extends React.Component<void, Props, State> {
   _sideBar = (): Segment => (
     <Segment raised>
       <Button
-        onClick={ () => this.props.onEditQuestion(null) }
+        onClick={this.handleCreateQuestionClick}
         content='Create Question'
         fluid
       />
@@ -121,22 +133,22 @@ class LecturePage extends React.Component<void, Props, State> {
           open={this.props.questionModalOpen}
           lectureTitle={this.props.lectureTitle}
           questionData={this.props.questionModalData}
-          onCancel={this.props.onCancelEditQuestion}
-          onSave={this.props.onSaveQuestion}
+          onCancel={this.props.editQuestionHandlers.onCancelEditQuestion}
+          onSave={this.props.editQuestionHandlers.onSaveQuestion}
         />
       }
       <br></br>
       <Button.Group basic compact vertical icon labeled>
         <Button
-          onClick={ () => this.props.onToggleEditLectureModal(true) }
+          onClick={this.handleOpenEditLectureModal}
           compact
           content='Edit'
           icon='edit'
         />
         <EditLectureModal
-          open={this.props.editLectureModalOpen}
-          onClose={ () => this.props.onToggleEditLectureModal(false) }
-          onSave={this.props.onEditLectureSave}
+          isOpen={this.props.editLectureModalOpen}
+          onClose={this.handleCloseEditLectureModal}
+          onSave={this.props.editLectureHandlers.onEditLectureSave}
           lectureTitle={this.props.lectureTitle}
         />
         <Button compact content='Save' icon='save' />
@@ -199,14 +211,21 @@ const dispatchProps = (dispatch: Function) => {
   const onDeleteQuestion = (id: number) => {
     dispatch(actions.LectureActions.deleteQuestion(id));
   }
-
-  return {
+  
+  const editLectureHandlers = {
     onToggleEditLectureModal,
-    onEditLectureSave,
+    onEditLectureSave
+  };
+  const editQuestionHandlers = {
     onEditQuestion,
     onCancelEditQuestion,
     onSaveQuestion,
     onDeleteQuestion
+  };
+
+  return {
+    editLectureHandlers,
+    editQuestionHandlers
   };
 };
 

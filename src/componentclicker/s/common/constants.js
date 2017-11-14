@@ -21,12 +21,6 @@ const QUESTION_TYPES = {
   MULTIPLE_ANSWER: 'MULTIPLE_ANSWER',
   RANKING: 'RANKING'
 };
-// const QUESTION_TYPES = keyMirror({
-//   MULTIPLE_CHOICE: null,
-//   FREE_RESPONSE: null,
-//   MULTIPLE_ANSWER: null,
-//   RANKING: null
-// });
 
 export {
   QUESTION_TYPES,
