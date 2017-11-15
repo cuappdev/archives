@@ -2,18 +2,23 @@ from . import *
 
 class CreateEventTypeController(AppDevController):
   def get_path(self):
-    return '/apps/<app_id>/event_types/'
+    return '/apps/<app_id>/event_types/create/'
 
   def get_methods(self):
     return ['POST']
 
   @authorize_user
   def content(self, **kwargs):
+    data = request.get_json()
     app_id = request.view_args['app_id']
-    name = kwargs.get('name')
+    name = data.get('name')
     user = kwargs.get('user')
-    fields_info = kwargs.get('fields_info')
+    fields_info = data.get('fields_info')
 
+    if name is None or fields_info is None:
+      raise Exception('Invalid event type name or field descriptor.')
+
+    fields_info = json.loads(fields_info)
     event_types_dao.verify_fields_info(fields_info)
     created, event_type = event_types_dao.create_event_type(app_id, name,
                                                             user.id,
@@ -21,5 +26,5 @@ class CreateEventTypeController(AppDevController):
 
     if not created:
       raise Exception('Event type already exists.')
-    
-    return {'event_type': event_type}
+
+    return {}

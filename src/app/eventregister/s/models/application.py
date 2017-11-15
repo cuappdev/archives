@@ -12,3 +12,10 @@ class Application(Base):
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
     self.secret_key = hashlib.sha1(os.urandom(64)).hexdigest()
+
+  def as_dict(self):
+    return {
+        'id': self.id,
+        'name': self.name,
+        'secret_key': self.secret_key
+    }

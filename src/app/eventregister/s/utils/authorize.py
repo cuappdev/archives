@@ -3,7 +3,7 @@ from flask import request
 from app.events.dao import users_dao, applications_dao
 
 def auth_bearer(f):
-  @wraps
+  @wraps(f)
   def inner(*args, **kwargs):
     auth_header = request.headers.get('Authorization')
     if auth_header is None:
@@ -18,7 +18,7 @@ def auth_bearer(f):
   return inner
 
 def authorize_user(f):
-  @wraps
+  @wraps(f)
   @auth_bearer
   def inner(*args, **kwargs):
     session_token = kwargs.get('bearer_token')
@@ -31,7 +31,7 @@ def authorize_user(f):
   return inner
 
 def authorize_app(f):
-  @wraps
+  @wraps(f)
   @auth_bearer
   def inner(*args, **kwargs):
     secret_key = kwargs.get('bearer_token')

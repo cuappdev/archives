@@ -8,8 +8,12 @@ class AuthenticateUserController(AppDevController):
     return ['POST']
 
   def content(self, **kwargs):
-    email = kwargs.get('email')
-    password = kwargs.get('password')
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    if email is None or password is None:
+      raise Exception('Invalid email or password.')
 
     success, user = users_dao.verify_credentials(email, password)
 

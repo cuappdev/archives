@@ -8,14 +8,18 @@ class CreateUserController(AppDevController):
     return ['POST']
 
   def content(self, **kwargs):
-    email = kwargs.get('email')
-    password = kwargs.get('password')
-    first_name = kwargs.get('first_name')
-    last_name = kwargs.get('last_name')
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
 
     # include first/last names as dao argument only if not none
     names = {}
-
+    
+    if email is None or password is None:
+      raise Exception('Invalid email or password.')
+    
     if first_name is not None:
       names['first_name'] = first_name
 

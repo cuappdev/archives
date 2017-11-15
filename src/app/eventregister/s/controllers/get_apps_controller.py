@@ -10,4 +10,4 @@ class GetAppsController(AppDevController):
   @authorize_user
   def content(self, **kwargs):
     user = kwargs.get('user')
-    return users_dao.get_users_apps(user.id)
+    return [app.as_dict() for app in users_dao.get_user_apps(user.id)]

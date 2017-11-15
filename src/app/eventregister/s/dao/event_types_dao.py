@@ -30,7 +30,7 @@ def get_event_type_by_name(app_id, name):
 
 def get_event_types_by_names(app_id, names):
   return EventType.query.filter(EventType.application_id == app_id,
-                                EventType.name._in(names)).all()
+                                EventType.name.in_(names)).all()
 
 def get_event_type_by_id(event_type_id):
   return EventType.query.filter(EventType.id == event_type_id).first()

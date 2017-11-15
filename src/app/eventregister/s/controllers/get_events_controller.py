@@ -12,8 +12,12 @@ class GetEventsController(AppDevController):
     user = kwargs.get('user')
     app_id = request.view_args['app_id']
 
-    if app_id not in users_dao.get_users_apps(user.id):
-      raise Exception('User not authorized for this app.')
+    try:
+      if int(app_id) not in {app.id for app in \
+                             users_dao.get_user_apps(user.id)}:
+        raise Exception('User not authorized for this app.')
 
-    event_types = applications_dao.get_event_types(app_id)
-    return {event_type.name: event_type.events for event_type in event_types}
+      return [event.as_dict() for event in \
+              applications_dao.get_events(app_id)]
+    except ValueError:
+      raise Exception('Invalid app ID.')

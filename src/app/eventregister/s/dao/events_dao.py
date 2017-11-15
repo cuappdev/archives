@@ -20,19 +20,28 @@ def create_events(app_id, events):
   succeeded = []
   failed = []
 
-  event_type_names = {event['event_type'] for event in events}
+  event_type_names = {event['event_type'] for event in events \
+                      if 'event_type' in event}
   event_types = {event_type.name: event_type for event_type in \
-                 event_types_dao.get_event_types_by_names(event_type_names)}
-
+                 event_types_dao.get_event_types_by_names(app_id,
+                                                          event_type_names)}
   for event in events:
-    event_type = event_types[event['event_type']]
-
     try:
-      event_types_dao.verify_fields(event_type.id, event['payload'])
-      newEvent = Event(event_type_id=event_type.id, payload=event['payload'])
+      try:
+        event_type = event_types[event['event_type']]
+      except KeyError:
+        raise Exception('Invalid event type.')
+
+      try:
+        payload = event['payload']
+      except KeyError:
+        raise Exception('Invalid payload.')
+
+      event_types_dao.verify_fields(event_type.id, payload)
+      newEvent = Event(event_type_id=event_type.id, payload=payload)
       succeeded.append(newEvent)
     except Exception as e: #pylint:disable=broad-except
-      failed.append({'message': e, 'event': event})
+      failed.append({'message': str(e), 'event': event})
 
   db_utils.commit_models(succeeded)
   return succeeded, failed
