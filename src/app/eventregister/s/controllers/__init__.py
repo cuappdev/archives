@@ -1,3 +1,4 @@
+import json
 from flask import request
 from appdev.controllers import *
 from app.events.dao import users_dao, applications_dao, event_types_dao, events_dao

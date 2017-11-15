@@ -37,6 +37,14 @@ class User(Base):
     self.last_name = kwargs.get('last_name')
     self.renew_session()
 
+  def as_dict(self):
+    return {
+        'id': self.id,
+        'email': self.email,
+        'first_name': self.first_name,
+        'last_name': self.last_name
+    }
+
   def verify_password(self, password):
     return bcrypt.checkpw(password.encode('utf8'),
                           self.password_digest.encode('utf8'))
@@ -46,7 +54,8 @@ class User(Base):
 
   def renew_session(self):
     self.session_token = self._urlsafe_base_64()
-    self.session_expiration = datetime.datetime.now() + datetime.timedelta(days=1)
+    self.session_expiration = datetime.datetime.now() + \
+                              datetime.timedelta(days=1)
     self.update_token = self._urlsafe_base_64()
 
   def verify_session_token(self, session_token):

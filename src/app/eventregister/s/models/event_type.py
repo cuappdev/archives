@@ -23,3 +23,12 @@ class EventType(Base):
     self.application_id = kwargs.get('application_id')
     self.user_id = kwargs.get('user_id')
     self.fields_info = kwargs.get('fields_info')
+
+  def as_dict(self):
+    return {
+        'id': self.id,
+        'name': self.name,
+        'app_id': self.application_id,
+        'user_id': self.user_id,
+        'fields_info': self.fields_info
+    }

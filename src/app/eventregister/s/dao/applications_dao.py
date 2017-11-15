@@ -38,6 +38,14 @@ def get_event_types(app_id):
     raise Exception('App does not exist.')
   return optional_app.event_types
 
+def get_events(app_id):
+  events = []
+
+  for event_type in get_event_types(app_id):
+    events += event_type.events
+
+  return events
+
 def is_owned_by_user(app_id, user_id):
   optional_app = get_app_by_id(app_id)
   if optional_app is None:

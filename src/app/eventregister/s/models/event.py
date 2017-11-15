@@ -19,3 +19,11 @@ class Event(Base):
     self.timestamp = kwargs.get('timestamp')
     self.event_type_id = kwargs.get('event_type_id')
     self.payload = kwargs.get('payload')
+
+  def as_dict(self):
+    return {
+        'id': self.id,
+        'event_type': self.event_type.name,
+        'payload': self.payload,
+        'timestamp': self.timestamp
+    }

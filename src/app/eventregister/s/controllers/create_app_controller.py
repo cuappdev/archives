@@ -2,14 +2,23 @@ from . import *
 
 class CreateAppController(AppDevController):
   def get_path(self):
-    return '/apps/'
+    return '/apps/create/'
 
   def get_methods(self):
     return ['POST']
 
   @authorize_user
   def content(self, **kwargs):
-    app_name = kwargs.get('app_name')
+    data = request.get_json()
+    app_name = data.get('app_name')
     user = kwargs.get('user')
-    created, app = create_app(app_name, user.id)
-    return {'created': created, 'app': app}
+
+    if app_name is None:
+      raise Exception('Invalid app name.')
+
+    created, app = applications_dao.create_app(app_name, user.id)
+
+    if not created:
+      raise Exception('App name in use.')
+    
+    return {'secret_key': app.secret_key}

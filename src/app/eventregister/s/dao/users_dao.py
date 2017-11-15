@@ -39,7 +39,7 @@ def create_user(email, password, first_name='', last_name=''):
   db_utils.commit_model(user)
   return True, user
 
-def get_users_apps(user_id):
+def get_user_apps(user_id):
   optional_user = get_user_by_id(user_id)
   if optional_user is None:
     raise Exception('User does not exist.')
@@ -51,3 +51,12 @@ def clear_all_apps():
     user.applications = []
   db_utils.db_session_commit()
 
+def renew_session(update_token):
+  user = get_user_by_update_token(update_token)
+
+  if user is None:
+    raise Exception('Invalid update token.')
+
+  user.renew_session()
+  db_utils.db_session_commit()
+  return user
