@@ -1,13 +1,6 @@
 # Register
 
-Technologies involved include:
-1. Flask
-2. SQLAlchemy
-3. Marshmallow
-4. PostgreSQL
-5. React
-6. React-Router
-7. Redux
+Logging for all of our apps `:)`
 
 ## Setting Up Database
 Ensure you have `psql` plus command line tools setup:
@@ -15,10 +8,8 @@ Ensure you have `psql` plus command line tools setup:
 psql
 psql> CREATE DATABASE my_db_name;
 psql> \q
-cd src
-python manage.py db init  
-python manage.py db migrate
-python manage.py db upgrade
+cd src/scripts
+python setup_db.py
 ````
 
 ## Environment Variables
