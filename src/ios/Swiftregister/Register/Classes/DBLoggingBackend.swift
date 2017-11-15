@@ -5,19 +5,28 @@ import PromiseKit
 class DBEventItem : Object {
     @objc dynamic var serializedLog: JSONData = Data()
     @objc dynamic var eventName: String = ""
+    @objc dynamic var identifier: String = ""
+    @objc dynamic var timestamp: Date = Date()
+    
+    ///this is true when the event is being sent. Should clear out all objects
+    ///with isSending = true after successfuly sending events
+    @objc dynamic var isSending: Bool = false
+    
+    override class func primaryKey() -> String? {
+        return "identifier"
+    }
 }
 
 enum DBLoggingError: Error {
     case realmFailedToCreate(reason: String), sessionDeallocated, noEventSender
+    case failedToSendEventsToServer
 }
 
-//TODO print errors if logging fails (in case user doesn't catch promises)
 //TODO need to revamp the scheduled uploading system
 // - background uploading
 // - possibly use something besides NSTimer to reduce energy consumption (like gcd maybe)
 // - If we use NSTimer, should we use a run loop besides RunLoop.main?
 //TODO need delegate functions to notify when events are sent to the server
-//TODO timestamp ids for logs to avoid doubles
 class DBLoggingBackend {
     
     private var sendTimer: Timer?
@@ -45,9 +54,15 @@ class DBLoggingBackend {
     @discardableResult
     func logEvent<T>(event: Event<T>) -> Promise<()> {
         return Promise { fulfill, reject in
+            let randTag = arc4random()
+            let timestampedEvent = TimestampedEvent(event: event)
+            
             let dbEvent = DBEventItem()
-            dbEvent.serializedLog = try event.serializeJson()
-            dbEvent.eventName = event.eventName
+            dbEvent.serializedLog = try timestampedEvent.serializeJson()
+            dbEvent.eventName = timestampedEvent.eventName
+            //TODO should probably generate ids differently
+            dbEvent.identifier = "\(event.eventName):\(timestampedEvent.timestamp.timeIntervalSince1970):\(randTag)"
+            dbEvent.timestamp = timestampedEvent.timestamp
             
             let realm = try DBLoggingBackend.makeRealm()
             
@@ -58,6 +73,9 @@ class DBLoggingBackend {
             scheduleTimer(interval: timerInterval)
 
             fulfill(())
+        }.catch { err in
+            registerLogger.error("Failed to log an event with name \(event.eventName)")
+            registerLogger.error(err)
         }
     }
     
@@ -82,34 +100,36 @@ class DBLoggingBackend {
     
     @discardableResult
     func sendAllEvents() -> Promise<()> {
-        let sendingPromise = Promise<[JSONData]> { fulfill, reject in
+        return Promise(value: ())
+        .then(on: syncQueue) { () -> [JSONData] in
+            //synchronously get events from db and mark each event with isSending = true
             let realm = try DBLoggingBackend.makeRealm()
             let logs = Array(realm.objects(DBEventItem.self))
-            let data = logs.map {$0.serializedLog}
-            fulfill(data)
-            }.then { [weak self] (data: [JSONData]) -> Promise<()> in
-                guard let selfObj = self else {
-                    throw DBLoggingError.sessionDeallocated
-                }
-                
-                guard let result = selfObj.eventSender?.sendEventsToServer(data: data) else {
-                    throw DBLoggingError.noEventSender
-                }
-                
-                return result
-            }.catch { _ in
-                registerLogger.warning("Failed to send events to server")
-        }
-        
-        return when(fulfilled: sendingPromise).next { (_:()) -> () in //on success, delete logs from db
-            let realm = try DBLoggingBackend.makeRealm()
-            
             try realm.write {
-                realm.delete(realm.objects(DBEventItem.self))
+                logs.forEach {$0.isSending = true}
+            }
+            let data = logs.map {$0.serializedLog}
+            return data
+        }.then { [weak self] (data: [JSONData]) -> Promise<()> in
+            guard let selfObj = self else {
+                throw DBLoggingError.sessionDeallocated
+            }
+            
+            guard let sendingEvents = selfObj.eventSender?.sendEventsToServer(data: data) else {
+                throw DBLoggingError.noEventSender
+            }
+            
+            return sendingEvents.recover { err -> Promise<()> in
+                registerLogger.warning("Failed to send events to server")
+                return Promise<()>(error: DBLoggingError.failedToSendEventsToServer)
+            }
+        }.next { //on success, delete logs from db
+            let realm = try DBLoggingBackend.makeRealm()
+            let objects = realm.objects(DBEventItem.self).filter("isSending = true")
+            try realm.write {
+                realm.delete(objects)
             }
             return ()
-        }.catch { _ in
-            registerLogger.warning("Failed to delete events from database")
         }
     }
 }
