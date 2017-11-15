@@ -23,10 +23,18 @@
     remote_user: root
     become: yes
     with_items:
+      - libatlas-base-dev
+      - gfortran
+      - g++
+      - build-essential
+      - libssl-dev
+      - libffi-dev
       - python-dev
       - python-pip
       - nginx
       - git
+      - gridsite-clients
+      - libpq-dev # postgres
       - htop # sick process visualization from the command line
   - name: Set server timezone
     command: timedatectl set-timezone America/New_York
