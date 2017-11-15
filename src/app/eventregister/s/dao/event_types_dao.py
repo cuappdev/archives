@@ -1,6 +1,6 @@
 from . import *
 
-TYPES = ['str', 'int', 'float']
+TYPES = {'str': type(u''), 'int': type(0), 'float': type(0.)}
 
 def create_event_type(app_id, name, user_id, fields_info):
   event_type = get_event_type_by_name(app_id, name)
@@ -49,7 +49,7 @@ def verify_fields_info(fields_info): #TODO: change logic later
     elif not metadata['required']:
       if 'default' not in metadata:
         raise Exception('Default value missing for field %s' % field)
-      elif not isinstance(metadata['default'], type(metadata['type'])):
+      elif not isinstance(metadata['default'], TYPES[metadata['type']]):
         raise Exception('Default value invalid for field %s' % field)
 
   return True
@@ -64,13 +64,14 @@ def verify_fields(event_type_id, payload): #TODO: change logic later
 
   for field in fields_info:
     metadata = fields_info[field]
-
+    
     if field not in payload:
       if metadata['required']:
         raise Exception('Missing required field %s in payload' % field)
       else:
         payload[field] = metadata['default']
-    elif field in payload and type(payload[field]).__name__ != metadata['type']:
+    elif field in payload \
+         and not isinstance(payload[field], TYPES[metadata['type']]):
       raise Exception('Invalid type for field %s in payload' % field)
 
   return True
