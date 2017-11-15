@@ -2,6 +2,15 @@
 
 Logging for all of our apps `:)`
 
+## Installing
+Make sure you have `virtualenv` installed.
+On creating a `virtualenv` called `venv`, run the following:
+
+```bash
+pip install git+https://github.com/cuappdev/appdev.py.git#egg=appdev.py
+pip install -r requirements.txt
+```
+
 ## Setting Up Database
 Ensure you have `psql` plus command line tools setup:
 ````bash

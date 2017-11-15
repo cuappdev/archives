@@ -1,10 +1,7 @@
+import sys
 import os
 import shutil
-from script_utils import * # pylint: disable=W0403
-
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-set_app_settings()
-
 from app import app # pylint: disable=C0413
 
 def setup_dbs():
