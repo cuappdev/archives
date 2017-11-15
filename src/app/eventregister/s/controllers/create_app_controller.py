@@ -20,5 +20,5 @@ class CreateAppController(AppDevController):
 
     if not created:
       raise Exception('App name in use.')
-    
-    return {'secret_key': app.secret_key}
+
+    return app.as_dict()
