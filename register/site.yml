@@ -35,6 +35,8 @@
       - git
       - gridsite-clients
       - libpq-dev # postgres
+      - mysql-server # mysql
+      - libmysqlclient-dev # mysql
       - htop # sick process visualization from the command line
   - name: Set server timezone
     command: timedatectl set-timezone America/New_York
@@ -47,15 +49,36 @@
   - name: Clone application repo
     git: repo='{{ repository_url }}' dest='{{ repository_path }}'
     when: register_cloned.stat.exists == false
+  - name: Install appdev-specific module
+    command: pip install git+https://github.com/cuappdev/appdev.py.git#egg=appdev.py
   - name: Install pip requirements
     pip: requirements='{{ repository_path }}/requirements.txt'
-  # Clone the actual app
-  - name: Clone app repository
-    git:
-      repo: '{{ repository_git_path }}'
-      dest: '{{ repository_path }}'
-      version: master
-      force: yes
+  - name: Copy Upstart configuration
+    template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
+  - name: Check if migration exists
+    stat: path={{ repository_path }}/src/migrations
+    register: migrations
+  - name: Run initialization script for DB
+    command: python manage.py db init
+    environment:
+      DB_USERNAME: '{{ DB_USERNAME }}'
+      DB_PASSWORD: '{{ DB_PASSWORD }}'
+      DB_NAME: '{{ DB_NAME }}'
+      DB_HOST: '{{ DB_HOST }}'
+      APP_SETTINGS: '{{ APP_SETTINGS }}'
+    args:
+      chdir: '{{ repository_path }}/src/'
+    when: migrations.stat.exists == false
+  - name: Run migrations script for DB
+    command: sudo -E python setup_db.py
+    environment:
+      DB_USERNAME: '{{ DB_USERNAME }}'
+      DB_PASSWORD: '{{ DB_PASSWORD }}'
+      DB_NAME: '{{ DB_NAME }}'
+      DB_HOST: '{{ DB_HOST }}'
+      APP_SETTINGS: '{{ APP_SETTINGS }}'
+    args:
+      chdir: '{{ repository_path }}/src/scripts/'
   - name: Make sure our server is running
     service: name=upstart state=restarted
   - name: Copy Nginx site values

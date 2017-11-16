@@ -6,7 +6,8 @@ setuid root
 setgid nogroup
 chdir {{ repository_path }}/src
 # Run server w/environment variables marked by -e's
-exec gunicorn app:app --bind=unix:/tmp/a3.sock --workers 3 --user=root --log-level=debug \
+exec gunicorn app:app --bind=unix:/tmp/register.sock \
+  --workers 3 --user=root --log-level=debug \
   -e DB_USERNAME={{ DB_USERNAME }} \
   -e DB_PASSWORD={{ DB_PASSWORD }} \
   -e DB_NAME={{ DB_NAME }} \
