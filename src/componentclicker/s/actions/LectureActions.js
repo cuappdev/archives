@@ -45,11 +45,11 @@ const saveQuestionSuccess = (questions: Array<Object>) => {
   };
 };
 
-const saveQuestionFailure = (error: Object) => {
+const saveQuestionFailure = (errors: Array<string>) => {
   return {
     type: LectureActionTypes.SAVE_QUESTION,
     status: 'error',
-    error: Object
+    error: errors.pop()
   };
 };
 
@@ -80,7 +80,7 @@ const saveQuestion = (data: Object) =>
         questions.push(response.data.data.node);
         dispatch(saveQuestionSuccess(questions));
       } else {
-        dispatch(saveQuestionFailure(response.data.data));
+        dispatch(saveQuestionFailure(response.data.data.errors));
       }
     }).catch(error => {
       console.log('Server Error', error);
