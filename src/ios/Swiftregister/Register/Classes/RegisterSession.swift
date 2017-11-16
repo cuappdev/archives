@@ -13,8 +13,12 @@ public class RegisterSession {
     let eventSender: EventSender
     let dbBackend: DBLoggingBackend
     
-    public init(apiUrl: URL, logMode: LogMode = .regular) {
-        self.eventSender = MainEventSender(apiUrl: apiUrl)
+    /**
+     * api url should be the url path including /api/
+     * for example: http://localhost:5000/api/
+     */
+    public init(apiUrl: URL, secretKey: String, logMode: LogMode = .regular) {
+        self.eventSender = MainEventSender(apiUrl: apiUrl, secretKey: secretKey)
         self.dbBackend = DBLoggingBackend(eventSender: self.eventSender)
     }
     
