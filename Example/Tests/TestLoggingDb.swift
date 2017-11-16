@@ -8,7 +8,7 @@ import RealmSwift
 //TODO use something besides XCTest because of its hard to debug NSExceptions
 //TODO use AwaitKit to avoid wait.
 class SessionTestCase: XCTestCase {
-    let session: RegisterSession = RegisterSession(apiUrl: URL(string: "localhost")!)
+    let session: RegisterSession = RegisterSession(apiUrl: testApiUrl, secretKey: testAppSecret)
     
     override func setUp() {
         let realm = try! DBLoggingBackend.makeRealm()
@@ -57,7 +57,7 @@ class TestLoggingDb: SessionTestCase {
                 let jsonData = try! combineArrayOfEvents(data: dataArray)
                 let json = JSON(jsonData)
                 
-                guard let jsonArr = json.array else {
+                guard let jsonArr = json["events"].array else {
                     XCTFail("expected an array")
                     return
                 }
@@ -65,18 +65,18 @@ class TestLoggingDb: SessionTestCase {
                 containsBravo1 = jsonArr.contains { json in
                     json["payload"]["magnitude"].float == bravo1.payload.magnitude &&
                     json["payload"]["kind"].string == bravo1.payload.kind &&
-                    json["eventName"].string == bravo1.eventName
+                    json["event_type"].string == bravo1.eventName
                 }
                 
                 containsBravo2 = jsonArr.contains { json in
                     json["payload"]["magnitude"].float == bravo2.payload.magnitude &&
                     json["payload"]["kind"].string == bravo2.payload.kind &&
-                    json["eventName"].string == bravo2.eventName
+                    json["event_type"].string == bravo2.eventName
                 }
                 
                 containsAlpha = jsonArr.contains { json in
                     json["payload"]["value"].string == alpha.payload.value &&
-                    json["eventName"].string == alpha.eventName
+                    json["event_type"].string == alpha.eventName
                 }
                 
                 finished.fulfill()

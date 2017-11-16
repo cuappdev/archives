@@ -1,10 +1,3 @@
-//
-//  EventSender.swift
-//  SwiftRegister
-//
-//  Created by Serge-Olivier Amega on 11/15/17.
-//
-
 import PromiseKit
 import Foundation
 import SwiftyJSON
@@ -15,11 +8,12 @@ protocol EventSender: class {
 
 enum EventSenderError: Error {
     case failedToCombineJsonData
+    case serverError(String?)
 }
 
 func combineArrayOfEvents(data: [JSONData]) throws -> JSONData {
     let strings = data.flatMap {String.init(data: $0, encoding: .utf8)}
-    guard let result = "[\(strings.joined(separator: ","))]".data(using: .utf8) else {
+    guard let result = "{\"events\":[\(strings.joined(separator: ","))]}".data(using: .utf8) else {
         throw EventSenderError.failedToCombineJsonData
     }
     return result
@@ -28,9 +22,16 @@ func combineArrayOfEvents(data: [JSONData]) throws -> JSONData {
 class MainEventSender: EventSender {
     
     let apiUrl: URL
+    let secretKey: String
     
-    init(apiUrl: URL) {
+    /**
+     * Initializes the event sender with the given api url
+     * api url should be the url path including /api/
+     * for example: http://localhost:5000/api/
+     */
+    init(apiUrl: URL, secretKey: String) {
         self.apiUrl = apiUrl
+        self.secretKey = secretKey
     }
     
     /**Tries to send events to the server*/
@@ -42,12 +43,26 @@ class MainEventSender: EventSender {
             return Promise(error: e)
         }
         
-        return Alamofire.upload(combinedData, to: apiUrl.appendingPathComponent("multiple"), method: .post)
+        let urlToSend = apiUrl.appendingPathComponent("events/create/")
+        String(data: combinedData, encoding: .utf8).map {registerLogger.debug("sending data to \(urlToSend)\n\($0)")}
+        
+        let headers = [
+            "Authorization" : "Bearer \(self.secretKey)",
+            "Content-Type" : "application/json"
+        ]
+        return Alamofire.upload(combinedData,
+                                to: urlToSend,
+                                method: .post, headers: headers)
             .validate()
             .responseJSON()
             .then { response in
-                let _ = JSON(data)
-                return Promise(value: ())
+                let json = JSON(response)
+                json.rawString().map{ registerLogger.debug("recieved from server:\n\($0)") }
+                if json["success"].bool != true {
+                    return Promise(error: EventSenderError.serverError(json["data"]["errors"].string))
+                } else {
+                    return Promise(value: ())
+                }
         }
     }
 }

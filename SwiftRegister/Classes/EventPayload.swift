@@ -35,7 +35,7 @@ public class Event<TPayload: Payload>: Codable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case timestamp, payload, eventName
+        case timestamp, payload, eventName = "event_type"
     }
     
     public func serializeJson() throws -> JSONData {
