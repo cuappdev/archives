@@ -14,6 +14,7 @@ from app.events.controllers.get_apps_controller import * # pylint: disable=C0413
 from app.events.controllers.get_events_controller import * # pylint: disable=C0413
 from app.events.controllers.get_event_types_controller import * # pylint: disable=C0413
 from app.events.controllers.update_session_controller import * # pylint: disable=C0413
+from app.events.controllers.hello_world_controller import * # pylint: disable=C0413
 
 controllers = [
     AuthenticateUserController(),
@@ -24,7 +25,8 @@ controllers = [
     GetAppsController(),
     GetEventsController(),
     GetEventTypesController(),
-    UpdateSessionController()
+    UpdateSessionController(),
+    HelloWorldController(),
 ]
 
 for controller in controllers:
