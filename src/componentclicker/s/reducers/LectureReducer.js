@@ -40,13 +40,13 @@ let lectureReducer = (
         ...state,
         questionModalOpen: true,
         questionModalData: action.data
-      }
+      };
     case LectureActionTypes.CANCEL_EDIT_QUESTION:
       return {
         ...state,
         questionModalOpen: false,
         questionModalData: null
-      }
+      };
     case LectureActionTypes.SAVE_QUESTION:
       if (action.status === 'success') {
         return {

@@ -21,8 +21,8 @@ const toggleQuestionModal = (show: boolean) => {
   return {
     type: LectureActionTypes.TOGGLE_QUESTION_MODAL,
     show: show
-  }
-}
+  };
+};
 
 const editQuestion = (data?: Object) => {
   return {
@@ -50,8 +50,8 @@ const saveQuestionFailure = (error: Object) => {
     type: LectureActionTypes.SAVE_QUESTION,
     status: 'error',
     error: Object
-  }
-}
+  };
+};
 
 const saveQuestion = (data: Object) =>
 (dispatch: Function, getState: Function) => {
@@ -92,7 +92,7 @@ const deleteQuestion = (id: number) =>
 (dispatch: Function, getState: Function) => {
   // TODO: Delete this question and dispatch actions appropriately
   console.log('Deleting question with id ' + id);
-}
+};
 
 export default {
   toggleEditModal,
