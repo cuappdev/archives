@@ -2,7 +2,10 @@ import json
 import urllib
 from multiprocessing.dummy import Pool as ThreadPool
 
+# Static iTunes URL that has a json of all podcast genres (id=26 corresponds to podcasts)
 genre_lookup_url = 'https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/genres?id=26'
+
+# URL to find top podcast episodes for a given genre
 general_url = 'https://itunes.apple.com/us/rss/toppodcasts{}/json'
 
 def read_url(url):
