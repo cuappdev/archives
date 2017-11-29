@@ -12,8 +12,8 @@ enum EventSenderError: Error {
 }
 
 func combineArrayOfEvents(data: [JSONData]) throws -> JSONData {
-    let strings = data.flatMap {String.init(data: $0, encoding: .utf8)}
-    guard let result = "{\"events\":[\(strings.joined(separator: ","))]}".data(using: .utf8) else {
+    let arrayOfJsonEvents: [JSON] = data.flatMap {JSON(data: $0)}
+    guard let result = try? JSON(["events": JSON(arrayOfJsonEvents)]).rawData() else {
         throw EventSenderError.failedToCombineJsonData
     }
     return result
@@ -57,7 +57,7 @@ class MainEventSender: EventSender {
             .responseJSON()
             .then { response in
                 let json = JSON(response)
-                json.rawString().map{ registerLogger.debug("recieved from server:\n\($0)") }
+                json.rawString().map{ registerLogger.debug("received from server:\n\($0)") }
                 if json["success"].bool != true {
                     return Promise(error: EventSenderError.serverError(json["data"]["errors"].string))
                 } else {
