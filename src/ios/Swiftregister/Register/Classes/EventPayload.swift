@@ -8,7 +8,7 @@ public protocol Payload: Codable {
 public typealias JSONData = Data
 
 public enum EventError: Error {
-    case wrongEventName
+    case wrongEventName, failToDecodeTimestamp
 }
 
 public class Event<TPayload: Payload>: Codable {
@@ -35,13 +35,20 @@ public class Event<TPayload: Payload>: Codable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case timestamp, payload, eventName
+        case timestamp, payload, eventName = "event_type"
     }
     
     public func serializeJson() throws -> JSONData {
         return try JSONEncoder().encode(self)
     }
 }
+
+let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZZ"
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+    return formatter
+}()
 
 public class TimestampedEvent<TPayload: Payload>: Event<TPayload> {
     public let timestamp: Date
@@ -58,13 +65,17 @@ public class TimestampedEvent<TPayload: Payload>: Event<TPayload> {
     
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.timestamp = try values.decode(Date.self, forKey: .timestamp)
+        let timestampString = try values.decode(String.self, forKey: .timestamp)
+        guard let decodedTimestamp = dateFormatter.date(from: timestampString) else {
+            throw EventError.failToDecodeTimestamp
+        }
+        timestamp = decodedTimestamp
         try super.init(from: decoder)
     }
     
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var values = encoder.container(keyedBy: CodingKeys.self)
-        try values.encode(self.timestamp, forKey: .timestamp)
+        try values.encode(dateFormatter.string(from: timestamp), forKey: .timestamp)
     }
 }

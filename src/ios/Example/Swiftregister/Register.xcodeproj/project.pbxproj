@@ -10,6 +10,8 @@
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		CC0A3A431F86A95C007ABFB1 /* TestLoggingDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0A3A421F86A95C007ABFB1 /* TestLoggingDb.swift */; };
 		CC0A3A471F903BF9007ABFB1 /* TestMultithreadedDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0A3A461F903BF9007ABFB1 /* TestMultithreadedDb.swift */; };
+		CCFB83C81FBD092B00140EA1 /* TestEventSending.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFB83C71FBD092B00140EA1 /* TestEventSending.swift */; };
+		CCFB83CA1FC20B1A00140EA1 /* TestTimestampGMT.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFB83C91FC20B1A00140EA1 /* TestTimestampGMT.swift */; };
 		CE2603AAFDDACC80F9D3BCCE /* Pods_SwiftRegister_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94F9C3DCFD45C981244171B /* Pods_SwiftRegister_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -22,6 +24,8 @@
 		91D06A81FD385D822C575E29 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		CC0A3A421F86A95C007ABFB1 /* TestLoggingDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLoggingDb.swift; sourceTree = "<group>"; };
 		CC0A3A461F903BF9007ABFB1 /* TestMultithreadedDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMultithreadedDb.swift; sourceTree = "<group>"; };
+		CCFB83C71FBD092B00140EA1 /* TestEventSending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEventSending.swift; sourceTree = "<group>"; };
+		CCFB83C91FC20B1A00140EA1 /* TestTimestampGMT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTimestampGMT.swift; sourceTree = "<group>"; };
 		D4EE942CD3B2F578C8D173F4 /* SwiftRegister.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftRegister.podspec; path = ../SwiftRegister.podspec; sourceTree = "<group>"; };
 		D94F9C3DCFD45C981244171B /* Pods_SwiftRegister_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftRegister_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF3916B9C460D0CE725B4CEC /* Pods-SwiftRegister_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftRegister_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftRegister_Tests/Pods-SwiftRegister_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -72,6 +76,8 @@
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				CC0A3A421F86A95C007ABFB1 /* TestLoggingDb.swift */,
 				CC0A3A461F903BF9007ABFB1 /* TestMultithreadedDb.swift */,
+				CCFB83C71FBD092B00140EA1 /* TestEventSending.swift */,
+				CCFB83C91FC20B1A00140EA1 /* TestTimestampGMT.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -243,7 +249,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCFB83C81FBD092B00140EA1 /* TestEventSending.swift in Sources */,
 				CC0A3A471F903BF9007ABFB1 /* TestMultithreadedDb.swift in Sources */,
+				CCFB83CA1FC20B1A00140EA1 /* TestTimestampGMT.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				CC0A3A431F86A95C007ABFB1 /* TestLoggingDb.swift in Sources */,
 			);
