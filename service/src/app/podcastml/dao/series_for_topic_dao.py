@@ -17,3 +17,11 @@ def generate_series_for_topics():
                   series_list=format_series_list(topics_to_series[tid]))
    for tid in nonexisting_topics]
   db_utils.commit_models(current_entries + new_entries)
+
+def get_series_list_for_topic(tid):
+  optional_series_for_topic = SeriesForTopic.query \
+    .filter(SeriesForTopic.topic_id == tid).first()
+  if optional_series_for_topic:
+    return map(int, optional_series_for_topic.series_list.split(','))
+  else:
+    raise Exception('Topic with id {} does not exist.'.format(tid))
