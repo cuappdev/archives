@@ -2,7 +2,6 @@
 import sys
 import logging
 import feedparser
-
 # py-podcast imports
 from podcasts.series_driver import SeriesDriver
 from podcasts.episodes_driver import EpisodesDriver
@@ -27,5 +26,5 @@ def search():
   return itunes.get_feeds_from_many_series(many_series)
 
 if __name__ == '__main__':
-  grab_from_link()
+  # grab_from_link()
   print search()

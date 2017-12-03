@@ -16,10 +16,8 @@ def search_podcast_series(query):
     req_itunes(ITUNES_SEARCH_URL + encoded_params).\
     json()['results']
   return [
-      Series.from_itunes_json(j)
-      for j in results
-      if j.get('feedUrl') is not None
-  ]
+      Series.from_itunes_json(j) for j in results
+      if j.get('feedUrl') is not None]
 
 def get_series_by_ids(ids):
     ids_with_coms = ','.join(ids)
@@ -28,10 +26,8 @@ def get_series_by_ids(ids):
       req_itunes(ITUNES_LOOKUP_URL + urllib.urlencode(id_param)).\
       json()['results']
     return [
-        Series.from_itunes_json(j)
-        for j in results
-        if j.get('feedUrl') is not None
-    ]
+        Series.from_itunes_json(j) for j in results
+        if j.get('feedUrl') is not None]
 
 def get_rss_feed_data_from_series(s):
   # Grab full RSS feed

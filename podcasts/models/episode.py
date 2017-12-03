@@ -5,7 +5,7 @@ class Episode(Entity):
 
   def __init__(self, series, entry):
     self.type = 'episode'
-    self.series_Id = series.id
+    self.series_id = series.id
     self.series_title = series.title # Already encoded
     self.image_url_sm = series.image_url_sm # Already encoded
     self.image_url_lg = series.image_url_lg # Already encoded
@@ -19,8 +19,7 @@ class Episode(Entity):
     self.duration = entry.get('itunes_duration', '').encode('utf-8')
     self.tags = [
         (t['term'] if t['term'] is None else t['term'].encode('utf-8'))
-        for t in entry.get('tags', [])
-    ]
+        for t in entry.get('tags', [])]
 
     self.audio_url = None
     for l in entry.get('links', []):
