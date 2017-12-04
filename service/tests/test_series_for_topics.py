@@ -18,7 +18,6 @@ class SeriesForTopicTestCase(TestCase):
     series_for_topic_dao.generate_series_for_topics()
     response = self.get('/api/v1/series/topic/1309/')
     data = json.loads(response.data)['data']
-    print data.keys()
     self.assertEqual(len(data['series_ids']), 10)
     for sid in data['series_ids']:
       self.assertEqual(type(sid), int)
