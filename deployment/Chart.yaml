@@ -1,0 +1,3 @@
+name: podcast-ml deployment
+description: Helm chart for deploying the service for podcast-ml
+version: 1.0

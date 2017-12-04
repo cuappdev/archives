@@ -1,5 +1,5 @@
 from flask import Blueprint
-from app.podcastml.utils import redisConnector
+from appdev.connectors import RedisConnector
 
 # Define a Blueprint for this module (mchat)
 podcastml = Blueprint('podcastml', __name__, url_prefix='/api/v1')
