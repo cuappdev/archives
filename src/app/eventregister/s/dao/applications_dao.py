@@ -1,5 +1,5 @@
-from . import *
 from sqlalchemy import in_
+from . import *
 
 def create_app(app_name, user_id):
   optional_app = get_app_by_name(app_name)
@@ -39,7 +39,7 @@ def get_event_types(app_id):
     raise Exception('App does not exist.')
   return optional_app.event_types
 
-def get_events(app_id, params={}):
+def get_events(app_id, params):
   if "event_type_ids" in params:
     q = Event.query.filter(
         event_type.id.in_(params["event_type_ids"])
@@ -54,7 +54,7 @@ def get_events(app_id, params={}):
       else: # desc or not passed
         q = q.order_by(Event.created_at.desc())
     else:
-      raise Exception("Invalid value for 'order_by'.")
+      raise Exception("Invalid value for 'order_by'")
   else:
     q = q.order_by(Event.created_at.desc())
 
@@ -65,7 +65,7 @@ def get_events(app_id, params={}):
     q = q.limit(params["max"])
   else:
     q = q.limit(20)
-    
+
   return q.all()
 
 def is_owned_by_user(app_id, user_id):

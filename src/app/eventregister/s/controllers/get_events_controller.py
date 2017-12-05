@@ -19,6 +19,6 @@ class GetEventsController(AppDevController):
 
       params = request.args
       return [event.as_dict() for event in \
-              applications_dao.get_events(app_id, params=params)]
+              applications_dao.get_events(app_id, params)]
     except ValueError:
       raise Exception('Invalid app ID.')
