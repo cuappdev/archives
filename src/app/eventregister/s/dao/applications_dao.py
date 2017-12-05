@@ -38,11 +38,22 @@ def get_event_types(app_id):
     raise Exception('App does not exist.')
   return optional_app.event_types
 
-def get_events(app_id):
+def get_events(app_id, params={}):
   events = []
 
-  for event_type in get_event_types(app_id):
-    events += event_type.events
+  if "event_type" in params:
+    event_type = get_event_type_by_name(app_id, name)
+    if event_type is None:
+      raise Exception('EventType does not exist.')
+    else:
+      q = Event.query.filter(event_type.id == event_type_id)
+  else:
+    for event_type in get_event_types(app_id):
+      q = Event.query.filter(event_type.id == event_type_id)
+  
+  if "order_by" in params:
+    q = Event.query.order_by(params["order_by"])
+  events += q.all()
 
   return events
 

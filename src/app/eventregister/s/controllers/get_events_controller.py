@@ -17,7 +17,8 @@ class GetEventsController(AppDevController):
                              users_dao.get_user_apps(user.id)}:
         raise Exception('User not authorized for this app.')
 
+      params = request.args
       return [event.as_dict() for event in \
-              applications_dao.get_events(app_id)]
+              applications_dao.get_events(app_id, params=params)]
     except ValueError:
       raise Exception('Invalid app ID.')
