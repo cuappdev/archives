@@ -1,4 +1,5 @@
 from . import *
+from sqlalchemy import in_
 
 def create_app(app_name, user_id):
   optional_app = get_app_by_name(app_name)
@@ -39,23 +40,33 @@ def get_event_types(app_id):
   return optional_app.event_types
 
 def get_events(app_id, params={}):
-  events = []
-
-  if "event_type" in params:
-    event_type = get_event_type_by_name(app_id, name)
-    if event_type is None:
-      raise Exception('EventType does not exist.')
-    else:
-      q = Event.query.filter(event_type.id == event_type_id)
+  if "event_type_ids" in params:
+    q = Event.query.filter(
+        event_type.id.in_(params["event_type_ids"])
+        )
   else:
-    for event_type in get_event_types(app_id):
-      q = Event.query.filter(event_type.id == event_type_id)
-  
-  if "order_by" in params:
-    q = Event.query.order_by(params["order_by"])
-  events += q.all()
+    q = Event.query.filter(event_type.application_id == app_id)
 
-  return events
+  if "order_by" in params:
+    if params["order_by"] == "timestamp":
+      if params.get("order_by_direction") == "asc":
+        q = q.order_by(Event.created_at) # asc is default
+      else: # desc or not passed
+        q = q.order_by(Event.created_at.desc())
+    else:
+      raise Exception("Invalid value for 'order_by'.")
+  else:
+    q = q.order_by(Event.created_at.desc())
+
+  if "offset" in params:
+    q = q.offset(params["offset"])
+
+  if "max" in params:
+    q = q.limit(params["max"])
+  else:
+    q = q.limit(20)
+    
+  return q.all()
 
 def is_owned_by_user(app_id, user_id):
   optional_app = get_app_by_id(app_id)
