@@ -21,7 +21,7 @@ class SessionTestCase: XCTestCase {
 class TestLoggingDb: SessionTestCase {
     
     func testLogToDb() {
-        let alpha = Event(payload: AlphaPayload(value: "ok"))
+        let alpha = AlphaPayload(value: "ok").toEvent()
         let done = expectation(description: "finished promise")
         var realmContainsEvents = false
         let _ = session.logEvent(event: alpha).next { () in
@@ -40,9 +40,9 @@ class TestLoggingDb: SessionTestCase {
     }
     
     func testCombinedDbEventsValid() {
-        let alpha = Event(payload: AlphaPayload(value: "hello, world!"))
-        let bravo1 = Event(payload: BravoPayload(kind: "AKind", magnitude: 3.0))
-        let bravo2 = Event(payload: BravoPayload(kind: "BKind", magnitude: 10.0))
+        let alpha = AlphaPayload(value: "hello, world!").toEvent()
+        let bravo1 = BravoPayload(kind: "AKind", magnitude: 3.0).toEvent()
+        let bravo2 = BravoPayload(kind: "BKind", magnitude: 10.0).toEvent()
         var (containsBravo1, containsBravo2, containsAlpha) = (false, false, false)
         
         let finished = expectation(description: "test finished")

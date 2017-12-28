@@ -4,6 +4,12 @@ public protocol Payload: Codable {
     static var eventName: String {get}
 }
 
+public extension Payload {
+    public func toEvent() -> Event<Self> {
+        return Event(payload: self)
+    }
+}
+
 /**Use JSONData for serialized JSON*/
 public typealias JSONData = Data
 

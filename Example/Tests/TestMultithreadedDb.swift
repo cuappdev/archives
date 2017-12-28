@@ -32,7 +32,7 @@ class DBMultithreadedLoggingTestCase: XCTestCase {
     
     static let numberOfEvents = 100
     var events = (0..<numberOfEvents).map {
-        Event(payload: AlphaPayload(value: "payload_\($0)"))
+        AlphaPayload(value: "payload_\($0)").toEvent()
     }
     let syncQueue = DispatchQueue(label: "register_test.db_multithreading_logging")
     

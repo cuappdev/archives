@@ -5,7 +5,7 @@ import SwiftyJSON
 
 class TestTimestampsAreGMT: XCTestCase {
     func testTimestampGMT() {
-        let event = Event(payload: AlphaPayload(value: "hello"))
+        let event = AlphaPayload(value: "hello").toEvent()
         let timestampedEvent = TimestampedEvent(event: event)
         let jsonData = try! timestampedEvent.serializeJson()
         let json = JSON(jsonData)
