@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.author           = { 'Cornell AppDev' => 'cornellappdev@gmail.com' }
   s.source           = { :git => 'https://github.com/cuappdev/register-client-ios.git', :tag => 'v'+s.version.to_s }
 
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '10.0'
 
   s.source_files = 'SwiftRegister/Classes/**/*'
 
