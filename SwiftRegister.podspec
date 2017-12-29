@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftRegister'
-  s.version          = '1.0'
+  s.version          = '0.0.2'
   s.summary          = 'register client library for iOS'
 
 
@@ -10,10 +10,10 @@ Pod::Spec.new do |s|
   register client library for iOS
                        DESC
 
-  s.homepage         = 'https://github.com/cuappdev/register'
+  s.homepage         = 'https://github.com/cuappdev/register-client-ios'
   s.license          = 'MIT'
   s.author           = { 'Cornell AppDev' => 'cornellappdev@gmail.com' }
-  s.source           = { :git => 'https://github.com/cuappdev/register.git', :tag => 'SwiftRegister-v'+s.version.to_s }
+  s.source           = { :git => 'https://github.com/cuappdev/register-client-ios.git', :tag => 'v'+s.version.to_s }
 
   s.ios.deployment_target = '11.0'
 
