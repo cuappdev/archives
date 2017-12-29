@@ -12,7 +12,7 @@ enum EventSenderError: Error {
 }
 
 func combineArrayOfEvents(data: [JSONData]) throws -> JSONData {
-    let arrayOfJsonEvents: [JSON] = data.flatMap {JSON(data: $0)}
+    let arrayOfJsonEvents: [JSON] = try data.flatMap {try JSON(data: $0)}
     guard let result = try? JSON(["events": JSON(arrayOfJsonEvents)]).rawData() else {
         throw EventSenderError.failedToCombineJsonData
     }

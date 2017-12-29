@@ -20,8 +20,8 @@ Pod::Spec.new do |s|
   s.source_files = 'SwiftRegister/Classes/**/*'
 
   s.dependency 'PromiseKit', '~> 4.4'
-  s.dependency 'PromiseKit/Alamofire'
-  s.dependency 'SwiftyJSON'
-  s.dependency 'RealmSwift'
-  s.dependency 'Log'
+  s.dependency 'PromiseKit/Alamofire', '~> 4.0'
+  s.dependency 'SwiftyJSON', '~> 4.0.0'
+  s.dependency 'RealmSwift', '~> 3.0.2'
+  s.dependency 'Log', '1.0'
 end
