@@ -27,4 +27,4 @@ class CreateEventTypeController(AppDevController):
     if not created:
       raise Exception('Event type already exists.')
 
-    return event_type.as_dict()
+    return event_type.serialize()

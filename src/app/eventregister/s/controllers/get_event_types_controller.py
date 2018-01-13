@@ -17,7 +17,7 @@ class GetEventTypesController(AppDevController):
          {app.id for app in users_dao.get_user_apps(user.id)}:
         raise Exception('User not authorized for this app.')
 
-      return [event_type.as_dict() for event_type in \
+      return [event_type.serialize() for event_type in \
               applications_dao.get_event_types(app_id)]
     except ValueError:
       raise Exception('Invalid app ID.')
