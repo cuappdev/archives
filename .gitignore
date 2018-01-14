@@ -5,3 +5,4 @@ dump.rdb
 *.env
 *.pyc
 service/src/migrations
+service/venv/*
