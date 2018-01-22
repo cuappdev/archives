@@ -20,3 +20,8 @@ cd src/scripts
 python setup_db.py dev
 python setup_db.py test
 cd ../..
+
+# Step 3:
+# Load the test data
+python src/scripts/load_data.py dev
+python src/scripts/load_data.py test
