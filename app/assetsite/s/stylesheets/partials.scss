@@ -62,6 +62,7 @@ html {
 .nav-element:hover {
   text-decoration: none !important;
   color: $appdev-red !important;
+  background-color: transparent !important;
 }
 
 #apply-button {

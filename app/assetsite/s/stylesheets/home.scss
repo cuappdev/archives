@@ -1,12 +1,12 @@
 .gates-hall {
+  font-weight: 400;
   background: image-url('gates.jpg') no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  font-weight: bold;
 }
 
-.title-text {
-  font-weight: 400;
+.main-title p {
+  margin: 0;
 }
