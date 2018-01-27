@@ -1,13 +1,7 @@
-.happy, .filter {
-  background: image-url('happy.jpg') no-repeat center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  font-weight: bold;
+.app-section {
+  margin-bottom: 20px;
 }
 
-
-.filter {
-  background: rgba(0, 0, 0, 0.2);
+.app-section-title {
+  margin-bottom: 10px;
 }
