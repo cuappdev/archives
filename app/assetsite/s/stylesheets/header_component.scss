@@ -10,7 +10,11 @@
   background: image-url('training.jpg') no-repeat center center;
 }
 
-.projects-header, .team-header, .training-header {
+.recruitment-header {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), image-url('recruitment.jpg') no-repeat center center;
+}
+
+.projects-header, .team-header, .training-header, .recruitment-header {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
