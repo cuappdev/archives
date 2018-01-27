@@ -18,18 +18,27 @@
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), image-url('apply.jpg') no-repeat center center;
 }
 
-.projects-header, .team-header, .training-header, .recruitment-header, .apply-header {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  font-weight: bold;
+.contact-header {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), image-url('contact.jpg') no-repeat center center;
 }
+
+// .projects-header, .team-header, .training-header, .recruitment-header, .apply-header, .contact-header {
+//   -webkit-background-size: cover;
+//   -moz-background-size: cover;
+//   -o-background-size: cover;
+//   background-size: cover;
+//   font-weight: bold;
+// }
 
 .header-component {
   display: table;
   width:100%;
   height: 400px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-weight: bold;
 }
 
 .header-component-content {
