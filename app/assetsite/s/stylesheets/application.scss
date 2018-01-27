@@ -17,9 +17,10 @@
  */
 
 // Padding
-$primary-padding: 75px;
-$mobile-padding: 50px;
-$small-padding: 20px;
+$padding-xlarge: 100px;
+$padding-large: 75px;
+$padding-medium: 50px;
+$padding-small: 25px;
 
 // Colors
 $red-regular: #C30016;
@@ -27,9 +28,43 @@ $red-hover: #E30000;
 $appdev-red: #B73D34;
 $off-white: #F9F9F9;
 
+// Text colors
+.text-black { color: black; }
+.text-white { color: white; }
+
+// Font Weights
+.bold { font-weight: bold; }
+.semibold { font-weight: 500; }
+
+// Font Sizes
+$fsize-title: 40px; // Section titles
+$fsize-subtitle: 24px; // Action component titles & subtitles
+$fsize-action: 18px; // High action components text
+$fsize-body: 16px; // Main text font for paragraphs
+
+.size-24 { font-size: 24px; }
+.size-18 { font-size: 18px; }
+.size-14 { font-size: 14px; }
+.text-xlarge { font-size: 64px; }
+.text-large { font-size: 50px; }
+.text-medium { font-size: 26px; }
+.text-small { font-size: 14px; }
+
+// Alignment
+.text-center { text-align: center; }
+.center { margin: auto; }
+
+// Global Styles
+
 body {
   margin: 0 !important;
   padding: 0 !important;
+  font-size: $fsize-body;
+  color: black;
+}
+
+a:hover, a:focus {
+  text-decoration: none;
 }
 
 // For navbar
@@ -37,53 +72,45 @@ body {
   color: $appdev-red !important;
 }
 
-// Red text, title or otherwise
-.slogan {
-  padding-top: 30px;
-  padding-bottom: 30px;
+// Red section title
+.section-title {
+  padding-bottom: $padding-small;
   color: $appdev-red;
-  font-size: 40px;
-}
-
-// Red text modified
-.modified-slogan {
-  padding-top: 0px;
-}
-
-// Global Styles
-a:hover, a:focus {
-    text-decoration: none;
+  font-size: $fsize-title;
 }
 
 // Components
 
 .high-action-component {
-    display: inline-flex;
-    width: 100%;
-    height: 100px;
-    background-color: $appdev-red;
+  display: inline-flex;
+  width: 100%;
+  min-height: 100px;
+  background-color: $appdev-red;
+}
+
+.high-action-info {
+  margin: auto $padding-xlarge;
+  display: inline-flex;
+  width: 100%;
 }
 
 .high-action-text {
-    margin: auto auto auto 50px;
-    font-weight: bold;
-    font-size: 18px;
-    color: white;
+  margin: $padding-small auto $padding-small 0;
+  padding-right: $padding-small;
+  font-weight: bold;
+  font-size: $fsize-action;
+  color: white;
 }
 
 .high-action-button {
-  margin: auto 50px auto auto;
+  margin: $padding-small 0 $padding-small auto;
 }
 
 .action-component {
   width: 100%;
   position: relative;
-  padding: $primary-padding 0;
+  padding: $padding-large 0;
   background-color: $off-white;
-}
-
-.component-padding {
-  padding: $primary-padding 0;
 }
 
 .component-width {
@@ -91,10 +118,21 @@ a:hover, a:focus {
   max-width: 400px;
 }
 
-.red-header {
-  color: $appdev-red;
-  font-size: 24px;
+.component-title {
   font-weight: bold;
+  font-size: $fsize-subtitle;
+}
+
+.component-subtitle {
+  padding: $padding-small 0;
+}
+
+// Center section title
+
+.red-header {
+  font-weight: bold;
+  font-size: $fsize-subtitle;
+  color: $appdev-red;
 }
 
 .center-underline {
@@ -105,49 +143,22 @@ a:hover, a:focus {
 }
 
 // BARS - For various sections
-.white-barz, .black-barz, .offwhite-barz, .gray-barz, .darkgray-barz {
+
+.white-section, .black-section, .offwhite-section, .gray-section, .darkgray-section {
   width: 100%;
   position: relative;
-  padding-top: $primary-padding;
-  padding-bottom: $primary-padding;
+  padding: $padding-large $padding-xlarge;
 }
 
-.white-barz { background-color: rgb(255, 255, 255); }
-.black-barz { background-color: rgb(45, 45, 45); }
-.offwhite-barz { background-color: #F9F9F9; }
-.gray-barz { background-color: rgb(149, 149, 149); }
-.darkgray-barz { background-color: rgb(66, 66, 66); }
-
-
-// Alignment
-
-.text-center {
-  text-align: center;
-}
-
-.center {
-  margin: auto;
-}
-
-// Text colors
-
-.text-black  {
-  color: black;
-}
-
-.text-white {
-  color: white;
-}
-
-// Modifies text-white and text-black
-.text-paragraph {
-  margin-right: 100px;
-  margin-left: 100px;
-}
+.white-section { background-color: rgb(255, 255, 255); }
+.black-section { background-color: rgb(45, 45, 45); }
+.offwhite-section { background-color: #F9F9F9; }
+.gray-section { background-color: rgb(149, 149, 149); }
+.darkgray-section { background-color: rgb(66, 66, 66); }
 
 // TOP TEXT OF A SECTION
 .text-top {
-  padding-top: 100px;
+  padding-top: $padding-xlarge;
   padding-bottom: 5px;
   margin-bottom: 0px; // B/c of some bootstrap issue
 }
@@ -159,56 +170,11 @@ a:hover, a:focus {
   margin-bottom: 0px; // B/c of some bootstrap issue
 }
 
-
 // BOTTOM TEXT OF A SECTION
 .text-bottom {
   padding-top: 5px;
-  padding-bottom: 100px;
+  padding-bottom: $padding-xlarge;
   margin-bottom: 0px; // B/c of some bootstrap issue
-}
-
-// Font Weights
-.bold {
-    font-weight: bold;
-}
-
-.semibold {
-    font-weight: 500;
-}
-
-
-// Font Sizes
-
-.size-24 {
-    font-size: 24px;
-}
-
-.size-18 {
-    font-size: 18px;
-}
-
-.size-14 {
-    font-size: 14px;
-}
-
-.size-12 {
-    font-size: 12px;
-}
-
-.text-xlarge {
-  font-size: 64px;
-}
-
-.text-large {
-  font-size: 50px;
-}
-
-.text-medium {
-  font-size: 26px;
-}
-
-.text-small {
-  font-size: 14px;
 }
 
 // Red links used on various pages
@@ -234,115 +200,95 @@ a:hover, a:focus {
 }
 
 .red-button {
-    border: 1.5px solid $appdev-red;
-    color: $appdev-red;
+  border: 1.5px solid $appdev-red;
+  color: $appdev-red;
 
-    &:hover,
-    &:focus {
-        color: $red-hover;
-        border-color: $red-hover;
-    }
+  &:hover,
+  &:focus {
+    color: $red-hover;
+    border-color: $red-hover;
+  }
 }
 
 .white-button {
-    border: 1.5px solid white;
-    color: white;
+  border: 1.5px solid white;
+  color: white;
 
-    &:hover,
-    &:focus {
-        color: $off-white;
-        border-color: $off-white;
-    }
+  &:hover,
+  &:focus {
+    color: $off-white;
+    border-color: $off-white;
+  }
 }
 
-// Padding
-.vpad-20 {
-    padding: 20px 0;
-}
-
-// Padding for massive screens
-@media screen and (min-width: 1601px) {
-
-  .text {
-    padding-top: 300px;
-    padding-bottom: 300px;
-    text-align: center;
-    margin-bottom: 0px;
-  }
-
-  .modified-slogan {
-    margin-left: 100px;
-  }
-
-}
-
-// Padding on larger screens
-@media screen and (max-width: 1600px) {
-  .text {
-    padding-top: 225px;
-    padding-bottom: 225px;
-    text-align: center;
-    margin-bottom: 0px;
-  }
-
-
-
-  .modified-slogan {
-    margin-left: 100px;
-  }
-
-}
-
-
-// Padding on smaller screens
-@media screen and (max-width: 768px) {
-  .text {
-    padding-top: 100px;
-    padding-bottom: 100px;
-    text-align: center;
-    margin-bottom: 0px;
-  }
-
-  .text-white, .text-black, .text-black-paragraph {
-    margin-left: 15px;
-    margin-right: 15px;
-    font-size: 16px;
-  }
-
-  .modified-slogan {
-    margin-left: 15px;
-    font-size: 25px;
-  }
-
-  .text-xlarge {
-    font-size: 32px;
-  }
-
-  // Slightly larger than white/black text
-  .text-large {
-    font-size: 22px;
-  }
-
-  .text-top {
-    padding-top: 60px;
-  }
-
-  .text-bottom {
-    padding-bottom: 60px;
-  }
-
-  // Reduced padding for banner bars on mobile
-  .white-barz,
-  .black-barz,
-  .offwhite-barz,
-  .gray-barz,
-  .darkgray-barz {
-    padding-top: $mobile-padding;
-    padding-bottom: $mobile-padding;
-  }
-
-  .bullet {
-    padding-bottom: 50px;
-  }
-
-}
+// // Padding for massive screens
+// @media screen and (min-width: 1601px) {
+//
+//   .text {
+//     padding-top: 300px;
+//     padding-bottom: 300px;
+//     text-align: center;
+//     margin-bottom: 0px;
+//   }
+//
+// }
+//
+// // Padding on larger screens
+// @media screen and (max-width: 1600px) {
+//   .text {
+//     padding-top: 225px;
+//     padding-bottom: 225px;
+//     text-align: center;
+//     margin-bottom: 0px;
+//   }
+//
+// }
+//
+//
+// // Padding on smaller screens
+// @media screen and (max-width: 768px) {
+//   .text {
+//     padding-top: 100px;
+//     padding-bottom: 100px;
+//     text-align: center;
+//     margin-bottom: 0px;
+//   }
+//
+//   .text-white, .text-black, .text-black-paragraph {
+//     margin-left: 15px;
+//     margin-right: 15px;
+//     font-size: 16px;
+//   }
+//
+//   .text-xlarge {
+//     font-size: 32px;
+//   }
+//
+//   // Slightly larger than white/black text
+//   .text-large {
+//     font-size: 22px;
+//   }
+//
+//   .text-top {
+//     padding-top: 60px;
+//   }
+//
+//   .text-bottom {
+//     padding-bottom: 60px;
+//   }
+//
+//   // Reduced padding for banner bars on mobile
+//   .white-section,
+//   .black-section,
+//   .offwhite-section,
+//   .gray-section,
+//   .darkgray-section {
+//     padding-top: $padding-medium;
+//     padding-bottom: $padding-medium;
+//   }
+//
+//   .bullet {
+//     padding-bottom: 50px;
+//   }
+//
+// }
