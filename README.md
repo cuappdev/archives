@@ -21,3 +21,17 @@ To run the server:
 ```
 rails s
 ```
+
+## How to Deploy with Heroku
+
+Create a remote for the existing Heroku app:
+
+```
+heroku git:remote -a cuappdev-site
+```
+
+Deploy the site:
+
+```
+git push heroku master
+```
