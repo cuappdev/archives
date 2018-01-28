@@ -2,8 +2,12 @@
 
 /* NAVBAR STUFF */
 
+.navbar-default {
+  transition: all 0.3s;
+}
+
 .navbar-shadow {
-  box-shadow: 0 0 32px rgba(0, 0, 0, 0.2)
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.2);
 }
 
 #right-menu {
@@ -41,13 +45,16 @@
   font-size: 14px;
   font-weight: 400;
   color: white;
-  text-shadow: 0px 0px 24px black;
 }
 
 .nav-element:hover {
   text-decoration: none !important;
   color: $appdev-red !important;
   background-color: transparent !important;
+}
+
+.white-nav-element {
+  text-shadow: 0px 0px 18px black;
 }
 
 #apply-button {
