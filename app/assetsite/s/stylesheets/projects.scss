@@ -1,13 +1,43 @@
 @import "application";
 
+.project-section {
+  margin: $padding-large auto;
+}
+
 .app-logo {
-  height: auto;
-  width: 50%;
-  margin-bottom: 40px;
+  max-height: 150px;
+  width: auto;
+  margin: 0 auto $padding-medium auto;
 }
 
 .screenshot {
   height: auto;
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: $padding-medium;
+}
+
+// Media query for huge screen
+@media screen and (min-width: 1601px) {
+
+
+}
+
+// Media query for big screen
+@media screen and (max-width: 1600px) {
+
+
+}
+
+// Media query for medium screen
+@media screen and (max-width: 1000px) {
+
+
+
+}
+
+// Media query for smaller screen
+@media screen and (max-width: 768px) {
+  .app-logo {
+    width: 80%;
+  }
 }
