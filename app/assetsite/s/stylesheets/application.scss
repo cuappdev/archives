@@ -34,7 +34,13 @@ $white-01: rgba(255, 255, 255, 0.1);
 $white-03: rgba(255, 255, 255, 0.3);
 $white-05: rgba(255, 255, 255, 0.5);
 $off-white: #F9F9F9;
+$dark-gray: rgb(66, 66, 66);
 
+.white { background-color: white; }
+.black { background-color: rgb(45, 45, 45); }
+.offwhite { background-color: #F9F9F9; }
+.gray { background-color: rgb(149, 149, 149); }
+.darkgray { background-color: $dark-gray; }
 
 // Text colors
 .text-black { color: black; }
@@ -76,6 +82,19 @@ a:hover, a:focus {
 }
 
 // For navbar
+.navbar-default {
+  background-color: transparent;
+  min-height: 90px;
+}
+
+.icon-bar {
+  background-color: white;
+}
+
+.white-nav-element {
+  color: white !important;
+}
+
 .active-page {
   color: $appdev-red !important;
 }
@@ -159,12 +178,6 @@ a:hover, a:focus {
   padding: $padding-large $padding-xlarge;
 }
 
-.white { background-color: rgb(255, 255, 255); }
-.black { background-color: rgb(45, 45, 45); }
-.offwhite { background-color: #F9F9F9; }
-.gray { background-color: rgb(149, 149, 149); }
-.darkgray { background-color: rgb(66, 66, 66); }
-
 // Red links used on various pages
 .red-link {
   color: $appdev-red;
@@ -236,6 +249,10 @@ a:hover, a:focus {
 
 // Padding on smaller screens
 @media screen and (max-width: 768px) {
+
+  .navbar-default {
+    min-height: 60px;
+  }
 
   .section {
     padding: $padding-large $padding-large;
