@@ -1,23 +1,9 @@
-/* Colors */
-$appdev-red: #B73D34;
-$appdev-red-muted: rgba(183, 61, 52, 0.7);
-$appdev-red-highlight: #E30000;
-$footer-gray: #3B3D40;
-$white-01: rgba(255, 255, 255, 0.1);
-$white-03: rgba(255, 255, 255, 0.3);
-$white-05: rgba(255, 255, 255, 0.5);
-
-/* General */
-html {
-  font-family: Helvetica, sans-serif;
-  font-weight: lighter;
-}
-
+@import "application";
 
 /* NAVBAR STUFF */
 
 .navbar-shadow {
-  box-shadow: 0 0 32px rgba(0,0,0,0.2)
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.2)
 }
 
 #right-menu {
@@ -31,9 +17,7 @@ html {
 }
 
 .button {
-  padding: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 5px 15px;
   border: 2px solid $appdev-red;
   border-radius: 6px;
   color: $appdev-red;

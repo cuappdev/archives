@@ -1,14 +1,4 @@
-$appdev-red: #B73D34;
-$appdev-red-muted: rgba(183, 61, 52, 0.7);
-
-.contact-top {
-  background: image-url("contact.jpg") no-repeat center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  font-weight: bold;
-}
+@import "application";
 
 .appdev-email {
   text-decoration: none;

@@ -1,12 +1,4 @@
-// For team page
-.team-top {
-  background: image-url('TopTeam.png') no-repeat center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  font-weight: bold;
-}
+@import "application";
 
 .company {
   padding: 15px;
@@ -22,7 +14,6 @@
 
 .team-member img {
   border-radius: 100%;
-
 }
 
 .media-logo:hover {
