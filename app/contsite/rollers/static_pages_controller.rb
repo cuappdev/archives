@@ -7,7 +7,7 @@ class StaticPagesController < ApplicationController
   def recruitment
   end
 
-  def training
+  def courses
   end
 
   def team
