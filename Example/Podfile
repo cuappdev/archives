@@ -4,3 +4,7 @@ platform :ios, '11.0'
 target 'SwiftRegister_Tests' do
   pod 'SwiftRegister', :path => '../'
 end
+
+target 'SwiftRegisterExample' do
+  pod 'SwiftRegister', :path => '../'
+end
