@@ -22,6 +22,10 @@ enum DBLoggingError: Error {
     case failedToSendEventsToServer
 }
 
+private enum DBLoggingInternError: Error {
+    case alreadySendingError
+}
+
 //TODO need to revamp the scheduled uploading system
 // - background uploading
 // - possibly use something besides NSTimer to reduce energy consumption (like gcd maybe)
@@ -32,6 +36,7 @@ class DBLoggingBackend {
     private var sendTimer: Timer?
     weak var eventSender: EventSender?
     let syncQueue: DispatchQueue
+    var isSendingEvents: Bool = false // use syncQueue before accessing
     let timerInterval: TimeInterval
     
     init(eventSender: EventSender, timerInterval: TimeInterval = 10) {
@@ -98,10 +103,20 @@ class DBLoggingBackend {
         }
     }
     
+    /**
+     * Tries to send events using the event sender. If there exists a promise already sending an event,
+     * throw a DBLoggingInternError.alreadySendingError
+     */
     @discardableResult
     func sendAllEvents() -> Promise<()> {
         return Promise(value: ())
         .then(on: syncQueue) { () -> [JSONData] in
+            if self.isSendingEvents {
+                throw DBLoggingInternError.alreadySendingError
+            } else {
+                self.isSendingEvents = true
+            }
+            
             //synchronously get events from db and mark each event with isSending = true
             let realm = try DBLoggingBackend.makeRealm()
             let logs = Array(realm.objects(DBEventItem.self))
@@ -129,6 +144,7 @@ class DBLoggingBackend {
             try realm.write {
                 realm.delete(objects)
             }
+            self.isSendingEvents = false
             return ()
         }
     }
