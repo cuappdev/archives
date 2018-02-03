@@ -13,7 +13,9 @@ target 'MyApp' do
 end
 ```
 
-## Using Register-iOS
+## Using SwiftRegister
+
+### Getitng Started
 
 First, register your app with the register server, and obtain the secret key for your app. Next, register your events with the server using the rest API (TODO rest api doc).
 
@@ -48,4 +50,23 @@ session.logEvent(event: upvoteEvent).next { () in
     print("event logged")
 }
 ```
+
+### Custom Keys
+
+You can specify custom keys for your payload by creating a CodingKeys enum as follows:
+
+```swift
+struct UpvotePressPayload: Payload {
+   static let eventName: String = "upvotePress"
+   let buttonType: String
+   let durationOfPress: Float
+
+   private enum CodingKeys: String, CodingKey {
+      case buttonType = "button_type"
+      case durationOfPress = "duration_of_press"
+   }
+}
+```
+
+This works because the Payload protocol inherits from Swift.Codable. See more [here](https://developer.apple.com/documentation/swift/codable)
 
