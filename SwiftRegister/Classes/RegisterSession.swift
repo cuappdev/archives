@@ -22,6 +22,7 @@ public class RegisterSession {
         self.dbBackend = DBLoggingBackend(eventSender: self.eventSender)
     }
     
+    @discardableResult
     public func logEvent<T>(event: Event<T>) -> Promise<()> {
         return dbBackend.logEvent(event: event)
     }
