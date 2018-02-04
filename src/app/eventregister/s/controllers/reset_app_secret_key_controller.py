@@ -12,4 +12,4 @@ class ResetAppSecretKeyController(AppDevController):
     data = request.get_json()
     app_id = request.view_args['app_id']
 
-    return applications_dao.reset_secret_key(app_id)
+    return {"secret_key": applications_dao.reset_secret_key(app_id)}
