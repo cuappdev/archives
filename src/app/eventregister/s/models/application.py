@@ -15,7 +15,6 @@ class Application(Base):
 
   def reset_secret_key(self):
     self.secret_key = hashlib.sha1(os.urandom(64)).hexdigest()
-    return self.secret_key
 
   def as_dict(self):
     return {
