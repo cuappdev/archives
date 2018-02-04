@@ -20,7 +20,7 @@ PODS:
   - Realm/Headers (3.0.2)
   - RealmSwift (3.0.2):
     - Realm (= 3.0.2)
-  - SwiftRegister (0.0.2):
+  - SwiftRegister (0.0.3):
     - Log (= 1.0)
     - PromiseKit (~> 4.4)
     - PromiseKit/Alamofire (~> 4.0)
@@ -41,9 +41,9 @@ SPEC CHECKSUMS:
   PromiseKit: 9c1d9f6d7b65e3951a90bea7f407c56972be5d8e
   Realm: 6f23fd1f178a09342eac21bfa7c2bf4312a7a180
   RealmSwift: 695393add1b8f9d5fa75dd16e6355cf3935f71e2
-  SwiftRegister: 41ac29859379148dd9ee9ab23d66e600ffda4452
+  SwiftRegister: bb43cf46a388568e6268ea5e001a66d1bc8ecea6
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 8ba52a5da62f05c45ff3ddf47f87714aba5c0572
+PODFILE CHECKSUM: 5a01e727b1305009eba9d59843478fc1cba1013c
 
 COCOAPODS: 1.4.0.beta.1
