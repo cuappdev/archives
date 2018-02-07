@@ -21,4 +21,4 @@ class CreateAppController(AppDevController):
     if not created:
       raise Exception('App name in use.')
 
-    return app.as_dict()
+    return app.serialize()

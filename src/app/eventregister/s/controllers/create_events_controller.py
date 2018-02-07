@@ -17,5 +17,5 @@ class CreateEventsController(AppDevController):
       raise Exception('Invalid event list.')
 
     succeeded, failed = events_dao.create_events(app.id, events)
-    return {'succeeded': [event.as_dict() for event in succeeded],
+    return {'succeeded': [event.serialize() for event in succeeded],
             'failed': failed}
