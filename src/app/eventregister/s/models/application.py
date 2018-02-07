@@ -13,6 +13,9 @@ class Application(Base):
     self.name = kwargs.get('name')
     self.secret_key = hashlib.sha1(os.urandom(64)).hexdigest()
 
+  def reset_secret_key(self):
+    self.secret_key = hashlib.sha1(os.urandom(64)).hexdigest()
+
   def serialize(self):
     return {
         'id': self.id,

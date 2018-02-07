@@ -1,4 +1,3 @@
-from sqlalchemy import in_
 from . import *
 
 def create_app(app_name, user_id):
@@ -73,3 +72,11 @@ def is_owned_by_user(app_id, user_id):
   if optional_app is None:
     raise Exception('App does not exist.')
   return any([user.id == user_id for user in optional_app.users])
+
+def reset_secret_key(app_id):
+  optional_app = get_app_by_id(app_id)
+  if optional_app is None:
+    raise Exception('App does not exist.')
+
+  optional_app.reset_secret_key()
+  return optional_app.secret_key
