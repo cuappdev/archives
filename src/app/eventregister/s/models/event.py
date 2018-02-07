@@ -20,10 +20,10 @@ class Event(Base):
     self.event_type_id = kwargs.get('event_type_id')
     self.payload = kwargs.get('payload')
 
-  def as_dict(self):
+  def serialize(self):
     return {
         'id': self.id,
         'event_type': self.event_type.name,
         'payload': self.payload,
-        'timestamp': self.timestamp
+        'timestamp': str(self.timestamp)
     }

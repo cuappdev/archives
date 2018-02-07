@@ -24,7 +24,7 @@ class EventType(Base):
     self.user_id = kwargs.get('user_id')
     self.fields_info = kwargs.get('fields_info')
 
-  def as_dict(self):
+  def serialize(self):
     return {
         'id': self.id,
         'name': self.name,

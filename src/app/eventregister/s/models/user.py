@@ -37,7 +37,7 @@ class User(Base):
     self.last_name = kwargs.get('last_name')
     self.renew_session()
 
-  def as_dict(self):
+  def serialize(self):
     return {
         'id': self.id,
         'email': self.email,

@@ -1,4 +1,5 @@
 from . import *
+import datetime
 
 def create_event(event_type_id, payload, timestamp):
   event_type = event_types_dao.get_event_type_by_id(event_type_id)
@@ -37,8 +38,19 @@ def create_events(app_id, events):
       except KeyError:
         raise Exception('Invalid payload.')
 
+      try:
+        try:
+          timestamp = datetime.datetime.strptime(event['timestamp'],
+                                                 '%Y-%m-%d %H:%M:%S.%f')
+        except ValueError:
+          timestamp = datetime.datetime.strptime(event['timestamp'],
+                                                 '%Y-%m-%d %H:%M:%S')
+      except Exception: #pylint:disable=broad-except
+        raise Exception('Invalid timestamp.')
+
       event_types_dao.verify_fields(event_type.id, payload)
-      newEvent = Event(event_type_id=event_type.id, payload=payload)
+      newEvent = Event(event_type_id=event_type.id, payload=payload,
+                       timestamp=timestamp)
       succeeded.append(newEvent)
     except Exception as e: #pylint:disable=broad-except
       failed.append({'message': str(e), 'event': event})

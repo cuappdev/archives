@@ -31,7 +31,6 @@ controllers = [
 ]
 
 for controller in controllers:
-  print controller.get_methods(), controller.get_path(), controller.get_name()
   events.add_url_rule(
       controller.get_path(),
       controller.get_name(),
