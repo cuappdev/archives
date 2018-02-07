@@ -2,7 +2,7 @@ from . import *
 
 class ResetAppSecretKeyController(AppDevController):
   def get_path(self):
-    return '/apps/<app_id>/reset_secret_key/'
+    return '/apps/<app_id>/reset/'
 
   def get_methods(self):
     return ['POST']
