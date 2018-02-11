@@ -11,6 +11,9 @@ from app.podcastml.models._all import *
 from app.podcastml.utils.db_utils import *
 
 def load_up_db(num_entries=20, length_values=10):
+  '''
+    Populates the db with dummy entries for all models.
+  '''
   ids = range(1, num_entries+1)
   lists = [range(uid*length_values, (uid+1)*length_values) for uid in ids]
   strings = [','.join(map(str, lst)) for lst in lists]

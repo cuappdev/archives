@@ -5,7 +5,7 @@ def format_list(object_list):
   return ','.join(map(str, object_list))
 
 def extract_list(object_list_string):
-  return map(int, object_list_string.split(','))
+  return [int(element) for element in object_list_string.split(',')]
 
 def get_list(model, id_field, id_query, list_field):
   optional_model = model.query \
@@ -13,5 +13,5 @@ def get_list(model, id_field, id_query, list_field):
   if optional_model:
     return extract_list(getattr(optional_model, list_field))
   else:
-    raise Exception('{}.{} with value {} does not exist.'
+    raise Exception('No {} where {}={} exists.'
                     .format(model, id_field, id_query))

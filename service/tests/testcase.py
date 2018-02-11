@@ -33,5 +33,4 @@ class TestCase(unittest.TestCase):
     ridx = random.randint(0, num_entries-1)
     response = self.get('{}/{}/'.format(base_url, dummy_ids[ridx]))
     data = json.loads(response.data)['data']
-    print(data)
     self.assertEqual(data[response_key], dummy_lists[ridx])
