@@ -125,7 +125,7 @@ class DBLoggingBackend {
             }
             let data = logs.map {$0.serializedLog}
             return data
-        }.then { [weak self] (data: [JSONData]) -> Promise<()> in
+        }.then(on: syncQueue) { [weak self] (data: [JSONData]) -> Promise<()> in
             guard let selfObj = self else {
                 throw DBLoggingError.sessionDeallocated
             }
@@ -138,7 +138,7 @@ class DBLoggingBackend {
                 registerLogger.warning("Failed to send events to server")
                 return Promise<()>(error: DBLoggingError.failedToSendEventsToServer)
             }
-        }.next { //on success, delete logs from db
+        }.then(on: syncQueue) { () -> () in //on success, delete logs from db
             let realm = try DBLoggingBackend.makeRealm()
             let objects = realm.objects(DBEventItem.self).filter("isSending = true")
             try realm.write {
