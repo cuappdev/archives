@@ -21,6 +21,10 @@ class AppsTestCase(TestCase):
     self.assertEquals(test_app.id, ad.get_app_by_name("test1").id)
     self.assertEquals(test_app.secret_key,
                       ad.get_app_by_name("test1").secret_key)
+    previous_secret = test_app.secret_key
+    new_secret = ad.reset_secret_key(test_app.id)
+    self.assertNotEquals(previous_secret, new_secret)
+    self.assertEquals(new_secret, test_app.secret_key)
 
   def test_app_is_owned_by_user(self):
     user1 = ud.get_user_by_email(constants.TEST_USER_EMAIL)

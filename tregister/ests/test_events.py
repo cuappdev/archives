@@ -36,7 +36,7 @@ class EventsTestCase(TestCase):
     test_event_type = etd.get_event_type_by_name(test_app.id, "test_event_type")
     e1 = ed.create_event(
         test_event_type.id,
-        {"ex1": "test"},
+        {"ex1": u"test"},
         datetime.datetime.utcnow()
     )
     e2 = ed.create_event(test_event_type.id, {}, datetime.datetime.utcnow())
