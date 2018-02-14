@@ -14,7 +14,7 @@ class EventsTestCase(TestCase):
     user1 = ud.get_user_by_email(constants.TEST_USER_EMAIL)
     test_app = ad.create_app("app1", user1.id)[1]
     fields_info = {
-        "ex1": {"type": "str", "required": False, "default": "hello"}
+        "ex1": {"type": "str", "required": False, "default": u"hello"}
     }
     test_event_type = etd.create_event_type( # testing valid event
         test_app.id,
