@@ -34,7 +34,7 @@ let session = RegisterSession(apiUrl: apiUrl, secretKey: secret)
 The next snippet of code shows how you would submit an event. Events are written to disk and sent in batches.
 
 ```swift
-@IBAction func upvoteReleased(UpvoteButton upvoteButton) {
+@IBAction func upvoteReleased(upvoteButton: UpvoteButton) {
     let duration = upvoteButton.pressDuration
     let buttonType = upvoteButton.isBlue ? "blue" : "regular"
     let upvoteEvent = Event(payload:
