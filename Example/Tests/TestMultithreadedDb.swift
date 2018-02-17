@@ -84,7 +84,9 @@ class DBMultithreadedLoggingTestCase: XCTestCase {
         XCTAssert(eventNilFlag == false)
         
         //make sure db has no more events
+        backend.syncQueue.sync {print("waiting for database backend to finish")}
         let realm = try! DBLoggingBackend.makeRealm()
+        realm.refresh()
         XCTAssert(realm.objects(DBEventItem.self).count == 0)
     }
     
