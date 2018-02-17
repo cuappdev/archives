@@ -87,7 +87,8 @@ class DBMultithreadedLoggingTestCase: XCTestCase {
         backend.syncQueue.sync {print("waiting for database backend to finish")}
         let realm = try! DBLoggingBackend.makeRealm()
         realm.refresh()
-        XCTAssert(realm.objects(DBEventItem.self).count == 0)
+        let numberOfEventsInRealm = realm.objects(DBEventItem.self).count
+        XCTAssert(numberOfEventsInRealm == 0)
     }
     
     func testSubsequentEventSending() {

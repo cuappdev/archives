@@ -34,10 +34,26 @@ private enum DBLoggingInternError: Error {
 class DBLoggingBackend {
     
     private var sendTimer: Timer?
-    weak var eventSender: EventSender?
+    private weak var eventSender: EventSender?
     let syncQueue: DispatchQueue
-    var isSendingEvents: Bool = false // use syncQueue before accessing
-    let timerInterval: TimeInterval
+    private var isSendingEvents: Bool = false // use syncQueue before accessing
+    private let timerInterval: TimeInterval
+    
+    typealias EventsSentCallback = () -> ()
+    private var _onEventsSent: EventsSentCallback?
+    
+    /**
+     * Gets called when events are sent.
+     * Setting/getting is thread-safe *and may block*.
+     */
+    var onEventsSent: EventsSentCallback? {
+        set {
+            syncQueue.sync { _onEventsSent = newValue }
+        }
+        get {
+            return syncQueue.sync { _onEventsSent }
+        }
+    }
     
     init(eventSender: EventSender, timerInterval: TimeInterval = 10) {
         self.timerInterval = timerInterval
@@ -75,7 +91,7 @@ class DBLoggingBackend {
                 realm.add(dbEvent)
             }
             
-            scheduleTimer(interval: timerInterval)
+            scheduleEventSend(interval: timerInterval)
 
             fulfill(())
         }.catch { err in
@@ -84,7 +100,10 @@ class DBLoggingBackend {
         }
     }
     
-    func scheduleTimer(interval: TimeInterval) {
+    /**
+     * Schedules a timer to send events in `interval` seconds. Thread safe.
+     */
+    func scheduleEventSend(interval: TimeInterval) {
         self.syncQueue.async {
             //make sure there isn't currently a timer running.
             guard self.sendTimer == nil else {
@@ -104,8 +123,8 @@ class DBLoggingBackend {
     }
     
     /**
-     * Tries to send events using the event sender. If there exists a promise already sending an event,
-     * throw a DBLoggingInternError.alreadySendingError
+     * Tries to send events immediately using the event sender. If the event is currently being sent already,
+     * throw a DBLoggingInternError.alreadySendingError.
      */
     @discardableResult
     func sendAllEvents() -> Promise<()> {
@@ -145,6 +164,9 @@ class DBLoggingBackend {
                 realm.delete(objects)
             }
             self.isSendingEvents = false
+            registerCallbackQueue.async { [weak self] in
+                self?._onEventsSent?()
+            }
             return ()
         }
     }
