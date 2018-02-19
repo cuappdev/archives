@@ -16,6 +16,7 @@
 		CC00D8FB202415D600646C35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC00D8F9202415D600646C35 /* LaunchScreen.storyboard */; };
 		CC0A3A431F86A95C007ABFB1 /* TestLoggingDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0A3A421F86A95C007ABFB1 /* TestLoggingDb.swift */; };
 		CC0A3A471F903BF9007ABFB1 /* TestMultithreadedDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0A3A461F903BF9007ABFB1 /* TestMultithreadedDb.swift */; };
+		CCDC26D22038E671008556F9 /* TestCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDC26D12038E671008556F9 /* TestCallback.swift */; };
 		CCFB83C81FBD092B00140EA1 /* TestEventSending.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFB83C71FBD092B00140EA1 /* TestEventSending.swift */; };
 		CCFB83CA1FC20B1A00140EA1 /* TestTimestampGMT.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFB83C91FC20B1A00140EA1 /* TestTimestampGMT.swift */; };
 		CE2603AAFDDACC80F9D3BCCE /* Pods_SwiftRegister_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94F9C3DCFD45C981244171B /* Pods_SwiftRegister_Tests.framework */; };
@@ -40,6 +41,7 @@
 		CC00D8FC202415D600646C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CC0A3A421F86A95C007ABFB1 /* TestLoggingDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLoggingDb.swift; sourceTree = "<group>"; };
 		CC0A3A461F903BF9007ABFB1 /* TestMultithreadedDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMultithreadedDb.swift; sourceTree = "<group>"; };
+		CCDC26D12038E671008556F9 /* TestCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCallback.swift; sourceTree = "<group>"; };
 		CCFB83C71FBD092B00140EA1 /* TestEventSending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEventSending.swift; sourceTree = "<group>"; };
 		CCFB83C91FC20B1A00140EA1 /* TestTimestampGMT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTimestampGMT.swift; sourceTree = "<group>"; };
 		D4EE942CD3B2F578C8D173F4 /* SwiftRegister.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftRegister.podspec; path = ../SwiftRegister.podspec; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				CC0A3A421F86A95C007ABFB1 /* TestLoggingDb.swift */,
+				CCDC26D12038E671008556F9 /* TestCallback.swift */,
 				CC0A3A461F903BF9007ABFB1 /* TestMultithreadedDb.swift */,
 				CCFB83C71FBD092B00140EA1 /* TestEventSending.swift */,
 				CCFB83C91FC20B1A00140EA1 /* TestTimestampGMT.swift */,
@@ -391,6 +394,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCDC26D22038E671008556F9 /* TestCallback.swift in Sources */,
 				CCFB83C81FBD092B00140EA1 /* TestEventSending.swift in Sources */,
 				CC0A3A471F903BF9007ABFB1 /* TestMultithreadedDb.swift in Sources */,
 				CCFB83CA1FC20B1A00140EA1 /* TestTimestampGMT.swift in Sources */,
