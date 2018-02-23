@@ -1,0 +1,13 @@
+version: "2"
+
+services: 
+  web:
+    build: .
+    image: clicker
+    environment: 
+      MYSQL_HOST: ***
+      MYSQL_USER: ***
+      MYSQL_PASSWORD: ***
+      MYSQL_DB: ***
+    ports:
+      - "3000:3000"
