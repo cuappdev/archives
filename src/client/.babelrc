@@ -1,0 +1,9 @@
+{
+  "presets": [
+    "es2015",
+    "react",
+    "flow",
+    "stage-2",
+  ],
+  "retainLines": true
+}
