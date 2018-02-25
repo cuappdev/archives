@@ -2,13 +2,13 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftRegister'
-  s.version          = '0.0.3'
+  s.version          = '0.0.4'
   s.summary          = 'register client library for iOS'
 
 
   s.description      = <<-DESC
   register client library for iOS
-                       DESC
+  DESC
 
   s.homepage         = 'https://github.com/cuappdev/register-client-ios'
   s.license          = 'MIT'
