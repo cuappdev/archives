@@ -18,6 +18,16 @@ python manage.py db migrate
 python manage.py db upgrade
 ````
 
+## Virtualenv
+
+Virtualenv setup!
+
+```bash
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
 ## Environment Variables
 It's recommended to use [`autoenv`](https://github.com/kennethreitz/autoenv).
 The required environment variables for this API are the following:
