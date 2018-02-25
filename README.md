@@ -29,3 +29,10 @@ export DB_HOST=localhost
 export DB_NAME=my_db_name
 export APP_SETTINGS=config.CHANGE_ME
 ````
+
+To source the `.env` file, make a local copy of the `template` file. 
+`cd` out of the directory, and `cd` back and you should be prompted by `autoenv`.
+
+````bash
+cp env.template .env
+````
