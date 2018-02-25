@@ -10,7 +10,7 @@ Technologies involved include:
 Ensure you have `mysql` plus command line tools setup:
 ````bash
 mysql
-mysql> CREATE DATABASE my_db_name;
+mysql> CREATE DATABASE fitnessdb;
 mysql> \q
 cd src
 python manage.py db init  
@@ -26,6 +26,13 @@ The required environment variables for this API are the following:
 export DB_USERNAME=CHANGE_ME
 export DB_PASSWORD=CHANGE_ME
 export DB_HOST=localhost
-export DB_NAME=my_db_name
+export DB_NAME=fitnessdb
 export APP_SETTINGS=config.CHANGE_ME
+````
+
+To source the `.env` file, make a local copy of the `template` file. 
+`cd` out of the directory, and `cd` back and you should be prompted by `autoenv`.
+
+````bash
+cp env.template .env
 ````
