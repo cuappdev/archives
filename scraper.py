@@ -3,8 +3,8 @@ from lxml import html
 import requests
 
 lst = []
-for i in range(20):
-  page = requests.get('https://recreation.athletics.cornell.edu/fitness-centers/group-fitness-classes?&page=1').text
+for i in range(5):
+  page = requests.get('https://recreation.athletics.cornell.edu/fitness-centers/group-fitness-classes?&page=' + str(i)).text
   soup = BeautifulSoup(page, "lxml")
 
   schedule = soup.find_all("table")[1] # first table is irrelevant
@@ -32,4 +32,4 @@ for i in range(20):
     current_row.append(row_elems[5].a.string)
     lst.append(current_row)
 
-print lst[0]
+print lst
