@@ -13,6 +13,7 @@ db = SQLAlchemy(app)
 
 # Import + Register Blueprints
 from app.classes import classes as classes # pylint: disable=C0413
+app.register_blueprint(classes)
 
 # React Catch All Paths
 @app.route('/', methods=['GET'])
