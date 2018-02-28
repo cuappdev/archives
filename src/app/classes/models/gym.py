@@ -1,4 +1,5 @@
 from . import *
+from app.base import Base
 
 class Gym(Base):
   __tablename__ = 'gyms'

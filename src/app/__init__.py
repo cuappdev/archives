@@ -12,8 +12,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 # Import + Register Blueprints
-# from app.TODO import TODO as TODO # pylint: disable=C0413
-# app.register_blueprint(TODO)
+from app.classes import classes as classes # pylint: disable=C0413
+app.register_blueprint(classes)
 
 # React Catch All Paths
 @app.route('/', methods=['GET'])
