@@ -1,5 +1,5 @@
 ==========
-py-podcast
+podfetch
 ==========
 
 iTunes podcast data retrieval and storage utilizing `iTunes Search API`_ and `iTunes Podcast Preview`_
@@ -10,9 +10,9 @@ iTunes podcast data retrieval and storage utilizing `iTunes Search API`_ and `iT
 Installation
 ------------
 
-To install ``py-podcast`` ::
+To install ``podfetch`` ::
 
-  pip install py-podcast
+  pip install podfetch
 
 Usage
 -----
@@ -23,7 +23,7 @@ Below indicates ways you can use the various drivers and modules of this package
   import logging
   import feedparser
 
-  # py-podcast imports
+  # podfetch imports
   from podcasts.series_driver import SeriesDriver
   from podcasts.episodes_driver import EpisodesDriver
   from podcasts.storers.json_storer import JsonStorer
@@ -34,7 +34,7 @@ Below indicates ways you can use the various drivers and modules of this package
     # Constants
     DIRECTORY = 'csv'
     JSON_DIR = 'jsons'
-    # logging.getLogger('py-podcast').disabled = True
+    # logging.getLogger('podfetch').disabled = True
     # Series
     genre_urls = \
       ['https://itunes.apple.com/us/genre/podcasts-business/id1321?mt=2']

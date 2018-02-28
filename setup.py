@@ -11,12 +11,12 @@ for line in open('./podcasts/__init__.py'):
 assert version
 
 setup(
-    name='py-podcast',
+    name='podfetch',
     version=version,
     description='Podcast Series / Episodes Data Retrieval and Storage in Python',
-    author='Joe Antonakakis',
-    author_email='jma353@cornell.edu',
-    url='https://github.com/Jma353/py-podcast',
+    author='Cornell AppDev',
+    author_email='cornellappdev@gmail.com',
+    url='https://github.com/cuappdev/podfetch',
     license='MIT',
     packages=['podcasts'],
     include_package_data=True,

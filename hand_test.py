@@ -2,7 +2,7 @@
 import sys
 import logging
 import feedparser
-# py-podcast imports
+# podfetch imports
 from podcasts.series_driver import SeriesDriver
 from podcasts.episodes_driver import EpisodesDriver
 from podcasts.storers.json_storer import JsonStorer
@@ -13,7 +13,7 @@ def grab_from_link():
   # Constants
   DIRECTORY = 'csv'
   JSON_DIR = 'jsons'
-  # logging.getLogger('py-podcast').disabled = True
+  # logging.getLogger('podfetch').disabled = True
   # Series
   genre_urls = \
     ['https://itunes.apple.com/us/genre/podcasts-business/id1321?mt=2']
