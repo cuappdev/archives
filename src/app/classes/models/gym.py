@@ -1,5 +1,4 @@
 from . import *
-from app.base import Base
 
 class Gym(Base):
   __tablename__ = 'gyms'
@@ -7,20 +6,20 @@ class Gym(Base):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(255), nullable=False, unique=True)
   hours = db.Column(db.String(1500))
-  equip = db.Column(db.String(1500))
-  loc = db.Column(db.String(500))
+  equipment = db.Column(db.String(1500))
+  location = db.Column(db.String(500))
 
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
     self.hours = kwargs.get('hours')
-    self.equip = kwargs.get('equip')
-    self.loc = kwargs.get('loc')
+    self.equipment = kwargs.get('equipment')
+    self.location = kwargs.get('location')
 
 def serialize(self):
   return {
       'id': self.id,
       'name': self.name,
       'hours': self.hours,
-      'equip': self.equip,
-      'loc': self.loc
+      'equipment': self.equipment,
+      'location': self.location
   }
