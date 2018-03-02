@@ -8,7 +8,6 @@ class Instructor(Base):
   last_name = db.Column(db.String(255))
   email = db.Column(db.String(255), unique=True)
 
-
   def __init__(self, **kwargs):
     self.first_name = kwargs.get('first_name')
     self.last_name = kwargs.get('last_name')
