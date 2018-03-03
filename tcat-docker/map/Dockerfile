@@ -8,17 +8,13 @@ RUN git checkout austin/realtime
 RUN apt-get update
 
 RUN apt-get -y install maven wget
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
-RUN apt-get install -y nodejs 
-RUN npm run setup
-
-WORKDIR /usr/src/app/graphhopper
-RUN ./graphhopper.sh buildweb
+RUN sh scripts/setup.sh
 
 WORKDIR /usr/src/app
 RUN cp tcat-ny-us/tcat-ny-us.zip .
 
-EXPOSE 3000
-EXPOSE 8988
+WORKDIR /usr/src/app/map-matching
+
 EXPOSE 8989
-CMD [ "npm", "run", "start" ]
+
+CMD ./map-matching.sh action=start-server
