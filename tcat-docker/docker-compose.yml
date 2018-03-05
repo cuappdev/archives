@@ -4,6 +4,8 @@ services:
   node:
     build: node
     image: tcat-node
+    environment:
+      PORT: 80
     network_mode: "host"
     ports:
       - "80:80"
