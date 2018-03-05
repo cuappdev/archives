@@ -151,6 +151,10 @@ a:hover, a:focus {
   font-size: $fsize-subtitle;
 }
 
+.subtitle a {
+  color: $appdev-red;
+}
+
 .component-subtitle {
   padding: $padding-small;
 }
