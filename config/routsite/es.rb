@@ -8,6 +8,6 @@ Rails.application.routes.draw do
 	get "apply" => "static_pages#apply", :as => "apply"
 	get "projects" => "static_pages#projects", :as => "projects"
 	get "contact" => "static_pages#contact", :as => "contact"
-
+  get "recast-privacy" => "static_pages#recast-privacy-policy", :as => "recast-privacy"
 
 end
