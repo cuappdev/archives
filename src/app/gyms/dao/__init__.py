@@ -1,2 +1,2 @@
-from app.classes.models._all import *
-from app.classes.utils import db_utils
+from app.gyms.models._all import *
+from app.gyms.utils import db_utils
