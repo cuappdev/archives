@@ -6,11 +6,16 @@ def get_gym_class_by_id(gym_class_id):
 def get_gym_classes_by_gym(gym_id):
   return GymClass.query.filter(GymClass.gym == gym_id).all()
 
+def get_gym_classs_by_name_loc_instuct(name, gym_id, instructor):
+  return GymClass.query.fiter(GymClass.name = name,
+                              GymClass.gym_id = gym_id,
+                              GymClass.instructor = instructor)
+
 def get_gym_classes_by_instructor(instructor_id):
   return GymClass.query.filter(GymClass.instructor_id == instructor_id).all()
 
 def create_gym_class(name, gym_id, description='', instructor=''):
-  optional_gym_class = get_gym_class_by_name(name)
+  optional_gym_class = get_gym_class_by_name_loc_instruct()
 
   if optional_gym_class is not None:
      return False, optional_gym_class
