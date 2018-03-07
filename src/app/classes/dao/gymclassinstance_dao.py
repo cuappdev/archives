@@ -14,6 +14,8 @@ def get_gym_class_instances_not_cancelled():
   return GymClassInstance.query.filter(GymClassInstance.is_cancelled == False).all()
 
 def get_gym_class_instances_by_time(time):
+  """Gets all class instances that occur in
+   time and returns a list of all class instances"""
   return GymClassInstance.query.filter(GymClassInstance.start_time < time,
                                        GymClassInstance.start_time + GymClassInstance.duration > time).all()
 
