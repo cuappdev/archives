@@ -11,3 +11,4 @@ secret
 static
 src/migrations
 package-lock.json
+.vscode
