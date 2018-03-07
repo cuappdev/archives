@@ -3,8 +3,8 @@ from . import *
 def get_gym_class_instance_by_id(gym_class_instance_id):
   return GymClassInstance.query.filter(GymClassInstance.id == gym_class_instance_id).first()
 
-def get_gym_class_instances_by_gym_class(gym_class_name):
-  return GymClassInstance.query.filter(GymClassInstance.gym_class == gym_class_name).all()
+def get_gym_class_instances_by_gym_class(gym_class_name, page, page_size=10):
+  return GymClassInstance.query.filter(GymClassInstance.gym_class == gym_class_name).paginate(page, page_size, False)
 
 def get_gym_class_instances_not_cancelled():
   return GymClassInstance.query.filter(GymClassInstance.is_cancelled == False).all()
