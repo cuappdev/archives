@@ -6,8 +6,8 @@ def get_gym_class_by_id(gym_class_id):
 def get_gym_classes_by_gym(gym_id):
   return GymClass.query.filter(GymClass.gym == gym_id).all()
 
-def get_gym_classes_by_instructor(instructor_name):
-  return GymClass.query.filter(GymClass.instructor == instructor_name).all()
+def get_gym_classes_by_instructor(instructor_id):
+  return GymClass.query.filter(GymClass.instructor_id == instructor_id).all()
 
 def create_gym_class(name, gym_id, description='', instructor=''):
   optional_gym_class = get_gym_class_by_name(name)
