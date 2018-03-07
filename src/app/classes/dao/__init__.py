@@ -1,2 +1,2 @@
-from app.events.models._all import *
-from app.events.utils import db_utils
+from app.classes.models._all import *
+from app.classes.utils import db_utils
