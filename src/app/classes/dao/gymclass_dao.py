@@ -15,7 +15,7 @@ def get_gym_classes_by_instructor(instructor_id):
   return GymClass.query.filter(GymClass.instructor_id == instructor_id).all()
 
 def create_gym_class(name, gym_id, description='', instructor=''):
-  optional_gym_class = get_gym_class_by_name_loc_instruct()
+  optional_gym_class = get_gym_class_by_name_loc_instruct(name, gym_id, instructor)
 
   if optional_gym_class is not None:
      return False, optional_gym_class
