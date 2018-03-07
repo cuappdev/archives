@@ -1,11 +1,10 @@
 from . import *
-import datetime
 
 def get_gym_class_by_id(gym_class_id):
   return GymClass.query.filter(GymClass.id == gym_class_id).first()
 
 def get_gym_class_by_name(gym_class_name):
-    return GymClass.query.filter(GymClass.name == gym_class_name).first()
+  return GymClass.query.filter(GymClass.name == gym_class_name).first()
 
 def get_gym_classes_by_gym(gym_id):
   return GymClass.query.filter(GymClass.gym == gym_id).all()

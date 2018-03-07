@@ -1,5 +1,4 @@
 from . import *
-import datetime
 
 def get_gym_class_instance_by_id(gym_class_instance_id):
   return GymClassInstance.query.filter(GymClassInstance.id == gym_class_instance_id).first()
