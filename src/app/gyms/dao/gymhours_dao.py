@@ -36,7 +36,7 @@ def get_gym_hour(params):
     raise Exception('No valid parameters')
 
 def create_gym_hour(gym_id, day_of_week, open_time, close_time):
-  optional_gym_hour = get_gym_hour_by_day_of_week(gym_id, day_of_week)
+  optional_gym_hour = get_gym_hour({"gym_id": gym_id, "day_of_week": day_of_week})
 
   if optional_gym_hour is not None:
     return False, optional_gym_hour

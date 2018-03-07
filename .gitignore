@@ -2,3 +2,4 @@ venv
 *.env
 *.pyc
 src/migrations
+.DS_Store
