@@ -27,7 +27,7 @@ rails s
 Create a remote for the existing Heroku app:
 
 ```
-heroku git:remote -a cuappdev-site
+heroku git:remote -a appdev-site
 ```
 
 Deploy the site:
