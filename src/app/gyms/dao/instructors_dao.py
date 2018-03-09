@@ -1,5 +1,8 @@
 from . import *
 
+def get_all_instructors():
+  return Instructor.query.all()
+
 def get_instructor_by_id(instructor_id):
   return Instructor.query.filter(Instructor.id == instructor_id).first()
 
