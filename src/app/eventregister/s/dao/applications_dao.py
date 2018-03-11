@@ -39,12 +39,16 @@ def get_event_types(app_id):
   return optional_app.event_types
 
 def get_events(app_id, params):
+  event_type_ids = [event_type.id for event_type in get_event_types(app_id)]
+
+  if not event_type_ids:
+    return []
+
   if "event_type_ids" in params:
-    q = Event.query.filter(
-        event_type.id.in_(params["event_type_ids"])
-        )
-  else:
-    q = Event.query.filter(event_type.application_id == app_id)
+    event_type_ids = [event_type_id for event_type_id in event_type_ids
+                      if event_type_id in params["event_type_ids"]]
+
+  q = Event.query.filter(Event.event_type_id.in_(event_type_ids))
 
   if "order_by" in params:
     if params["order_by"] == "timestamp":

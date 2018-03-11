@@ -1,4 +1,5 @@
 from . import *
+import traceback
 
 class GetEventsController(AppDevController):
   def get_path(self):
@@ -20,5 +21,6 @@ class GetEventsController(AppDevController):
       params = request.args
       return [event.serialize() for event in \
               applications_dao.get_events(app_id, params)]
-    except ValueError:
+    except Exception as e:
+      traceback.print_exc(e)
       raise Exception('Invalid app ID.')
