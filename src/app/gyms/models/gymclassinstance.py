@@ -6,8 +6,8 @@ class GymClassInstance(Base):
 
   id = db.Column(db.Integer, primary_key=True)
   is_cancelled = db.Column(db.Boolean, default=False)
-  start_time = db.Column(db.DateTime, nullable=False)
-  duration = db.Column(db.Interval, nullable=False)
+  start_time = db.Column(db.DateTime, nullable=True)
+  duration = db.Column(db.Interval, nullable=True)
 
   # instances can have different locations
   gym_id = db.Column(db.Integer,

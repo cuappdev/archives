@@ -3,6 +3,7 @@ from lxml import html
 import requests
 
 from app.gyms.dao import gymclass_dao as gcd
+from app.gyms.dao import gymclassinstance_dao as gcid
 
 BASE_URL = "https://recreation.athletics.cornell.edu"
 
@@ -80,7 +81,7 @@ def scrape_classes(num_pages):
       else:
         current_row["is_cancelled"] = True
 
-      current_row["instructor"] = row_elems[4].a.string
+      current_row["instructor_name"] = row_elems[4].a.string
       current_row["location"] = row_elems[5].a.string
       lst.append(current_row)
   return classes, lst
@@ -91,4 +92,5 @@ def update_db(i):
     _class = classes[key]
     gcd.create_gym_class(_class["name"], _class["description"])
 
-  print(lst[0])
+  for elem in lst:
+    gcid.create_gym_class_instance(elem)
