@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from lxml import html
 import requests
 
-from app.gyms.dao import gyms_dao as gd 
+from app.gyms.dao import gymclass_dao as gcd
 
 BASE_URL = "https://recreation.athletics.cornell.edu"
 
@@ -58,11 +58,11 @@ def scrape_classes(num_pages):
     data = schedule.find_all("tr")[1:] # first row is header
 
     for row in data:
-      current_row = []
+      current_row = {}
       row_elems = row.find_all("td")
-      current_row.append(row_elems[0].span.string)
-      current_row.append(row_elems[1].span.string)
-      current_row.append(row_elems[2].a.string)
+      current_row["date"] = row_elems[0].span.string
+      current_row["day_of_week"] = row_elems[1].span.string
+      current_row["class_name"] =  row_elems[2].a.string
 
       class_href = row_elems[2].a["href"]
       if class_href not in classes:
@@ -72,22 +72,23 @@ def scrape_classes(num_pages):
       div = row_elems[3].span.div
 
       if div is not None:
-        current_row.append(row_elems[3].span.div.span.string)
-        current_row.append(row_elems[3].span.div.find_all("span")[1].string)
+        current_row["is_cancelled"] = False
+        current_row["start_time"] = row_elems[3].span.div.span.string
+        current_row["end_time"] = row_elems[3].span.div.find_all(
+            "span"
+        )[1].string
       else:
-        current_row.append("Cancelled")
-        current_row.append("Cancelled")
+        current_row["is_cancelled"] = True
 
-      current_row.append(row_elems[4].a.string)
-      current_row.append(row_elems[5].a.string)
+      current_row["instructor"] = row_elems[4].a.string
+      current_row["location"] = row_elems[5].a.string
       lst.append(current_row)
   return classes, lst
 
 def update_db(i):
   classes, lst = scrape_classes(i)
-  for _class in classes:
-    if get_gym_class_instance_by_name(_class["name"]) is None:
-      create_gym_class(_class["name"], 
+  for key in classes.keys():
+    _class = classes[key]
+    gcd.create_gym_class(_class["name"], _class["description"])
 
-  print(classes)
-  print(lst)
+  print(lst[0])

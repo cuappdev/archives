@@ -37,7 +37,7 @@ class GymClassInstance(Base):
         'id': self.id,
         'duration': self.duration,
         'gym': self.gym.name,
-        'gym_class': self.gym_class.name
+        'gym_class': self.gym_class.name,
         'instructor': self.instructor.name,
         'is_cancelled': self.is_cancelled,
         'start_time': self.start_time,

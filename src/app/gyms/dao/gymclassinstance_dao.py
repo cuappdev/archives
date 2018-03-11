@@ -37,29 +37,13 @@ def get_gym_class_instances_by_time(time):
       GymClassInstance.start_time + GymClassInstance.duration > time
   ).all()
 
-def create_gym_class_instance(gym_class_id, gym_id, instructor_id, start_time, duration):
-  optional_gym_class_instance = GymClassInstance.query.filter(
-      GymClassInstance.gym_class_id = gym_class_id,
-      GymClassInstance.gym_id = gym_id,
-      GymClassInstance.instructor_id = instructor_id,
-      GymClassInstance.start_time = start_time,
-      GymClassInstance.duration = duration
-  ).first()
-
-  if optional_gym_class_instance is not None:
-    return False, optional_gym_class_instance
-
-  gym_class = gymclass_dao.get_gym_class_by_id(gym_class_id)
-
-  if gym_class is None:
-    raise Exception('Gym class does not exist.')
-
-  gym_class_instance = GymClassInstance(
-      gym_class_id=gym_class_id,
-      gym_id=gym_id,
-      instructor_id=instructor_id,
-      start_time=start_time,
-      duration=duration
-  )
-  db_utils.commit_model(gym_class_instance)
-  return True, gym_class_instance
+def create_gym_class_instance(
+        class_name,
+        gym_name,
+        instructor_name,
+        start_time,
+        end_time,
+        is_cancelled
+    ):
+  # TODO
+  pass
