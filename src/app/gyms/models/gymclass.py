@@ -6,22 +6,11 @@ class GymClass(Base):
 
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(300), nullable=False)
-  gym_id = db.Column(db.Integer,
-                     db.ForeignKey('gyms.id', ondelete='CASCADE'))
-
-  gym = db.relationship('Gym', backref='gyms')
-
   description = db.Column(db.String(2000))
 
-  instructor_id = db.Column(db.Integer,
-                            db.ForeignKey('instructors.id', ondelete='CASCADE'))
-  instructor = db.relationship('Instructor', backref='gym_classes')
-
   def __init__(self, **kwargs):
-    self.gym_id = kwargs.get('gym_id')
     self.name = kwargs.get('name')
     self.description = kwargs.get('description')
-    self.instructor_id = kwargs.get('instructor_id')
 
   def serialize(self):
     return {
@@ -29,5 +18,4 @@ class GymClass(Base):
         'name': self.name,
         'gym': self.gym.name,
         'description': self.description,
-        'instructor': self.instructor.first_name
     }
