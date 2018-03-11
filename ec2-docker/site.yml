@@ -1,30 +1,66 @@
 --- 
 - name: ec2 docker deployment
   hosts: all
-  remote_user: root
-  become: true
-  become_method: sudo
+  gather_facts: False
+  remote_user: ubuntu
+  become: yes
   environment:
     LC_ALL: en_US.UTF-8
     LANG: en_US.UTF-8
     LANGUAGE: en_US.UTF-8
   tasks:
-    - name: update and upgrade
+    - name: install python 2
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python python-dev python-pip)
+    
+    - name: Ensure Docker dependencies are installed.
       apt:
-        upgrade: yes
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - software-properties-common
+    - name: Add Docker apt key.
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+        state: present
+      register: add_repository_key
+      ignore_errors: true
+    - name: Add Docker repository.
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
+        state: present
         update_cache: yes
-    - name: install docker
-      include_role: 
+    - name: Install Docker.
+      package: 
+        name: docker-ce 
+        state: present
+    - name: Ensure Docker is started and enabled at boot.
+      service:
         name: docker
+        state: started
+        enabled: yes
     - name: remove docker containers and images
       shell: |
         sudo docker kill $(sudo docker ps -q)
         sudo docker rm $(sudo docker ps -a -q)
         sudo docker rmi $(sudo docker images -q)
       ignore_errors: yes
+    - name: install docker python packages
+      pip:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - docker-py
+        - docker-compose
+    - name: copy docker compose
+      copy:
+        src: docker-compose
+        dest: /usr/src/pls
     - name: run docker compose
       docker_service:
-        project_src: docker-compose
+        project_src: /usr/src/pls/docker-compose
         state: present
     - name: wait for server
       wait_for:
