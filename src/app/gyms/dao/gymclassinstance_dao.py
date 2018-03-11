@@ -1,4 +1,9 @@
+from datetime import datetime
 from . import *
+
+import instructors_dao as _id
+import gyms_dao as gd
+import gymclass_dao as gcd
 
 def get_gym_class_instance_by_id(gym_class_instance_id):
   return GymClassInstance.query.filter(
@@ -37,13 +42,48 @@ def get_gym_class_instances_by_time(time):
       GymClassInstance.start_time + GymClassInstance.duration > time
   ).all()
 
-def create_gym_class_instance(
-        class_name,
-        gym_name,
-        instructor_name,
-        start_time,
-        end_time,
-        is_cancelled
-    ):
-  # TODO
-  pass
+def create_gym_class_instance(args):
+  class_name = args.get("class_name")
+  gym_name = args.get("location")
+  instructor_name = args.get("instructor_name")
+  start_time = args.get("start_time")
+  end_time = args.get("end_time")
+  is_cancelled = args.get("is_cancelled")
+
+  _, instructor = _id.create_instructor(instructor_name)
+  _, gym = gd.create_gym(gym_name)
+  gym_class = gcd.get_gym_class_by_name(class_name)
+
+  if start_time is None or end_time is None:
+    start_datetime = None
+    duration = None
+  else:
+    start_datetime = datetime.datetime.strptime(start_time, '%I:%M%p')
+    end_datetime = datetime.datetime.strptime(end_time, '%I:%M%p')
+    duration = end_datetime - start_datetime
+
+  optional_instance = GymClassInstance.query.filter(
+      GymClassInstance.gym_id == gym.id,
+      GymClassInstance.gym_class_id == gym_class.id,
+      GymClassInstance.instructor_id == instructor.id,
+      GymClassInstance.start_time == start_datetime,
+      GymClassInstance.duration == duration,
+  ).first()
+
+  if optional_instance is not None:
+    if is_cancelled != optional_instance.is_cancelled:
+      optional_instance.is_cancelled = is_cancelled
+      db_utils.commit_model(optional_instance)
+    return False, optional_instance
+
+  gym_class = GymClassInstance(
+      duration=duration,
+      gym_id=gym.id,
+      gym_class_id=gym_class.id,
+      name=class_name,
+      instructor_id=instructor.id,
+      is_cancelled=is_cancelled,
+      start_time=start_datetime,
+  )
+  db_utils.commit_model(gym_class)
+  return True, gym_class

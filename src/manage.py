@@ -11,7 +11,7 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def scrape():
-  scraper.update_db(1) # number of pages to scrape
+  scraper.update_db(10) # number of pages to scrape
 
 if __name__ == '__main__':
   manager.run()
