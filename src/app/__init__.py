@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 # Import + Register Blueprints
 # from app.gyms import gyms as gyms # pylint: disable=C0413
 from app.gyms import *
-#app.register_blueprint(gyms)
+app.register_blueprint(gyms)
 
 # React Catch All Paths
 @app.route('/', methods=['GET'])
