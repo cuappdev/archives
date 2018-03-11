@@ -19,9 +19,7 @@ class GymHour(Base):
 
   def serialize(self):
     return {
-      'id': self.id,
-      'gym': self.gym.name,
       'day_of_week': self.day_of_week,
-      'open_time': self.open_time,
-      'close_time': self.close_time
+      'open_time': self.open_time.strftime("%I:%M%p"),
+      'close_time': self.close_time.strftime("%I:%M%p")
     }

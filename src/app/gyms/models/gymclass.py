@@ -26,8 +26,8 @@ class GymClass(Base):
   def serialize(self):
     return {
         'id': self.id,
-        'gym': self.gym.name,
         'name': self.name,
+        'gym': self.gym.name,
         'description': self.description,
         'instructor': self.instructor.first_name
     }

@@ -1,6 +1,9 @@
 from . import *
 import datetime
 
+def get_all_gyms():
+  return Gym.query.all()
+
 def get_gym_by_id(gym_id):
   return Gym.query.filter(Gym.id == gym_id).first()
 
