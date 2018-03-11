@@ -4,6 +4,9 @@ import datetime
 def get_gym_by_id(gym_id):
   return Gym.query.filter(Gym.id == gym_id).first()
 
+def get_gym_by_name(name):
+  return Gym.query.filter(Gym.name == name).first()
+
 def get_gym_hours(gym_id):
   hours = gymhours_dao.get_gym_hour({"id": gym_id})
 

@@ -2,13 +2,15 @@ from bs4 import BeautifulSoup
 from lxml import html
 import requests
 
-BASE_URL = "https://recreation.athletics.cornell.edu"
+from app.gyms.dao import gyms_dao as gd 
 
+BASE_URL = "https://recreation.athletics.cornell.edu"
 
 """
 Scrape class descrption from [class_href]
 """
 def scrape_class(class_href):
+    ret = {}
     page = requests.get(BASE_URL + class_href).text
     soup = BeautifulSoup(page, "lxml")
     contents = soup.find(
@@ -16,6 +18,10 @@ def scrape_class(class_href):
         {'class': 'taxonomy-term-description'}
     ).p.contents
 
+    title = soup.find(
+        'div',
+        {'id': 'main-body'}
+    ).h1.contents[0]
     description = ""
     for c in contents:
       if isinstance(c, basestring):
@@ -25,14 +31,17 @@ def scrape_class(class_href):
           description += c.string
         except:
           break
-    return description
+
+    ret["description"] = description
+    ret["name"] = title
+    return ret
 
 """
 Scrape classes from the group-fitness-classes page
 Params:
   num_pages: number of pages to scrape
 Returns:
-  list of classes, dictionary of class descriptions
+  dict of classes, list of class instances
 """
 def scrape_classes(num_pages):
   lst = []
@@ -72,7 +81,13 @@ def scrape_classes(num_pages):
       current_row.append(row_elems[4].a.string)
       current_row.append(row_elems[5].a.string)
       lst.append(current_row)
-  return lst, classes
+  return classes, lst
 
-if __name__ == "__main__":
-  print(scrape_classes(1))
+def add_to_db(i):
+  classes, lst = scrape_classes(i)
+  for _class in classes:
+    if get_gym_class_instance_by_name(_class["name"]) is None:
+      create_gym_class(_class["name"], 
+
+  print(classes)
+  print(lst)
