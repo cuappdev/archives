@@ -1,4 +1,1 @@
-docker-compose/
-server.pem
-hosts
 *.retry
