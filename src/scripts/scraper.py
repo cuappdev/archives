@@ -83,7 +83,7 @@ def scrape_classes(num_pages):
       lst.append(current_row)
   return classes, lst
 
-def add_to_db(i):
+def update_db(i):
   classes, lst = scrape_classes(i)
   for _class in classes:
     if get_gym_class_instance_by_name(_class["name"]) is None:
