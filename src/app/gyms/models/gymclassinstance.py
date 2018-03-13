@@ -35,10 +35,10 @@ class GymClassInstance(Base):
   def serialize(self):
     return {
         'id': self.id,
-        'duration': self.duration,
+        'duration': str(self.duration),
         'gym': self.gym.name,
         'gym_class': self.gym_class.name,
         'instructor': self.instructor.name,
         'is_cancelled': self.is_cancelled,
-        'start_time': self.start_time,
+        'start_time': self.start_time.strftime("%I:%M%p"),
     }
