@@ -6,7 +6,7 @@ services:
     image: tcat-node
     environment:
       PORT: 80
-      TOKEN: token
+      TOKEN: ZG9QcmQ1SXE2M3RmSUVfSzI3QzJyOThTSVhNYTpIY2g3bXh1dUh3Y29HdE5WTmxXNTBxNDlGdThh
     network_mode: "host"
     ports:
       - "80:80"
