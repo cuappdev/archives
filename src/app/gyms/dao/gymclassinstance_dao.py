@@ -5,8 +5,8 @@ import instructors_dao as _id
 import gyms_dao as gd
 import gymclass_dao as gcd
 
-def get_all_gym_class_instances():
-  return GymClassInstance.query.all()
+def get_all_gym_class_instances(page, page_size=10):
+  return GymClassInstance.query.paginate(page, page_size, False)
 
 def get_gym_class_instance_by_id(gym_class_instance_id):
   return GymClassInstance.query.filter(
