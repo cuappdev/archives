@@ -8,6 +8,5 @@ class GetAllInstructorsController(AppDevController):
     return ['GET']
 
   def content(self, **kwargs):
-    instructors = intructors_dao.get_all_instructors()
-    return [(instructor.id, instructor.first_name)
-            for instructor in instructors]
+    instructors = instructors_dao.get_all_instructors()
+    return [(instructor.id, instructor.name) for instructor in instructors]

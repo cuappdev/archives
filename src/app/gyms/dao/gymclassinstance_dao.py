@@ -42,6 +42,11 @@ def get_gym_class_instances_by_time(time):
       GymClassInstance.start_time + GymClassInstance.duration > time
   ).all()
 
+def get_gym_class_instance_by_instructor(instructor_id):
+  return GymClassInstance.query.filter(
+      GymClassInstance.instructor_id == instructor_id
+  ).all()
+
 def create_gym_class_instance(args):
   class_name = args.get("class_name")
   gym_name = args.get("location")
