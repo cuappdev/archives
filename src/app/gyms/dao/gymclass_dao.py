@@ -1,5 +1,8 @@
 from . import *
 
+def get_all_gym_classes():
+  return GymClass.query.all()
+
 def get_gym_class_by_id(gym_class_id):
   return GymClass.query.filter(GymClass.id == gym_class_id).first()
 
