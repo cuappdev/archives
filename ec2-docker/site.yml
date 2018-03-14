@@ -54,10 +54,11 @@
       with_items:
         - docker-py
         - docker-compose
+    
     - name: copy docker compose
       copy:
         src: docker-compose
-        dest: /usr/src/pls
+        dest: /usr/src/app
     - name: run docker compose
       docker_service:
         project_src: /usr/src/pls/docker-compose
