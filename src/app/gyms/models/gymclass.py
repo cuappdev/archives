@@ -16,6 +16,5 @@ class GymClass(Base):
     return {
         'id': self.id,
         'name': self.name,
-        'gym': self.gym.name,
         'description': self.description,
     }

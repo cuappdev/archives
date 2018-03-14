@@ -12,3 +12,4 @@ from app.gyms.models._all import *
 # Serializers
 gym_schema = GymSchema()
 instructor_schema = InstructorSchema()
+gym_class_instance = GymClassInstanceSchema()
