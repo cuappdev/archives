@@ -26,6 +26,7 @@ Virtualenv setup!
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
+pip install git+https://github.com/cuappdev/appdev.py.git --upgrade
 ```
 
 ## Environment Variables
