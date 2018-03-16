@@ -4,15 +4,15 @@ import datetime
 class GetAllGymClassInstancesController(AppDevController):
 
   def get_path(self):
-    return '/gymclassinstances/<page>/'
+    return '/gymclassinstances/'
 
   def get_methods(self):
     return ['GET']
 
   def content(self, **kwargs):
-    page = request.view_args['page']
+    page = request.headers.get('page')
     gymclass_instances = \
-        gymclassinstance_dao.get_all_gym_class_instances(int(page))
+        gymclassinstance_dao.get_all_gym_class_instances(page)
     serialized_gyms = []
     for gymclass_instance in gymclass_instances.items:
         serialized_gym = gymclass_instance.serialize()

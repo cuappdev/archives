@@ -6,7 +6,9 @@ import gyms_dao as gd
 import gymclass_dao as gcd
 
 def get_all_gym_class_instances(page, page_size=10):
-  return GymClassInstance.query.paginate(page, page_size, False)
+  if page is None:
+    return GymClassInstance.query.all()
+  return GymClassInstance.query.paginate(int(page), page_size, False)
 
 def get_gym_class_instance_by_id(gym_class_instance_id):
   return GymClassInstance.query.filter(
