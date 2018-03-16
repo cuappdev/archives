@@ -10,6 +10,6 @@ class RecommendSeriesForUserController(AppDevController):
 
   @authorize
   def content(self, **kwargs):
-    topic_name = request.view_args['user_id']
-    # TODO: retrieve recommended series for this user
-    return {'message': 'recommend series for user'}
+    user_id = request.view_args['user_id']
+    series_ids = series_for_user_dao.get_series_list_for_user(user_id)
+    return {'series_ids': series_ids}

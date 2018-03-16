@@ -14,6 +14,18 @@ DB_URL = 'mysql://{}:{}@{}/{}'.format(
     DB_NAME
 )
 
+# Analog of database for testing purposes
+TEST_DB_USERNAME = os.environ.get('TEST_DB_USERNAME')
+TEST_DB_PASSWORD = os.environ.get('TEST_DB_PASSWORD')
+TEST_DB_HOST = os.environ.get('TEST_DB_HOST')
+TEST_DB_NAME = os.environ.get('TEST_DB_NAME')
+TEST_DB_URL = 'mysql://{}:{}@{}/{}'.format(
+    TEST_DB_USERNAME,
+    TEST_DB_PASSWORD,
+    TEST_DB_HOST,
+    TEST_DB_NAME
+)
+
 # Different environments for the app to run in
 
 class Config(object):
@@ -36,3 +48,4 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
   TESTING = True
+  SQLALCHEMY_DATABASE_URI = TEST_DB_URL

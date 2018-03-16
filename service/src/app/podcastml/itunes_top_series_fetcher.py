@@ -7,6 +7,7 @@ genre_lookup_url = 'https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/g
 
 # URL to find top podcast episodes for a given genre
 general_url = 'https://itunes.apple.com/us/rss/toppodcasts{}/json'
+overall_top_id = -1
 
 def read_url(url):
   response = urllib.urlopen(url)
@@ -23,8 +24,8 @@ def fetch_genres():
         tuples.append((int(subgenre['id']), str(subgenre['name'])))
   return tuples
 
-def fetch_top_series(genre=None):
-  url = general_url.format('') if genre is None \
+def fetch_top_series(genre=overall_top_id):
+  url = general_url.format('') if genre is overall_top_id \
     else general_url.format('/genre={}'.format(genre))
   data = read_url(url)
   series_ids = [int(entry['id']['attributes']['im:id'])
@@ -34,7 +35,7 @@ def fetch_top_series(genre=None):
 def fetch_series_all_genres(num_threads=10):
   genre_tuples = fetch_genres()
   genre_ids = [gid for (gid, _) in genre_tuples]
-  genre_ids.append(None)
+  genre_ids.append(overall_top_id)
   pool = ThreadPool(num_threads)
   results = pool.map(fetch_top_series, genre_ids)
   pool.close()

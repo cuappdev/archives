@@ -3,13 +3,13 @@ from . import *
 class RecommendEpisodesForTopicController(AppDevController):
 
   def get_path(self):
-    return '/episodes/topic/<topic_name>/'
+    return '/episodes/topic/<topic_id>/'
 
   def get_methods(self):
     return ['GET']
 
   @authorize
   def content(self, **kwargs):
-    topic_name = request.view_args['topic_name']
-    # TODO: retrieve recommended episodes for this topic
-    return {'message': 'recommend episodes for topic'}
+    topic_id = request.view_args['topic_id']
+    episode_ids = episodes_for_topic_dao.get_episode_list_for_topic(topic_id)
+    return {'episode_ids': episode_ids}
