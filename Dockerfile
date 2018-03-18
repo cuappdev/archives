@@ -7,4 +7,4 @@ WORKDIR /usr/src/app
 RUN pip install -r requirements.txt
 RUN pip install git+https://github.com/cuappdev/appdev.py.git --upgrade
 EXPOSE 5000
-CMD src/scripts/start_server.sh
+CMD sh src/scripts/start_server.sh
