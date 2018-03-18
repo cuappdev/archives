@@ -20,5 +20,5 @@ WORKDIR /usr/src/app
 
 EXPOSE 8987
 
-CMD java -Xmx1g -Xms1g -jar ghopper-walking/graphhopper/web/target/graphhopper-web-*-with-dep.jar datareader.file=osrm/map.osm jetty.port=8987 jetty.resourcebase=./graphhopper/web/src/main/webapp graph.flag_encoders=foot prepare.ch.weightings=no graph.location=ghopper-walking/graph-cache
+CMD java -Xmx1g -Xms1g -jar ghopper-walking/graphhopper/web/target/graphhopper-web-*-with-dep.jar datareader.file=map.osm jetty.port=8987 jetty.resourcebase=./graphhopper/web/src/main/webapp graph.flag_encoders=foot prepare.ch.weightings=no graph.location=ghopper-walking/graph-cache
 
