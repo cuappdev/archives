@@ -1,4 +1,6 @@
-#! /bin/bash
-pwd
-python src/scripts/setup_db.py
-python src/run.py
+cd src/scripts
+echo "Setting up db..."
+python setup_db.py
+echo "Running server..."
+cd ..
+python run.py
