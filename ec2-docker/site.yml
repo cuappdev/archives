@@ -10,7 +10,7 @@
     LANGUAGE: en_US.UTF-8
   tasks:
     - name: install python 2
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python python-dev python-pip)
+      raw: apt -y update && apt install -y python python-dev python-pip
     
     - name: Ensure Docker dependencies are installed.
       apt:
@@ -61,7 +61,7 @@
         dest: /usr/src/app
     - name: run docker compose
       docker_service:
-        project_src: /usr/src/pls/docker-compose
+        project_src: /usr/src/app/docker-compose
         state: present
     - name: wait for server
       wait_for:
