@@ -13,7 +13,7 @@ class CreateAppController(AppDevController):
     app_name = data.get('app_name')
     user = kwargs.get('user')
 
-    if app_name is None:
+    if app_name is None or app_name == '':
       raise Exception('Invalid app name.')
 
     created, app = applications_dao.create_app(app_name, user.id)
