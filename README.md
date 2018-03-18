@@ -9,7 +9,7 @@ use_frameworks!
 platform :ios, '11.0'
 
 target 'MyApp' do
-  pod 'SwiftRegister', :git=> 'https://github.com/cuappdev/register-client.git', :commit => 'master'
+  pod 'SwiftRegister', :git=> 'https://github.com/cuappdev/register-client-ios.git', :commit => 'master'
 end
 ```
 
