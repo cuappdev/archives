@@ -8,8 +8,11 @@ WORKDIR /usr/src/app
 RUN pip install -r requirements.txt
 RUN pip install git+https://github.com/cuappdev/appdev.py.git --upgrade
 
-RUN curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-RUN sudo apt-get install -y nodejs
+WORKDIR src/client
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install
+WORKDIR ../../
 
 EXPOSE 5000
 CMD sh src/scripts/start_server.sh
