@@ -3,14 +3,6 @@ from tests.test_case import *
 from app.dao import instructors_dao as insd
 
 class InstructorsTestCase(TestCase):
-  def setup(self):
-    super(InstructorsTestCase, self).setUp()
-    db_session_commit()
-
-  def tearDown(self):
-    super(InstructorsTestCase, self).tearDown()
-    db_session_commit()
-
   def test_instructor_methods(self):
     test_inst = insd.create_instructor("test1")[1]
     self.assertEquals(test_inst.id, insd.get_instructor_by_name("test1").id)

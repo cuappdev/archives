@@ -5,14 +5,6 @@ from app.dao import gymhours_dao as ghd
 from app.dao import gyms_dao as gd
 
 class GymHoursTestCase(TestCase):
-  def setup(self):
-    super(GymHoursTestCase, self).setUp()
-    db_session_commit()
-
-  def tearDown(self):
-    super(GymHoursTestCase, self).tearDown()
-    db_session_commit()
-
   def test_gymhour_methods(self):
     test_gym = gd.create_gym('test_gym1', 'test_equip', 'test_location')[1]
     test_gym2 = gd.create_gym('test_gym2', '', '')[1]
