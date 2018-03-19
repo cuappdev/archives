@@ -34,7 +34,7 @@ class GymClassInstance(Base):
 
   def serialize(self):
     if self.start_dt:
-      start_dt = self.start_dt.strftime("%m/%d/%Y %I:%M%p") 
+      start_dt = self.start_dt.strftime("%m/%d/%Y %I:%M%p")
     else:
       start_dt = ""
     return {
@@ -44,5 +44,5 @@ class GymClassInstance(Base):
         'gym_class': self.gym_class.name,
         'instructor': self.instructor.name,
         'is_cancelled': self.is_cancelled,
-        'start_dt': start_dt,
+        'start_dt': self.start_dt,
     }

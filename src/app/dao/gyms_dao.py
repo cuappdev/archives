@@ -1,5 +1,6 @@
 from . import *
 import datetime
+import gymhours_dao
 
 def get_all_gyms():
   return Gym.query.all()
@@ -11,7 +12,7 @@ def get_gym_by_name(name):
   return Gym.query.filter(Gym.name == name).first()
 
 def get_gym_hours(gym_id):
-  hours = gymhours_dao.get_gym_hour({"id": gym_id})
+  hours = gymhours_dao.get_gym_hour({"gym_id": gym_id})
 
   if hours is None:
     raise Exception('There are no gym_hours for this gym')
