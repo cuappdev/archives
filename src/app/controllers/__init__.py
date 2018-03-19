@@ -1,13 +1,13 @@
 from flask import request, render_template, jsonify, redirect
 from appdev.controllers import *
-from app.gyms.dao import gyms_dao, \
+from app.dao import gyms_dao, \
   instructors_dao, \
   gymclass_dao, \
   gymclassinstance_dao, \
   gymhours_dao, \
   users_dao
 
-from app.gyms.models._all import *
+from app.models._all import *
 
 # Serializers
 gym_schema = GymSchema()

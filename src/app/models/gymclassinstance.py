@@ -6,7 +6,7 @@ class GymClassInstance(Base):
 
   id = db.Column(db.Integer, primary_key=True)
   is_cancelled = db.Column(db.Boolean, default=False)
-  start_time = db.Column(db.DateTime, nullable=True)
+  start_dt = db.Column(db.DateTime, nullable=True)
   duration = db.Column(db.Interval, nullable=True)
 
   # instances can have different locations
@@ -30,9 +30,13 @@ class GymClassInstance(Base):
     self.gym_class_id = kwargs.get('gym_class_id')
     self.instructor_id = kwargs.get('instructor_id')
     self.is_cancelled = kwargs.get('is_cancelled')
-    self.start_time = kwargs.get('start_time')
+    self.start_dt = kwargs.get('start_dt')
 
   def serialize(self):
+    if self.start_dt:
+      start_dt = self.start_dt.strftime("%m/%d/%Y %I:%M%p") 
+    else:
+      start_dt = ""
     return {
         'id': self.id,
         'duration': str(self.duration),
@@ -40,5 +44,5 @@ class GymClassInstance(Base):
         'gym_class': self.gym_class.name,
         'instructor': self.instructor.name,
         'is_cancelled': self.is_cancelled,
-        'start_time': self.start_time.strftime("%I:%M%p") if self.start_time else "",
+        'start_dt': start_dt,
     }

@@ -1,7 +1,7 @@
 from . import *
 import datetime
 
-class GetAllGymClassInstancesController(AppDevController):
+class GetGymClassInstancesController(AppDevController):
 
   def get_path(self):
     return '/gymclassinstances/'
@@ -14,7 +14,7 @@ class GetAllGymClassInstancesController(AppDevController):
     gymclass_instances = \
         gymclassinstance_dao.get_all_gym_class_instances(page)
     serialized_gyms = []
-    for gymclass_instance in gymclass_instances.items:
+    for gymclass_instance in gymclass_instances:
         serialized_gym = gymclass_instance.serialize()
 
         # get instructor
