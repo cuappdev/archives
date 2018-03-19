@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, jsonify, make_response
+from flask import Blueprint, Flask, render_template, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 import config
 
@@ -12,19 +12,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 # Import + Register Blueprints
-# from app.gyms import gyms as gyms # pylint: disable=C0413
-from app.gyms import *
-app.register_blueprint(gyms)
+blueprint = Blueprint('controllers', __name__, url_prefix='/api')
 
-# React Catch All Paths
-@app.route('/', methods=['GET'])
-def index():
-  return render_template('index.html')
-@app.route('/<path:path>', methods=['GET'])
-def any_root_path(path):
-  return render_template('index.html')
+from app.controllers._all import controllers as controllers
+for controller in controllers:
+  blueprint.add_url_rule(
+      controller.get_path(),
+      controller.get_name(),
+      controller.response,
+      methods=controller.get_methods()
+  )
 
-# HTTP error handling
-@app.errorhandler(404)
-def not_found(error):
-  return render_template('404.html'), 404
+app.register_blueprint(blueprint)

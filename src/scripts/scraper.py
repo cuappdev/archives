@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 from lxml import html
 import requests
 
-from app.gyms.dao import gymclass_dao as gcd
-from app.gyms.dao import gymclassinstance_dao as gcid
+from app.dao import gymclass_dao as gcd
+from app.dao import gymclassinstance_dao as gcid
 
 BASE_URL = "https://recreation.athletics.cornell.edu"
 

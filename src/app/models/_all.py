@@ -1,10 +1,10 @@
 from marshmallow_sqlalchemy import ModelSchema
-from app.gyms.models.gym import *
-from app.gyms.models.gymclass import *
-from app.gyms.models.gymclassinstance import *
-from app.gyms.models.gymhour import *
-from app.gyms.models.instructor import *
-from app.gyms.models.user import *
+from gym import *
+from gymclass import *
+from gymclassinstance import *
+from gymhour import *
+from instructor import *
+from user import *
 
 class GymSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
