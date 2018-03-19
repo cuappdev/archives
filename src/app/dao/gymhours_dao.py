@@ -1,5 +1,6 @@
 from . import *
 import datetime
+import gyms_dao
 
 def get_gym_hour(params):
   """Parameterized getter for gym_hours
@@ -28,7 +29,7 @@ def get_gym_hour(params):
     else:
       return GymHour.query.filter(GymHour.gym_id == params["gym_id"]).all()
   elif "time" in keys and "day_of_week" in keys:
-    return GymHour.query.filter(GymHour.start_time < params["time"],
+    return GymHour.query.filter(GymHour.open_time < params["time"],
                                 GymHour.close_time > params["time"],
                                 GymHour.day_of_week == params["day_of_week"]
                                 ).all()
