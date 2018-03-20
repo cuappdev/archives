@@ -1,8 +1,8 @@
 from sqlalchemy import UniqueConstraint
 from . import *
 
-class GymClass(Base):
-  __tablename__ = 'gym_classes'
+class ClassDesc(Base):
+  __tablename__ = 'class_descs'
 
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(300), nullable=False)

@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from lxml import html
 import requests
 
-from app.dao import gymclass_dao as gcd
+from app.dao import class_descs_dao as cd
 from app.dao import gymclassinstance_dao as gcid
 
 BASE_URL = "https://recreation.athletics.cornell.edu"
@@ -90,7 +90,7 @@ def update_db(i):
   classes, lst = scrape_classes(i)
   for key in classes.keys():
     _class = classes[key]
-    gcd.create_gym_class(_class["name"], _class["description"])
+    cd.create_gym_class(_class["name"], _class["description"])
 
   for elem in lst:
     gcid.create_gym_class_instance(elem)

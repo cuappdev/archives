@@ -3,7 +3,7 @@ from . import *
 
 import instructors_dao as _id
 import gyms_dao as gd
-import gymclass_dao as gcd
+import class_descs_dao as cd
 
 def get_all_gym_class_instances(page, page_size=10):
   if page is None:
@@ -63,7 +63,7 @@ def create_gym_class_instance(args):
 
   _, instructor = _id.create_instructor(instructor_name)
   _, gym = gd.create_gym(gym_name)
-  gym_class = gcd.get_gym_class_by_name(class_name)
+  gym_class = cd.get_gym_class_by_name(class_name)
 
   if start_time is None or end_time is None:
     start_datetime = None
