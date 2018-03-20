@@ -1,21 +1,19 @@
-from get_gym_class_instances_controller import * # pylint: disable=C0413
-from get_all_gym_classes_controller import * # pylint: disable=C0413
-from get_gym_class_instances_controller import * # pylint: disable=C0413
-from get_all_gym_classes_controller import * # pylint: disable=C0413
-from get_all_gyms_controller import * # pylint: disable=C0413
-from get_all_instructors_controller import * # pylint: disable=C0413
-from get_gym_by_id_controller import * # pylint: disable=C0413
-from get_gym_class_instance_by_id_controller import * # pylint: disable=C0413
-from get_gym_class_by_id_controller import * # pylint: disable=C0413
-from get_instructor_by_id_controller import * # pylint: disable=C0413
+from get_all_class_descs import * # pylint: disable=C0413
+from get_all_gyms import * # pylint: disable=C0413
+from get_all_instructors import * # pylint: disable=C0413
+from get_class_desc_by_id import * # pylint: disable=C0413
+from get_gym_by_id import * # pylint: disable=C0413
+from get_gym_class_instance_by_id import * # pylint: disable=C0413
+from get_gym_class_instances import * # pylint: disable=C0413
+from get_instructor_by_id import * # pylint: disable=C0413
 
 controllers = [
-    GetGymClassInstancesController(),
-    GetAllGymClassesController(),
+    GetAllClassDescsController(),
     GetAllGymsController(),
     GetAllInstructorsController(),
+    GetClassDescByIdController(),
     GetGymByIdController(),
-    GetGymClassByIdController(),
     GetGymClassInstanceByIdController(),
+    GetGymClassInstancesController(),
     GetInstructorByIdController(),
 ]
