@@ -1,7 +1,7 @@
 from . import *
 import datetime
 
-class GetAllGymClassesController(AppDevController):
+class GetAllClassDescsController(AppDevController):
 
   def get_path(self):
     return '/class_descs/'
