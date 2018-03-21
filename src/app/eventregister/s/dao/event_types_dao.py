@@ -1,7 +1,6 @@
 from . import *
 
-TYPES = {'str': type(u''), 'int': type(0),
-         'float': type(0.), 'boolean': type(True)}
+TYPES = {'str': str, 'int': int, 'float': float, 'bool': bool}
 
 def create_event_type(app_id, name, fields_info):
   app = applications_dao.get_app_by_id(app_id)
@@ -56,7 +55,6 @@ def create_event_types(app_id, event_types):
 
       succeeded.append(event_type)
     except Exception as e: #pylint:disable=broad-except
-      print str(e)
       failed.append({'message': str(e), 'event_type': event_type})
 
   db_utils.commit_models(succeeded)

@@ -23,11 +23,13 @@ class CreateEventTypeController(AppDevController):
       fields_info = json.loads(fields_info_str)
     except:
       raise Exception('Invalid event type name or field descriptor.')
-      
+  
     event_types_dao.verify_fields_info(fields_info)
-    created, event_type = event_types_dao.create_event_type(app_id,
-                                                            name,
-                                                            fields_info)
+    created, event_type = event_types_dao.create_event_type(
+        app_id,
+        name,
+        fields_info
+    )
 
     if not created:
       raise Exception('Event type already exists.')
