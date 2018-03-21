@@ -1,0 +1,14 @@
+language: python
+python:
+  - "2.7"
+services:
+  - mysql
+addons:
+  mysql: "5.7"
+before_install:
+  - mysql --host=localhost -c 'CREATE DATABASE fitnessdb;' -U mysql
+env:
+  - DB_USERNAME='mysql' DB_PASSWORD='' DB_HOST='localhost'
+    DB_NAME='fitnessdb'
+scrip:
+  ./tests/test.sh
