@@ -8,5 +8,5 @@ addons:
 env:
   - DB_USERNAME='mysql' DB_PASSWORD='' DB_HOST='localhost'
     DB_NAME='fitnessdb'
-scrip:
-  ./tests/test.sh
+script:
+  cd tests; ./test.sh
