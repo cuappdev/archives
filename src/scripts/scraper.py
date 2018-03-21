@@ -81,7 +81,11 @@ def scrape_classes(num_pages):
       else:
         current_row["is_cancelled"] = True
 
-      current_row["instructor_name"] = row_elems[4].a.string
+      try:
+        current_row["instructor_name"] = row_elems[4].a.string
+      except:
+        current_row["instructor_name"] = "" # edge case w/ no instructor name
+
       current_row["location"] = row_elems[5].a.string
       lst.append(current_row)
   return classes, lst
@@ -90,7 +94,7 @@ def update_db(i):
   classes, lst = scrape_classes(i)
   for key in classes.keys():
     _class = classes[key]
-    cd.create_gym_class(_class["name"], _class["description"])
+    cd.create_class_desc(_class["name"], _class["description"])
 
   for elem in lst:
     gcid.create_gym_class_instance(elem)

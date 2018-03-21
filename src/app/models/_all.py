@@ -7,7 +7,7 @@ from gymhour import *
 from instructor import *
 from user import *
 
-class ClassDesc(ModelSchema):
+class ClassDescSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
     model = ClassDesc
 

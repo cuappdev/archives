@@ -63,7 +63,7 @@ def create_gym_class_instance(args):
 
   _, instructor = _id.create_instructor(instructor_name)
   _, gym = gd.create_gym(gym_name)
-  gym_class = cd.get_gym_class_by_name(class_name)
+  gym_class = cd.get_class_desc_by_name(class_name)
 
   if start_time is None or end_time is None:
     start_datetime = None

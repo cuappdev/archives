@@ -4,10 +4,10 @@ def get_all_class_descs():
   return ClassDesc.query.all()
 
 def get_class_desc_by_id(gym_class_id):
-  return ClassDesc.query.filter(GymClass.id == gym_class_id).first()
+  return ClassDesc.query.filter(ClassDesc.id == gym_class_id).first()
 
 def get_class_desc_by_name(name):
-  return ClassDesc.query.filter(GymClass.name == name).first()
+  return ClassDesc.query.filter(ClassDesc.name == name).first()
 
 def create_class_desc(name, description=''):
   optional_class_desc = get_class_desc_by_name(name)
