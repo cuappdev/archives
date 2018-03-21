@@ -3,9 +3,9 @@ from . import *
 
 class Event(Base):
   __tablename__ = 'events'
-  __table_args__ = (
-      UniqueConstraint('timestamp', 'event_type_id'),
-  )
+  # __table_args__ = (
+  #     UniqueConstraint('timestamp', 'event_type_id'),
+  # )
 
   id = db.Column(db.Integer, primary_key=True)
   timestamp = db.Column(db.DateTime)

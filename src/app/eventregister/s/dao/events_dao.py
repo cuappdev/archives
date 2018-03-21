@@ -23,9 +23,29 @@ def create_events(app_id, events):
 
   event_type_names = {event['event_type'] for event in events \
                       if 'event_type' in event}
+
   event_types = {event_type.name: event_type for event_type in \
                  event_types_dao.get_event_types_by_names(app_id,
                                                           event_type_names)}
+  new_event_types = {}
+
+  for event in events:
+    try:
+      name = event['event_type']
+      payload = event['payload']
+
+      if name not in event_types and name not in new_event_types:
+        new_event_types[name] = {
+            'name': name,
+            'fields_info': event_types_dao.generate_fields_info(payload)
+        }
+    except Exception: #pylint:disable=broad-except
+      continue
+
+  for event_type in \
+      event_types_dao.create_event_types(app_id, new_event_types.values())[0]:
+    event_types[event_type.name] = event_type
+
   for event in events:
     try:
       try:
