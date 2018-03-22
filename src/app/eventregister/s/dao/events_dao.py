@@ -61,10 +61,10 @@ def create_events(app_id, events):
       try:
         try:
           timestamp = datetime.datetime.strptime(event['timestamp'],
-                                                 '%Y-%m-%d %H:%M:%S.%f')
+                                                 '%Y-%m-%d %H:%M:%S.%f %Z')
         except ValueError:
           timestamp = datetime.datetime.strptime(event['timestamp'],
-                                                 '%Y-%m-%d %H:%M:%S')
+                                                 '%Y-%m-%d %H:%M:%S %Z')
       except Exception: #pylint:disable=broad-except
         raise Exception('Invalid timestamp.')
 
