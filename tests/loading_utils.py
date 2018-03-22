@@ -2,7 +2,6 @@ import os
 import sys
 
 from app import app
-from app import constants
 from app.models._all import *
 from app.utils.db_utils import *
 
