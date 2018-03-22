@@ -6,6 +6,8 @@ def auth_bearer(f):
   @wraps(f)
   def inner(*args, **kwargs):
     auth_header = request.headers.get('Authorization')
+    print 'auth bearer'
+    print auth_header
     if auth_header is None:
       raise Exception('Missing authorization header.')
 
@@ -34,8 +36,10 @@ def authorize_app(f):
   @wraps(f)
   @auth_bearer
   def inner(*args, **kwargs):
+    print 'auth app'
     secret_key = kwargs.get('bearer_token')
     app = applications_dao.get_app_by_secret_key(secret_key)
+    print secret_key, app.serialize()
     if app is None or app.secret_key != secret_key:
       raise Exception('Invalid secret key.')
 
