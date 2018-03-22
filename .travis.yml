@@ -6,7 +6,7 @@ services:
 addons:
   mysql: "5.7"
 before_install:
-  - mysql --host=localhost -c 'CREATE DATABASE fitnessdb;'
+  - mysql -uroot -e "CREATE DATABASE fitnessdb"
 env:
   - DB_USERNAME='root' DB_PASSWORD='' DB_HOST='localhost'
     DB_NAME='fitnessdb' APP_SETTINGS=config.DevelopmentConfig
