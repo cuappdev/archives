@@ -6,7 +6,7 @@ services:
 addons:
   mysql: "5.7"
 env:
-  - DB_USERNAME='mysql' DB_PASSWORD='' DB_HOST='localhost'
+  - DB_USERNAME='root' DB_PASSWORD='' DB_HOST='localhost'
     DB_NAME='fitnessdb' APP_SETTINGS=config.DevelopmentConfig
 script:
   nosetests tests/test_gyms.py;
