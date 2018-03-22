@@ -13,11 +13,12 @@ class CreateEventsController(AppDevController):
     app = kwargs.get('app')
     events = data.get('events')
 
+    print events
+
     if events is None:
       raise Exception('Invalid event list.')
 
     succeeded, failed = events_dao.create_events(app.id, events)
-    ret = {'succeeded': [event.serialize() for event in succeeded],
-           'failed': failed}
-    print ret
-    return ret
+    print [event.serialize() for event in succeeded], failed
+    return {'succeeded': [event.serialize() for event in succeeded],
+            'failed': failed}
