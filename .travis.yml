@@ -9,6 +9,6 @@ env:
   - DB_USERNAME='mysql' DB_PASSWORD='' DB_HOST='localhost'
     DB_NAME='fitnessdb'
 script:
-  nosetests tests/test_gyms.py
-  nosetests tests/test_instructors.py
+  nosetests tests/test_gyms.py;
+  nosetests tests/test_instructors.py;
   nosetests tests/test_gymhours.py
