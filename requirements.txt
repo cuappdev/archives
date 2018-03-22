@@ -25,4 +25,4 @@ SQLAlchemy==1.1.13
 urllib3==1.22
 Werkzeug==0.12.2
 nose==1.3.7
-git+https://github.com/cuappdev/appdev.py.git --upgrade
+git+https://github.com/cuappdev/appdev.py.git
