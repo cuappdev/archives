@@ -7,15 +7,12 @@ class Gym(Base):
   name = db.Column(db.String(255), nullable=False, unique=True)
   equipment = db.Column(db.String(1500))
   location = db.Column(db.String(500))
-  is_gym = db.Column(db.Boolean, nullable=False, default=True)
+  is_gym = db.Column(db.Boolean, nullable=False, default=False)
 
   def __init__(self, **kwargs):
-    is_gym = kwargs.get('is_gym')
-    if is_gym is not None:
-      self.is_gym = is_gym
-
     self.equipment = kwargs.get('equipment')
     self.location = kwargs.get('location')
+    self.is_gym = kwargs.get('gym')
     self.name = kwargs.get('name')
 
   def serialize(self):

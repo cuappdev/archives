@@ -25,7 +25,7 @@ class GetGymClassInstancesController(AppDevController):
 
         # get gymclass
         gymclass = \
-            gymclass_dao.get_gym_class_by_id(gymclass_instance.gym_class_id)
+            class_descs_dao.get_class_desc_by_id(gymclass_instance.gym_class_id)
         gymclass = gymclass.serialize()
         serialized_gym["gym_class"] = gymclass
 

@@ -1,8 +1,9 @@
 import sys
 import os
 import shutil
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from app import app # pylint: disable=C0413
+from app.dao import gyms_dao as gd
 
 def setup_dbs():
   print 'Setting up databases...'
@@ -23,6 +24,15 @@ def delete_migrations():
               + '--execute "drop table alembic_version"')
     os.chdir('scripts')
     print 'Migrations folder deleted...'
+
+    # adding gyms to db
+    print 'Adding gyms to db...'
+    gd.create_gym("Helen Newman", is_gym=True)
+    gd.create_gym("Teagle Up", is_gym=True)
+    gd.create_gym("Teagle Down", is_gym=True)
+    gd.create_gym("Noyes", is_gym=True)
+    gd.create_gym("Appel", is_gym=True)
+
   except OSError:
     os.chdir('scripts')
     print 'No migrations folder to delete...'

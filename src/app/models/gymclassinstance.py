@@ -14,9 +14,9 @@ class GymClassInstance(Base):
                      db.ForeignKey('gyms.id', ondelete='CASCADE'))
   gym = db.relationship('Gym', backref='class_instances')
 
-  gym_class_id = db.Column(db.Integer,
+  class_desc_id = db.Column(db.Integer,
                            db.ForeignKey('class_descs.id', ondelete='CASCADE'))
-  gym_class = db.relationship('ClassDesc', backref='gym_classes')
+  class_desc = db.relationship('ClassDesc', backref='gym_classes')
 
   # instances can have different instructors
   instructor_id = db.Column(db.Integer,
