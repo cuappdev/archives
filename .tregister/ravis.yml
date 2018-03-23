@@ -1,0 +1,21 @@
+language: python
+python:
+  - "2.7"
+services:
+  - postgresql
+before_install:
+  - mysql -uroot -e "CREATE DATABASE fitnessdb"
+  - psql -c 'CREATE DATABASE register;' -U postgres
+env:
+  - DB_USERNAME='root' DB_PASSWORD='' DB_HOST='localhost'
+    DB_NAME='register' APP_SETTINGS=config.DevelopmentConfig
+script:
+  cd src;
+  python manage.py db init;
+  python manage.py db migrate;
+  python manage.py db upgrade;
+  cd ..;
+  nosetests tests/test_apps.py;
+  nosetests tests/test_event_types.py;
+  nosetests tests/test_events.py
+  nosetests tests/users.py
