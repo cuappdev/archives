@@ -1,6 +1,9 @@
+from collections import OrderedDict
 from . import *
 
-TYPES = {'str': unicode, 'int': int, 'float': float, 'bool': bool}
+TYPES = OrderedDict([
+    ('bool', bool), ('int', int), ('float', float), ('str', unicode)
+])
 
 def create_event_type(app_id, name, fields_info):
   app = applications_dao.get_app_by_id(app_id)
