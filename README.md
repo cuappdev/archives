@@ -1,5 +1,7 @@
 # fitness-backend
 
+[![Build Status](https://travis-ci.org/cuappdev/fitness-backend.svg?branch=master)](https://travis-ci.org/cuappdev/fitness-backend)
+
 Technologies involved include:
 1. Flask
 2. SQLAlchemy
