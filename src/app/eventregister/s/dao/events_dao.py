@@ -28,6 +28,7 @@ def create_events(app_id, events):
                  event_types_dao.get_event_types_by_names(app_id,
                                                           event_type_names)}
   new_event_types = {}
+  events_to_add = []
 
   for event in events:
     try:
@@ -39,14 +40,16 @@ def create_events(app_id, events):
             'name': name,
             'fields_info': event_types_dao.generate_fields_info(payload)
         }
-    except Exception: #pylint:disable=broad-except
-      continue
+
+      events_to_add.append(event)
+    except Exception as e: #pylint:disable=broad-except
+      failed.append({'message': str(e), 'event': event})
 
   for event_type in \
       event_types_dao.create_event_types(app_id, new_event_types.values())[0]:
     event_types[event_type.name] = event_type
 
-  for event in events:
+  for event in events_to_add:
     try:
       try:
         event_type = event_types[event['event_type']]
