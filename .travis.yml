@@ -16,6 +16,4 @@ script:
   python manage.py db migrate;
   python manage.py db upgrade;
   cd ..;
-  nosetests tests/test_gyms.py;
-  nosetests tests/test_instructors.py;
-  nosetests tests/test_gymhours.py
+  nosetests 
