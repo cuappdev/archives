@@ -63,7 +63,7 @@ def scrape_classes(num_pages):
       row_elems = row.find_all("td")
       current_row["date"] = row_elems[0].span.string
       current_row["day_of_week"] = row_elems[1].span.string
-      current_row["class_name"] =  row_elems[2].a.string
+      current_row["class_name"] = row_elems[2].a.string
 
       class_href = row_elems[2].a["href"]
       if class_href not in classes:
