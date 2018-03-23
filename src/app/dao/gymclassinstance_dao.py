@@ -1,9 +1,10 @@
 from datetime import datetime
-from . import *
 
-import instructors_dao as _id
-import gyms_dao as gd
-import class_descs_dao as cd
+import app.dao.instructors_dao as _id
+import app.dao.gyms_dao as gd
+import app.dao.class_descs_dao as cd
+
+from . import *
 
 def get_all_gym_class_instances(page, page_size=10):
   if page is None:
@@ -63,7 +64,7 @@ def create_gym_class_instance(args):
 
   _, instructor = _id.create_instructor(instructor_name)
   _, gym = gd.create_gym(gym_name)
-  gym_class = cd.get_class_desc_by_name(class_name)
+  class_desc = cd.get_class_desc_by_name(class_name)
 
   if start_time is None or end_time is None:
     start_datetime = None
@@ -80,10 +81,9 @@ def create_gym_class_instance(args):
         date + " " + start_time, '%m/%d/%Y %I:%M%p'
     )
 
-
   optional_instance = GymClassInstance.query.filter(
       GymClassInstance.gym_id == gym.id,
-      GymClassInstance.gym_class_id == gym_class.id,
+      GymClassInstance.class_desc_id == class_desc.id,
       GymClassInstance.instructor_id == instructor.id,
       GymClassInstance.start_dt == start_datetime,
       GymClassInstance.duration == duration,
@@ -98,7 +98,7 @@ def create_gym_class_instance(args):
   gym_class = GymClassInstance(
       duration=duration,
       gym_id=gym.id,
-      gym_class_id=gym_class.id,
+      class_desc_id=class_desc.id,
       name=class_name,
       instructor_id=instructor.id,
       is_cancelled=is_cancelled,

@@ -15,7 +15,7 @@ class GymClassInstance(Base):
   gym = db.relationship('Gym', backref='class_instances')
 
   class_desc_id = db.Column(db.Integer,
-                           db.ForeignKey('class_descs.id', ondelete='CASCADE'))
+                            db.ForeignKey('class_descs.id', ondelete='CASCADE'))
   class_desc = db.relationship('ClassDesc', backref='gym_classes')
 
   # instances can have different instructors
@@ -27,7 +27,7 @@ class GymClassInstance(Base):
   def __init__(self, **kwargs):
     self.duration = kwargs.get('duration')
     self.gym_id = kwargs.get('gym_id')
-    self.gym_class_id = kwargs.get('gym_class_id')
+    self.class_desc_id = kwargs.get('class_desc_id')
     self.instructor_id = kwargs.get('instructor_id')
     self.is_cancelled = kwargs.get('is_cancelled')
     self.start_dt = kwargs.get('start_dt')
@@ -41,8 +41,8 @@ class GymClassInstance(Base):
         'id': self.id,
         'duration': str(self.duration),
         'gym': self.gym.name,
-        'gym_class': self.gym_class.name,
+        'class_desc': self.class_desc.name,
         'instructor': self.instructor.name,
         'is_cancelled': self.is_cancelled,
-        'start_dt': self.start_dt,
+        'start_dt': start_dt,
     }

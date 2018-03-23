@@ -3,7 +3,7 @@ import app.dao.gymhours_dao
 from . import *
 
 def get_all_gyms():
-  return Gym.query.filter(Gym.is_gym).all()
+  return Gym.query.filter(Gym.is_gym == True).all()
 
 def get_gym_by_id(gym_id):
   return Gym.query.filter(Gym.id == gym_id).first()

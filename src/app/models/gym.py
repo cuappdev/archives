@@ -12,13 +12,14 @@ class Gym(Base):
   def __init__(self, **kwargs):
     self.equipment = kwargs.get('equipment')
     self.location = kwargs.get('location')
-    self.is_gym = kwargs.get('gym')
+    self.is_gym = kwargs.get('is_gym')
     self.name = kwargs.get('name')
 
   def serialize(self):
     return {
         'id': self.id,
-        'name': self.name,
         'equipment': self.equipment,
-        'location': self.location
+        'is_gym': self.is_gym,
+        'location': self.location,
+        'name': self.name,
     }

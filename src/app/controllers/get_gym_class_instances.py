@@ -1,5 +1,5 @@
-from . import *
 import datetime
+from . import *
 
 class GetGymClassInstancesController(AppDevController):
 
@@ -18,16 +18,20 @@ class GetGymClassInstancesController(AppDevController):
         serialized_gym = gymclass_instance.serialize()
 
         # get instructor
-        instructor = \
-            instructors_dao.get_instructor_by_id(gymclass_instance.instructor_id)
+        instructor = instructors_dao.get_instructor_by_id(
+            gymclass_instance.instructor_id
+        )
+
         instructor = instructor.serialize()
         serialized_gym["instructor"] = instructor
 
-        # get gymclass
-        gymclass = \
-            class_descs_dao.get_class_desc_by_id(gymclass_instance.gym_class_id)
-        gymclass = gymclass.serialize()
-        serialized_gym["gym_class"] = gymclass
+        # get class_descj
+        class_desc = class_descs_dao.get_class_desc_by_id(
+            gymclass_instance.class_desc_id
+        )
+
+        class_desc = class_desc.serialize()
+        serialized_gym["class_desc"] = class_desc
 
         serialized_gyms.append(serialized_gym)
 
