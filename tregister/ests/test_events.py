@@ -19,7 +19,6 @@ class EventsTestCase(TestCase):
     test_event_type = etd.create_event_type( # testing valid event
         test_app.id,
         "test_event_type",
-        user1.id,
         fields_info
     )[1]
     db_session_commit()

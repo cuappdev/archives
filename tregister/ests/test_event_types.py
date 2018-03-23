@@ -28,7 +28,6 @@ class EventTypesTestCase(TestCase):
     etd.create_event_type( # testing valid event
         test_app.id,
         "test_event_type",
-        test_user.id,
         fields_info
     )
     with self.assertRaises(Exception):
@@ -38,7 +37,6 @@ class EventTypesTestCase(TestCase):
       etd.create_event_type( # testing invalid event
           test_app.id,
           "test_incorrect_event",
-          test_user.id,
           fields_info
       )
     with self.assertRaises(Exception):
@@ -48,7 +46,6 @@ class EventTypesTestCase(TestCase):
       etd.create_event_type( # testing invalid event
           test_app.id,
           "test_incorrect_event",
-          test_user.id,
           fields_info
       )
     with self.assertRaises(Exception):
@@ -58,6 +55,5 @@ class EventTypesTestCase(TestCase):
       etd.create_event_type( # testing invalid event
           test_app.id,
           "test_incorrect_event",
-          test_user.id,
           fields_info
       )
