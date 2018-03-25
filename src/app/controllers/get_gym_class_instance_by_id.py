@@ -21,8 +21,8 @@ class GetGymClassInstanceByIdController(AppDevController):
     serialized_gym["instructor"] = instructor
 
     # get gymclass
-    gymclass = gymclass_dao.get_gym_class_by_id(gymclass_instance.gym_class_id)
-    gymclass = gymclass.serialize()
+    class_desc = class_descs_dao.get_class_desc_by_id(gymclass_instance.class_desc_id)
+    class_desc = class_desc.serialize()
     serialized_gym["gym_class"] = gymclass
 
     return serialized_gym
