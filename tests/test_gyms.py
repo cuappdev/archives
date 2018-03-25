@@ -11,8 +11,8 @@ class GymsTestCase(TestCase):
     self.assertEquals('test_gym1', gd.get_gym_by_id(test_gym.id).name)
     test_gym2 = gd.create_gym('test_gym2', '', '')[1]
     all_gyms = gd.get_all_gyms()
-    self.assertIn(test_gym, all_gyms)
-    self.assertIn(test_gym2, all_gyms)
+    self.assertNotIn(test_gym, all_gyms)
+    self.assertNotIn(test_gym2, all_gyms)
     # tests for hours
     test_hour = ghd.create_gym_hour(test_gym.id, 1, dt.time(9), dt.time(21))[1]
     self.assertIn(test_hour, gd.get_gym_hours(test_gym.id))

@@ -11,7 +11,7 @@ class GetClassDescByIdController(AppDevController):
 
   def content(self, **kwargs):
     gymclass_instance_id = request.view_args['id']
-    gymclass = class_descs_dao.get_gym_class_by_id(gymclass_instance_id)
+    gymclass = class_descs_dao.get_class_desc_by_id(gymclass_instance_id)
     serialized_gym = gymclass.serialize()
 
     return serialized_gym
