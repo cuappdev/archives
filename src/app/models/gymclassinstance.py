@@ -15,7 +15,7 @@ class GymClassInstance(Base):
   gym = db.relationship('Gym', backref='class_instances')
 
   gym_class_id = db.Column(db.Integer,
-                            db.ForeignKey('gym_classes.id', ondelete='CASCADE'))
+                           db.ForeignKey('gym_classes.id', ondelete='CASCADE'))
   gym_class = db.relationship('GymClass', backref='gym_class_instances')
 
   def __init__(self, **kwargs):
