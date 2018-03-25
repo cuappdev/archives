@@ -14,8 +14,11 @@ class GetInstructorByIdController(AppDevController):
     serialized_instructor = instructor.serialize()
 
     instructor_class = \
-      gymclassinstance_dao.get_gym_class_instance_by_instructor(instructor_id)
-    gymclasses = [gymclass.serialize() for gymclass in instructor_class]
+      gymclass_dao.get_gym_class_instance_by_instructor(instructor_id)
+    class_descs = \
+      [class_descs_dao.get_class_desc_by_id(ins_class)
+       for ins_class in instructor_class]
+    gymclasses = [gymclass.serialize() for gymclass in class_descs]
 
     serialized_instructor["classes"] = gymclasses
     return serialized_instructor

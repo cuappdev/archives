@@ -2,6 +2,7 @@ from marshmallow_sqlalchemy import ModelSchema
 
 from class_desc import *
 from gym import *
+from gymclass import *
 from gymclassinstance import *
 from gymhour import *
 from instructor import *
@@ -14,6 +15,10 @@ class ClassDescSchema(ModelSchema):
 class GymSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
     model = Gym
+
+class GymClassSchema(ModelSchema):
+  class Meta(ModelSchema.Meta):
+    model = GymClass
 
 class GymClassInstanceSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
