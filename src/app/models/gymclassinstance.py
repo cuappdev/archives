@@ -25,18 +25,3 @@ class GymClassInstance(Base):
     self.instructor_id = kwargs.get('instructor_id')
     self.is_cancelled = kwargs.get('is_cancelled')
     self.start_dt = kwargs.get('start_dt')
-
-  def serialize(self):
-    if self.start_dt:
-      start_dt = self.start_dt.strftime("%m/%d/%Y %I:%M%p")
-    else:
-      start_dt = ""
-    return {
-        'id': self.id,
-        'duration': str(self.duration),
-        'gym': self.gym.name,
-        'class_desc': self.class_desc.name,
-        'instructor': self.instructor.name,
-        'is_cancelled': self.is_cancelled,
-        'start_dt': start_dt,
-    }

@@ -8,9 +8,3 @@ class Instructor(Base):
 
   def __init__(self, **kwargs):
     self.name = kwargs.get('name')
-
-  def serialize(self):
-    return {
-        'id': self.id,
-        'name': self.name
-    }
