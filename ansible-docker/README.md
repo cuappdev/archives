@@ -33,7 +33,7 @@ ansible-playbook deploy.yml
 
 ### Windows 10 caveats
 
-If you are deploying from Windows 10 using a Vagrant box (see below), *before* any operations you must copy the tool's files into the Vagrant box's file system. By default, the contents of this directory is shared with the Vagrant box at `/deploy`. We cannot modify the `server.pem`'s permissions correctly on the shared filesystem. As such, before doing any of the above instructions, make sure to get the most recent configuration of the tool into the Vagrant box's filesystem at `~/deploy`.
+If you are deploying from Windows 10 using a Vagrant box (see below), *before* any operations you *must* copy the tool's files into the Vagrant box's file system. By default, the contents of this directory is shared with the Vagrant box at `/deploy`. We cannot modify the `server.pem`'s permissions correctly on the shared filesystem. As such, before doing any of the above instructions, make sure to get the most recent configuration of the tool into the Vagrant box's filesystem at `~/deploy`.
 ```
 rm -rf ~/deploy # If it already exists
 cp -r /deploy ~
