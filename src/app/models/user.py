@@ -14,11 +14,3 @@ class User(Base):
     self.first_name = kwargs.get('first_name')
     self.last_name = kwargs.get('last_name')
     self.image_url = kwargs.get('image_url')
-
-  def serialize(self):
-    return {
-        'id': self.id,
-        'email': self.email,
-        'first_name': self.first_name,
-        'last_name': self.last_name
-    }

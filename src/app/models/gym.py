@@ -14,12 +14,3 @@ class Gym(Base):
     self.location = kwargs.get('location')
     self.is_gym = kwargs.get('is_gym')
     self.name = kwargs.get('name')
-
-  def serialize(self):
-    return {
-        'id': self.id,
-        'equipment': self.equipment,
-        'is_gym': self.is_gym,
-        'location': self.location,
-        'name': self.name,
-    }

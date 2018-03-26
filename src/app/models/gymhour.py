@@ -16,10 +16,3 @@ class GymHour(Base):
     self.day_of_week = kwargs.get('day_of_week')
     self.open_time = kwargs.get('open_time')
     self.close_time = kwargs.get('close_time')
-
-  def serialize(self):
-    return {
-      'day_of_week': self.day_of_week,
-      'open_time': self.open_time.strftime("%I:%M%p"),
-      'close_time': self.close_time.strftime("%I:%M%p")
-    }

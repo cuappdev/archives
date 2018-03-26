@@ -25,14 +25,14 @@ class GetGymClassInstancesController(AppDevController):
         instructor = instructors_dao.get_instructor_by_id(
                 gym_class.instructor_id
         )
-        instructor = instructor.serialize()
+        instructor = instructor_schema.dump(instructor).data
         serialized_gym["instructor"] = instructor
 
         # get class_descj
         class_desc = class_descs_dao.get_class_desc_by_id(
                 gym_class.class_desc_id
         )
-        class_desc = class_desc.serialize()
+        class_desc = class_desc_schema.dump(class_desc).data
         serialized_gym["class_desc"] = class_desc
 
         serialized_gyms.append(serialized_gym)
