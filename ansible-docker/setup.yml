@@ -2,7 +2,6 @@
 - name: ec2 docker deployment - setup
   hosts: all
   gather_facts: False
-  remote_user: ubuntu
   become: yes
   environment:
     LC_ALL: en_US.UTF-8
@@ -19,23 +18,23 @@
         - apt-transport-https
         - ca-certificates
         - software-properties-common
-    - name: Add Docker apt key.
+    - name: add docker apt key
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
         state: present
       register: add_repository_key
       ignore_errors: true
-    - name: Add Docker repository.
+    - name: add docker repository
       apt_repository:
         repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
         state: present
         update_cache: yes
-    - name: Install Docker.
+    - name: install docker
       package: 
         name: docker-ce 
         state: present
-    - name: Ensure Docker is started and enabled at boot.
+    - name: enable docker at boot
       service:
         name: docker
         state: started
@@ -45,5 +44,4 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - docker-py
         - docker-compose

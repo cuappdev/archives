@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", type: "dhcp"
   
   # Enable shared folder
-  config.vm.synced_folder ".", "/home/vagrant/deploy"
+  config.vm.synced_folder ".", "/deploy"
 
   # Install Ansible
   config.vm.provision "shell", inline: <<-SHELL

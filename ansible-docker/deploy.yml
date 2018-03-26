@@ -2,7 +2,6 @@
 - name: ec2 docker deployment - deploy
   hosts: all
   gather_facts: False
-  remote_user: ubuntu
   become: yes
   environment:
     LC_ALL: en_US.UTF-8
@@ -18,10 +17,10 @@
     - name: copy docker compose
       copy:
         src: docker-compose
-        dest: /usr/src/app
+        dest: /usr/src/deploy
     - name: run docker compose
       docker_service:
-        project_src: /usr/src/app/docker-compose
+        project_src: /usr/src/deploy/docker-compose
         state: present
     - name: wait for server
       wait_for:
