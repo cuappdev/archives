@@ -11,7 +11,6 @@ class GetAllClassDescsController(AppDevController):
 
   def content(self, **kwargs):
     class_descs = class_descs_dao.get_all_class_descs()
-    class_desc_schema = ClassDescSchema()
     serialized_classes = [class_desc_schema.dump(cd).data for cd in class_descs]
 
     return serialized_classes

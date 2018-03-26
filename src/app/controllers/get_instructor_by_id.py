@@ -10,7 +10,6 @@ class GetInstructorByIdController(AppDevController):
 
   def content(self, **kwargs):
     instructor_id = request.view_args['id']
-    instructor_schema = InstructorSchema()
     instructor = instructors_dao.get_instructor_by_id(instructor_id)
     serialized_instructor = instructor_schema.dump(instructor).data
 
@@ -19,7 +18,6 @@ class GetInstructorByIdController(AppDevController):
     )
     class_descs = [class_descs_dao.get_class_desc_by_id(inc)
                    for inc in instructor_class]
-    class_desc_schema = ClassDescSchema()
     gymclasses = [class_desc_schema.dump(gymclass).data
                   for gymclass in class_descs]
 

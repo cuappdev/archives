@@ -13,8 +13,6 @@ class GetGymClassInstancesController(AppDevController):
     page = request.headers.get('page')
     gymclass_instances = \
         gymclassinstance_dao.get_all_gym_class_instances(page)
-    instructor_schema = InstructorSchema()
-    class_desc_schema = ClassDescSchema()
     serialized_gyms = []
     for gymclass_instance in gymclass_instances:
         serialized_gym = {"id": gymclass_instance.id}

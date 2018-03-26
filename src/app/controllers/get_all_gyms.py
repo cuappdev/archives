@@ -10,6 +10,5 @@ class GetAllGymsController(AppDevController):
 
   def content(self, **kwargs):
     gyms = gyms_dao.get_all_gyms()
-    gym_schema = GymSchema()
     serialized_gyms = [gym_schema.dump(gym).data for gym in gyms]
     return serialized_gyms

@@ -10,8 +10,6 @@ class GetGymClassInstanceByIdController(AppDevController):
 
   def content(self, **kwargs):
     gymclass_instance_id = request.view_args['id']
-    instructor_schema = InstructorSchema()
-    class_desc_schema = ClassDescSchema()
     gymclass_instance = gymclassinstance_dao.get_gym_class_instance_by_id(
             gymclass_instance_id
     )

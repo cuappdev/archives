@@ -13,4 +13,5 @@ from app.models._all import *
 # Serializers
 gym_schema = GymSchema()
 instructor_schema = InstructorSchema()
-gym_class_instance = GymClassInstanceSchema()
+class_desc_schema = ClassDescSchema()
+gym_hour_schema = GymHourSchema()
