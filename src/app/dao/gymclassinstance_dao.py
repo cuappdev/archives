@@ -2,6 +2,7 @@ from datetime import datetime
 
 import app.dao.instructors_dao as _id
 import app.dao.gyms_dao as gd
+import app.dao.gymclass_dao as gcd
 import app.dao.class_descs_dao as cd
 
 from . import *
@@ -61,6 +62,8 @@ def create_gym_class_instance(args):
   _, gym = gd.create_gym(gym_name)
   class_desc = cd.get_class_desc_by_name(class_name)
 
+  _, gym_class = gcd.create_gym_class(instructor.id, class_desc.id)
+
   if start_time is None or end_time is None:
     start_datetime = None
     duration = None
@@ -78,8 +81,7 @@ def create_gym_class_instance(args):
 
   optional_instance = GymClassInstance.query.filter(
       GymClassInstance.gym_id == gym.id,
-      GymClassInstance.class_desc_id == class_desc.id,
-      GymClassInstance.instructor_id == instructor.id,
+      GymClassInstance.gym_class_id == gym_class.id,
       GymClassInstance.start_dt == start_datetime,
       GymClassInstance.duration == duration,
   ).first()
@@ -93,9 +95,8 @@ def create_gym_class_instance(args):
   gym_class = GymClassInstance(
       duration=duration,
       gym_id=gym.id,
-      class_desc_id=class_desc.id,
+      gym_class_id=gym_class.id,
       name=class_name,
-      instructor_id=instructor.id,
       is_cancelled=is_cancelled,
       start_dt=start_datetime,
   )

@@ -22,6 +22,6 @@ class GymClassInstance(Base):
     self.duration = kwargs.get('duration')
     self.gym_id = kwargs.get('gym_id')
     self.class_desc_id = kwargs.get('class_desc_id')
-    self.instructor_id = kwargs.get('instructor_id')
+    self.gym_class_id = kwargs.get('gym_class_id')
     self.is_cancelled = kwargs.get('is_cancelled')
     self.start_dt = kwargs.get('start_dt')
