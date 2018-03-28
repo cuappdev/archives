@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 # Import + Register Blueprints
-blueprint = Blueprint('controllers', __name__, url_prefix='/api')
+blueprint = Blueprint('controllers', __name__, url_prefix='/api/v0')
 
 from app.controllers._all import controllers as controllers
 for controller in controllers:
