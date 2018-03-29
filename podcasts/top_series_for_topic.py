@@ -5,7 +5,7 @@ from podcasts.constants import ITUNES_GENRE_LOOKUP_URL, ITUNES_TOP_SERIES_URL
 
 def read_url(url):
   response = requests.get(url)
-  return json.loads(response.read())
+  return json.loads(response.content)
 
 def fetch_genres():
   tuples = [] # will have entries of type (id:int, name:string)
@@ -22,7 +22,7 @@ def fetch_top_series(genre=None):
   if genre is None:
     url = ITUNES_TOP_SERIES_URL.format('')
   else:
-    url = ITUNES_TOP_SERIES_URL.format('/genre=' + genre)
+    url = ITUNES_TOP_SERIES_URL.format('/genre=' + str(genre))
   data = read_url(url)
   series_ids = [
       int(entry['id']['attributes']['im:id']) for entry in data['feed']['entry']
@@ -32,7 +32,7 @@ def fetch_top_series(genre=None):
 def fetch_series_all_genres(num_threads=10):
   genre_tuples = fetch_genres()
   genre_ids = [gid for (gid, _) in genre_tuples]
-  genre_ids.append(overall_top_id)
+  genre_ids.append(None)
   pool = ThreadPool(num_threads)
   results = pool.map(fetch_top_series, genre_ids)
   pool.close()
