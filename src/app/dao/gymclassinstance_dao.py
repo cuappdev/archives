@@ -19,7 +19,7 @@ def get_gym_class_instance_by_id(gym_class_instance_id):
 
 def get_gym_class_instances_by_gym_class(gym_class_name, page, page_size=10):
   return GymClassInstance.query.filter(
-      GymClassInstance.gym_class == gym_class_name
+      GymClassInstance.gym_class_id == gym_class_name
   ).paginate(page, page_size, False)
 
 def get_gym_class_by_start_duration(gym_class_id, gym_id, start_dt, duration):
