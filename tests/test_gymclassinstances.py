@@ -3,7 +3,6 @@ from flask import json
 from tests.test_case import *
 from app.dao import gymclassinstance_dao as gcid
 from app.dao import gymclass_dao as gcd
-from app.dao import instructors_dao as insd
 from app.dao import class_descs_dao as cdd
 
 class GymClassInstancesTestCase(TestCase):
