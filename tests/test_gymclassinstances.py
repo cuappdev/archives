@@ -6,8 +6,8 @@ from app.dao import gymclass_dao as gcd
 from app.dao import instructors_dao as insd
 from app.dao import class_descs_dao as cdd
 
-class GymClassTestCase(TestCase):
-  def test_gymclass_methods(self):
+class GymClassInstancesTestCase(TestCase):
+  def test_gymclassinstance_methods(self):
     test_args = {
         "class_name": "test_class",
         "date": "01/01/1900",
