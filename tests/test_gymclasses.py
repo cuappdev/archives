@@ -1,5 +1,3 @@
-import datetime as dt
-from flask import json
 from tests.test_case import *
 from app.dao import gymclass_dao as gcd
 from app.dao import instructors_dao as insd
