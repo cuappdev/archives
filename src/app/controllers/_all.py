@@ -7,6 +7,7 @@ from get_gym_by_id import * # pylint: disable=C0413
 from get_gym_class_instance_by_id import * # pylint: disable=C0413
 from get_gym_class_instances import * # pylint: disable=C0413
 from get_instructor_by_id import * # pylint: disable=C0413
+from toggle_favorite import * # pylint: disable=C0413
 
 controllers = [
     GetAllClassDescsController(),
@@ -18,4 +19,5 @@ controllers = [
     GetGymClassInstanceByIdController(),
     GetGymClassInstancesController(),
     GetInstructorByIdController(),
+    ToggleFavoriteController(),
 ]
