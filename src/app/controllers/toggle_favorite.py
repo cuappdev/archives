@@ -3,13 +3,13 @@ from . import *
 class ToggleFavoriteController(AppDevController):
 
   def get_path(self):
-    return '/favorite/<device_id>/<gymclass_id>/'
+    return '/favorite/<gymclass_id>/'
 
   def get_methods(self):
-    return ['POST', 'GET']
+    return ['POST']
 
   def content(self, **kwargs):
-    device_id = request.view_args['device_id']
+    device_id = request.form['device_id']
     gymclass_id = request.view_args['gymclass_id']
     user = users_dao.get_user_by_device_id(device_id)
     user_classes = users_dao.get_user_classes(user.id)

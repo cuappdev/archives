@@ -13,9 +13,9 @@ def get_user_classes(user_id):
   optional_user = get_user_by_id(user_id)
   if optional_user is None:
     raise Exception('User does not exist.')
-  return optional_user.gym_classess
+  return optional_user.gym_classes
 
-def create_user(device_id, first_name='', last_name=''):
+def create_user(device_id):
   optional_user = get_user_by_device_id(device_id)
 
   if optional_user is not None:
@@ -24,8 +24,6 @@ def create_user(device_id, first_name='', last_name=''):
   # user does not exist
   user = User(
       device_id=device_id,
-      first_name=first_name,
-      last_name=last_name,
   )
   db_utils.commit_model(user)
   return True, user
