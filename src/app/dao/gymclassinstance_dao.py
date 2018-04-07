@@ -49,6 +49,13 @@ def get_gym_class_instances_by_time(time):
       GymClassInstance.start_dt + GymClassInstance.duration > time
   ).all()
 
+def get_gym_class_instances_by_date(year, month, day):
+  return GymClassInstance.query.filter(
+      GymClassInstance.start_dt.year == year,
+      GymClassInstance.start_dt.month == month,
+      GymClassInstance.start_dt.day == day
+  ).all()
+
 def create_gym_class_instance(args):
   class_name = args.get("class_name")
   date = args.get("date")
