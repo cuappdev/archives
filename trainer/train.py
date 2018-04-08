@@ -77,22 +77,39 @@ if __name__ == "__main__":
   #   entries = get_matrix_entries()
   #   redis.dump_dictionary(connection, {entry_redis_key: entries})
   print "building ratings"
-  print sys.argv
+  arguments = sys.argv
+  print arguments
   ratings = sc.parallelize(
-      get_matrix_entries(sys.argv[1],
-                         sys.argv[2],
-                         sys.argv[3],
-                         sys.argv[4],
-                         sys.argv[5]))
+      get_matrix_entries(arguments[1],
+                         arguments[2],
+                         arguments[3],
+                         arguments[4],
+                         arguments[5]))
   print ratings.take(10)
   print "built ratings"
-  rank = int(sys.argv[6])
-  numIterations = int(sys.argv[7])
+  rank = int(arguments[6])
+  numIterations = int(arguments[7])
   model = ALS.train(ratings, rank, numIterations)
   testdata = ratings.map(lambda p: (p[0], p[1]))
   predictions = model.predictAll(testdata).map(lambda r: ((r[0], r[1]), r[2]))
   ratesAndPreds = ratings.map(lambda r: ((r[0], r[1]), r[2])).join(predictions)
   MSE = ratesAndPreds.map(lambda r: (r[1][0] - r[1][1])**2).mean()
   print "Mean Squared Error = " + str(MSE)
-  recommendations = model.recommendProductsForUsers(int(sys.argv[8]))
-  print recommendations
+  recommendations = model.recommendProductsForUsers(int(arguments[8]))
+  # this needs to be optimized....
+  # filtering_set = sc.broadcast(ratings
+  #                              .map(lambda r: (r.user, r.product))
+  #                              .collect())
+  # filtered = recommendations.filter(lambda r: filtering_set.contains((r.user,r.product)))
+  def write_to_recommendations(iterator):
+    print arguments
+    conn_ml = MySQLConnector(arguments[1],
+                             arguments[2],
+                             arguments[3],
+                             arguments[9])
+    print "Writing to recommendations"
+    conn_ml.write_batch("episodes_for_user", \
+    [{'user_id': k, 'episodes_list': ",".join([str(p.product) for p in v])} \
+    for (k, v) in iterator])
+    conn_ml.close()
+  recommendations.foreachPartition(write_to_recommendations)
