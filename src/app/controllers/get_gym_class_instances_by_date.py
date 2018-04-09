@@ -10,12 +10,19 @@ class GetGymClassInstancesByDate(AppDevController):
     return ['GET']
 
   def content(self, **kwargs):
-    year = request.form['year']
-    month = request.form['month']
-    day = request.form['day']
+    date = request.form['date']
+    num_days = request.form.get('num_days')
 
-    gymclass_instances = \
-        gymclassinstance_dao.get_gym_class_instances_by_date(year, month, day)
+    if num_days is None:
+        num_days = 1
+    assert num_days >= 1
+
+    gymclass_instances = []
+    while (num_days >= 1):
+        instances = gymclassinstance_dao.get_gym_class_instances_by_date(date)
+        gymclass_instances = gymclass_instances + instances
+        date = date + dt.timedelta(1)
+        num_days = num_days - 1
 
     serialized_gymclass_instances = []
     for gymclass_instance in gymclass_instances:
