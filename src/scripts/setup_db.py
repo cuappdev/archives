@@ -6,6 +6,8 @@ import datetime as dt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.dao import gyms_dao as gd
 from app.dao import gymhours_dao as ghd
+from app.models.populartimeslist import PopularTimesList as Ptl
+from app.utils import db_utils
 
 def setup_dbs():
   print 'Setting up databases...'
@@ -73,6 +75,27 @@ def init_data():
     for n in range(1, 5):
         ghd.create_gym_hour(appel.id, n, dt.time(15), dt.time(23, 30))
     ghd.create_gym_hour(appel.id, 6, dt.time(9), dt.time(13))
+
+    # adding populartimes to db
+    print 'Adding popular_times to db...'
+    # helen_newman
+    kwargs = {}
+    kwargs["monday"] = "[15,25,27,22,21,31,47,53,45,34,36,52,70,75,60,35,14,0]"
+    kwargs["tuesday"] = "[16,26,36,45,50,50,46,40,38,42,52,59,59,56,51,36,15]"
+    kwargs["wednesday"] = \
+        "[17,23,23,17,14,23,40,50,45,35,33,42,52,55,47,33,17,5]"
+    kwargs["thursday"] = \
+        "[12,20,28,34,37,37,37,39,47,57,67,70,62,47,34,32,26,5]"
+    kwargs["friday"] = "[19,25,21,17,19,26,34,38,38,40,46,56,64,64,54,37,20,6]"
+    kwargs["saturday"] = "[26,44,42,30,29,35,42,43,38,28,17,8]"
+    kwargs["sunday"] = "[19,31,32,23,26,43,59,57,51,51,47,34,17,3]"
+    ptl = Ptl(**kwargs)
+    db_utils.commit_model(ptl)
+
+    # TODO: teagle_up
+    # TODO: teagle_down
+    # TODO: noyes
+    # TODO: appel
 
 if __name__ == '__main__':
   delete_migrations()

@@ -1,6 +1,14 @@
 from . import *
 
 class PopularTimesList(Base):
+  """ Class representing popular times data from Google
+
+  Sample Data for Helen Newman on Monday:
+  [15,25,27,22,21,31,47,53,45,34,36,52,70,75,60,35,14,0]
+
+  Each number represents the popularity at that hour on a scale from 0-100
+  Data is only available for hours that the gym is open for
+  """
   __tablename__ = 'popular_times_list'
 
   id = db.Column(db.Integer, primary_key=True)
@@ -14,7 +22,7 @@ class PopularTimesList(Base):
 
   gym_id = db.Column(
       db.Integer,
-      db.ForeignKey('gym.id', ondelete='CASCADE')
+      db.ForeignKey('gyms.id', ondelete='CASCADE')
   )
   class_desc = db.relationship('Gym', backref='populartimeslist')
 
