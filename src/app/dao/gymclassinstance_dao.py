@@ -50,8 +50,9 @@ def get_gym_class_instances_by_time(time):
   ).all()
 
 def get_gym_class_instances_by_date(date):
-  """Takes as input a string formatted date: MM/DD/YYYY
-   Example: 03/18/2018 is March 18th, 2018"""
+  """Takes a string formatted date as input: MM/DD/YYYY
+  Example: 03/18/2018 is March 18th, 2018
+  """
   input_date = datetime.strpdate(date, '%m/%d/%Y').date()
   return GymClassInstance.query.filter(
       GymClassInstance.start_dt.date() == input_date
