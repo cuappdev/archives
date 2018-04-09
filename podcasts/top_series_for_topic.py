@@ -19,6 +19,7 @@ def fetch_genres():
   return tuples
 
 def fetch_top_series(genre=None):
+  # The genre `None` indicates top series for all genres
   if genre is None:
     url = ITUNES_TOP_SERIES_URL.format('')
   else:
