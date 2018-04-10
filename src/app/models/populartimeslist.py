@@ -24,7 +24,7 @@ class PopularTimesList(Base):
       db.Integer,
       db.ForeignKey('gyms.id', ondelete='CASCADE')
   )
-  class_desc = db.relationship('Gym', backref='populartimeslist')
+  gym = db.relationship('Gym', backref='popular_times_list')
 
   def __init__(self, **kwargs):
     self.monday = kwargs.get('monday')
