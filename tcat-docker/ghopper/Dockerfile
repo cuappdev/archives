@@ -13,6 +13,7 @@ RUN git clone https://github.com/graphhopper/graphhopper.git
 RUN wget https://s3.amazonaws.com/tcat-gtfs/tcat-ny-us.zip
 
 WORKDIR /usr/src/app/graphhopper
+RUN git checkout 0.10
 RUN ./graphhopper.sh buildweb
 
 WORKDIR /usr/src/app
