@@ -11,5 +11,6 @@ class GetGymClassesByTag(AppDevController):
   def content(self, **kwargs):
     tag_name = request.view_args['tag_name']
     class_tag = class_tags_dao.get_class_tag_by_name(tag_name)
-    gymclasses = class_tags_dao.get_classes_by_tag(class_tag.id)
-    return [gymclass_schema.dump(gc).data for gc in gymclasses]
+    class_descs = class_tags_dao.get_classes_by_tag([class_tag.id])
+    serialized_classes = [class_desc_schema.dump(cd).data for cd in class_descs]
+    return serialized_classes
