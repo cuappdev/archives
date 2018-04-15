@@ -98,3 +98,6 @@ def update_db(i):
 
   for elem in lst:
     gcid.create_gym_class_instance(elem)
+
+def clear_classes(i):
+    gcid.delete_gym_classes_by_days_old(i)
