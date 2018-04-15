@@ -22,10 +22,10 @@ def delete_migrations():
   try:
     os.chdir('..')
     shutil.rmtree('migrations')
-    os.system('mysql --user={} --password={} --host={} {} '
+    os.system('psql --user={} --password={} --host={} {} '
               .format(os.environ['DB_USERNAME'], os.environ['DB_PASSWORD'],
                       os.environ['DB_HOST'], os.environ['DB_NAME'])
-              + '--execute "drop table alembic_version"')
+              + '-c "drop table alembic_version"')
     os.chdir('scripts')
     print 'Migrations folder deleted...'
 
@@ -89,12 +89,52 @@ def init_data():
     kwargs["friday"] = "[19,25,21,17,19,26,34,38,38,40,46,56,64,64,54,37,20,6]"
     kwargs["saturday"] = "[26,44,42,30,29,35,42,43,38,28,17,8]"
     kwargs["sunday"] = "[19,31,32,23,26,43,59,57,51,51,47,34,17,3]"
+    kwargs["gym_id"] = helen_newman.id
     ptl = Ptl(**kwargs)
     db_utils.commit_model(ptl)
 
     # teagle_up
     kwargs = {}
     kwargs["monday"] = "[14,27,41,53,60,58,50,44,45,56,69,74,64,43,22,8]"
+    kwargs["tuesday"] = "[16,26,35,43,53,63,67,61,53,50,52,51,44,30,16,6]"
+    kwargs["wednesday"] = "[21,46,38,40,58,62,48,34,35,51,68,75,65,47,26,11]"
+    kwargs["thursday"] = "[16,26,37,46,52,53,52,51,53,53,47,45,58,59,32,7]"
+    kwargs["friday"] = "[12,26,32,38,48,56,54,50,52,53,44,26,11]"
+    kwargs["saturday"] = "[9,17,27,36,41,36,24]"
+    kwargs["sunday"] = "[3,13,21,24,34,36,14]"
+    kwargs["gym_id"] = teagle_up.id
+    ptl = Ptl(**kwargs)
+    db_utils.commit_model(ptl)
+
+    # teagle_down
+    kwargs = {}
+    kwargs["monday"] = "[14,27,41,53,60,58,50,44,45,56,69,74,64,43,22,8]"
+    kwargs["tuesday"] = "[16,26,35,43,53,63,67,61,53,50,52,51,44,30,16,6]"
+    kwargs["wednesday"] = "[21,46,38,40,58,62,48,34,35,51,68,75,65,47,26,11]"
+    kwargs["thursday"] = "[16,26,37,46,52,53,52,51,53,53,47,45,58,59,32,7]"
+    kwargs["friday"] = "[12,26,32,38,48,56,54,50,52,53,44,26,11]"
+    kwargs["saturday"] = "[9,17,27,36,41,36,24]"
+    kwargs["sunday"] = "[3,13,21,24,34,36,14]"
+    kwargs["gym_id"] = teagle_down.id
+    ptl = Ptl(**kwargs)
+    db_utils.commit_model(ptl)
+
+    # noyes
+    kwargs = {}
+    kwargs["monday"] = "[4,11,20,26,26,24,24,29,39,48,51,48,47,52,52,38,17]"
+    kwargs["tuesday"] = "[8,13,17,17,17,20,27,36,45,50,51,51,56,64,67,55,33]"
+    kwargs["wednesday"] = "[5,11,18,23,23,20,20,26,38,48,56,63,71,70,56,34,14]"
+    kwargs["thursday"] = "[9,16,21,21,17,13,16,26,41,53,54,51,55,67,69,51,24]"
+    kwargs["friday"] = "[2,7,14,17,17,15,19,32,50,58,56,51,52,52,45,30,15]"
+    kwargs["saturday"] = "[25,36,46,56,58,50,47,53,58,50,35]"
+    kwargs["sunday"] = "[18,36,44,39,33,38,45,52,63,75,70,45,18]"
+    kwargs["gym_id"] = noyes.id
+    ptl = Ptl(**kwargs)
+    db_utils.commit_model(ptl)
+
+    # appel
+    kwargs = {}
+    kwargs["monday"] = "[15,25,27,22,21,31,47,53,45,34,36,52,70,75,60,35,14,0]"
     kwargs["tuesday"] = "[16,26,36,45,50,50,46,40,38,42,52,59,59,56,51,36,15]"
     kwargs["wednesday"] = \
         "[17,23,23,17,14,23,40,50,45,35,33,42,52,55,47,33,17,5]"
@@ -103,12 +143,9 @@ def init_data():
     kwargs["friday"] = "[19,25,21,17,19,26,34,38,38,40,46,56,64,64,54,37,20,6]"
     kwargs["saturday"] = "[26,44,42,30,29,35,42,43,38,28,17,8]"
     kwargs["sunday"] = "[19,31,32,23,26,43,59,57,51,51,47,34,17,3]"
+    kwargs["gym_id"] = appel.id
     ptl = Ptl(**kwargs)
     db_utils.commit_model(ptl)
-
-    # TODO: teagle_down
-    # TODO: noyes
-    # TODO: appel
 
 if __name__ == '__main__':
   delete_migrations()
