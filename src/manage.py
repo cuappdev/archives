@@ -13,5 +13,9 @@ manager.add_command('db', MigrateCommand)
 def scrape():
   scraper.update_db(10) # number of pages to scrape
 
+@manager.command
+def clear():
+  scraper.clear_classes(7) # number of days old to delete classes
+
 if __name__ == '__main__':
   manager.run()

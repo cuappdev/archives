@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import app.dao.instructors_dao as _id
 import app.dao.gyms_dao as gd
@@ -48,6 +48,13 @@ def get_gym_class_instances_by_time(time):
       GymClassInstance.start_dt < time,
       GymClassInstance.start_dt + GymClassInstance.duration > time
   ).all()
+
+def delete_gym_classes_by_days_old(days_old):
+  GymClassInstance.query.filter(
+      GymClassInstance.start_dt < datetime.datetime.today() -
+      timedelta(days=days_old)
+  ).delete()
+  db.session.commit()
 
 def get_gym_class_instances_by_date(date):
   """Takes a string formatted date as input: MM/DD/YYYY
