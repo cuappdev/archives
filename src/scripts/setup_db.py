@@ -92,7 +92,20 @@ def init_data():
     ptl = Ptl(**kwargs)
     db_utils.commit_model(ptl)
 
-    # TODO: teagle_up
+    # teagle_up
+    kwargs = {}
+    kwargs["monday"] = "[14,27,41,53,60,58,50,44,45,56,69,74,64,43,22,8]"
+    kwargs["tuesday"] = "[16,26,36,45,50,50,46,40,38,42,52,59,59,56,51,36,15]"
+    kwargs["wednesday"] = \
+        "[17,23,23,17,14,23,40,50,45,35,33,42,52,55,47,33,17,5]"
+    kwargs["thursday"] = \
+        "[12,20,28,34,37,37,37,39,47,57,67,70,62,47,34,32,26,5]"
+    kwargs["friday"] = "[19,25,21,17,19,26,34,38,38,40,46,56,64,64,54,37,20,6]"
+    kwargs["saturday"] = "[26,44,42,30,29,35,42,43,38,28,17,8]"
+    kwargs["sunday"] = "[19,31,32,23,26,43,59,57,51,51,47,34,17,3]"
+    ptl = Ptl(**kwargs)
+    db_utils.commit_model(ptl)
+
     # TODO: teagle_down
     # TODO: noyes
     # TODO: appel
