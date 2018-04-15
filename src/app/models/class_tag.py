@@ -2,10 +2,10 @@ from . import *
 
 # define many-to-many relationship
 class_tags_to_gymclasses = db.Table(
-    'class_tags_to_gymclasses',
-    db.Column('class_tag_id', db.Integer, db.ForeignKey('class_tags.id')),
-    db.Column('gymclass_id', db.Integer, db.ForeignKey('gym_classes.id'))
-    )
+'class_tags_to_gymclasses',
+db.Column('class_tag_id', db.Integer, db.ForeignKey('class_tags.id')),
+db.Column('gymclass_id', db.Integer, db.ForeignKey('gym_classes.id'))
+)
 
 class ClassTag(Base):
   __tablename__ = "class_tags"
