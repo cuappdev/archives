@@ -17,9 +17,9 @@ def get_gym_class_instance_by_id(gym_class_instance_id):
       GymClassInstance.id == gym_class_instance_id
   ).first()
 
-def get_gym_class_instances_by_gym_class(gym_class_name, page, page_size=10):
+def get_gym_class_instances_by_gym_class(gym_class_id, page, page_size=10):
   return GymClassInstance.query.filter(
-      GymClassInstance.gym_class == gym_class_name
+      GymClassInstance.gym_class_id == gym_class_id
   ).paginate(page, page_size, False)
 
 def get_gym_class_by_start_duration(gym_class_id, gym_id, start_dt, duration):
@@ -55,6 +55,15 @@ def delete_gym_classes_by_days_old(days_old):
       timedelta(days=days_old)
   ).delete()
   db.session.commit()
+
+def get_gym_class_instances_by_date(date):
+  """Takes a string formatted date as input: MM/DD/YYYY
+  Example: 03/18/2018 is March 18th, 2018
+  """
+  input_date = datetime.strpdate(date, '%m/%d/%Y').date()
+  return GymClassInstance.query.filter(
+      GymClassInstance.start_dt.date() == input_date
+  ).all()
 
 def create_gym_class_instance(args):
   class_name = args.get("class_name")
