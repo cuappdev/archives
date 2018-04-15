@@ -10,6 +10,8 @@ before_install:
 env:
   - DB_USERNAME='root' DB_PASSWORD='' DB_HOST='localhost'
     DB_NAME='fitnessdb' APP_SETTINGS=config.DevelopmentConfig
+install:
+  - pip install git+https://github.com/cuappdev/appdev.py.git -r requirements.txt --upgrade
 script:
   cd src;
   python manage.py db init;
