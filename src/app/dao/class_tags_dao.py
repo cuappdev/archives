@@ -6,11 +6,14 @@ def get_class_tag_by_id(class_tag_id):
 def get_class_tag_by_name(name):
   return ClassTag.query.filter(ClassTag.name == name).first()
 
-def get_classes_by_tag(class_tag_id):
-  optional_tag = get_class_tag_by_id(class_tag_id)
-  if optional_tag is None:
-    raise Exception('Tag does not exist.')
-  return optional_user.gym_classes
+def get_class_descs_by_tag(tag_id_list):
+  result = []
+  for tag_id in tag_id_list:
+      optional_tag = get_class_tag_by_id(tag_id)
+      if optional_tag is None:
+        raise Exception('Tag does not exist.')
+      result = result + optional_tag.class_descs
+  return result 
 
 def create_class_tag(name):
   optional_tag = get_class_tag_by_name(name)
