@@ -19,9 +19,9 @@
         src: docker-compose
         dest: /usr/src/deploy
     - name: run docker compose
-      docker_service:
-        project_src: /usr/src/deploy/docker-compose
-        state: present
+      shell: docker-compose up -d
+      args:
+        chdir: /usr/src/deploy/docker-compose
     - name: wait for server
       wait_for:
         port: 80
