@@ -47,6 +47,7 @@ class UserSchema(ModelSchema):
     model = User
 
 # Serializers
+class_tag_schema = ClassTagSchema()
 gym_schema = GymSchema()
 gymclass_schema = GymClassSchema()
 instructor_schema = InstructorSchema()
