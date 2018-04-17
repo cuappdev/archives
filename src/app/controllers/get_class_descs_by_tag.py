@@ -1,6 +1,6 @@
 from . import *
 
-class GetGymClassesByTag(AppDevController):
+class GetClassDescsByTag(AppDevController):
 
   def get_path(self):
     return '/class_descs/<tag_name>'
