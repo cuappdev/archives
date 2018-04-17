@@ -41,7 +41,7 @@ def serialize_gym(gym):
   serialized_gym['gym_hours'] = serialized_gym_hours
   populartimeslist = \
       populartimeslist_dao.get_populartimeslist_by_gym(gym.id)
-  serialized_ptl = populartimeslist_schema.dump(populartimeslist)
+  serialized_ptl = populartimeslist_schema.dump(populartimeslist)[0]
   serialized_gym['popular_times_list'] = serialized_ptl
   return serialized_gym
 
