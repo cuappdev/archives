@@ -167,7 +167,7 @@ def init_data():
     _, taichi = ctd.create_class_tag('T\'ai Chi')
 
     # parse csv
-    tags = open('Tags-Grid view.csv', 'r')
+    tags = open('tags-grid-view.csv', 'r')
     tags.readline()
     line = tags.readline()
     while line != '':
