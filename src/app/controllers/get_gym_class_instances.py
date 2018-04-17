@@ -10,9 +10,18 @@ class GetGymClassInstancesController(AppDevController):
     return ['GET']
 
   def content(self, **kwargs):
-    page = request.headers.get('page')
-    gymclass_instances = \
-        gymclassinstance_dao.get_all_gym_class_instances(page)
+    page = request.args.get('page')
+    page_size = request.args.get('page_size')
+
+    if page_size is not None:
+      gymclass_instances = gymclassinstance_dao.get_all_gym_class_instances(
+          page, page_size=page_size
+      )
+    else:
+      gymclass_instances = gymclassinstance_dao.get_all_gym_class_instances(
+          page
+      )
+
     serialized_gyms = []
     for gymclass_instance in gymclass_instances:
         serialized_gym = {"id": gymclass_instance.id}
@@ -28,7 +37,7 @@ class GetGymClassInstancesController(AppDevController):
         instructor = instructor_schema.dump(instructor).data
         serialized_gym["instructor"] = instructor
 
-        # get class_descj
+        # get class_desc
         class_desc = class_descs_dao.get_class_desc_by_id(
                 gym_class.class_desc_id
         )

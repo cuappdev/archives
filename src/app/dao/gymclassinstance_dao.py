@@ -9,8 +9,8 @@ from . import *
 
 def get_all_gym_class_instances(page, page_size=10):
   if page is None:
-    return GymClassInstance.query.all()
-  return GymClassInstance.query.paginate(int(page), page_size, False)
+    return GymClassInstance.query.limit(page_size).all()
+  return GymClassInstance.query.offset(page*page_size).limit(page_size).all()
 
 def get_gym_class_instance_by_id(gym_class_instance_id):
   return GymClassInstance.query.filter(
