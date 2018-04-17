@@ -180,6 +180,7 @@ def init_data():
         for tag_name in str.split(class_tags, ','):
             tag = ctd.get_class_tag_by_name(tag_name)
             tag.class_descs.append(class_desc)
+            db_utils.commit_model(tag)
         # categories
         third = str.find(line, '\"', second+1)
         if third == -1:
@@ -192,6 +193,7 @@ def init_data():
         for category_name in category_names:
             category = ctd.get_class_tag_by_name(category_name)
             category.class_descs.append(class_desc)
+            db_utils.commit_model(category)
         # loop
         line = tags.readline()
 
