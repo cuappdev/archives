@@ -4,9 +4,10 @@ from app.dao import class_descs_dao, \
     class_tags_dao, \
     gyms_dao, \
     gymclass_dao, \
-    instructors_dao, \
     gymclassinstance_dao, \
     gymhours_dao, \
+    instructors_dao, \
+    populartimeslist_dao, \
     users_dao
 
 from app.models._all import *
@@ -18,3 +19,4 @@ instructor_schema = InstructorSchema()
 class_desc_schema = ClassDescSchema()
 gym_hour_schema = GymHourSchema()
 user_schema = UserSchema()
+populartimeslist_schema = PopularTimesListSchema()

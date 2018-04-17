@@ -6,13 +6,13 @@ Technologies involved include:
 1. Flask
 2. SQLAlchemy
 3. Marshmallow
-4. MySQL
+4. PostgreSQL
 
 ## Setting Up Database
-Ensure you have `mysql` plus command line tools setup:
+Ensure you have `psql` plus command line tools setup:
 ````bash
-mysql
-mysql> CREATE DATABASE fitnessdb;
+psql postgres
+psql> CREATE DATABASE fitnessdb;
 mysql> \q
 cd src
 python manage.py db init  
@@ -43,7 +43,7 @@ export DB_NAME=fitnessdb
 export APP_SETTINGS=config.CHANGE_ME
 ````
 
-To source the `.env` file, make a local copy of the `template` file. 
+To source the `.env` file, make a local copy of the `template` file.
 `cd` out of the directory, and `cd` back and you should be prompted by `autoenv`.
 
 ````bash
