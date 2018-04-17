@@ -13,7 +13,10 @@ def get_class_descs_by_tag(tag_id_list):
       if optional_tag is None:
         raise Exception('Tag does not exist.')
       result = result + optional_tag.class_descs
-  return result 
+  return result
+
+def get_all_tags():
+  return ClassTag.query.all()
 
 def create_class_tag(name):
   optional_tag = get_class_tag_by_name(name)
