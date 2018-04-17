@@ -149,7 +149,8 @@ def init_data():
     ptl = Ptl(**kwargs)
     db_utils.commit_model(ptl)
 
-    # tags
+    # adding class_tags to db
+    print 'Adding class_tags to db...'
     _, barre = ctd.create_class_tag('Barre')
     _, dance = ctd.create_class_tag('Dance')
     _, energy = ctd.create_class_tag('Energy')
