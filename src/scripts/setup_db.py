@@ -4,6 +4,8 @@ import shutil
 import datetime as dt
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from app.dao import class_descs_dao as cdd
+from app.dao import class_tags_dao as ctd
 from app.dao import gyms_dao as gd
 from app.dao import gymhours_dao as ghd
 from app.models.populartimeslist import PopularTimesList as Ptl
@@ -146,6 +148,51 @@ def init_data():
     kwargs["gym_id"] = appel.id
     ptl = Ptl(**kwargs)
     db_utils.commit_model(ptl)
+
+    # tags
+    _, barre = ctd.create_class_tag('Barre')
+    _, dance = ctd.create_class_tag('Dance')
+    _, energy = ctd.create_class_tag('Energy')
+    _, zen = ctd.create_class_tag('Zen')
+    _, strength = ctd.create_class_tag('Strength')
+    _, intensity = ctd.create_class_tag('Intensity')
+    _, cardio = ctd.create_class_tag('Cardio')
+    _, cardio_training = ctd.create_class_tag('Cardio Training')
+    _, toning = ctd.create_class_tag('Toning')
+    _, spinning = ctd.create_class_tag('Spinning')
+    _, yoga = ctd.create_class_tag('Yoga')
+    _, hiit = ctd.create_class_tag('H.I.I.T')
+    _, strength_training = ctd.create_class_tag('Strength Training')
+    _, taichi = ctd.create_class_tag('T\'ai Chi')
+
+    # parse csv
+    tags = open('Tags-Grid view.csv', 'r')
+    tags.readline()
+    line = tags.readline()
+    while line != '':
+        first = str.find(line, ',')
+        class_name = line[:first]
+        class_desc = cdd.get_class_desc_by_name(class_name)
+        # tags
+        second = str.find(line, "\",")
+        class_tags = line[first+2:second]
+        for tag_name in str.split(class_tags, ','):
+            tag = ctd.get_class_tag_by_name(tag_name)
+            tag.class_descs.append(class_desc)
+        # categories
+        third = str.find(line, '\"', second+1)
+        if third == -1:
+            fourth = str.find(line, ',', second+2)
+            category_names = [line[second+2:fourth]]
+        else:
+            fourth = str.find(line, '\",', third)
+            categories = line[third+1:fourth]
+            category_names = str.split(categories, ',')
+        for category_name in category_names:
+            category = ctd.get_class_tag_by_name(category_name)
+            category.class_descs.append(class_desc)
+        # loop
+        line = tags.readline()
 
 if __name__ == '__main__':
   delete_migrations()
