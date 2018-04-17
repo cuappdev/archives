@@ -22,8 +22,8 @@ def delete_migrations():
   try:
     os.chdir('..')
     shutil.rmtree('migrations')
-    os.system('psql --user={} --password={} --host={} {} '
-              .format(os.environ['DB_USERNAME'], os.environ['DB_PASSWORD'],
+    os.system('export PGPASSWORD={}; psql --user={} --host={} {} '
+              .format(os.environ['DB_PASSWORD'], os.environ['DB_USERNAME'],
                       os.environ['DB_HOST'], os.environ['DB_NAME'])
               + '-c "drop table alembic_version"')
     os.chdir('scripts')
