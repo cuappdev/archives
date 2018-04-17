@@ -11,12 +11,3 @@ from app.dao import class_descs_dao, \
     users_dao
 
 from app.models._all import *
-
-# Serializers
-gym_schema = GymSchema()
-gymclass_schema = GymClassSchema()
-instructor_schema = InstructorSchema()
-class_desc_schema = ClassDescSchema()
-gym_hour_schema = GymHourSchema()
-user_schema = UserSchema()
-populartimeslist_schema = PopularTimesListSchema()

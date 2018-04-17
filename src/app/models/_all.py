@@ -45,3 +45,12 @@ class PopularTimesListSchema(ModelSchema):
 class UserSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
     model = User
+
+# Serializers
+gym_schema = GymSchema()
+gymclass_schema = GymClassSchema()
+instructor_schema = InstructorSchema()
+class_desc_schema = ClassDescSchema()
+gym_hour_schema = GymHourSchema()
+user_schema = UserSchema()
+populartimeslist_schema = PopularTimesListSchema()
