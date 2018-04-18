@@ -13,10 +13,10 @@ class GetInstructorByIdController(AppDevController):
     instructor = instructors_dao.get_instructor_by_id(instructor_id)
     serialized_instructor = instructor_schema.dump(instructor).data
 
-    instructor_class = gymclass_dao.get_gym_class_instance_by_instructor(
-                instructor_id
+    instructor_class = gymclass_dao.get_gym_classes_by_instructor(
+                instructor.id
     )
-    class_descs = [class_descs_dao.get_class_desc_by_id(inc)
+    class_descs = [class_descs_dao.get_class_desc_by_id(inc.id)
                    for inc in instructor_class]
     gymclasses = [class_desc_schema.dump(gymclass).data
                   for gymclass in class_descs]
