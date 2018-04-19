@@ -45,7 +45,7 @@ def serialize_gym(gym):
   serialized_gym['popular_times_list'] = serialized_ptl
   return serialized_gym
 
-def create_gym(name, equipment='', location='', is_gym=False):
+def create_gym(name, equipment='', location='', image_url='', is_gym=False):
   optional_gym = Gym.query.filter(Gym.name == name).first()
 
   if optional_gym is not None:
@@ -54,9 +54,9 @@ def create_gym(name, equipment='', location='', is_gym=False):
   gym = Gym(
       equipment=equipment,
       location=location,
+      image_url=image_url,
       is_gym=is_gym,
       name=name,
   )
   db_utils.commit_model(gym)
   return True, gym
-
