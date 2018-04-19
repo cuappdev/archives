@@ -4,7 +4,6 @@ RUN mkdir /usr/src/app
 RUN git clone https://github.com/cuappdev/tcat.js.git /usr/src/app
 
 WORKDIR /usr/src/app
-#RUN git checkout 6b33c21c96a01b52355378388cebbba4c3492c56 .
 RUN npm install
 
 RUN mkdir tcat-ny-us

@@ -5,11 +5,12 @@ services:
     build: node
     image: tcat-node
     environment:
-      PORT: 80
-      TOKEN: REPLACE
+      PORT: 3000
+      TOKEN: TOKEN
+      REGISTERTOKEN: REGISTERTOKEN
     network_mode: "host"
     ports:
-      - "80:80"
+      - "3000:3000"
   ghopper:
     build: ghopper
     image: tcat-ghopper
