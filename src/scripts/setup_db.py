@@ -38,12 +38,39 @@ def delete_migrations():
 def init_data():
     # adding gyms to db
     print 'Adding gyms to db...'
-    _, helen_newman = gd.create_gym("Helen Newman", is_gym=True)
-    _, teagle_up = gd.create_gym("Teagle Up", is_gym=True)
-    _, teagle_down = gd.create_gym("Teagle Down", is_gym=True)
-    _, noyes = gd.create_gym("Noyes", is_gym=True)
-    _, appel = gd.create_gym("Appel", is_gym=True)
-    _, bartel = gd.create_gym("Bartels", is_gym=True)
+
+    image_prefix = "https://raw.githubusercontent.com/cuappdev/" + \
+        "assets/master/fitness/"
+    _, helen_newman = gd.create_gym(
+        "Helen Newman",
+        image_url=image_prefix + "gyms/Helen_Newman.jpg",
+        is_gym=True
+    )
+    _, teagle_up = gd.create_gym(
+        "Teagle Up",
+        image_url=image_prefix + "gyms/Teagle.jpg",
+        is_gym=True
+    )
+    _, teagle_down = gd.create_gym(
+        "Teagle Down",
+        image_url=image_prefix + "gyms/Teagle.jpg",
+        is_gym=True
+    )
+    _, noyes = gd.create_gym(
+        "Noyes",
+        image_url=image_prefix + "gyms/Noyes.jpg",
+        is_gym=True
+    )
+    _, appel = gd.create_gym(
+        "Appel",
+        image_url=image_prefix + "gyms/Appel.jpg",
+        is_gym=True
+    )
+    _, bartel = gd.create_gym(
+        "Bartels",
+        image_url=image_prefix + "gyms/Noyes.jpg",
+        is_gym=True
+    )
 
     # adding gym_hours to db
     print 'Adding gym_hours to db...'
