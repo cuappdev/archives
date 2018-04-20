@@ -49,7 +49,7 @@ sudo apt-get update
 sudo apt-get install ansible
 ```
 
-To install Ansible on macOS (_supposedly_)
+To install Ansible on macOS
 ```
 sudo pip install ansible
 ```
