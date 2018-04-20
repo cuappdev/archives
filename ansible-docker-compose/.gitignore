@@ -1,0 +1,6 @@
+*.retry
+.vagrant
+*.pem
+*.pem.pub
+docker-compose
+hosts
