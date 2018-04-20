@@ -13,7 +13,7 @@ Ensure you have `psql` plus command line tools setup:
 ````bash
 psql postgres
 psql> CREATE DATABASE fitnessdb;
-mysql> \q
+psql> \q
 cd src
 python manage.py db init  
 python manage.py db migrate
