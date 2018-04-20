@@ -5,12 +5,12 @@ services:
     build: node
     image: tcat-node
     environment:
-      PORT: 80
-      REGISTERTOKEN: 9c9220074b050b75b4539d78ea5c721bd6a0d689
-      TOKEN: ZG9QcmQ1SXE2M3RmSUVfSzI3QzJyOThTSVhNYTpIY2g3bXh1dUh3Y29HdE5WTmxXNTBxNDlGdThh
+      PORT: 3000
+      TOKEN: TOKEN
+      REGISTERTOKEN: REGISTERTOKEN
     network_mode: "host"
     ports:
-      - "80:80"
+      - "3000:3000"
   ghopper:
     build: ghopper
     image: tcat-ghopper
