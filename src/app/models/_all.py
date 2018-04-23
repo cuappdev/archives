@@ -1,4 +1,5 @@
 from marshmallow_sqlalchemy import ModelSchema
+from marshmallow import fields
 
 from app.models.class_desc import *
 from app.models.class_tag import *
@@ -39,6 +40,13 @@ class InstructorSchema(ModelSchema):
     model = Instructor
 
 class PopularTimesListSchema(ModelSchema):
+  monday = fields.Function(lambda obj: eval(obj.monday))
+  tuesday = fields.Function(lambda obj: eval(obj.tuesday))
+  wednesday = fields.Function(lambda obj: eval(obj.wednesday))
+  thursday = fields.Function(lambda obj: eval(obj.thursday))
+  friday = fields.Function(lambda obj: eval(obj.friday))
+  saturday = fields.Function(lambda obj: eval(obj.saturday))
+  sunday = fields.Function(lambda obj: eval(obj.sunday))
   class Meta(ModelSchema.Meta):
     model = PopularTimesList
 
