@@ -8,6 +8,11 @@ def get_gym_classes_by_instructor(instructor_id):
       GymClass.instructor_id == instructor_id
   ).all()
 
+def get_gym_classes_by_class_desc_id(class_desc_id):
+  return GymClass.query.filter(
+      GymClass.class_desc_id == class_desc_id
+  ).all()
+
 def get_all_classes():
   return GymClass.query.all()
 

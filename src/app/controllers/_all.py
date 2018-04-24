@@ -11,6 +11,7 @@ from app.controllers.get_gym_class_instances import * # pylint: disable=C0413
 from app.controllers.get_gym_class_instances_by_date import * # pylint: disable=C0413
 from app.controllers.get_class_descs_by_tag import * # pylint: disable=C0413
 from app.controllers.get_instructor_by_id import * # pylint: disable=C0413
+from app.controllers.search_gym_classes import * # pylint: disable=C0413
 from app.controllers.toggle_favorite import * # pylint: disable=C0413
 
 controllers = [
@@ -27,5 +28,6 @@ controllers = [
     GetGymClassInstancesByDate(),
     GetClassDescsByTag(),
     GetInstructorByIdController(),
-    ToggleFavoriteController(),
+    SearchGymClassesController(),
+    ToggleFavoriteController()
 ]
