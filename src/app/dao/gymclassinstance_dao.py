@@ -19,9 +19,9 @@ def get_gym_class_instance_by_id(gym_class_instance_id):
 
 def get_gym_class_instances_by_gym_class(gym_class_id, page, page_size=10):
   if page is None:
-        return GymClassInstance.query.filter(
-            GymClassInstance.gym_class_id == gym_class_id
-        ).all()
+    return GymClassInstance.query.filter(
+      GymClassInstance.gym_class_id == gym_class_id
+    ).all()
   return GymClassInstance.query.filter(
       GymClassInstance.gym_class_id == gym_class_id
   ).paginate(page, page_size, False)
@@ -73,14 +73,14 @@ def serialize_gym_class_instance(instance):
   serialized_instance = {"id": instance.id}
 
   if instance.start_dt is not None:
-      start_time = instance.start_dt.strftime('%I:%M%p')
-      serialized_instance["start_time"] = start_time
+    start_time = instance.start_dt.strftime('%I:%M%p')
+    serialized_instance["start_time"] = start_time
 
   if instance.gym_id is not None:
-      serialized_instance["gym_id"] = instance.gym_id
+    serialized_instance["gym_id"] = instance.gym_id
 
   gym_class = gcd.get_gym_class_by_id(
-      instance.gym_class_id
+    instance.gym_class_id
   )
 
   # get instructor
