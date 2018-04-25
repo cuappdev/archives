@@ -1,6 +1,6 @@
 from . import *
 
-class GetAllGymClassesController(AppDevController):
+class GetFavoriteGymClassesController(AppDevController):
 
   def get_path(self):
     return '/gymclasses/favorite/'
