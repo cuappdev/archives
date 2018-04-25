@@ -60,9 +60,10 @@ def get_gym_class_instances_by_date(date):
   """Takes a string formatted date as input: MM/DD/YYYY
   Example: 03/18/2018 is March 18th, 2018
   """
-  input_date = datetime.strpdate(date, '%m/%d/%Y').date()
+  end = date + datetime.timedelta(days = 1)
   return GymClassInstance.query.filter(
-      GymClassInstance.start_dt.date() == input_date
+    GymClassInstance.start_dt >= date,
+    GymClassInstance.start_dt < end
   ).all()
 
 def serialize_gym_class_instance(instance):
