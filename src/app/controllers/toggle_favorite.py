@@ -1,9 +1,10 @@
 from . import *
+from app.utils import db_utils
 
 class ToggleFavoriteController(AppDevController):
 
   def get_path(self):
-    return '/favorite/<gymclass_id>/'
+    return '/favorite/<gymclass_id>'
 
   def get_methods(self):
     return ['POST']
