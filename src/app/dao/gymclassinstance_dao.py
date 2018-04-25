@@ -57,9 +57,6 @@ def delete_gym_classes_by_days_old(days_old):
   db.session.commit()
 
 def get_gym_class_instances_by_date(date):
-  """Takes a string formatted date as input: MM/DD/YYYY
-  Example: 03/18/2018 is March 18th, 2018
-  """
   end = date + datetime.timedelta(days = 1)
   return GymClassInstance.query.filter(
     GymClassInstance.start_dt >= date,
