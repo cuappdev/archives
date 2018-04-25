@@ -6,7 +6,11 @@ class ClassDesc(Base):
   id = db.Column(db.Integer, primary_key=True)
 
   description = db.Column(db.String(2000))
-  image_url = db.Column(db.String(1500), default="")
+  image_url = db.Column(
+      db.String(1500),
+      default="https://raw.githubusercontent.com/cuappdev/assets/master/fitness/classes/hiit-4.jpg",
+      nullable=False
+  )
   name = db.Column(db.String(300), nullable=False)
 
   def __init__(self, **kwargs):
