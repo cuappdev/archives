@@ -24,15 +24,14 @@ class GetGymClassInstancesByDate(AppDevController):
 
     gymclass_instances = []
     while (num_days >= 1):
-      instances = \
-        gymclassinstance_dao.get_gym_class_instances_by_date(input_date)
-      gymclass_instances = gymclass_instances + instances
+      instances = gymclassinstance_dao.get_gym_class_instances_by_date(
+          input_date
+      )
+      gymclass_instances += instances
       input_date = input_date + dt.timedelta(1)
       num_days = num_days - 1
 
-    serialized_instances = [
+    return [
         gymclassinstance_dao.serialize_gym_class_instance(i)
         for i in gymclass_instances
     ]
-
-    return serialized_instances
