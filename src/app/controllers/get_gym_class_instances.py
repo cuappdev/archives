@@ -10,10 +10,11 @@ class GetGymClassInstancesController(AppDevController):
     return ['GET']
 
   def content(self, **kwargs):
-    page = request.args.get('page')
+    page = int(request.args.get('page'))
     page_size = request.args.get('page_size')
 
     if page_size is not None:
+      page_size = int(page_size)
       gym_class_instances = gymclassinstance_dao.get_all_gym_class_instances(
           page, page_size=page_size
       )
