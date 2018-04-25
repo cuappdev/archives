@@ -11,7 +11,12 @@ class ToggleFavoriteController(AppDevController):
   def content(self, **kwargs):
     device_id = request.form['device_id']
     gymclass_id = request.view_args['gymclass_id']
+
     user = users_dao.get_user_by_device_id(device_id)
+    # if user is not registered
+    if user is None:
+      _, user = users_dao.create_user(device_id)
+
     user_classes = users_dao.get_user_classes(user.id)
     gymclass = gymclass_dao.get_gym_class_by_id(gymclass_id)
     # check if gymclass is already favorited

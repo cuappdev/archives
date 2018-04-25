@@ -4,6 +4,7 @@ from app.controllers.get_all_gymclasses import * # pylint: disable=C0413
 from app.controllers.get_all_instructors import * # pylint: disable=C0413
 from app.controllers.get_all_tags import * # pylint: disable=C0413
 from app.controllers.get_class_desc_by_id import * # pylint: disable=C0413
+from app.controllers.get_favorite_gymclasses import * # pylint: disable=C0413
 from app.controllers.get_gym_by_id import * # pylint: disable=C0413
 from app.controllers.get_gym_class_by_id import * # pylint: disable=C0413
 from app.controllers.get_gym_class_instance_by_id import * # pylint: disable=C0413
@@ -20,6 +21,7 @@ controllers = [
     GetAllTagsController(),
     GetAllInstructorsController(),
     GetClassDescByIdController(),
+    GetFavoriteGymClassesController(),
     GetGymByIdController(),
     GetGymClassByIdController(),
     GetGymClassInstanceByIdController(),
