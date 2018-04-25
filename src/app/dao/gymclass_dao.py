@@ -5,7 +5,12 @@ def get_gym_class_by_id(gym_class_id):
 
 def get_gym_classes_by_instructor(instructor_id):
   return GymClass.query.filter(
-      GymClass.instructor_id == instructor_id
+    GymClass.instructor_id == instructor_id
+  ).all()
+
+def get_gym_classes_by_class_desc_id(class_desc_id):
+  return GymClass.query.filter(
+    GymClass.class_desc_id == class_desc_id
   ).all()
 
 def get_all_classes():
@@ -13,12 +18,12 @@ def get_all_classes():
 
 def create_gym_class(instructor_id, class_desc_id):
   optional_class = GymClass.query.filter(
-      GymClass.instructor_id == instructor_id,
-      GymClass.class_desc_id == class_desc_id
+    GymClass.instructor_id == instructor_id,
+    GymClass.class_desc_id == class_desc_id
   ).first()
 
   if optional_class is not None:
-     return False, optional_class
+    return False, optional_class
 
   new_gymclass = \
     GymClass(instructor_id=instructor_id, class_desc_id=class_desc_id)
