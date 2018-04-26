@@ -20,7 +20,7 @@ def get_gym_class_instance_by_id(gym_class_instance_id):
 def get_gym_class_instances_by_gym_class(gym_class_id, page, page_size=10):
   if page is None:
     return GymClassInstance.query.filter(
-      GymClassInstance.gym_class_id == gym_class_id
+        GymClassInstance.gym_class_id == gym_class_id
     ).all()
   return GymClassInstance.query.filter(
       GymClassInstance.gym_class_id == gym_class_id
@@ -61,10 +61,10 @@ def delete_gym_classes_by_days_old(days_old):
   db.session.commit()
 
 def get_gym_class_instances_by_date(date):
-  end = date + datetime.timedelta(days = 1)
+  end = date + datetime.timedelta(days=1)
   return GymClassInstance.query.filter(
-    GymClassInstance.start_dt >= date,
-    GymClassInstance.start_dt < end
+      GymClassInstance.start_dt >= date,
+      GymClassInstance.start_dt < end
   ).all()
 
 def serialize_gym_class_instance(instance):
@@ -73,12 +73,16 @@ def serialize_gym_class_instance(instance):
   if instance.start_dt is not None:
     start_time = instance.start_dt.strftime('%I:%M%p')
     serialized_instance["start_time"] = start_time
+    seconds = instance.duration.seconds
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    serialized_instance["duration"] = '%d:%02d' % (hours, minutes)
 
   if instance.gym_id is not None:
     serialized_instance["gym_id"] = instance.gym_id
 
   gym_class = gcd.get_gym_class_by_id(
-    instance.gym_class_id
+      instance.gym_class_id
   )
 
   # get instructor
