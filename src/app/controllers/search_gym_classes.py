@@ -73,7 +73,6 @@ class SearchGymClassesController(AppDevController):
 
     gymclass_instances = []
     for gymclass_instance in all_gymclass_instances:
-      print gymclass_instance.start_dt
       if (
       not (opt_arg_values["gym_ids"] and str(gymclass_instance.gym_id) not in \
         opt_arg_values["gym_ids"]) and
