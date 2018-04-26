@@ -56,12 +56,12 @@ class PopularTimesListSchema(ModelSchema):
   sunday = fields.Function(lambda obj: eval(obj.sunday))
   class Meta(ModelSchema.Meta):
     model = PopularTimesList
-    exclude = ('created_at', 'updated_at')
+    exclude = ('created_at', 'updated_at', 'gym')
 
 class UserSchema(ModelSchema):
   class Meta(ModelSchema.Meta):
     model = User
-    exclude = ('created_at', 'updated_at', 'gym')
+    exclude = ('created_at', 'updated_at')
 
 # Serializers
 class_tag_schema = ClassTagSchema()
