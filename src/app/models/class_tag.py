@@ -13,7 +13,7 @@ class ClassTag(Base):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(255), nullable=False, unique=True)
   image_url = db.Column(db.String(255), nullable=False,
-    default="https://github.com/cuappdev/assets/blob/master/fitness/class_tags/cardio.png")
+    default="https://raw.githubusercontent.com/cuappdev/assets/master/fitness/class_tags/cardio.png")
   class_descs = db.relationship('ClassDesc',
                                 secondary=class_tags_to_class_descs,
                                 backref=db.backref('class_tags'))
