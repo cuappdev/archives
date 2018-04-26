@@ -1,5 +1,4 @@
 import datetime as dt
-from flask import json
 from tests.test_case import *
 from app.dao import gymhours_dao as ghd
 from app.dao import gyms_dao as gd
