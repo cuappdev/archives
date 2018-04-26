@@ -23,9 +23,12 @@ class SearchGymClassesController(AppDevController):
       req_arg_values[arg] = datetime.datetime.strptime(
         request.args[arg], '%I:%M%p'
       ).replace(
-        year=datetime.datetime.today().year,
-        month=datetime.datetime.today().month,
-        day=datetime.datetime.today().day
+        year=datetime.datetime.strptime(request.args["date"],'%m/%d/%Y').year \
+          if "date" in request.args else datetime.datetime.today().year,
+        month=datetime.datetime.strptime(request.args["date"],'%m/%d/%Y').month\
+          if "date" in request.args else datetime.datetime.today().month,
+        day=datetime.datetime.strptime(request.args["date"],'%m/%d/%Y').day \
+          if "date" in request.args else datetime.datetime.today().day,
       )
 
     optional_args = ['gym_ids', 'class_desc_ids', 'instructor_ids']
