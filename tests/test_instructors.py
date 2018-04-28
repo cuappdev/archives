@@ -1,4 +1,3 @@
-from flask import json
 from tests.test_case import *
 from app.dao import instructors_dao as insd
 

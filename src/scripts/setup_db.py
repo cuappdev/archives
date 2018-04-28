@@ -177,17 +177,31 @@ def init_data():
     ptl = Ptl(**kwargs)
     db_utils.commit_model(ptl)
 
+    prefix = "https://raw.githubusercontent.com/cuappdev/assets/mas\
+    ter/fitness/class_tags/"
     # adding class_tags to db
     print 'Adding class_tags to db...'
     _, barre = ctd.create_class_tag('Barre')
     _, dance = ctd.create_class_tag('Dance')
     _, energy = ctd.create_class_tag('Energy')
+    energy.image_url = prefix + "energy.png"
+    db_utils.commit_model(energy)
     _, zen = ctd.create_class_tag('Zen')
+    zen.image_url = prefix + "zen.png"
+    db_utils.commit_model(zen)
     _, strength = ctd.create_class_tag('Strength')
+    strength.image_url = prefix + "strength.png"
+    db_utils.commit_model(strength)
     _, intensity = ctd.create_class_tag('Intensity')
+    intensity.image_url = prefix + "intensity.png"
+    db_utils.commit_model(intensity)
     _, cardio = ctd.create_class_tag('Cardio')
+    cardio.image_url = prefix + "cardio.png"
+    db_utils.commit_model(cardio)
     _, cardio_training = ctd.create_class_tag('Cardio Training')
     _, toning = ctd.create_class_tag('Toning')
+    toning.image_url = prefix + "toning.png"
+    db_utils.commit_model(toning)
     _, spinning = ctd.create_class_tag('Spinning')
     _, yoga = ctd.create_class_tag('Yoga')
     _, hiit = ctd.create_class_tag('H.I.I.T')
