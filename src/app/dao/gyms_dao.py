@@ -27,10 +27,17 @@ def get_open_gyms(time, day_of_week):
 def serialize_gym(gym):
   serialized_gym = gym_schema.dump(gym).data
   gym_hours = gymhours_dao.get_gym_hour({'gym_id' : gym.id})
-  serialized_gym_hours = []
+  serialized_gym_hours = {}
   for gh in gym_hours:
+      day_of_week = gh.day_of_week
       serialized_gh = gym_hour_schema.dump(gh)[0]
-      serialized_gym_hours.append(serialized_gh)
+      open_time = serialized_gh['open_time']
+      close_time = serialized_gh['close_time']
+      serialized_gh['open_time'] = \
+          (dt.strptime(open_time, '%H:%M:%S')).strftime('%I:%M%p')
+      serialized_gh['close_time'] = \
+          (dt.strptime(close_time, '%H:%M:%S')).strftime('%I:%M%p')
+      serialized_gym_hours[day_of_week] = serialized_gh
 
   serialized_gym['gym_hours'] = serialized_gym_hours
   populartimeslist = \
