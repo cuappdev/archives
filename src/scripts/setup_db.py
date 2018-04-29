@@ -242,40 +242,40 @@ def init_data():
     # adding gym_locations
     print 'Adding gym_locations to db...'
     # appel_fitness_center
-    appel_fitness_center = gd.get_gym_by_id(1)
-    appel_fitness_center.location_gym_id = 14
+    appel_fitness_center = gd.get_gym_by_name("Appel Commons - Fitness Center")
+    appel_fitness_center.location_gym_id = appel.id
     db_utils.commit_model(appel_fitness_center)
     # noyes_mulipurpose
-    noyes_mulipurpose = gd.get_gym_by_id(2)
-    noyes_mulipurpose.location_gym_id = 13
+    noyes_mulipurpose = gd.get_gym_by_name("Noyes Multipurpose Room")
+    noyes_mulipurpose.location_gym_id = noyes.id
     db_utils.commit_model(noyes_mulipurpose)
     # hn_dance_studio
-    hn_dance_studio = gd.get_gym_by_id(3)
-    hn_dance_studio.location_gym_id = 10
+    hn_dance_studio = gd.get_gym_by_name("Helen Newman Hall Dance Studio")
+    hn_dance_studio.location_gym_id = helen_newman.id
     db_utils.commit_model(hn_dance_studio)
     # teagle_multipurpose
-    teagle_multipurpose = gd.get_gym_by_id(4)
-    teagle_multipurpose.location_gym_id = 11
+    teagle_multipurpose = gd.get_gym_by_name("Teagle Multipurpose Room")
+    teagle_multipurpose.location_gym_id = teagle_up.id
     db_utils.commit_model(teagle_multipurpose)
     # teagle_pool
-    teagle_pool = gd.get_gym_by_id(5)
-    teagle_pool.location_gym_id = 12
+    teagle_pool = gd.get_gym_by_name("Teagle Small Pool")
+    teagle_pool.location_gym_id = teagle_down.id
     db_utils.commit_model(teagle_pool)
     # bartels_ramin
-    bartels_ramin = gd.get_gym_by_id(6)
-    bartels_ramin.location_gym_id = 15
+    bartels_ramin = gd.get_gym_by_name("Bartels Hall - Ramin Room")
+    bartels_ramin.location_gym_id = bartel.id
     db_utils.commit_model(bartels_ramin)
     # appel_multipurpose
-    appel_multipurpose = gd.get_gym_by_id(7)
-    appel_multipurpose.location_gym_id = 14
+    appel_multipurpose = gd.get_gym_by_name("Appel Commons - Multipurpose Room")
+    appel_multipurpose.location_gym_id = appel.id
     db_utils.commit_model(appel_multipurpose)
     # hn_classroom
-    hn_classroom = gd.get_gym_by_id(8)
-    hn_classroom.location_gym_id = 10
+    hn_classroom = gd.get_gym_by_name("Helen Newman Hall Classroom")
+    hn_classroom.location_gym_id = helen_newman.id
     db_utils.commit_model(hn_classroom)
     # hn_pool
-    hn_pool = gd.get_gym_by_id(9)
-    hn_pool.location_gym_id = 10
+    hn_pool = gd.get_gym_by_name("Helen Newman Hall Pool")
+    hn_pool.location_gym_id = helen_newman.id
     db_utils.commit_model(hn_pool)
 
 if __name__ == '__main__':
