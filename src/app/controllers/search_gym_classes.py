@@ -10,6 +10,12 @@ class SearchGymClassesController(AppDevController):
     return ['GET']
 
   def content(self, **kwargs):
+    date = None
+    if "date" in request.args:
+      date = datetime.datetime.strptime(request.args["date"],'%m/%d/%Y')
+    else:
+      date = datetime.datetime.today()
+
     required_args = ['start_time', 'end_time']
     req_arg_values = {}
     for arg in required_args:
@@ -23,9 +29,9 @@ class SearchGymClassesController(AppDevController):
       req_arg_values[arg] = datetime.datetime.strptime(
         request.args[arg], '%I:%M%p'
       ).replace(
-        year=datetime.datetime.today().year,
-        month=datetime.datetime.today().month,
-        day=datetime.datetime.today().day
+        year=date.year,
+        month=date.month,
+        day=date.day
       )
 
     optional_args = ['gym_ids', 'class_desc_ids', 'instructor_ids']
