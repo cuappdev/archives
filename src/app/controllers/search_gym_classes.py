@@ -55,7 +55,7 @@ class SearchGymClassesController(AppDevController):
 
     if opt_arg_values["class_desc_ids"]:
       gym_classes = []
-      all_class_descs = class_tags_dao.get_class_descs_by_tag(
+      all_class_descs = class_descs_dao.get_class_descs_by_ids(
         opt_arg_values["class_desc_ids"]
       )
       for class_desc in all_class_descs:
