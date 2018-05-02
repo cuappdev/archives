@@ -178,7 +178,7 @@ def init_data():
     db_utils.commit_model(ptl)
 
     prefix = "https://raw.githubusercontent.com/cuappdev/assets/mas\
-    ter/fitness/class_tags/"
+ter/fitness/class_tags/"
     # adding class_tags to db
     print 'Adding class_tags to db...'
     _, barre = ctd.create_class_tag('Barre')
