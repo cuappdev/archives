@@ -37,7 +37,7 @@ def authorize_app(f):
     secret_key = kwargs.get('bearer_token')
     app = applications_dao.get_app_by_secret_key(secret_key)
     if app is None or app.secret_key != secret_key:
-      raise Exception('Invalid secret key.')
+      raise Exception('Invalid secret key: %s' % secret_key)
 
     return f(app=app, *args, **kwargs)
 
