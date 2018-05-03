@@ -43,8 +43,7 @@ export DB_NAME=fitnessdb
 export APP_SETTINGS=config.CHANGE_ME
 ````
 
-To source the `.env` file, make a local copy of the `template` file.
-`cd` out of the directory, and `cd` back and you should be prompted by `autoenv`.
+To use `autoenv` with this repository, run the following and set the variables appropriately.
 
 ````bash
 cp env.template .env
