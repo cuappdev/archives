@@ -1,6 +1,6 @@
-from . import *
-from flask import abort
 import _strptime
+from flask import abort
+from . import *
 
 class SearchGymClassesController(AppDevController):
   def get_path(self):
@@ -10,28 +10,26 @@ class SearchGymClassesController(AppDevController):
     return ['GET']
 
   def content(self, **kwargs):
-    date = None
+    date = datetime.datetime.today()
     if "date" in request.args:
-      date = datetime.datetime.strptime(request.args["date"],'%m/%d/%Y')
-    else:
-      date = datetime.datetime.today()
+      date = datetime.datetime.strptime(request.args["date"], '%m/%d/%Y')
 
     required_args = ['start_time', 'end_time']
     req_arg_values = {}
     for arg in required_args:
       if arg not in request.args:
         abort(
-          400,
-          'Required parameter missing. Required params are ' + ', '.join(
-            [str(x) for x in required_args]
-          )
+            400,
+            'Required parameter missing. Required params are ' + ', '.join(
+                [str(x) for x in required_args]
+            )
         )
       req_arg_values[arg] = datetime.datetime.strptime(
-        request.args[arg], '%I:%M%p'
+          request.args[arg], '%I:%M%p'
       ).replace(
-        year=date.year,
-        month=date.month,
-        day=date.day
+          year=date.year,
+          month=date.month,
+          day=date.day
       )
 
     optional_args = ['gym_ids', 'class_desc_ids', 'instructor_ids']
@@ -42,11 +40,11 @@ class SearchGymClassesController(AppDevController):
         arg_array = [v for v in arg_array if v.isdigit()]
         if not arg_array:
           abort(
-            400,
-            'Incorrect parameter value. Params must have ids: ' + ', '.join(
-              [str(x) for x in optional_args]
+              400,
+              'Incorrect parameter value. Params must have ids: ' + ', '.join(
+                  [str(x) for x in optional_args]
               )
-            )
+          )
         opt_arg_values[arg] = arg_array
       else:
         opt_arg_values[arg] = None
@@ -56,11 +54,11 @@ class SearchGymClassesController(AppDevController):
     if opt_arg_values["class_desc_ids"]:
       gym_classes = []
       all_class_descs = class_descs_dao.get_class_descs_by_ids(
-        opt_arg_values["class_desc_ids"]
+          opt_arg_values["class_desc_ids"]
       )
       for class_desc in all_class_descs:
         some_gym_classes = gymclass_dao.get_gym_classes_by_class_desc_id(
-          class_desc.id
+            class_desc.id
         )
         gym_classes.extend(some_gym_classes)
       all_gymclasses = gym_classes
@@ -68,7 +66,7 @@ class SearchGymClassesController(AppDevController):
     if opt_arg_values["instructor_ids"]:
       all_gymclasses = \
         [c for c in all_gymclasses
-          if str(c.instructor_id) in opt_arg_values["instructor_ids"]]
+         if str(c.instructor_id) in opt_arg_values["instructor_ids"]]
 
     all_gymclass_instances = []
     for gym_class in all_gymclasses:
