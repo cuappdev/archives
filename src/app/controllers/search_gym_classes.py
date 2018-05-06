@@ -10,41 +10,31 @@ class SearchGymClassesController(AppDevController):
     return ['GET']
 
   def content(self, **kwargs):
-    date = datetime.datetime.today()
+    date = None
     if "date" in request.args:
       date = datetime.datetime.strptime(request.args["date"], '%m/%d/%Y')
+    else:
+      date = datetime.datetime.today()
 
-    required_args = ['start_time', 'end_time']
+    req_args = ['start_time', 'end_time']
     req_arg_values = {}
-    for arg in required_args:
+    for arg in req_args:
       if arg not in request.args:
-        abort(
-            400,
-            'Required parameter missing. Required params are ' + ', '.join(
-                [str(x) for x in required_args]
-            )
-        )
+        abort(400, 'Required parameter missing. Required params are ' +
+        ', '.join([str(x) for x in req_args]))
       req_arg_values[arg] = datetime.datetime.strptime(
           request.args[arg], '%I:%M%p'
-      ).replace(
-          year=date.year,
-          month=date.month,
-          day=date.day
-      )
+      ).replace(year=date.year, month=date.month, day=date.day)
 
-    optional_args = ['gym_ids', 'class_desc_ids', 'instructor_ids']
+    opt_args = ['gym_ids', 'class_desc_ids', 'instructor_ids']
     opt_arg_values = {}
-    for arg in optional_args:
+    for arg in opt_args:
       if arg in request.args:
         arg_array = request.args[arg].strip("[]").split(",")
         arg_array = [v for v in arg_array if v.isdigit()]
         if not arg_array:
-          abort(
-              400,
-              'Incorrect parameter value. Params must have ids: ' + ', '.join(
-                  [str(x) for x in optional_args]
-              )
-          )
+          abort(400,'Incorrect parameter value. Params must have ids: '+
+          ', '.join([str(x) for x in opt_args]))
         opt_arg_values[arg] = arg_array
       else:
         opt_arg_values[arg] = None
@@ -64,33 +54,27 @@ class SearchGymClassesController(AppDevController):
       all_gymclasses = gym_classes
 
     if opt_arg_values["instructor_ids"]:
-      all_gymclasses = \
-        [c for c in all_gymclasses
+      all_gymclasses = [c for c in all_gymclasses
          if str(c.instructor_id) in opt_arg_values["instructor_ids"]]
 
-    all_gymclass_instances = []
+    all_gci = []
     for gym_class in all_gymclasses:
       some_gymclass_instances = \
         gymclassinstance_dao.get_gym_class_instances_by_gym_class(
         gym_class.id, None)
-      all_gymclass_instances.extend(some_gymclass_instances)
+      all_gci.extend(some_gymclass_instances)
 
-    gymclass_instances = []
-    for gymclass_instance in all_gymclass_instances:
-      if (
-      not (opt_arg_values["gym_ids"] and str(gymclass_instance.gym_id) not in \
-        opt_arg_values["gym_ids"]) and
-      not (gymclass_instance.is_cancelled) and
-      not (gymclass_instance.start_dt < req_arg_values["start_time"] ) and
-      not (gymclass_instance.start_dt + gymclass_instance.duration > \
-        req_arg_values["end_time"] ) ):
-        gymclass_instances.append(gymclass_instance)
+    if opt_arg_values["gym_ids"]:
+      all_gci = [gc for gc in all_gci
+        if str(gc.gym_id) in opt_arg_values["gym_ids"]]
+    all_gci = [gc for gc in all_gci
+      if not gc.is_cancelled
+        and gc.start_dt >= req_arg_values["start_time"]
+        and gc.start_dt + gc.duration <= req_arg_values["end_time"]]
 
     serialized_gymclass_instances = []
-    for gymclass_instance in gymclass_instances:
-      gci = gymclassinstance_dao.serialize_gym_class_instance(
-        gymclass_instance
-      )
+    for gymclass_instance in all_gci:
+      gci = gymclassinstance_dao.serialize_gym_class_instance(gymclass_instance)
       serialized_gymclass_instances.append(gci)
 
     return serialized_gymclass_instances
