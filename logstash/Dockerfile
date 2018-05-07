@@ -1,5 +1,5 @@
 # https://github.com/elastic/logstash-docker
-FROM docker.elastic.co/logstash/logstash:latest
+FROM docker.elastic.co/logstash/logstash:5.6.3
 USER root
 COPY mysql-connector-java-5.1.44-bin.jar /opt/
 # Add your logstash plugins setup here
