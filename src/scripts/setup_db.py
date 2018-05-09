@@ -76,33 +76,33 @@ def init_data():
     print 'Adding gym_hours to db...'
     # helen_newman
     ghd.create_gym_hour(helen_newman.id, 0, dt.time(10), dt.time(23, 30))
-    for n in range(1, 5):
+    for n in range(1, 6):
       ghd.create_gym_hour(helen_newman.id, n, dt.time(6), dt.time(23, 30))
     ghd.create_gym_hour(helen_newman.id, 6, dt.time(10), dt.time(22))
 
     # teagle_up
     ghd.create_gym_hour(teagle_up.id, 0, dt.time(12), dt.time(17, 45))
-    for n in range(1, 4):
+    for n in range(1, 5):
       ghd.create_gym_hour(teagle_up.id, n, dt.time(7), dt.time(22, 45))
     ghd.create_gym_hour(teagle_up.id, 5, dt.time(7), dt.time(20))
     ghd.create_gym_hour(teagle_up.id, 6, dt.time(12), dt.time(17, 45))
 
     # teagle_down
     ghd.create_gym_hour(teagle_down.id, 0, dt.time(12), dt.time(17, 45))
-    for n in range(1, 4):
+    for n in range(1, 5):
       ghd.create_gym_hour(teagle_down.id, n, dt.time(7), dt.time(22, 45))
     ghd.create_gym_hour(teagle_down.id, 5, dt.time(7), dt.time(20))
     ghd.create_gym_hour(teagle_down.id, 6, dt.time(12), dt.time(17, 45))
 
     # noyes
     ghd.create_gym_hour(noyes.id, 0, dt.time(11, 30), dt.time(23, 30))
-    for n in range(1, 5):
+    for n in range(1, 6):
       ghd.create_gym_hour(noyes.id, n, dt.time(7), dt.time(23, 30))
     ghd.create_gym_hour(noyes.id, 6, dt.time(11, 30), dt.time(22))
 
     # appel
     ghd.create_gym_hour(appel.id, 0, dt.time(9), dt.time(13))
-    for n in range(1, 5):
+    for n in range(1, 6):
       ghd.create_gym_hour(appel.id, n, dt.time(15), dt.time(23, 30))
     ghd.create_gym_hour(appel.id, 6, dt.time(9), dt.time(13))
 
@@ -216,16 +216,17 @@ ter/fitness/class_tags/"
         first = str.find(line, ',')
         class_name = line[:first]
         class_desc = cdd.get_class_desc_by_name(class_name)
+        # if class_desc is not in db
+        if class_desc == None:
+            line = tags.readline()
+            continue
         # tags
         second = str.find(line, "\",")
         class_tags = line[first+2:second]
         for tag_name in str.split(class_tags, ','):
             tag = ctd.get_class_tag_by_name(tag_name)
             tag.class_descs.append(class_desc)
-            try:
-              db_utils.commit_model(tag)
-            except:
-              pass
+            db_utils.commit_model(tag)
         # categories
         third = str.find(line, '\"', second+1)
         if third == -1:
@@ -241,6 +242,7 @@ ter/fitness/class_tags/"
             try:
               db_utils.commit_model(category)
             except:
+              print(tag.name)
               pass
         # loop
         line = tags.readline()
