@@ -8,7 +8,7 @@ class SearchGymClassesController(AppDevController):
     return '/search_gymclass_instances/'
 
   def get_methods(self):
-    return ['GET']
+    return ['POST']
 
   def content(self, **kwargs):
     """Search route for gym classes.
@@ -42,8 +42,8 @@ class SearchGymClassesController(AppDevController):
     optional_args = {'gym_ids': None, 'class_desc_ids': None,
                      'instructor_ids': None}
     for key in optional_args:
-      if key in request.args:
-        arg_array = json.loads(request.args[key])
+      if key in request.form:
+        arg_array = json.loads(request.form[key])
         arg_array = [v for v in arg_array if isinstance(v, int)]
         if not arg_array:
           abort(400, 'Incorrect parameter value. Params must have ids: ' +
