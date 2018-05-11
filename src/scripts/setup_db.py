@@ -239,11 +239,7 @@ ter/fitness/class_tags/"
         for category_name in category_names:
             category = ctd.get_class_tag_by_name(category_name)
             category.class_descs.append(class_desc)
-            try:
-              db_utils.commit_model(category)
-            except:
-              print(tag.name)
-              pass
+            db_utils.commit_model(category)
         # loop
         line = tags.readline()
 
