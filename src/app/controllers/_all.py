@@ -18,7 +18,7 @@ from app.controllers.toggle_favorite import * # pylint: disable=C0413
 controllers = [
     GetAllClassDescsController(),
     GetAllGymsController(),
-    GetAllGymClassesController(),
+    GymClassesController(),
     GetAllTagsController(),
     GetAllInstructorsController(),
     GetClassDescsByGetParamController(),

@@ -67,6 +67,7 @@ class UserSchema(ModelSchema):
 class_tag_schema = ClassTagSchema()
 gym_schema = GymSchema()
 gymclass_schema = GymClassSchema()
+gymclassinstance_schema = GymClassInstanceSchema()
 instructor_schema = InstructorSchema()
 class_desc_schema = ClassDescSchema()
 gym_hour_schema = GymHourSchema()
