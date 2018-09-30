@@ -1,0 +1,19 @@
+{
+  "Enable": [
+    "deadcode",
+    "dupl",
+    "goconst",
+    "gocyclo",
+    "gofmt",
+    "goimports",
+    "golint",
+    "gosec",
+    "ineffassign",
+    "misspell",
+    "nakedret",
+    "vet",
+    "vetshadow"
+  ],
+  "LineLength": 120,
+  "Vendor": true
+}
