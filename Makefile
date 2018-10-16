@@ -4,7 +4,7 @@ vendor_clean:
 	rm go.sum
 
 vendor_init:
-	GO111MODULE=on
+	export GO111MODULE=on
 	go mod init
 	go mod vendor
 
@@ -13,7 +13,7 @@ run:
 
 test:
 	gometalinter ./...  --vendor
-	go test -race ./...
+	go test -race -v ./...
 
 docs:
 	godoc -http=:6060
