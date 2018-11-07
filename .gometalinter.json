@@ -7,7 +7,6 @@
     "gofmt",
     "goimports",
     "golint",
-    "gosec",
     "ineffassign",
     "misspell",
     "nakedret",
