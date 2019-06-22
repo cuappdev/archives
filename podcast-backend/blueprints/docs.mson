@@ -1,0 +1,1220 @@
+# Podcasts
+CUAppDev podcast app API documentation
+
+# Group Users
+## Google Sign In [/api/v1/users/google_sign_in?id_token={id_token}]
+### Google Sign In [POST]
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "user": {
+              "email": "john.doe@gmail.com",
+              "firstName": "John",
+              "googleId": "12345",
+              "id": "8361c722-0513-11e7-9fc2-7b1dcc97b110",
+              "imageUrl": "https://goo.gl/L37gfS",
+              "lastName": "Doe",
+              "numberFollowers": 0,
+              "numberFollowing": 0,
+              "session": {
+                "expiresAt": 1489636800000,
+                "sessionToken": "myLongSessionToken",
+                "type": "session",
+                "updateToken": "myLongUpdateToken"
+              },
+              "type": "user",
+              "username": "johndoe"
+            },
+            "newUser": true
+          },
+          "success": true
+        }
+
+
+## Change Username [/api/v1/users/change_username?username={username}]
+### Change Username [POST]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "user": {
+              "email": "john.doe@gmail.com",
+              "firstName": "John",
+              "googleId": "12345",
+              "id": "8361c722-0513-11e7-9fc2-7b1dcc97b110",
+              "imageUrl": "https://goo.gl/L37gfS",
+              "lastName": "Doe",
+              "numberFollowers": 0,
+              "numberFollowing": 0,
+              "session": {
+                "expiresAt": 1489636800000,
+                "sessionToken": "myLongSessionToken",
+                "type": "session",
+                "updateToken": "myLongUpdateToken"
+              },
+              "type": "user",
+              "username": "johnDoesNewUsername"
+            }
+          },
+          "success": true
+        }
+
+
+## User by ID [/api/v1/users/{id}]
+### User by ID [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "user": {
+              "id": "f8415c6a-0513-11e7-9ace-8fe67936672c",
+              "firstName": "John",
+              "lastName": "Doe",
+              "username": "jDoe",
+              "numberFollowers": 0,
+              "numberFollowing": 0,
+              "imageUrl": "https://goo.gl/L37gfS"
+            }
+
+          }
+        }
+
+## Users Info [/api/v1/users/info?ids={user_id1},{user_id2},{user_id3}]
+### Users Info [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "usersInfo": {
+              "followingsInfo": {
+                "user_id1": false,
+                "user_id2": true,
+                "user_id3": true
+              },
+              "followersInfo": {
+                "user_id1": true,
+                "user_id2": true,
+                "user_id3": false
+              }
+            }
+          },
+          "success": true
+        }
+
+# Group Sessions
+## Update Session [/api/v1/sessions/update]
+### Update Session [POST]
+
++ Request
+
+  + Headers
+
+            UpdateToken : {updateToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "user": {
+              "email": "john.doe@gmail.com",
+              "firstName": "John",
+              "googleId": "12345",
+              "id": "8361c722-0513-11e7-9fc2-7b1dcc97b110",
+              "imageUrl": "https://goo.gl/L37gfS",
+              "lastName": "Doe",
+              "numberFollowers": 0,
+              "numberFollowing": 0,
+              "session": {
+                "expiresAt": 1489636800000,
+                "sessionToken": "myLongSessionToken",
+                "type": "session",
+                "updateToken": "myLongUpdateToken"
+              },
+              "type": "user",
+              "username": "johndoe"
+            }
+          },
+          "success": true
+        }
+
+
+# Group Podcasts
+## Series by Series ID [/api/v1/podcasts/series/{series_id}]
+### Series by Series ID [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "series": {
+              "type": "series",
+              "id": 207698746,
+              "title": "Piazza, a Platform for Vengeance",
+              "country": "USA",
+              "author": "Anonymous",
+              "imageUrlSm": "https://goo.gl/L37gfS",
+              "imageUrlLg": "https://goo.gl/L37gfS",
+              "feedUrl": "A RSS Feed URL",
+              "genres": ["Loop Invariants", "56 Years of Programming Experience"]
+            }
+          },
+          "success": true
+        }
+
+## Episode by Episode ID [/api/v1/podcasts/episodes/{episode_id}]
+### Episode by Episode ID [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "episode": {
+              "type": "episode",
+              "seriesId": 1008577710,
+              "seriesTitle": "A Captivating Podcast Series",
+              "imageUrlSm": "https://goo.gl/L37gfS",
+              "imageUrlLg": "https://goo.gl/L37gfS",
+              "title": "An Awesome Podcast Episode",
+              "author": "An Exquisite Author",
+              "summary": "An informative summary",
+              "pubDate": 1452080745,
+              "duration": "17:39",
+              "audioUrl": "An mp3 URL of some sort",
+              "tags": ["David", "Gries"],
+              "id": "1008577710:1452080745"
+            }
+          },
+          "success": true
+        }
+
+
+## Episodes by Series ID [/api/v1/podcasts/episodes/by_series/{series_id}?offset={offset}&max={max}]
+### Episodes by Series ID [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "episodes": [
+              {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              }
+            ]
+          },
+          "success": true
+        }
+
+## Series Info [/api/v1/podcasts/series/info?ids={series_id1},{series_id2},{series_id3}]
+### Series Info [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "seriesInfo": {
+              "seriesStats": {
+                "series_id1": {
+                  "numberSubscribers": 1,
+                  "seriesId": 1074070278,
+                  "type": "seriesStats"
+                },
+                "series_id2": {
+                  "numberSubscribers": 1,
+                  "seriesId": 261086208,
+                  "type": "seriesStats"
+                },
+                "series_id3": {
+                  "numberSubscribers": 1,
+                  "seriesId": 79497721,
+                  "type": "seriesStats"
+                }
+              },
+              "subscriptionsInfo": {
+                "series_id1": true,
+                "series_id2": true,
+                "series_id3": false
+              }
+            }
+          },
+          "success": true
+        }
+
+## Episodes Info [/api/v1/podcasts/episodes/info?ids={episode_id1},{episode_id2},{episode_id3}]
+### Episodes Info [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "episodesInfo": {
+              "bookmarksInfo": {
+                "episode_id1": true,
+                "episode_id2": true,
+                "episode_id3": false
+              },
+              "episodeStats": {
+                "episode_id1": {
+                  "episodeId": "episode_id1",
+                  "numberRecommenders": 1,
+                  "type": "episodeStat"
+                },
+                "episode_id2": {
+                  "episodeId": "episode_id2",
+                  "numberRecommenders": 1,
+                  "type": "episodeStat"
+                },
+                "episode_id3": {
+                  "episodeId": "episode_id3",
+                  "numberRecommenders": 1,
+                  "type": "episodeStat"
+                }
+              },
+              "recommendationsInfo": {
+                "episode_id1": true,
+                "episode_id2": false,
+                "episode_id3": false
+              }
+            }
+          },
+          "success": true
+        }
+
+# Group Subscriptions
+## Get Subscriptions [/api/v1/subscriptions/{series_id}?offset={offset}&max={max}]
+### Get Subscriptions [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "subscriptions": [{
+              "createdAt": 1491028615211,
+              "type": "subscription",
+              "imageUrlLg": "http://bit.ly/2nsBAPG",
+              "imageUrlSm": "http://bit.ly/2nsBAPG",
+              "user": {
+                "firstName": "Jimmy",
+                "lastName": "Johns",
+                "imageUrl": "http://bit.ly/2nsBAPG",
+                "id": "9fc410fa-169e-11e7-ad67-7f48f7c09a8f",
+                "username": "user-9fc410fa-169e-11e7-ad67-7f48f7c09a8f"
+              },
+              "seriesId": 79681292,
+              "seriesTitle": "KQED's The California Report"
+            }]
+          },
+          "success": true
+        }
+
+## Subscriptions CRUD [/api/v1/subscriptions/{series_id}]
+### Create Subscription [POST]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "subscription": {
+              "createdAt": 1491028615211,
+              "type": "subscription",
+              "imageUrlLg": "http://bit.ly/2nsBAPG",
+              "imageUrlSm": "http://bit.ly/2nsBAPG",
+              "user": {
+                "firstName": "Jimmy",
+                "lastName": "Johns",
+                "imageUrl": "http://bit.ly/2nsBAPG",
+                "id": "9fc410fa-169e-11e7-ad67-7f48f7c09a8f",
+                "username": "user-9fc410fa-169e-11e7-ad67-7f48f7c09a8f"
+              },
+              "seriesId": 79681292,
+              "seriesTitle": "KQED's The California Report"
+            }
+          },
+          "success": true
+        }
+
+### Delete Subscription [DELETE]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+          {
+            "data": {
+              "subscription": {
+                "createdAt": 1491028615211,
+                "type": "subscription",
+                "imageUrlLg": "http://bit.ly/2nsBAPG",
+                "imageUrlSm": "http://bit.ly/2nsBAPG",
+                "user": {
+                  "firstName": "Jimmy",
+                  "lastName": "Johns",
+                  "imageUrl": "http://bit.ly/2nsBAPG",
+                  "id": "9fc410fa-169e-11e7-ad67-7f48f7c09a8f",
+                  "username": "user-9fc410fa-169e-11e7-ad67-7f48f7c09a8f"
+                },
+                "seriesId": 79681292,
+                "seriesTitle": "KQED's The California Report"
+              }
+            },
+            "success": true
+          }
+
+## Get User Subscriptions [/api/v1/subscriptions/users/{user_id}]
+### Get User Subscriptions [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "subscriptions": [{
+              "createdAt": 1491028615211,
+              "type": "subscription",
+              "imageUrlLg": "http://bit.ly/2nsBAPG",
+              "imageUrlSm": "http://bit.ly/2nsBAPG",
+              "user": {
+                "firstName": "Jimmy",
+                "lastName": "Johns",
+                "imageUrl": "http://bit.ly/2nsBAPG",
+                "id": "9fc410fa-169e-11e7-ad67-7f48f7c09a8f",
+                "username": "user-9fc410fa-169e-11e7-ad67-7f48f7c09a8f"
+              },
+              "seriesId": 79681292,
+              "seriesTitle": "KQED's The California Report"
+            }]
+          },
+          "success": true
+        }
+
+# Group Followers Followings
+## Followings CRUD [/api/v1/followings/{id}]
+### Create Following [POST]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "following": {
+              "ownerId": "id1",
+              "id": "id2",
+              "firstName": "John",
+              "lastName": "Doe",
+              "username": "jDoe",
+              "imageUrl": "https://avatars0.githubusercontent.com/u/17533691?v=3&s=200"
+            }
+          },
+          "success": true
+        }
+
+
+### Delete Following [DELETE]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "deleted_following": 123
+          },
+          "success": true
+        }
+
+
+## Display User Followings [/api/v1/followings/show?id={id}]
+### Display User Followings [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "followings": [{
+              "ownerId": "id1",
+              "id": "id2",
+              "firstName": "John",
+              "lastName": "Doe",
+              "username": "jDoe",
+              "imageUrl": "https://avatars0.githubusercontent.com/u/17533691?v=3&s=200"
+            },
+            {
+              "ownerId": "id2",
+              "id": "id1",
+              "firstName": "Ezra",
+              "lastName": "Cornell",
+              "username": "cornL",
+              "imageUrl": "http://bit.ly/2nsBAPG"
+            }]
+            },
+            "success": true
+        }
+
+
+## Display User Followers [/api/v1/followers/show?id={id}]
+### Display User Followers [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "data": {
+              "followings": [{
+                "ownerId": "id2",
+                "id": "id1",
+                "firstName": "Ezra",
+                "lastName": "Cornell",
+                "username": "cornL",
+                "imageUrl": "http://bit.ly/2nsBAPG"
+              },
+              {
+                "ownerId": "id1",
+                "id": "id2",
+                "firstName": "John",
+                "lastName": "Doe",
+                "username": "jDoe",
+                "imageUrl": "https://avatars0.githubusercontent.com/u/17533691?v=3&s=200"
+              }]
+            },
+          "success": true
+        }
+
+# Group Search
+## Search Episodes [/api/v1/search/episodes/{query}?offset={offset}&max={max}]
+### Search Episodes [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "episodes": [
+              {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              }
+            ]
+          }
+        }
+
+
+## Search Series [/api/v1/search/series/{query}?offset={offset}&max={max}]
+### Search Series [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "series": [
+              {
+                "type": "series",
+                "id": 207698746,
+                "title": "Piazza, a Platform for Vengeance",
+                "country": "USA",
+                "author": "Anonymous",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "feedUrl": "A RSS Feed URL",
+                "genres": ["Loop Invariants", "56 Years of Programming Experience"]
+              }
+            ]
+          }
+        }
+
+
+## Search Users [/api/v1/search/users/{query}?offset={offset}&max={max}]
+### Search Users [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "users": [
+              {
+                "id": "f8415c6a-0513-11e7-9ace-8fe67936672c",
+                "firstName": "John",
+                "lastName": "Doe",
+                "username": "jDoe",
+                "numberFollowers": 0,
+                "numberFollowing": 0,
+                "imageUrl": "https://goo.gl/L37gfS"
+              }
+            ]
+          }
+        }
+
+
+## Search All [/api/v1/search/all/{query}?offset={offset}&max={max}]
+### Search All [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "episodes": [
+              {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": [
+                  "David",
+                  "Gries"
+                ],
+                "id": "1008577710:1452080745"
+              }
+            ],
+            "series": [
+              {
+                "type": "series",
+                "id": 207698746,
+                "title": "Piazza, a Platform for Vengeance",
+                "country": "USA",
+                "author": "Anonymous",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "feedUrl": "A RSS Feed URL",
+                "genres": [
+                  "Loop Invariants",
+                  "56 Years of Programming Experience"
+                ]
+              }
+            ],
+            "users": [
+              {
+                "id": "f8415c6a-0513-11e7-9ace-8fe67936672c",
+                "firstName": "John",
+                "lastName": "Doe",
+                "username": "jDoe",
+                "numberFollowers": 0,
+                "numberFollowing": 0,
+                "imageUrl": "https://goo.gl/L37gfS"
+              }
+            ]
+          }
+        }
+
+
+# Group Recommendations
+## Get Recommendations [/api/v1/recommendations/{episode_id}?offset={offset}&max={max}]
+### Get Recommendations [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "recommendations": [{
+              "createdAt": 1493414791095,
+              "episode": {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              },
+              "type": "recommendation",
+              "user": {
+                "firstName": "User First Name",
+                "id": "UUID",
+                "imageUrl": "https://goo.gl/L37gfS",
+                "lastName": "User Last Name",
+                "username": "my_sick_username"
+              }
+            }]
+          }
+        }
+
+## Recommendations CRUD [/api/v1/recommendations/{episode_id}]
+### Create Recommendation [POST]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "recommendation": {
+              "createdAt": 1493414791095,
+              "episode": {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              },
+              "type": "recommendation",
+              "user": {
+                "firstName": "User First Name",
+                "id": "UUID",
+                "imageUrl": "https://goo.gl/L37gfS",
+                "lastName": "User Last Name",
+                "username": "my_sick_username"
+              }
+            }
+          }
+        }
+
+### Delete Recommendation [DELETE]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "recommendation": {
+              "createdAt": 1493414791095,
+              "episode": {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              },
+              "type": "recommendation",
+              "user": {
+                "firstName": "User First Name",
+                "id": "UUID",
+                "imageUrl": "https://goo.gl/L37gfS",
+                "lastName": "User Last Name",
+                "username": "my_sick_username"
+              }
+            }
+          }
+        }
+
+## User Recommendations [/api/v1/recommendations/users/{user_id}]
+### User Recommendations [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "recommendations": [{
+              "createdAt": 1493414791095,
+              "episode": {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              },
+              "type": "recommendation",
+              "user": {
+                "firstName": "User First Name",
+                "id": "UUID",
+                "imageUrl": "https://goo.gl/L37gfS",
+                "lastName": "User Last Name",
+                "username": "my_sick_username"
+              }
+            }]
+          }
+        }
+
+
+# Group Bookmarks
+## Get Your Bookmarks [/api/v1/bookmarks]
+### Get Your Bookmarks [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "bookmarks": [{
+              "episode": {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              },
+              "type": "bookmark",
+              "user": {
+                "firstName": "User First Name",
+                "id": "UUID",
+                "imageUrl": "https://goo.gl/L37gfS",
+                "lastName": "User Last Name",
+                "username": "my_sick_username"
+              }
+            }]
+          }
+        }
+
+## Bookmarks CRUD [/api/v1/bookmarks/{episode_id}]
+### Create Bookmark [POST]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "bookmark": {
+              "episode": {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              },
+              "type": "bookmark",
+              "user": {
+                "firstName": "User First Name",
+                "id": "UUID",
+                "imageUrl": "https://goo.gl/L37gfS",
+                "lastName": "User Last Name",
+                "username": "my_sick_username"
+              }
+            }
+          }
+        }
+
+### Delete Bookmark [DELETE]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "bookmark": {
+              "episode": {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              },
+              "type": "bookmark",
+              "user": {
+                "firstName": "User First Name",
+                "id": "UUID",
+                "imageUrl": "https://goo.gl/L37gfS",
+                "lastName": "User Last Name",
+                "username": "my_sick_username"
+              }
+            }
+          }
+        }
+
+# Group Listening History
+## Get Your Listening History [/api/v1/history/listening?offset={offset}&max={max}]
+### Get Your Listening History [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+          {
+            "success": true,
+            "data": {
+              "listeningHistories": [{
+                "createdAt": 1493430842888,
+                "episode": {
+                  "type": "episode",
+                  "seriesId": 1008577710,
+                  "seriesTitle": "A Captivating Podcast Series",
+                  "imageUrlSm": "https://goo.gl/L37gfS",
+                  "imageUrlLg": "https://goo.gl/L37gfS",
+                  "title": "An Awesome Podcast Episode",
+                  "author": "An Exquisite Author",
+                  "summary": "An informative summary",
+                  "pubDate": 1452080745,
+                  "duration": "17:39",
+                  "audioUrl": "An mp3 URL of some sort",
+                  "tags": ["David", "Gries"],
+                  "id": "1008577710:1452080745"
+                },
+                "type": "listeningHistory",
+                "userId": "42f95fa6-2c7e-11e7-bf6a-db655108dc48"
+              }]
+            }
+          }
+
+## Clear Your Listening History [/api/v1/history/listening]
+### Clear Your Listening History [DELETE]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true
+        }
+
+## Listening History CRUD [/api/v1/history/listening/{episode_id}]
+### Create Listening History Element [POST]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "listeningHistory": {
+              "createdAt": 1493430842888,
+              "episode": {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              },
+              "type": "listeningHistory",
+              "userId": "42f95fa6-2c7e-11e7-bf6a-db655108dc48"
+            }
+          }
+        }
+
+### Delete Listening History Element [DELETE]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "listeningHistory": {
+              "createdAt": 1493430842888,
+              "episode": {
+                "type": "episode",
+                "seriesId": 1008577710,
+                "seriesTitle": "A Captivating Podcast Series",
+                "imageUrlSm": "https://goo.gl/L37gfS",
+                "imageUrlLg": "https://goo.gl/L37gfS",
+                "title": "An Awesome Podcast Episode",
+                "author": "An Exquisite Author",
+                "summary": "An informative summary",
+                "pubDate": 1452080745,
+                "duration": "17:39",
+                "audioUrl": "An mp3 URL of some sort",
+                "tags": ["David", "Gries"],
+                "id": "1008577710:1452080745"
+              },
+              "type": "listeningHistory",
+              "userId": "42f95fa6-2c7e-11e7-bf6a-db655108dc48"
+            }
+          }
+        }
+
+# Group Feed
+## Get Your Feed [/api/v1/feed?offset={offset}&max={max}]
+### Get Your Feed [GET]
+
++ Request
+
+  + Headers
+
+            Authorization : Bearer {sessionToken}
+
++ Response 200 (application/json)
+
+        {
+          "success": true,
+          "data": {
+            "feeds": [
+              {
+                "episode": {
+                  "audioUrl": "MP3 URL",
+                  "author": "Some Author name",
+                  "duration": "10:00",
+                  "id": "261086208:1211130802",
+                  "imageUrlLg": "https://goo.gl/L37gfS",
+                  "imageUrlSm": "https://goo.gl/L37gfS",
+                  "pubDate": 1211130802,
+                  "seriesId": 261086208,
+                  "seriesTitle": "An intriguing series title",
+                  "summary": "A sick summary",
+                  "tags": ["podcasting"],
+                  "title": "Episode Title",
+                  "type": "episode"
+                },
+                "feedType": "recommendationFeedElement",
+                "ownerId": "1741e4f7-302f-11e7-8dce-4f1f5a1b819d",
+                "recommender": {
+                  "firstName": "John",
+                  "id": "User's UUID",
+                  "imageUrl": "https://goo.gl/L37gfS",
+                  "lastName": "Doe",
+                  "username": "JohnDOEEE"
+                },
+                "type": "feed",
+                "updatedAt": 1493836454615
+              }
+            ]
+          }
+        }
