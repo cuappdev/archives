@@ -1,0 +1,19 @@
+# Standard python ignores
+venv
+*.pyc
+*.env
+
+# Various output directory names
+csv*
+results*
+data*
+jsons* 
+
+# PyPI stuff
+*.egg-info
+*.DS_Store
+*.egg*
+build
+dist
+pypi_guide
+clean
