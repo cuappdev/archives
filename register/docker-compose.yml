@@ -1,0 +1,14 @@
+version: "2"
+
+services:
+  web:
+    build: .
+    image: register
+    environment:
+      DB_USERNAME: ***
+      DB_PASSWORD: ***
+      DB_HOST: ***
+      DB_NAME: ***
+      APP_SETTINGS: config.ProductionConfig
+    ports:
+      - "5000:5000"
