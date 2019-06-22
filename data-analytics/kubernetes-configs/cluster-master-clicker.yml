@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: couchbase-master-clicker
+spec:
+  replicas: 1
+  selector:
+    app: couchbase-master-clicker-pod
+  template:
+    metadata:
+      labels:
+        app: couchbase-master-clicker-pod
+    spec:
+      containers:
+      - name: couchbase-master-clicker
+        image: arungupta/couchbase:k8s
+        resources:
+          requests:
+            memory: "2Gi"
+        env:
+          - name: TYPE
+            value: MASTER
+        ports:
+        - containerPort: 8091
+          name: port-8091
+        - containerPort: 8092
+          name: port-8092
+        - containerPort: 8093
+          name: port-8093
+        - containerPort: 8094
+          name: port-8094
+        - containerPort: 11207
+          name: port-11207
+        - containerPort: 11211
+          name: port-11211
+        - containerPort: 11210
+          name: port-11210
+        - containerPort: 18091
+          name: port-18091
+        - containerPort: 18092
+          name: port-18092
+        - containerPort: 18093
+          name: port-18093
+        
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: couchbase-master-clicker-service
+  labels: 
+    app: couchbase-master-clicker-service
+spec: 
+  ports:
+  - port: 8091
+    name: port-8091
+  - port: 8092
+    name: port-8092
+  - port: 8093
+    name: port-8093
+  - port: 8094
+    name: port-8094
+  - port: 11207
+    name: port-11207
+  - port: 11211
+    name: port-11211
+  - port: 11210
+    name: port-11210
+  - port: 18091
+    name: port-18091
+  - port: 18092
+    name: port-18092
+  - port: 18093
+    name: port-18093
+  selector: 
+    app: couchbase-master-clicker-pod
+  type: LoadBalancer
