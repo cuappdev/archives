@@ -1,0 +1,8 @@
+*build*
+*.DS_Store*
+*.env*
+*node_modules*
+*package-lock.json*
+*secret*
+*public/js/*
+*public/images/*
