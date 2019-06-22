@@ -1,0 +1,9 @@
+language: go
+go:
+- 1.11
+install:
+- cp -r ../podcast-backend-v2 $GOPATH/src/
+- cd $GOPATH/src/podcast-backend-v2
+- go get github.com/alecthomas/gometalinter
+- gometalinter --install
+script: make test
