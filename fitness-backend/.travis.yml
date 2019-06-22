@@ -1,0 +1,20 @@
+language: python
+python:
+  - "2.7"
+services:
+  - postgresql
+before_install:
+  - psql -c 'CREATE DATABASE fitnessdb;' -U postgres
+env:
+  - DB_USERNAME='postgres' DB_PASSWORD='' DB_HOST='localhost'
+    DB_NAME='fitnessdb' APP_SETTINGS=config.DevelopmentConfig
+install:
+  - pip install git+https://github.com/cuappdev/appdev.py.git
+  - pip install git+https://github.com/cuappdev/appdev.py.git -r requirements.txt --upgrade
+script:
+  cd src;
+  python manage.py db init;
+  python manage.py db migrate;
+  python manage.py db upgrade;
+  cd ..;
+  nosetests
