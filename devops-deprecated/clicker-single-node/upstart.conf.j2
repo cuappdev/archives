@@ -1,0 +1,16 @@
+description "upstart"
+
+start on (filesystem)
+stop on runlevel [016]
+
+respawn
+setuid root
+setgid nogroup
+chdir {{ repository_path }}
+
+env MYSQL_HOST={{ MYSQL_HOST }}
+env MYSQL_USER={{ MYSQL_USER }}
+env MYSQL_PASSWORD={{ MYSQL_PASSWORD }}
+env MYSQL_DB={{ MYSQL_DB }}
+
+exec npm start

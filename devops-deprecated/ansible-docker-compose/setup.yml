@@ -1,0 +1,24 @@
+---
+# Ubuntu 16.04 does not include Python 2, which Ansible needs to work
+# We install Python 2 while configuring Ansible to use as little Python as possible
+- name: install python 2
+  hosts: all
+  gather_facts: false
+  become: yes
+  environment:
+    LC_ALL: en_US.UTF-8
+    LANG: en_US.UTF-8
+    LANGUAGE: en_US.UTF-8
+  tasks:
+    - name: install python 2
+      raw: apt -y update && apt install -y python python-dev python-pip
+
+- name: ec2 docker deployment - setup
+  hosts: all
+  become: yes
+  environment:
+    LC_ALL: en_US.UTF-8
+    LANG: en_US.UTF-8
+    LANGUAGE: en_US.UTF-8
+  roles:
+    - docker

@@ -1,0 +1,11 @@
+venv/*
+*/.vagrant/*
+*.pyc
+*.DS_Store
+*.env
+*.pem
+*.crt
+*.key
+*.csr
+*.vagrant
+site.retry

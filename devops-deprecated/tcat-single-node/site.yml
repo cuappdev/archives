@@ -1,0 +1,87 @@
+---
+- name: Deploying TCAT
+  gather_facts: False
+  hosts: all
+  remote_user: root
+  become: true
+  become_method: sudo
+  environment:
+    LC_ALL: en_US.UTF-8
+    LANG: en_US.UTF-8
+    LANGUAGE: en_US.UTF-8
+    CC: /usr/bin/gcc-4.9
+    CXX: /usr/bin/g++4.9
+  vars:
+    repository_git_path: https://github.com/cuappdev/tcat.js.git
+    repository_path: /home/vagrant/tcat.js
+  tasks:
+  - name: Install python 2
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+  - name: Add toolchain repository
+    apt_repository: repo='ppa:ubuntu-toolchain-r/test' state=present
+  - name: Add cmake repository
+    apt_repository: repo='ppa:george-edison55/cmake-3.x' state=present
+  - name: Run shell script for curling Nodejs
+    shell: |
+      curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  - name: Install necessary packages
+    apt: update_cache=yes name={{ item }} state=present
+    remote_user: root
+    become: yes
+    with_items:
+      - build-essential
+      - nodejs
+      - lua5.2
+      - software-properties-common
+      - gcc-4.9
+      - g++-4.9
+      - nginx
+      - git
+  - name: Set server timezone
+    command: timedatectl set-timezone America/New_York
+  - name: Install necessary npm packages
+    npm: global=yes name={{ item }} production=yes state=latest
+    remote_user: root
+    become: yes
+    become_method: sudo
+    with_items:
+      - pm2
+      - babel-cli
+      - babel-jest
+      - babel-preset-flow
+      - flow-bin
+  - name: Clone app repository
+    git:
+      repo: '{{ repository_git_path }}'
+      dest: '{{ repository_path }}'
+      version: master
+      force: yes
+  - name: Ensure that cmake is upgraded
+    apt: update_cache=yes name=cmake state=present
+  - name: Make sure the latest npm is installed
+    command: npm install -g npm
+  - name: Run npm install
+    command: npm install
+    args:
+      chdir: '{{ repository_path }}'
+  - name: OSRM Commands
+    command: ./setup.sh
+    args:
+      chdir: '{{ repository_path }}'
+  - name: Copy Upstart configuration
+    template: src=upstart.conf.j2 dest=/etc/init/upstart.conf
+  - name: Make sure our server is running
+    service: name=upstart state=restarted
+  - name: Copy Nginx site values
+    template: src=tcat.nginx.j2 dest=/etc/nginx/sites-enabled/tcat
+    notify:
+      - restart nginx
+  - name: Remove any default sites
+    file: path=/etc/nginx/sites-enabled/default state=absent
+    notify:
+      - restart nginx
+  - name: Make sure nginx is running
+    service: name=nginx state=restarted
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted

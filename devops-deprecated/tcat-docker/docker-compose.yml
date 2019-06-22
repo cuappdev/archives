@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+  node:
+    build: node
+    image: tcat-node
+    environment:
+      PORT: 3000
+      TOKEN: TOKEN
+      REGISTERTOKEN: REGISTERTOKEN
+    network_mode: "host"
+    ports:
+      - "3000:3000"
+  ghopper:
+    build: ghopper
+    image: tcat-ghopper
+    network_mode: "host"
+    ports:
+      - "8988:8988"
+  map:
+    build: map
+    image: tcat-map
+    network_mode: "host"
+    ports:
+      - "8989:8989"
+  ghopper-walking:
+    build: ghopper-walking
+    image: tcat-ghopper-walking
+    network_mode: "host"
+    ports:
+      - "8987:8987"

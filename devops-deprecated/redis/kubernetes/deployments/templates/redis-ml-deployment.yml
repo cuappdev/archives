@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    name: redis
+  template:
+    metadata:
+      annotations:
+        pod.beta.kubernetes.io/hostname: redis
+      labels:
+        redisService: redis
+        name: redis
+    spec:
+      containers:
+      - name: redis
+        image: shaynativ/redis-ml
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /redis-master-data
+          name: redis-master-data
+      restartPolicy: Always
+      volumes:
+      - name: redis-master-data
+        persistentVolumeClaim:
+          claimName: redis-data
