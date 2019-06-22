@@ -1,0 +1,47 @@
+@import "application";
+
+.company {
+  padding: 15px;
+}
+
+.social-media {
+  align-content: center;
+}
+
+.team-member {
+  padding: 30px;
+}
+
+.team-member img {
+  border-radius: 100%;
+}
+
+.media-logo:hover {
+  -moz-box-shadow: 1px 1px 5px #999;
+  -webkit-box-shadow: 1px 1px 5px #999;
+  box-shadow: 1px 1px 5px #999;
+}
+
+.linkedin {
+  border-radius: 0px !important;
+}
+
+.team-container {
+  display: inline-block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.companies-container {
+  margin: 75px auto;
+}
+
+@media screen and (max-width: 768px) {
+
+  .team-container {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+}

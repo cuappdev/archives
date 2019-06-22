@@ -1,0 +1,18 @@
+@import "application";
+
+.appdev-email {
+  text-decoration: none;
+  color: $appdev-red;
+
+  &:hover,
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+    color: $appdev-red;
+  }
+}
+
+.appdev-email:hover {
+  color: $appdev-red-muted;
+}

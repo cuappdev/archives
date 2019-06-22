@@ -1,0 +1,43 @@
+@import 'application';
+
+.team-navbar {
+  margin: 80px auto 30px auto;
+  padding: 0;
+  display: flex;
+  width: 500px;
+
+  li {
+    list-style-type: none;
+    width: 25%;
+    height: 25px;
+    text-align: center;
+  }
+}
+
+.role-button {
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  color: $appdev-red;
+
+  &:hover,
+  &:focus {
+    color: $red-hover;
+  }
+}
+
+.selected-role .role-button {
+  &:hover,
+  &:focus {
+    color: white;
+  }
+}
+
+.selected-role {
+  background-color: $appdev-red;
+  border-radius: 4px;
+
+  a {
+    color: white;
+  }
+}

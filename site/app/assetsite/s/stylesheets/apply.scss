@@ -1,0 +1,19 @@
+@import "application";
+
+.app-section {
+  margin-bottom: $padding-small;
+}
+
+#label {
+  display: inline;
+  margin-left: 4px;
+  padding: 4px;
+  border: 1px solid orange;
+  border-radius: 4px;
+  font-size: 10px;
+  color: orange;
+}
+
+#apply-now {
+  color: white !important;
+}

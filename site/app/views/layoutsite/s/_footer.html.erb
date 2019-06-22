@@ -1,0 +1,62 @@
+<footer class="footer">
+  <div class="container-fluid">
+
+    <!-- Top section of footer -->
+    <div class="container-fluid footer-top-section">
+      <!-- Image with short description -->
+      <div class="col-12 col-xs-12 col-sm-3">
+        <%= image_tag "appdev_grey_logo.png", class: "appdev-grey-logo" %>
+        <p class="appdev-bio">We empower the Cornell community through exploration and instruction of application development and design.</p>
+      </div>
+
+      <!-- Quick links -->
+      <div class="col-12 col-xs-12 col-sm-7">
+        <div class="container-fluid">
+          <div class="quick-link-section">
+            <!-- First column row -->
+            <div class="quick-link-box"><a href="/projects" class="quick-link">Projects</a></div>
+            <div class="quick-link-box"><a href="/recruitment" class="quick-link">Recruitment</a></div>
+
+            <!-- Second column row -->
+            <div class="quick-link-box"><a href="/team" class="quick-link">Team</a></div>
+            <div class="quick-link-box"><a href="/contact" class="quick-link">Contact</a></div>
+
+            <!-- Third column row -->
+            <div class="quick-link-box"><a href="/courses" class="quick-link">Courses</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- External sites -->
+      <div class="col-12 col-xs-12 col-sm-2">
+        <p class="external-site-msg">Follow us:</p>
+        <div class="external-site-buttons">
+          <a href="https://www.facebook.com/cornellappdev/" class="external-site-button" target="_blank">
+            <%= image_tag "icons/facebook_icon.png", class: "external-site-icon" %>
+          </a>
+          <a href="https://twitter.com/cornellappdev" class="external-site-button" target="_blank">
+            <%= image_tag "icons/twitter_icon.png", class: "external-site-icon" %>
+          </a>
+          <a href="https://www.linkedin.com/company/cornell-app-development-cuappdev-" class="external-site-button" target="_blank">
+            <%= image_tag "icons/linkedin_icon.png", class: "external-site-icon" %>
+          </a>
+          <a href="https://github.com/cuappdev" class="external-site-button" target="_blank">
+            <%= image_tag "icons/github_icon.png", class: "external-site-icon" %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use two outer containers to get same side padding as top/bottom sections -->
+    <div class="container-fluid">
+      <div class="container-fluid">
+        <div class="footer-divider"></div>
+      </div>
+    </div>
+
+    <!-- Bottom section of footer -->
+    <div class="container-fluid footer-bottom-section">
+      <p class="copyright-msg">@ 2018 Cornell App Development</p>
+    </div>
+  </div>
+</footer>

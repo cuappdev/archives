@@ -1,0 +1,287 @@
+@import "application";
+
+/* NAVBAR STUFF */
+
+.navbar-default {
+  transition: all 0.3s;
+}
+
+.navbar-shadow {
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.2);
+}
+
+#right-menu {
+  margin-right: 15px;
+}
+
+.navbar-brand-logo {
+  margin-left: 15px;
+  width: auto;
+  height: 50px;
+}
+
+.button {
+  padding: 5px 15px;
+  border: 2px solid $appdev-red;
+  border-radius: 6px;
+  color: $appdev-red;
+  background: none;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.button:hover {
+  color: $appdev-red-highlight;
+  border-color: $appdev-red-highlight;
+}
+
+.button:active {
+  color: $appdev-red;
+  border-color: $appdev-red;
+}
+
+.nav-element {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  color: white;
+}
+
+.nav-element:hover {
+  text-decoration: none !important;
+  color: $appdev-red !important;
+  background-color: transparent !important;
+}
+
+.white-nav-element {
+  text-shadow: 0px 0px 18px black;
+}
+
+#apply-button {
+  font-weight: bold;
+}
+
+/* FOOTER STUFF */
+
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  background-color: $footer-gray;
+}
+
+.footer-top-section {
+  margin: 40px 0 30px 0;
+}
+
+.footer-divider {
+  height: 1px;
+  width: 100%;
+  background-color: $white-01;
+}
+
+.footer-bottom-section {
+  margin: 30px 0;
+}
+
+/* Footer bio section */
+.appdev-grey-logo {
+  width: 60px;
+  height: auto;
+}
+
+.appdev-bio {
+  margin: 20px 0 0 0;
+  max-width: 250px;
+  color: $white-05;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+/* Footer quick links */
+.quick-link-section {
+  display: block;
+  margin: auto;
+  padding-top: 20px;
+  width: 350px;
+}
+
+.quick-link-box {
+  display: inline-block;
+  margin-bottom: 10px;
+  width: 49%;
+}
+
+.quick-link {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+
+  &:hover,
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.quick-link:hover {
+  color: $white-05;
+}
+
+/* Footer external sites section */
+.external-site-msg {
+  padding-top: 20px;
+  color: $white-05;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.external-site-buttons {
+  display: block;
+  max-width: 190px;
+}
+
+.external-site-button {
+  display: inline-block;
+  margin-right: 5px;
+  position: relative;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 1px solid $white-03;
+  min-width: 38px;
+  min-height: 38px;
+}
+
+.external-site-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 15px;
+}
+
+.external-site-button:hover {
+  background-color: $white-01;
+}
+
+/* Footer bottom section */
+.mailing-list-msg {
+  margin: 0;
+  color: $white-05;
+  font-size: 14px;
+}
+
+.mailing-list {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: $appdev-red;
+
+  &:hover,
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+    color: $appdev-red;
+  }
+}
+
+.mailing-list:hover {
+  color: $appdev-red-muted;
+}
+
+.copyright-msg {
+  margin: 0;
+  padding-right: 15px;
+  float: right;
+  color: $white-05;
+  font-size: 14px;
+}
+
+
+/* EMAIL STUFF */
+
+.email-result {
+  padding-top: 10px;
+  clear: left;
+}
+
+.email-field {
+  border-radius: 10px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  width: 75%;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  border-radius: 5px !important;
+}
+
+
+/* FORM STUFF */
+
+.form-field {
+  background-color: white;
+  border-radius: 25px;
+}
+
+/* Class to add to form element when there's an error */
+.form_error {
+  border: 1px solid red;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
+
+  .navbar-brand-logo {
+    margin-left: 15px;
+    height: 25px;
+  }
+
+  .button {
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+  }
+
+  .appdev-grey-logo {
+    display: block;
+    margin: auto;
+  }
+
+  .appdev-bio {
+    margin: 20px auto 0 auto;
+    text-align: center;
+  }
+
+  .quick-link-section {
+    width: 100%;
+  }
+
+  .quick-link-box {
+    width: 100%;
+    text-align: center;
+  }
+
+  .external-site-msg {
+    text-align: center;
+  }
+
+  .external-site-buttons {
+    margin: auto;
+  }
+
+  .mailing-list-msg, .copyright-msg {
+    text-align: center;
+    float: none;
+  }
+
+}

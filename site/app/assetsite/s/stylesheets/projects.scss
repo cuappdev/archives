@@ -1,0 +1,24 @@
+@import "application";
+
+.project-section {
+  margin: $padding-large auto;
+}
+
+.app-logo {
+  max-height: 150px;
+  width: auto;
+  margin: 0 auto $padding-medium auto;
+}
+
+.screenshot {
+  height: auto;
+  width: 100%;
+  margin-bottom: $padding-medium;
+}
+
+// Media query for smaller screen
+@media screen and (max-width: 768px) {
+  .app-logo {
+    width: 80%;
+  }
+}
