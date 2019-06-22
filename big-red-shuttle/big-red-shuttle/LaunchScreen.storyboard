@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WhiteBRSLogo" translatesAutoresizingMaskIntoConstraints="NO" id="iT4-b8-EW9" userLabel="Tempo Logo">
+                                <rect key="frame" x="107.5" y="253.5" width="160" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="iT4-b8-EW9" secondAttribute="height" multiplier="1:1" id="bKm-JK-Acu"/>
+                                    <constraint firstAttribute="width" constant="160" id="wVX-6S-fan"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppDevRedLogo" translatesAutoresizingMaskIntoConstraints="NO" id="XEq-ag-ZF1" userLabel="appDevLogo">
+                                <rect key="frame" x="168" y="575" width="39" height="39"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="39" id="oNt-fk-FsX"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppDevText" translatesAutoresizingMaskIntoConstraints="NO" id="7XJ-yG-v5B">
+                                <rect key="frame" x="133.5" y="622" width="108" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="4sA-MK-FSu"/>
+                                    <constraint firstAttribute="width" constant="108" id="PgN-Em-ABQ"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.99998795986175537" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="iT4-b8-EW9" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1I6-Zm-Xze"/>
+                            <constraint firstItem="XEq-ag-ZF1" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iT4-b8-EW9" secondAttribute="bottom" constant="8" id="APM-gM-kTh"/>
+                            <constraint firstItem="XEq-ag-ZF1" firstAttribute="width" secondItem="XEq-ag-ZF1" secondAttribute="height" multiplier="1:1" id="X8d-xD-vzh"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="7XJ-yG-v5B" secondAttribute="bottom" constant="30" id="Ytv-vb-mjP"/>
+                            <constraint firstItem="7XJ-yG-v5B" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="dmK-YZ-yVe"/>
+                            <constraint firstItem="7XJ-yG-v5B" firstAttribute="top" secondItem="XEq-ag-ZF1" secondAttribute="bottom" constant="8" id="k1o-ez-19f"/>
+                            <constraint firstItem="XEq-ag-ZF1" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="oE0-3k-tni"/>
+                            <constraint firstItem="iT4-b8-EW9" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="rCp-ec-Iju"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="50.399999999999999" y="373.76311844077964"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="AppDevRedLogo" width="180" height="180"/>
+        <image name="AppDevText" width="1930" height="268"/>
+        <image name="WhiteBRSLogo" width="512" height="512"/>
+    </resources>
+</document>
