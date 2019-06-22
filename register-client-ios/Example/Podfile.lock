@@ -1,0 +1,49 @@
+PODS:
+  - Alamofire (4.6.0)
+  - Log (1.0)
+  - PromiseKit (4.5.0):
+    - PromiseKit/Foundation (= 4.5.0)
+    - PromiseKit/QuartzCore (= 4.5.0)
+    - PromiseKit/UIKit (= 4.5.0)
+  - PromiseKit/Alamofire (4.5.0):
+    - Alamofire (~> 4.0)
+    - PromiseKit/CorePromise
+  - PromiseKit/CorePromise (4.5.0)
+  - PromiseKit/Foundation (4.5.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.5.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.5.0):
+    - PromiseKit/CorePromise
+  - Realm (3.0.2):
+    - Realm/Headers (= 3.0.2)
+  - Realm/Headers (3.0.2)
+  - RealmSwift (3.0.2):
+    - Realm (= 3.0.2)
+  - SwiftRegister (0.0.3):
+    - Log (= 1.0)
+    - PromiseKit (~> 4.4)
+    - PromiseKit/Alamofire (~> 4.0)
+    - RealmSwift (~> 3.0.2)
+    - SwiftyJSON (~> 4.0.0)
+  - SwiftyJSON (4.0.0)
+
+DEPENDENCIES:
+  - SwiftRegister (from `../`)
+
+EXTERNAL SOURCES:
+  SwiftRegister:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Log: 5e368c9528db07517d18d2d04ff5fe2b6f5a1e21
+  PromiseKit: 9c1d9f6d7b65e3951a90bea7f407c56972be5d8e
+  Realm: 6f23fd1f178a09342eac21bfa7c2bf4312a7a180
+  RealmSwift: 695393add1b8f9d5fa75dd16e6355cf3935f71e2
+  SwiftRegister: bb43cf46a388568e6268ea5e001a66d1bc8ecea6
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+
+PODFILE CHECKSUM: 5a01e727b1305009eba9d59843478fc1cba1013c
+
+COCOAPODS: 1.4.0.beta.1
