@@ -1,0 +1,8 @@
+podcastenv/
+ml.ipynb
+.ipynb_checkpoints/*
+dump.rdb
+*.env
+*.pyc
+service/src/migrations
+service/venv/*
